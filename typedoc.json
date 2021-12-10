@@ -1,0 +1,8 @@
+{
+	"out": "./docs/",
+	"readme": "./README.md",
+	"name": "@sapphire/template",
+	"entryPoints": ["src/index.ts"],
+	"excludeExternals": true,
+	"tsconfig": "./src/tsconfig.json"
+}

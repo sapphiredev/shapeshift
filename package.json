@@ -1,0 +1,101 @@
+{
+	"name": "@sapphire/template",
+	"version": "0.0.1",
+	"description": "template",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"author": "@sapphire",
+	"license": "MIT",
+	"scripts": {
+		"lint": "eslint src tests --ext ts --fix",
+		"format": "prettier --write {src,tests}/**/*.ts",
+		"docs": "typedoc",
+		"test": "jest",
+		"test:watch": "jest --watch",
+		"update": "yarn upgrade-interactive",
+		"build": "tsc -b src",
+		"clean": "tsc -b src --clean",
+		"watch": "tsc -b src -w",
+		"sversion": "standard-version",
+		"commit": "git-cz",
+		"cz": "git-cz",
+		"prepublishOnly": "yarn build",
+		"prepare": "husky install .github/husky"
+	},
+	"dependencies": {
+		"tslib": "^2.3.1"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^15.0.0",
+		"@commitlint/config-conventional": "^15.0.0",
+		"@sapphire/eslint-config": "^4.0.7",
+		"@sapphire/prettier-config": "^1.2.6",
+		"@sapphire/ts-config": "^3.1.6",
+		"@types/jest": "^27.0.3",
+		"@types/node": "^16.11.11",
+		"@typescript-eslint/eslint-plugin": "^5.5.0",
+		"@typescript-eslint/parser": "^5.5.0",
+		"cz-conventional-changelog": "^3.3.0",
+		"eslint": "^8.4.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-prettier": "^4.0.0",
+		"husky": "^7.0.4",
+		"jest": "^27.4.3",
+		"jest-circus": "^27.4.2",
+		"lint-staged": "^12.1.2",
+		"prettier": "^2.5.1",
+		"pretty-quick": "^3.1.2",
+		"standard-version": "^9.3.2",
+		"ts-jest": "^27.1.0",
+		"ts-node": "^10.4.0",
+		"typedoc": "^0.22.10",
+		"typescript": "^4.5.2"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sapphiredev/template.git"
+	},
+	"files": [
+		"dist",
+		"!dist/*.tsbuildinfo"
+	],
+	"engines": {
+		"node": ">=v14.0.0",
+		"npm": ">=7.0.0"
+	},
+	"keywords": [
+		"@sapphire/template",
+		"bot",
+		"typescript",
+		"ts",
+		"yarn",
+		"discord",
+		"sapphire",
+		"discordjs"
+	],
+	"bugs": {
+		"url": "https://github.com/sapphiredev/template/issues"
+	},
+	"homepage": "https://www.sapphirejs.dev",
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		]
+	},
+	"lint-staged": {
+		"*.{mjs,js,ts}": "eslint --fix --ext mjs,js,ts"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"resolutions": {
+		"jest-environment-jsdom": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.3.tgz"
+	},
+	"prettier": "@sapphire/prettier-config",
+	"packageManager": "yarn@3.1.1"
+}
