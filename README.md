@@ -37,7 +37,7 @@ Creating a simple string schema
 ```typescript
 import { s } from '@sapphire/shapeshift';
 
-const mySchema = z.string;
+const mySchema = s.string;
 
 // Parse
 mySchema.parse('sapphire'); // => returns 'sapphire'
