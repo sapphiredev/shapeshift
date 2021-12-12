@@ -73,11 +73,11 @@ s.date;    // TODO
 // Empty Types
 s.undefined
 s.null;
-s.nullish;   // Accepts undefined | null
+s.nullish; // Accepts undefined | null
 
 // Catch-all Types
-s.any;     // TODO
-s.unknown; // TODO
+s.any;
+s.unknown
 
 // Never Type
 s.never; // TODO
