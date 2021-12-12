@@ -351,13 +351,13 @@ All schemas in ShapeShift contain certain methods.
 `.transform<R>((value: T) => R): NopValidator<R>`: adds a constraint that modifies the input:
 
 ```typescript
-import { s, Result } from '@sapphire/shapeshift';
+import { s } from '@sapphire/shapeshift';
 
 const getLength = s.string.transform((value) => value.length); // TODO
 getLength.parse('Hello There'); // => 11
 ```
 
-> :warning: `.reshape`'s functions **must not throw**. If a validation error is desired to be thrown, `.reshape` instead.
+> :warning: `.transform`'s functions **must not throw**. If a validation error is desired to be thrown, `.reshape` instead.
 
 `.reshape<R>((value: T) => Result<R, Error> | IConstraint): NopValidator<R>`: adds a constraint able to both validate and modify the input:
 
