@@ -6,13 +6,15 @@ import {
 	DateValidator,
 	InstanceValidator,
 	LiteralValidator,
+	MappedObjectValidator,
 	NeverValidator,
 	NullishValidator,
 	NumberValidator,
+	ObjectValidator,
 	PassthroughValidator,
 	SetValidator,
 	StringValidator,
-	UnionValidator
+	UnionValidator,
 } from '../validators/imports';
 import type { Constructor } from './util-types';
 
@@ -35,6 +37,10 @@ export class Shapes {
 
 	public get date() {
 		return new DateValidator();
+	}
+
+	public object<T>(shape: MappedObjectValidator<T>) {
+		return new ObjectValidator(shape);
 	}
 
 	public get undefined() {
