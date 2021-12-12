@@ -969,9 +969,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/template@workspace:.":
+"@sapphire/shapeshift@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@sapphire/template@workspace:."
+  resolution: "@sapphire/shapeshift@workspace:."
   dependencies:
     "@commitlint/cli": ^15.0.0
     "@commitlint/config-conventional": ^15.0.0
