@@ -1,11 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { ValidationError } from '../lib/errors/ValidationError';
 import type { Result } from '../lib/Result';
-import { ArrayValidator } from './ArrayValidator';
-import { LiteralValidator } from './LiteralValidator';
-import { NullishValidator } from './NullishValidator';
-import { SetValidator } from './SetValidator';
-import { UnionValidator } from './UnionValidator';
 
 export abstract class BaseValidator<T> {
 	protected constraints: readonly IConstraint<T>[] = [];
@@ -66,3 +61,9 @@ export abstract class BaseValidator<T> {
 		return clone;
 	}
 }
+
+import { ArrayValidator } from './ArrayValidator';
+import { LiteralValidator } from './LiteralValidator';
+import { NullishValidator } from './NullishValidator';
+import { SetValidator } from './SetValidator';
+import { UnionValidator } from './UnionValidator';
