@@ -54,7 +54,7 @@ export abstract class BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.constraints]);
 	}
 
-	protected abstract handle(value: unknown): Result<T, ValidationError>;
+	protected abstract handle(value: unknown): Result<T, ValidationError | AggregateError>;
 
 	protected addConstraint(constraint: IConstraint<T>): this {
 		const clone = this.clone();

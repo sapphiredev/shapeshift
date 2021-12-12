@@ -11,7 +11,11 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 		this.validator = validator;
 	}
 
-	public run(values: unknown): Result<T[], Error> {
+	protected override clone(): this {
+		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
+	}
+
+	protected handle(values: unknown): Result<T[], ValidationError | AggregateError> {
 		if (!Array.isArray(values)) {
 			return Result.err(new ValidationError('ArrayValidator', 'Expected an array', values));
 		}
@@ -27,18 +31,6 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 
 		return errors.length === 0 //
 			? Result.ok(transformed)
-			: Result.err(new AggregateError(errors, 'Could not match any of the defined validators'));
-	}
-
-	public parse(value: unknown): T[] {
-		return this.run(value).unwrap();
-	}
-
-	protected override clone(): this {
-		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
-	}
-
-	protected handle(): Result<T[], ValidationError> {
-		throw new Error('Unreachable');
+			: Result.err(new AggregateError(errors, 'Failed to validate at least one entry'));
 	}
 }

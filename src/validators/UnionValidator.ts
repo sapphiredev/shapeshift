@@ -73,7 +73,11 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		return new UnionValidator<T | O>([...this.validators, ...predicates]);
 	}
 
-	public override run(value: unknown): Result<T, AggregateError> {
+	protected override clone(): this {
+		return Reflect.construct(this.constructor, [this.validators, this.constraints]);
+	}
+
+	protected handle(value: unknown): Result<T, ValidationError | AggregateError> {
 		const errors: Error[] = [];
 
 		for (const validator of this.validators) {
@@ -83,25 +87,5 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		}
 
 		return Result.err(new AggregateError(errors, 'Could not match any of the defined validators'));
-	}
-
-	public override parse(value: unknown): T {
-		const results: Error[] = [];
-
-		for (const validator of this.validators) {
-			const result = validator.run(value);
-			if (result.isOk()) return result.value;
-			results.push(result.error!);
-		}
-
-		throw new AggregateError(results, 'Could not match any of the defined validators');
-	}
-
-	protected override clone(): this {
-		return Reflect.construct(this.constructor, [this.validators, this.constraints]);
-	}
-
-	protected handle(): Result<T, ValidationError> {
-		throw new Error('Unreachable');
 	}
 }
