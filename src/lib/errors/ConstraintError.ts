@@ -20,6 +20,6 @@ export class ConstraintError<T = unknown> extends Error {
 	}
 }
 
-export interface ConstraintErrorMessageBuilder<T = unknown> {
-	(given: T, expected: unknown): string;
+export interface ConstraintErrorMessageBuilder<Given = unknown, Expected = unknown> {
+	(given: Given, expected: Expected): string;
 }

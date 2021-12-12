@@ -53,7 +53,7 @@ export const numberEq = numberComparator.bind(
 	(given, expected) => `Expected number to be exactly ${expected}, but received ${given}`
 );
 
-export const numberNe = numberComparator.bind(null, ne, 'numberNe', (_, expected) => `Expected string to not be ${expected}`);
+export const numberNe = numberComparator.bind(null, ne, 'numberNe', (_, expected) => `Expected number to not be ${expected}`);
 
 export const numberInt: IConstraint<number> = {
 	run(input: number) {

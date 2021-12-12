@@ -66,9 +66,9 @@ import { s } from '@sapphire/shapeshift';
 // Primitives
 s.string;
 s.number;
-s.bigint;  // TODO
-s.boolean; // TODO
-s.date;    // TODO
+s.bigint;
+s.boolean;
+s.date;
 
 // Empty Types
 s.undefined
@@ -90,7 +90,7 @@ s.literal('sapphire');
 s.literal(12);
 s.literal(420n);
 s.literal(true);
-s.literal(new Date(1639278160000)); // TODO | s.date.eq(1639278160000);
+s.literal(new Date(1639278160000)); // s.date.eq(1639278160000);
 ```
 
 #### Strings
@@ -132,6 +132,63 @@ s.number.positive; // .ge(0)
 s.number.negative; // .lt(0)
 
 s.number.divisibleBy(5); // TODO | Divisible by 5
+```
+
+And transformations:
+
+```typescript
+s.number.abs;  // TODO | Transforms the number to an absolute number
+s.number.sign; // TODO | Gets the number's sign
+
+s.number.trunc;  // TODO | Transforms the number to the result of Math.trunc`
+s.number.floor;  // TODO | Transforms the number to the result of Math.floor`
+s.number.fround; // TODO | Transforms the number to the result of Math.fround`
+s.number.round;  // TODO | Transforms the number to the result of Math.round`
+s.number.ceil;   // TODO | Transforms the number to the result of Math.ceil`
+```
+
+#### BigInts
+
+ShapeShift includes a handful of number-specific validations:
+
+```typescript
+s.bigint.gt(5); // > 5
+s.bigint.ge(5); // >= 5
+s.bigint.lt(5); // < 5
+s.bigint.le(5); // <= 5
+s.bigint.eq(5); // === 5
+s.bigint.ne(5); // !== 5
+
+s.bigint.finite;  // value must be finite
+
+s.bigint.positive; // .ge(0)
+s.bigint.negative; // .lt(0)
+
+s.bigint.divisibleBy(5); // TODO | Divisible by 5
+```
+
+And transformations:
+
+```typescript
+s.number.abs;  // TODO | Transforms the bigint to an absolute bigint
+
+s.bigint.intN(5);  // TODO | Clamps to a bigint to a signed bigint with 5 digits, see BigInt.asIntN
+s.bigint.uintN(5); // TODO | Clamps to a bigint to an unsigned bigint with 5 digits, see BigInt.asUintN
+```
+
+#### Booleans
+
+ShapeShift includes a few boolean-specific validations:
+
+```typescript
+s.boolean.true; // value must be true
+s.boolean.false; // value must be false
+
+s.boolean.eq(true);  // s.boolean.true
+s.boolean.eq(false); // s.boolean.false
+
+s.boolean.ne(true);  // s.boolean.false
+s.boolean.ne(false); // s.boolean.true
 ```
 
 #### Arrays

@@ -1,7 +1,11 @@
 import { ArrayValidator } from '../validators/ArrayValidator';
 import type { BaseValidator } from '../validators/BaseValidator';
+import { BigIntValidator } from '../validators/BigIntValidator';
+import { BooleanValidator } from '../validators/BooleanValidator';
+import { DateValidator } from '../validators/DateValidator';
 import { Constructor, InstanceValidator } from '../validators/InstanceValidator';
 import { LiteralValidator } from '../validators/LiteralValidator';
+import { NeverValidator } from '../validators/NeverValidator';
 import { NullishValidator } from '../validators/NullishValidator';
 import { NumberValidator } from '../validators/NumberValidator';
 import { PassthroughValidator } from '../validators/PassthroughValidator';
@@ -16,6 +20,18 @@ export class Shapes {
 
 	public get number() {
 		return new NumberValidator();
+	}
+
+	public get bigint() {
+		return new BigIntValidator();
+	}
+
+	public get boolean() {
+		return new BooleanValidator();
+	}
+
+	public get date() {
+		return new DateValidator();
 	}
 
 	public get undefined() {
@@ -38,11 +54,16 @@ export class Shapes {
 		return new PassthroughValidator<unknown>();
 	}
 
+	public get never() {
+		return new NeverValidator();
+	}
+
 	public enum<T>(...values: readonly T[]) {
 		return this.union(...values.map((value) => this.literal(value)));
 	}
 
-	public literal<T>(value: T): LiteralValidator<T> {
+	public literal<T>(value: T): BaseValidator<T> {
+		if (value instanceof Date) return this.date.eq(value) as unknown as BaseValidator<T>;
 		return new LiteralValidator(value);
 	}
 
