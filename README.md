@@ -152,19 +152,19 @@ s.number.ceil;   // TODO | Transforms the number to the result of Math.ceil`
 ShapeShift includes a handful of number-specific validations:
 
 ```typescript
-s.bigint.gt(5); // > 5
-s.bigint.ge(5); // >= 5
-s.bigint.lt(5); // < 5
-s.bigint.le(5); // <= 5
-s.bigint.eq(5); // === 5
-s.bigint.ne(5); // !== 5
+s.bigint.gt(5); // > 5n
+s.bigint.ge(5); // >= 5n
+s.bigint.lt(5); // < 5n
+s.bigint.le(5); // <= 5n
+s.bigint.eq(5); // === 5n
+s.bigint.ne(5); // !== 5n
 
 s.bigint.finite;  // value must be finite
 
-s.bigint.positive; // .ge(0)
-s.bigint.negative; // .lt(0)
+s.bigint.positive; // .ge(0n)
+s.bigint.negative; // .lt(0n)
 
-s.bigint.divisibleBy(5); // TODO | Divisible by 5
+s.bigint.divisibleBy(5n); // TODO | Divisible by 5n
 ```
 
 And transformations:
