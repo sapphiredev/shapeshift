@@ -1,7 +1,7 @@
 {
-	"name": "@sapphire/template",
+	"name": "@sapphire/shapeshift",
 	"version": "0.0.1",
-	"description": "template",
+	"description": "A very fast and complete input validation package",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"author": "@sapphire",
@@ -28,43 +28,43 @@
 	"devDependencies": {
 		"@commitlint/cli": "^15.0.0",
 		"@commitlint/config-conventional": "^15.0.0",
-		"@sapphire/eslint-config": "^4.0.7",
-		"@sapphire/prettier-config": "^1.2.6",
+		"@sapphire/eslint-config": "^4.0.8",
+		"@sapphire/prettier-config": "^1.2.7",
 		"@sapphire/ts-config": "^3.1.6",
 		"@types/jest": "^27.0.3",
-		"@types/node": "^16.11.11",
-		"@typescript-eslint/eslint-plugin": "^5.5.0",
-		"@typescript-eslint/parser": "^5.5.0",
+		"@types/node": "^16.11.12",
+		"@typescript-eslint/eslint-plugin": "^5.6.0",
+		"@typescript-eslint/parser": "^5.6.0",
 		"cz-conventional-changelog": "^3.3.0",
-		"eslint": "^8.4.0",
+		"eslint": "^8.4.1",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-prettier": "^4.0.0",
 		"husky": "^7.0.4",
-		"jest": "^27.4.3",
-		"jest-circus": "^27.4.2",
+		"jest": "^27.4.4",
+		"jest-circus": "^27.4.4",
 		"lint-staged": "^12.1.2",
 		"prettier": "^2.5.1",
 		"pretty-quick": "^3.1.2",
 		"standard-version": "^9.3.2",
-		"ts-jest": "^27.1.0",
+		"ts-jest": "^27.1.1",
 		"ts-node": "^10.4.0",
 		"typedoc": "^0.22.10",
-		"typescript": "^4.5.2"
+		"typescript": "^4.5.3"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/sapphiredev/template.git"
+		"url": "git+https://github.com/sapphiredev/shapeshift.git"
 	},
 	"files": [
 		"dist",
 		"!dist/*.tsbuildinfo"
 	],
 	"engines": {
-		"node": ">=v14.0.0",
+		"node": ">=v15.0.0",
 		"npm": ">=7.0.0"
 	},
 	"keywords": [
-		"@sapphire/template",
+		"@sapphire/shapeshift",
 		"bot",
 		"typescript",
 		"ts",
@@ -74,7 +74,7 @@
 		"discordjs"
 	],
 	"bugs": {
-		"url": "https://github.com/sapphiredev/template/issues"
+		"url": "https://github.com/sapphiredev/shapeshift/issues"
 	},
 	"homepage": "https://www.sapphirejs.dev",
 	"commitlint": {

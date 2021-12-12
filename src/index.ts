@@ -1,3 +1,6 @@
-export const main = () => 'this builds and pushes';
+import { Shapes } from './lib/Shapes';
 
-export default main;
+export const s = new Shapes();
+export * from './lib/Result';
+export * from './lib/errors/ConstraintError';
+export * from './lib/errors/ValidationError';
