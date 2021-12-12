@@ -1,12 +1,41 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { ValidationError } from '../lib/errors/ValidationError';
 import type { Result } from '../lib/Result';
+import { ArrayValidator } from './ArrayValidator';
+import { LiteralValidator } from './LiteralValidator';
+import { NullishValidator } from './NullishValidator';
+import { SetValidator } from './SetValidator';
+import { UnionValidator } from './UnionValidator';
 
 export abstract class BaseValidator<T> {
 	protected constraints: readonly IConstraint<T>[] = [];
 
 	public constructor(constraints: readonly IConstraint<T>[] = []) {
 		this.constraints = constraints;
+	}
+
+	public get optional(): UnionValidator<T | undefined> {
+		return new UnionValidator([new LiteralValidator(undefined), this.clone()]);
+	}
+
+	public get nullable(): UnionValidator<T | null> {
+		return new UnionValidator([new LiteralValidator(null), this.clone()]);
+	}
+
+	public get nullish(): UnionValidator<T | null | undefined> {
+		return new UnionValidator([new NullishValidator(), this.clone()]);
+	}
+
+	public get array(): ArrayValidator<T> {
+		return new ArrayValidator<T>(this.clone());
+	}
+
+	public get set(): SetValidator<T> {
+		return new SetValidator<T>(this.clone());
+	}
+
+	public or<O>(...predicates: readonly BaseValidator<O>[]): UnionValidator<T | O> {
+		return new UnionValidator<T | O>([this.clone(), ...predicates]);
 	}
 
 	public run(value: unknown): Result<T, Error> {

@@ -71,9 +71,9 @@ s.boolean; // TODO
 s.date;    // TODO
 
 // Empty Types
-s.undefined; // TODO
-s.null;      // TODO
-s.nullish;   // TODO | Accepts undefined | null
+s.undefined
+s.null;
+s.nullish;   // Accepts undefined | null
 
 // Catch-all Types
 s.any;     // TODO
@@ -86,12 +86,11 @@ s.never; // TODO
 #### Literals
 
 ```typescript
-// TODO: Implement s.literal
 s.literal('sapphire');
 s.literal(12);
 s.literal(420n);
 s.literal(true);
-s.literal(new Date(1639278160000)); // s.date().eq(1639278160000);
+s.literal(new Date(1639278160000)); // TODO | s.date.eq(1639278160000);
 ```
 
 #### Strings
@@ -119,8 +118,15 @@ s.number.gt(5); // > 5
 s.number.ge(5); // >= 5
 s.number.lt(5); // < 5
 s.number.le(5); // <= 5
+s.number.eq(5); // === 5
+s.number.ne(5); // !== 5
 
-s.number.int; // value must be an integer
+s.number.eq(NaN); // special case: Number.isNaN
+s.number.ne(NaN); // special case: !Number.isNaN
+
+s.number.int;     // value must be an integer
+s.number.safeInt; // value must be a safe integer
+s.number.finite;  // value must be finite
 
 s.number.positive; // .ge(0)
 s.number.negative; // .lt(0)
@@ -291,7 +297,7 @@ stringOrNumber.parse({});         // => throws AggregateError
 Enums are a convenience method that aliases `s.union(s.literal(a), s.literal(b), ...)`:
 
 ```typescript
-s.enum(['Red', 'Green', 'Blue']); // TODO
+s.enum('Red', 'Green', 'Blue');
 // s.union(s.literal('Red'), s.literal('Green'), s.literal('Blue'));
 ```
 
@@ -302,14 +308,14 @@ const map = s.map(s.string, s.number);
 // Map<string, number>
 ```
 
-#### Sets // TODO
+#### Sets
 
 ```typescript
 const set = s.set(s.number);
 // Set<number>
 ```
 
-#### Instances // TODO
+#### Instances
 
 You can use `s.instance(Class)` to check that the input is an instance of a class. This is useful to validate inputs against classes:
 
@@ -390,34 +396,34 @@ number.parse(undefined); // => 0.3224350185068794
 `.optional`: a convenience method that returns an union of the type with `s.undefined`.
 
 ```typescript
-s.string.optional; // TODO | s.union(s.string, s.undefined)
+s.string.optional; // s.union(s.string, s.undefined)
 ```
 
 `.nullable`: a convenience method that returns an union of the type with `s.nullable`.
 
 ```typescript
-s.string.nullable; // TODO | s.union(s.string, s.nullable)
+s.string.nullable; // s.union(s.string, s.nullable)
 ```
 
 `.nullish`: a convenience method that returns an union of the type with `s.nullish`.
 
 ```typescript
-s.string.nullish; // TODO | s.union(s.string, s.nullish)
+s.string.nullish; // s.union(s.string, s.nullish)
 ```
 
 `.array`: a convenience method that returns an ArrayValidator with the type.
 
 ```typescript
-s.string.array; // TODO | s.array(s.string)
+s.string.array; // s.array(s.string)
 ```
 
 `.or`: a convenience method that returns an UnionValidator with the type. This method is also overridden in UnionValidator to just append one more entry.
 
 ```typescript
-s.string.or(s.number); // TODO
+s.string.or(s.number);
 // => s.union(s.string, s.number)
 
-s.object({ name: s.string }).or(s.string).or(s.number); // TODO
+s.object({ name: s.string }).or(s.string, s.number);
 // => s.union(s.object({ name: s.string }), s.string, s.number)
 ```
 
