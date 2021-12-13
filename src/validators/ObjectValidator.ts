@@ -6,7 +6,7 @@ import { BaseValidator } from './BaseValidator';
 
 export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	public readonly shape: MappedObjectValidator<T>;
-	private readonly keys: Set<keyof T>;
+	private readonly keys: readonly (keyof T)[];
 	private readonly strategy: ObjectValidatorStrategy;
 	private readonly handleStrategy: (value: NonNullObject) => Result<T, AggregateError>;
 
@@ -17,7 +17,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	) {
 		super(constraints);
 		this.shape = shape;
-		this.keys = new Set(Object.keys(shape) as (keyof T)[]);
+		this.keys = Object.keys(shape) as (keyof T)[];
 		this.strategy = strategy;
 
 		switch (this.strategy) {
@@ -65,7 +65,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		const errors: Error[] = [];
 
 		for (const key of Object.keys(value)) {
-			if (this.keys.has(key as keyof T)) continue;
+			if (Object.prototype.hasOwnProperty.call(this.shape, key)) continue;
 			errors.push(new UnknownPropertyError(key, Reflect.get(value, key)));
 		}
 
