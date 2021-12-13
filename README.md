@@ -20,6 +20,14 @@ Ever need the performance of very fast input-validation libraries such as [ts-js
 
 > **Note**: ShapeShift requires Node.js v15.0.0 or higher to work.
 
+## Features
+
+-   TypeScript friendly
+-   API similar to `zod`
+-   :rocket: Very fast
+
+## Usage
+
 ### Basic usage
 
 Creating a simple string schema
@@ -398,7 +406,7 @@ s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => s
 
 > **Note**: ShapeShift will transform the given function into one with validation on arguments and output. You can access the `.raw` property of the function to get the unchecked function.
 
-## BaseValidator: methods and properties
+### BaseValidator: methods and properties
 
 All schemas in ShapeShift contain certain methods.
 
@@ -478,12 +486,6 @@ s.string.or(s.number);
 s.object({ name: s.string }).or(s.string, s.number);
 // => s.union(s.object({ name: s.string }), s.string, s.number)
 ```
-
-## Features
-
--   TypeScript friendly
--   API similar to `zod`
--   :rocket: Very fast
 
 ## Buy us some doughnuts
 
