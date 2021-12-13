@@ -22,10 +22,10 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 
 		switch (this.strategy) {
 			case ObjectValidatorStrategy.Ignore:
-				this.handleStrategy = this.handleIgnoreStrategy.bind(this);
+				this.handleStrategy = (value) => this.handleIgnoreStrategy(value);
 				break;
 			case ObjectValidatorStrategy.Strict: {
-				this.handleStrategy = this.handleStrictStrategy.bind(this);
+				this.handleStrategy = (value) => this.handleStrictStrategy(value);
 				break;
 			}
 		}
@@ -48,16 +48,19 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	}
 
 	private handleIgnoreStrategy(value: NonNullObject, errors: Error[] = []): Result<T, AggregateError> {
-		const entries: [PropertyKey, unknown][] = [];
+		const entries = {} as T;
+		let i = this.keys.length;
 
-		for (const key of this.keys) {
-			const result = this.shape[key].run(Reflect.get(value, key));
-			if (result.isOk()) entries.push([key, result.value]);
+		while (i--) {
+			const key = this.keys[i];
+			const result = this.shape[key].run(value[key as keyof NonNullObject]);
+
+			if (result.isOk()) entries[key] = result.value;
 			else errors.push(result.error!);
 		}
 
 		return errors.length === 0 //
-			? Result.ok(Object.fromEntries(entries) as T)
+			? Result.ok(entries)
 			: Result.err(new AggregateError(errors, 'Failed to match at least one of the properties'));
 	}
 
