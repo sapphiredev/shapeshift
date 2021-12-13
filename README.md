@@ -4,25 +4,15 @@
 
 # @sapphire/shapeshift
 
-**ShapeShift.**
+**ShapeShift**
 
 A very fast input-validation and transformer library.
 
 [![GitHub](https://img.shields.io/github/license/sapphiredev/shapeshift)](https://github.com/sapphiredev/shapeshift/blob/main/LICENSE.md)
-[![codecov](https://codecov.io/gh/sapphiredev/sapphire-shapeshift/branch/main/graph/badge.svg?token=0MSAyoZNxz)](https://codecov.io/gh/sapphiredev/shapeshift)
+[![codecov](https://codecov.io/gh/sapphiredev/shapeshift/branch/main/graph/badge.svg?token=RF4mMKx6lL)](https://codecov.io/gh/sapphiredev/shapeshift)
 [![npm](https://img.shields.io/npm/v/@sapphire/shapeshift?color=crimson&logo=npm&style=flat-square)](https://www.npmjs.com/package/@sapphire/shapeshift)
 
 </div>
-
-# TODO
-
-1. Find and replace all instances of `shapeshift` once we come up with a name
-1. Ensure the primary branch is called `main`
-1. Ensure branch protection is on
-1. Disable `Packages` from being included in the repository homepage
-1. Enable Codecov for the repository
-1. Remove `--dry-run` from line 47 in [`continuous-delivery.yml`](.github/workflows/continuous-delivery.yml) to enable publishing to NPM
-1. Remove this section from the README
 
 ## Description
 
@@ -71,13 +61,13 @@ s.boolean;
 s.date;
 
 // Empty Types
-s.undefined
+s.undefined;
 s.null;
 s.nullish; // Accepts undefined | null
 
 // Catch-all Types
 s.any;
-s.unknown
+s.unknown;
 
 // Never Type
 s.never;
@@ -104,8 +94,8 @@ s.string.lengthGt(5);
 s.string.lengthGe(5);
 s.string.lengthEq(5);
 s.string.lengthNe(5);
-s.string.url;          // TODO
-s.string.uuid;         // TODO
+s.string.url; // TODO
+s.string.uuid; // TODO
 s.string.regex(regex); // TODO
 ```
 
@@ -124,9 +114,9 @@ s.number.ne(5); // !== 5
 s.number.eq(NaN); // special case: Number.isNaN
 s.number.ne(NaN); // special case: !Number.isNaN
 
-s.number.int;     // value must be an integer
+s.number.int; // value must be an integer
 s.number.safeInt; // value must be a safe integer
-s.number.finite;  // value must be finite
+s.number.finite; // value must be finite
 
 s.number.positive; // .ge(0)
 s.number.negative; // .lt(0)
@@ -137,14 +127,14 @@ s.number.divisibleBy(5); // TODO | Divisible by 5
 And transformations:
 
 ```typescript
-s.number.abs;  // TODO | Transforms the number to an absolute number
+s.number.abs; // TODO | Transforms the number to an absolute number
 s.number.sign; // TODO | Gets the number's sign
 
-s.number.trunc;  // TODO | Transforms the number to the result of Math.trunc`
-s.number.floor;  // TODO | Transforms the number to the result of Math.floor`
+s.number.trunc; // TODO | Transforms the number to the result of Math.trunc`
+s.number.floor; // TODO | Transforms the number to the result of Math.floor`
 s.number.fround; // TODO | Transforms the number to the result of Math.fround`
-s.number.round;  // TODO | Transforms the number to the result of Math.round`
-s.number.ceil;   // TODO | Transforms the number to the result of Math.ceil`
+s.number.round; // TODO | Transforms the number to the result of Math.round`
+s.number.ceil; // TODO | Transforms the number to the result of Math.ceil`
 ```
 
 #### BigInts
@@ -168,9 +158,9 @@ s.bigint.divisibleBy(5n); // TODO | Divisible by 5n
 And transformations:
 
 ```typescript
-s.bigint.abs;  // TODO | Transforms the bigint to an absolute bigint
+s.bigint.abs; // TODO | Transforms the bigint to an absolute bigint
 
-s.bigint.intN(5);  // TODO | Clamps to a bigint to a signed bigint with 5 digits, see BigInt.asIntN
+s.bigint.intN(5); // TODO | Clamps to a bigint to a signed bigint with 5 digits, see BigInt.asIntN
 s.bigint.uintN(5); // TODO | Clamps to a bigint to an unsigned bigint with 5 digits, see BigInt.asUintN
 ```
 
@@ -182,10 +172,10 @@ ShapeShift includes a few boolean-specific validations:
 s.boolean.true; // value must be true
 s.boolean.false; // value must be false
 
-s.boolean.eq(true);  // s.boolean.true
+s.boolean.eq(true); // s.boolean.true
 s.boolean.eq(false); // s.boolean.false
 
-s.boolean.ne(true);  // s.boolean.false
+s.boolean.ne(true); // s.boolean.false
 s.boolean.ne(false); // s.boolean.true
 ```
 
@@ -215,9 +205,9 @@ Unlike arrays, tuples have a fixed number of elements and each element can have 
 
 ```typescript
 const dish = s.tuple([
-	s.string,     // Dish's name
+	s.string, // Dish's name
 	s.number.int, // Table's number
-	s.date        // Date the dish was ready for delivery
+	s.date // Date the dish was ready for delivery
 ]);
 
 dish.parse(['Iberian ham', 10, new Date()]);
@@ -227,7 +217,8 @@ dish.parse(['Iberian ham', 10, new Date()]);
 
 ```typescript
 // Properties are required by default:
-const animal = s.object({ // TODO
+const animal = s.object({
+	// TODO
 	name: s.string,
 	age: s.number
 });
@@ -238,16 +229,20 @@ const animal = s.object({ // TODO
 You can add additional fields using either an object or an ObjectValidator, in this case, you will get a new object validator with the merged properties:
 
 ```typescript
-const pet = animal.extend({ // TODO
+const pet = animal.extend({
+	// TODO
 	owner: s.string.nullish
 });
 
-const pet = animal.extend(s.object({ // TODO
-	owner: s.string.nullish
-}));
+const pet = animal.extend(
+	s.object({
+		// TODO
+		owner: s.string.nullish
+	})
+);
 ```
 
-> If both schemas share keys, an error will be thrown. Please use `.omit` on the first object if you desire this behavior.
+> If both schemas share keys, an error will be thrown. Please use `.omit` on the first object if you desire this behaviour.
 
 ##### `.pick` / `.omit`:
 
@@ -272,10 +267,12 @@ const noDependencies = pkg.omit(['dependencies']); // TODO
 Inspired by TypeScript's built-in `Partial` utility type, all object schemas have the aforementioned method that makes all properties optional:
 
 ```typescript
-const user = s.object({
-	username: s.string,
-	password: s.string
-}).partial();
+const user = s
+	.object({
+		username: s.string,
+		password: s.string
+	})
+	.partial();
 ```
 
 Which is the same as doing:
@@ -321,18 +318,18 @@ person.parse({
 
 ##### `.ignore` // TODO
 
-You can use the `.ignore` getter to reset an object schema to the default behavior (ignoring unrecognized keys).
+You can use the `.ignore` getter to reset an object schema to the default behaviour (ignoring unrecognized keys).
 
 #### Records // TODO
 
-Record schemas are similar to objects, but validates `Record<string, T>` types, keep in mind this does not check for the keys, and cannot support validation for specific ones:
+Record schemas are similar to objects, but validate `Record<string, T>` types, keep in mind this does not check for the keys, and cannot support validation for specific ones:
 
 ```typescript
 const tags = s.record(s.string);
 
 tags.parse({ foo: 'bar', hello: 'world' }); // => { foo: 'bar', hello: 'world' }
-tags.parse({ foo: 42 });                    // => throws AggregateError
-tags.parse('Hello');                        // => throws ValidateError
+tags.parse({ foo: 42 }); // => throws AggregateError
+tags.parse('Hello'); // => throws ValidateError
 ```
 
 #### Unions
@@ -343,8 +340,8 @@ ShapeShift includes a built-in method for composing OR types:
 const stringOrNumber = s.union([s.string, s.number]);
 
 stringOrNumber.parse('Sapphire'); // => 'Sapphire'
-stringOrNumber.parse(42);         // => 42
-stringOrNumber.parse({});         // => throws AggregateError
+stringOrNumber.parse(42); // => 42
+stringOrNumber.parse({}); // => throws AggregateError
 ```
 
 #### Enums
@@ -381,7 +378,7 @@ class User {
 
 const schema = s.instance(User);
 schema.parse(new User('Sapphire')); // => User { name: 'Sapphire' }
-schema.parse('oops' as any);        // => throws ValidatorError
+schema.parse('oops' as any); // => throws ValidatorError
 ```
 
 #### Functions // TODO
@@ -392,7 +389,7 @@ You can define function schemas. This checks for whether or not an input is a fu
 s.function; // () => unknown
 ```
 
-You can define arguments by passing an array as first argument, as well as the return type as second:
+You can define arguments by passing an array as the first argument, as well as the return type as the second:
 
 ```typescript
 s.function([s.string]); // (arg0: string) => unknown
@@ -435,32 +432,32 @@ getLength.parse('Hello There'); // => 11
 
 ```typescript
 const name = s.string.default('Sapphire'); // TODO
-name.parse('Hello');   // => 'Hello'
+name.parse('Hello'); // => 'Hello'
 name.parse(undefined); // => 'Sapphire'
 ```
 
 ```typescript
 const number = s.number.default(Math.random); // TODO
-number.parse(12);        // => 12
+number.parse(12); // => 12
 number.parse(undefined); // => 0.989911985608602
 number.parse(undefined); // => 0.3224350185068794
 ```
 
 > :warning: The default values are not validated.
 
-`.optional`: a convenience method that returns an union of the type with `s.undefined`.
+`.optional`: a convenience method that returns a union of the type with `s.undefined`.
 
 ```typescript
 s.string.optional; // s.union(s.string, s.undefined)
 ```
 
-`.nullable`: a convenience method that returns an union of the type with `s.nullable`.
+`.nullable`: a convenience method that returns a union of the type with `s.nullable`.
 
 ```typescript
 s.string.nullable; // s.union(s.string, s.nullable)
 ```
 
-`.nullish`: a convenience method that returns an union of the type with `s.nullish`.
+`.nullish`: a convenience method that returns a union of the type with `s.nullish`.
 
 ```typescript
 s.string.nullish; // s.union(s.string, s.nullish)
@@ -508,7 +505,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
-<!-- markdownlint-enable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/kyranet"><img src="https://avatars.githubusercontent.com/u/24852502?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Antonio Román</b></sub></a><br /><a href="https://github.com/sapphiredev/shapeshift/commits?author=kyranet" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/vladfrangu"><img src="https://avatars.githubusercontent.com/u/17960496?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vlad Frangu</b></sub></a><br /><a href="https://github.com/sapphiredev/shapeshift/commits?author=vladfrangu" title="Code">💻</a></td>
+    <td align="center"><a href="https://favware.tech/"><img src="https://avatars.githubusercontent.com/u/4019718?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jeroen Claassens</b></sub></a><br /><a href="https://github.com/sapphiredev/shapeshift/commits?author=favna" title="Documentation">📖</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
