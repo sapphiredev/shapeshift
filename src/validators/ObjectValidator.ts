@@ -79,7 +79,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 
 	private handleStrictStrategyCollectErrors(value: NonNullObject, errors: Error[]): Result<T, AggregateError> {
 		for (const key of this.keys) {
-			const result = this.shape[key].run(Reflect.get(value, key));
+			const result = this.shape[key].run(value[key as keyof NonNullObject]);
 			if (result.isErr()) errors.push(result.error!);
 		}
 
