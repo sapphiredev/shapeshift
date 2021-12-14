@@ -6,8 +6,8 @@ import { BaseValidator } from './BaseValidator';
 
 export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	public readonly shape: MappedObjectValidator<T>;
+	public readonly strategy: ObjectValidatorStrategy;
 	private readonly keys: readonly (keyof T)[];
-	private readonly strategy: ObjectValidatorStrategy;
 	private readonly handleStrategy: (value: NonNullObject) => Result<T, AggregateError>;
 
 	public constructor(
@@ -29,6 +29,34 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 				break;
 			}
 		}
+	}
+
+	public get strict() {
+		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Strict, this.constraints]);
+	}
+
+	public get ignore() {
+		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Ignore, this.constraints]);
+	}
+
+	public get partial(): ObjectValidator<{ [Key in keyof T]?: T[Key] }> {
+		const shape = Object.fromEntries(this.keys.map((key) => [key, this.shape[key].optional]));
+		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
+	}
+
+	public extend<ET extends NonNullObject>(schema: ObjectValidator<ET> | MappedObjectValidator<ET>): ObjectValidator<T & ET> {
+		const shape = { ...this.shape, ...(schema instanceof ObjectValidator ? schema.shape : schema) };
+		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
+	}
+
+	public pick<K extends keyof T>(keys: readonly K[]): ObjectValidator<{ [Key in keyof Pick<T, K>]: T[Key] }> {
+		const shape = Object.fromEntries(keys.filter((key) => this.keys.includes(key)).map((key) => [key, this.shape[key]]));
+		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
+	}
+
+	public omit<K extends keyof T>(keys: readonly K[]): ObjectValidator<{ [Key in keyof Omit<T, K>]: T[Key] }> {
+		const shape = Object.fromEntries(this.keys.filter((key) => !keys.includes(key as any)).map((key) => [key, this.shape[key]]));
+		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
 
 	protected override handle(value: unknown): Result<T, ValidationError | AggregateError> {

@@ -92,3 +92,5 @@ export class Shapes {
 		return new SetValidator(validator);
 	}
 }
+
+export type Type<V> = V extends BaseValidator<infer T> ? T : never;

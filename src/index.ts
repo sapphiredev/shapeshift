@@ -1,4 +1,4 @@
-import { Shapes } from './lib/Shapes';
+import { Shapes, Type } from './lib/Shapes';
 
 export const s = new Shapes();
 export * from './lib/errors/ConstraintError';
