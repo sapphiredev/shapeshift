@@ -1,4 +1,4 @@
-import { s, UnknownPropertyError, ValidationError } from '../../src';
+import { MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
 
 describe('ObjectValidator', () => {
 	const predicate = s.object({
@@ -62,6 +62,15 @@ describe('ObjectValidator', () => {
 			expect(() => strictPredicate.parse({ username: 42, password: 'helloworld', foo: 'bar' })).toThrow(
 				new AggregateError(
 					[new UnknownPropertyError('foo', 'bar'), new ValidationError('StringValidator', 'Expected a string primitive', 42)],
+					'Failed to match at least one of the properties'
+				)
+			);
+		});
+
+		test('GIVEN mismatching in one property and one missing key THEN throws AggregateError with two errors', () => {
+			expect(() => strictPredicate.parse({ username: 42, foo: 'owo' })).toThrow(
+				new AggregateError(
+					[new UnknownPropertyError('foo', 'owo'), new MissingPropertyError('password')],
 					'Failed to match at least one of the properties'
 				)
 			);

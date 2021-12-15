@@ -1,4 +1,5 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
+import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
 import { UnknownPropertyError } from '../lib/errors/UnknownPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
@@ -94,24 +95,33 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 
 	private handleStrictStrategy(value: NonNullObject): Result<T, AggregateError> {
 		const errors: Error[] = [];
+		const finalResult = {} as T;
+		const keysToIterateOver = [...new Set([...Object.keys(value), ...this.keys])].reverse();
+		let i = keysToIterateOver.length;
 
-		for (const key of Object.keys(value)) {
-			if (Object.prototype.hasOwnProperty.call(this.shape, key)) continue;
-			errors.push(new UnknownPropertyError(key, Reflect.get(value, key)));
+		while (i--) {
+			const key = keysToIterateOver[i] as string;
+
+			if (Object.prototype.hasOwnProperty.call(this.shape, key)) {
+				if (key in value) {
+					if (key in finalResult) continue;
+
+					const result = this.shape[key as keyof MappedObjectValidator<T>].run(value[key as keyof NonNullObject]);
+
+					if (result.isOk()) finalResult[key as keyof T] = result.value;
+					else errors.push(result.error!);
+				} else {
+					errors.push(new MissingPropertyError(key));
+				}
+				continue;
+			}
+
+			errors.push(new UnknownPropertyError(key, value[key as keyof NonNullObject]));
 		}
 
 		return errors.length === 0 //
-			? this.handleIgnoreStrategy(value, errors)
-			: this.handleStrictStrategyCollectErrors(value, errors);
-	}
-
-	private handleStrictStrategyCollectErrors(value: NonNullObject, errors: Error[]): Result<T, AggregateError> {
-		for (const key of this.keys) {
-			const result = this.shape[key].run(value[key as keyof NonNullObject]);
-			if (result.isErr()) errors.push(result.error!);
-		}
-
-		return Result.err(new AggregateError(errors, 'Failed to match at least one of the properties'));
+			? Result.ok(finalResult)
+			: Result.err(new AggregateError(errors, 'Failed to match at least one of the properties'));
 	}
 }
 
