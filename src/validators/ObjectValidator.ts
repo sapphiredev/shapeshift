@@ -33,7 +33,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		}
 	}
 
-	public get strict(): this {
+	public get strict(): ObjectValidator<{ [Key in keyof T]-?: T[Key] }> {
 		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Strict, this.constraints]);
 	}
 
