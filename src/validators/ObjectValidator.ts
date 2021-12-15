@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import type { IConstraint } from '../constraints/base/IConstraint';
 import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
 import { UnknownPropertyError } from '../lib/errors/UnknownPropertyError';
@@ -32,11 +33,11 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		}
 	}
 
-	public get strict() {
+	public get strict(): this {
 		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Strict, this.constraints]);
 	}
 
-	public get ignore() {
+	public get ignore(): this {
 		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Ignore, this.constraints]);
 	}
 
@@ -84,8 +85,16 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			const key = this.keys[i];
 			const result = this.shape[key].run(value[key as keyof NonNullObject]);
 
-			if (result.isOk()) entries[key] = result.value;
-			else errors.push(result.error!);
+			if (result.isOk()) {
+				entries[key] = result.value;
+			} else {
+				const error = result.error!;
+				if (error instanceof ValidationError && error.given === undefined) {
+					errors.push(new MissingPropertyError(key));
+				} else {
+					errors.push(error);
+				}
+			}
 		}
 
 		return errors.length === 0 //
@@ -103,16 +112,21 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			const key = keysToIterateOver[i] as string;
 
 			if (Object.prototype.hasOwnProperty.call(this.shape, key)) {
-				if (key in value) {
-					if (key in finalResult) continue;
+				if (key in finalResult) continue;
 
-					const result = this.shape[key as keyof MappedObjectValidator<T>].run(value[key as keyof NonNullObject]);
+				const result = this.shape[key as keyof MappedObjectValidator<T>].run(value[key as keyof NonNullObject]);
 
-					if (result.isOk()) finalResult[key as keyof T] = result.value;
-					else errors.push(result.error!);
+				if (result.isOk()) {
+					finalResult[key as keyof T] = result.value;
 				} else {
-					errors.push(new MissingPropertyError(key));
+					const error = result.error!;
+					if (error instanceof ValidationError && error.given === undefined) {
+						errors.push(new MissingPropertyError(key));
+					} else {
+						errors.push(error);
+					}
 				}
+
 				continue;
 			}
 

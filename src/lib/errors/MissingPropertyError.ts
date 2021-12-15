@@ -2,7 +2,7 @@ export class MissingPropertyError extends Error {
 	public readonly property: PropertyKey;
 
 	public constructor(property: PropertyKey) {
-		super('Expected property is missing');
+		super(`Expected property "${String(property)}" is missing`);
 
 		this.property = property;
 	}

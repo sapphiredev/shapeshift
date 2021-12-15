@@ -75,6 +75,18 @@ describe('ObjectValidator', () => {
 				)
 			);
 		});
+
+		const optionalStrict = strictPredicate.extend({
+			optionalKey: s.string.optional
+		});
+
+		test('GIVEN matching keys and values without optional keys THEN returns no errors', () => {
+			expect(optionalStrict.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({
+				username: 'Sapphire',
+				password: 'helloworld',
+				optionalKey: undefined
+			});
+		});
 	});
 
 	describe('Partial', () => {
