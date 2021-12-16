@@ -1,8 +1,8 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
-import { stringLengthEq, stringLengthGt, stringLengthGe, stringLengthLt, stringLengthLe, stringLengthNe } from '../constraints/StringConstraints';
+import { stringLengthEq, stringLengthGe, stringLengthGt, stringLengthLe, stringLengthLt, stringLengthNe } from '../constraints/StringConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import { BaseValidator } from './BaseValidator';
+import { BaseValidator } from './imports';
 
 export class StringValidator<T extends string> extends BaseValidator<T> {
 	public lengthLe(length: number): this {

@@ -1,7 +1,7 @@
 import { dateEq, dateGe, dateGt, dateInvalid, dateLe, dateLt, dateNe, dateValid } from '../constraints/DateConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import { BaseValidator } from './BaseValidator';
+import { BaseValidator } from './imports';
 
 export class DateValidator extends BaseValidator<Date> {
 	public lt(date: Date | number): this {

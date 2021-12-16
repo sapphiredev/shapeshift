@@ -1,9 +1,7 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import { BaseValidator } from './BaseValidator';
-import { LiteralValidator } from './LiteralValidator';
-import { NullishValidator } from './NullishValidator';
+import { BaseValidator, LiteralValidator, NullishValidator } from './imports';
 
 export class UnionValidator<T> extends BaseValidator<T> {
 	private validators: readonly BaseValidator<T>[];

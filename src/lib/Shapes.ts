@@ -1,17 +1,20 @@
-import { ArrayValidator } from '../validators/ArrayValidator';
-import type { BaseValidator } from '../validators/BaseValidator';
-import { BigIntValidator } from '../validators/BigIntValidator';
-import { BooleanValidator } from '../validators/BooleanValidator';
-import { DateValidator } from '../validators/DateValidator';
-import { Constructor, InstanceValidator } from '../validators/InstanceValidator';
-import { LiteralValidator } from '../validators/LiteralValidator';
-import { NeverValidator } from '../validators/NeverValidator';
-import { NullishValidator } from '../validators/NullishValidator';
-import { NumberValidator } from '../validators/NumberValidator';
-import { PassthroughValidator } from '../validators/PassthroughValidator';
-import { SetValidator } from '../validators/SetValidator';
-import { StringValidator } from '../validators/StringValidator';
-import { UnionValidator } from '../validators/UnionValidator';
+import {
+	ArrayValidator,
+	BaseValidator,
+	BigIntValidator,
+	BooleanValidator,
+	DateValidator,
+	InstanceValidator,
+	LiteralValidator,
+	NeverValidator,
+	NullishValidator,
+	NumberValidator,
+	PassthroughValidator,
+	SetValidator,
+	StringValidator,
+	UnionValidator
+} from '../validators/imports';
+import type { Constructor } from './util-types';
 
 export class Shapes {
 	public get string() {
