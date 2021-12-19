@@ -1,7 +1,7 @@
 import { ConstraintError, ConstraintErrorMessageBuilder } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
-import { Comparator, eq, gt, ge, lt, le, ne } from './util/operators';
+import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
 function arrayLength<T>(
 	comparator: Comparator, //

@@ -1,7 +1,8 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import { ExpectedValidationError } from '../lib/errors/ExpectedValidationError';
 import { Result } from '../lib/Result';
-import { BaseValidator } from './BaseValidator';
+import type { Constructor } from '../lib/util-types';
+import { BaseValidator } from './imports';
 
 export class InstanceValidator<T> extends BaseValidator<T> {
 	public readonly expected: Constructor<T>;
@@ -21,5 +22,3 @@ export class InstanceValidator<T> extends BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.expected, this.constraints]);
 	}
 }
-
-export type Constructor<T> = (new (...args: readonly any[]) => T) | (abstract new (...args: readonly any[]) => T);

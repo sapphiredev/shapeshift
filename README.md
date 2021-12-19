@@ -6,7 +6,7 @@
 
 **ShapeShift**
 
-A very fast input-validation and transformer library.
+Blazing fast input validation and transformation ⚡
 
 [![GitHub](https://img.shields.io/github/license/sapphiredev/shapeshift)](https://github.com/sapphiredev/shapeshift/blob/main/LICENSE.md)
 [![codecov](https://codecov.io/gh/sapphiredev/shapeshift/branch/main/graph/badge.svg?token=RF4mMKx6lL)](https://codecov.io/gh/sapphiredev/shapeshift)
@@ -16,17 +16,20 @@ A very fast input-validation and transformer library.
 
 ## Description
 
-Ever need the performance of very fast input-validation libraries such as [ts-json-validator](https://www.npmjs.com/package/ts-json-validator) with the powerful API of [zod](https://www.npmjs.com/package/zod)? ShapeShift got you covered!
+A very fast and lightweight input validation and transformation library for JavaScript.
 
 > **Note**: ShapeShift requires Node.js v15.0.0 or higher to work.
 
 ## Features
 
 -   TypeScript friendly
--   API similar to `zod`
--   :rocket: Very fast
+-   Offers CJS, ESM and UMD builds
+-   API similar to [`zod`]
+-   Faster than ⚡
 
 ## Usage
+
+**_For complete usages, please dive into our [documentation]_**
 
 ### Basic usage
 
@@ -521,3 +524,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+[`zod`]: https://github.com/colinhacks/zod
+[documentation]: https://www.sapphirejs.dev/docs/Documentation/api-shapeshift/

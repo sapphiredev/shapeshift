@@ -10,8 +10,9 @@ docs/
 .yarn/install-state.gz
 .yarn/build-state.yml
 
-# Ignore tsc dist folder
+# Ignore dist folder
 dist/
+*.tsbuildinfo
 
 # Ignore heapsnapshot and log files
 *.heapsnapshot

@@ -1,6 +1,6 @@
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import { BaseValidator } from './BaseValidator';
+import { BaseValidator } from './imports';
 
 export class NullishValidator extends BaseValidator<undefined | null> {
 	protected handle(value: unknown): Result<undefined | null, ValidationError> {

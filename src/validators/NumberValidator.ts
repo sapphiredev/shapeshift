@@ -2,11 +2,11 @@ import type { IConstraint } from '../constraints/base/IConstraint';
 import {
 	numberEq,
 	numberFinite,
-	numberGt,
 	numberGe,
+	numberGt,
 	numberInt,
-	numberLt,
 	numberLe,
+	numberLt,
 	numberNaN,
 	numberNe,
 	numberNeNaN,
@@ -14,7 +14,7 @@ import {
 } from '../constraints/NumberConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import { BaseValidator } from './BaseValidator';
+import { BaseValidator } from './imports';
 
 export class NumberValidator<T extends number> extends BaseValidator<T> {
 	public lt(number: number): this {
