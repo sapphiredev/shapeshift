@@ -4,6 +4,7 @@ import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
 import { UnknownPropertyError } from '../lib/errors/UnknownPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
+import type { MappedObjectValidator, NonNullObject } from '../lib/util-types';
 import { BaseValidator } from './BaseValidator';
 
 export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
@@ -138,10 +139,6 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			: Result.err(new AggregateError(errors, 'Failed to match at least one of the properties'));
 	}
 }
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type NonNullObject = {} & object;
-export type MappedObjectValidator<T> = { [key in keyof T]: BaseValidator<T[key]> };
 
 export const enum ObjectValidatorStrategy {
 	Ignore,

@@ -6,7 +6,6 @@ import {
 	DateValidator,
 	InstanceValidator,
 	LiteralValidator,
-	MappedObjectValidator,
 	NeverValidator,
 	NullishValidator,
 	NumberValidator,
@@ -14,9 +13,9 @@ import {
 	PassthroughValidator,
 	SetValidator,
 	StringValidator,
-	UnionValidator,
+	UnionValidator
 } from '../validators/imports';
-import type { Constructor } from './util-types';
+import type { Constructor, MappedObjectValidator } from './util-types';
 
 export class Shapes {
 	public get string() {
@@ -92,5 +91,3 @@ export class Shapes {
 		return new SetValidator(validator);
 	}
 }
-
-export type Type<V> = V extends BaseValidator<infer T> ? T : never;
