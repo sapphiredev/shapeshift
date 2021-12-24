@@ -7,11 +7,13 @@ describe('ObjectValidator', () => {
 	});
 
 	test('GIVEN a non-object value THEN throws ValidationError', () => {
-		expect(() => predicate.parse('hello')).toThrow(new ValidationError('ObjectValidator', 'Expected an object', 'hello'));
+		expect(() => predicate.parse('hello')).toThrow(
+			new ValidationError('ObjectValidator', 'Expected the value to be an object, but received string instead', 'hello')
+		);
 	});
 
 	test('GIVEN a null object value THEN throws ValidationError', () => {
-		expect(() => predicate.parse(null)).toThrow(new ValidationError('ObjectValidator', 'Expected object to not be null', null));
+		expect(() => predicate.parse(null)).toThrow(new ValidationError('ObjectValidator', 'Expected the value to not be null', null));
 	});
 
 	test('GIVEN a valid object THEN returns processed object', () => {
