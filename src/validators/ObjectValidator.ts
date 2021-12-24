@@ -113,8 +113,6 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			const key = keysToIterateOver[i] as string;
 
 			if (Object.prototype.hasOwnProperty.call(this.shape, key)) {
-				if (key in finalResult) continue;
-
 				const result = this.shape[key as keyof MappedObjectValidator<T>].run(value[key as keyof NonNullObject]);
 
 				if (result.isOk()) {
