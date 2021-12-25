@@ -17,17 +17,17 @@ export type {
 	numberSafeInt
 } from './constraints/NumberConstraints';
 export type { stringLengthEq, stringLengthGe, stringLengthGt, stringLengthLe, stringLengthLt, stringLengthNe } from './constraints/StringConstraints';
-
+//
 export type { ConstraintError, ConstraintErrorMessageBuilder } from './lib/errors/ConstraintError';
 export type { ExpectedValidationError } from './lib/errors/ExpectedValidationError';
 export type { MissingPropertyError } from './lib/errors/MissingPropertyError';
 export type { UnknownPropertyError } from './lib/errors/UnknownPropertyError';
 export type { ValidationError } from './lib/errors/ValidationError';
-
-export type { Type, MappedObjectValidator, NonNullObject } from './lib/util-types';
-
+//
 export type { Shapes } from './lib/Shapes';
-
+//
+export type { Constructor, MappedObjectValidator, NonNullObject, Type } from './lib/util-types';
+//
 export type { ArrayValidator } from './validators/ArrayValidator';
 export type { BaseValidator } from './validators/BaseValidator';
 export type { BigIntValidator } from './validators/BigIntValidator';
