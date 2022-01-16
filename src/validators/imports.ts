@@ -9,6 +9,7 @@ export * from './LiteralValidator';
 export * from './NeverValidator';
 export * from './NullishValidator';
 export * from './NumberValidator';
+export * from './ObjectValidator';
 export * from './PassthroughValidator';
 export * from './SetValidator';
 export * from './StringValidator';

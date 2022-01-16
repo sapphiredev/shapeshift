@@ -26,13 +26,14 @@
 		"clean": "node scripts/clean.mjs",
 		"typecheck": "tsc -p tsconfig.typecheck.json",
 		"sversion": "standard-version",
-		"prepublishOnly": "yarn build",
+		"prepublishOnly": "rollup-type-bundler",
 		"prepare": "husky install .github/husky"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^16.0.2",
 		"@commitlint/config-conventional": "^16.0.0",
 		"@favware/npm-deprecate": "^1.0.4",
+		"@favware/rollup-type-bundler": "^1.0.7",
 		"@sapphire/eslint-config": "^4.0.9",
 		"@sapphire/prettier-config": "^1.2.8",
 		"@sapphire/ts-config": "^3.1.7",

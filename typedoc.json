@@ -3,6 +3,5 @@
 	"readme": "./README.md",
 	"name": "@sapphire/shapeshift",
 	"entryPoints": ["src/index.ts"],
-	"excludeInternal": true,
 	"tsconfig": "./src/tsconfig.json"
 }

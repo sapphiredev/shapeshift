@@ -229,7 +229,6 @@ dish.parse(['Iberian ham', 10, new Date()]);
 ```typescript
 // Properties are required by default:
 const animal = s.object({
-	// TODO
 	name: s.string,
 	age: s.number
 });
@@ -241,13 +240,11 @@ You can add additional fields using either an object or an ObjectValidator, in t
 
 ```typescript
 const pet = animal.extend({
-	// TODO
 	owner: s.string.nullish
 });
 
 const pet = animal.extend(
 	s.object({
-		// TODO
 		owner: s.string.nullish
 	})
 );
@@ -266,10 +263,10 @@ const pkg = s.object({
 	dependencies: s.string.array
 });
 
-const justTheName = pkg.pick(['name']); // TODO
+const justTheName = pkg.pick(['name']);
 // s.object({ name: s.string });
 
-const noDependencies = pkg.omit(['dependencies']); // TODO
+const noDependencies = pkg.omit(['dependencies']);
 // s.object({ name: s.string, description: s.string });
 ```
 
@@ -311,7 +308,7 @@ person.parse({
 // => { name: 'Sapphire' }
 ```
 
-##### `.strict` // TODO
+##### `.strict`
 
 You can disallow unknown keys with `.strict`. If the input includes any unknown keys, an error will be thrown.
 
@@ -327,7 +324,7 @@ person.parse({
 // => throws ValidationError
 ```
 
-##### `.ignore` // TODO
+##### `.ignore`
 
 You can use the `.ignore` getter to reset an object schema to the default behaviour (ignoring unrecognized keys).
 

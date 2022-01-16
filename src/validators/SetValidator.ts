@@ -11,7 +11,11 @@ export class SetValidator<T> extends BaseValidator<Set<T>> {
 		this.validator = validator;
 	}
 
-	public run(values: unknown): Result<Set<T>, Error> {
+	protected override clone(): this {
+		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
+	}
+
+	protected handle(values: unknown): Result<Set<T>, ValidationError | AggregateError> {
 		if (!(values instanceof Set)) {
 			return Result.err(new ValidationError('ArrayValidator', 'Expected an array', values));
 		}
@@ -27,18 +31,6 @@ export class SetValidator<T> extends BaseValidator<Set<T>> {
 
 		return errors.length === 0 //
 			? Result.ok(transformed)
-			: Result.err(new AggregateError(errors, 'Could not match any of the defined validators'));
-	}
-
-	public parse(value: unknown): Set<T> {
-		return this.run(value).unwrap();
-	}
-
-	protected override clone(): this {
-		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
-	}
-
-	protected handle(): Result<Set<T>, ValidationError> {
-		throw new Error('Unreachable');
+			: Result.err(new AggregateError(errors, 'Failed to validate at least one entry'));
 	}
 }
