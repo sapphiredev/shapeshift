@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import type { IConstraint } from '../constraints/base/IConstraint';
 import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
 import { UnknownPropertyError } from '../lib/errors/UnknownPropertyError';
