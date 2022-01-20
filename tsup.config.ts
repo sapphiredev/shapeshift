@@ -9,5 +9,10 @@ export default defineConfig({
 	skipNodeModulesBundle: true,
 	sourcemap: true,
 	target: 'es2021',
+	tsconfig: 'src/tsconfig.json',
+	keepNames: true,
+	banner: {
+		js: '"use strict";'
+	},
 	globalName: 'SapphireShapeshift'
 });
