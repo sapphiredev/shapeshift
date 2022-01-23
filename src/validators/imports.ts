@@ -11,6 +11,7 @@ export * from './NullishValidator';
 export * from './NumberValidator';
 export * from './ObjectValidator';
 export * from './PassthroughValidator';
+export * from './RecordValidator';
 export * from './SetValidator';
 export * from './StringValidator';
 export * from './UnionValidator';
