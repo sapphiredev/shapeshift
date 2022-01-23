@@ -1,5 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import {
+	numberDivisibleBy,
 	numberEq,
 	numberFinite,
 	numberGe,
@@ -63,6 +64,38 @@ export class NumberValidator<T extends number> extends BaseValidator<T> {
 
 	public get negative(): this {
 		return this.lt(0);
+	}
+
+	public divisibleBy(divider: number): this {
+		return this.addConstraint(numberDivisibleBy(divider) as IConstraint<T>);
+	}
+
+	public get abs(): this {
+		return this.transform(Math.abs as (value: number) => T);
+	}
+
+	public get sign(): this {
+		return this.transform(Math.sign as (value: number) => T);
+	}
+
+	public get trunc(): this {
+		return this.transform(Math.trunc as (value: number) => T);
+	}
+
+	public get floor(): this {
+		return this.transform(Math.floor as (value: number) => T);
+	}
+
+	public get fround(): this {
+		return this.transform(Math.fround as (value: number) => T);
+	}
+
+	public get round(): this {
+		return this.transform(Math.round as (value: number) => T);
+	}
+
+	public get ceil(): this {
+		return this.transform(Math.ceil as (value: number) => T);
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {

@@ -1,6 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { ValidationError } from '../lib/errors/ValidationError';
-import type { Result } from '../lib/Result';
+import { Result } from '../lib/Result';
 import { ArrayValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator } from './imports';
 
 export abstract class BaseValidator<T> {
@@ -32,6 +32,12 @@ export abstract class BaseValidator<T> {
 
 	public or<O>(...predicates: readonly BaseValidator<O>[]): UnionValidator<T | O> {
 		return new UnionValidator<T | O>([this.clone(), ...predicates]);
+	}
+
+	public transform(cb: (value: T) => T): this;
+	public transform<O>(cb: (value: T) => O): BaseValidator<O>;
+	public transform<O>(cb: (value: T) => O): BaseValidator<O> {
+		return this.addConstraint({ run: (input) => Result.ok(cb(input) as unknown as T) }) as unknown as BaseValidator<O>;
 	}
 
 	public run(value: unknown): Result<T, Error> {

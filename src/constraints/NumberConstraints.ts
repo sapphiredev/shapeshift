@@ -98,3 +98,21 @@ export const numberNeNaN: IConstraint<number> = {
 			: Result.ok(input);
 	}
 };
+
+export function numberDivisibleBy(divider: number): IConstraint<number> {
+	const expected = `% ${divider}`;
+	return {
+		run(input: number) {
+			return input % divider === 0 //
+				? Result.ok(input)
+				: Result.err(
+						new ConstraintError(
+							'numberDivisibleBy',
+							`Expected number to be divisible by ${divider}, but received ${input}`,
+							input,
+							expected
+						)
+				  );
+		}
+	};
+}

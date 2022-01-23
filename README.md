@@ -132,20 +132,20 @@ s.number.finite; // value must be finite
 s.number.positive; // .ge(0)
 s.number.negative; // .lt(0)
 
-s.number.divisibleBy(5); // TODO | Divisible by 5
+s.number.divisibleBy(5); // Divisible by 5
 ```
 
 And transformations:
 
 ```typescript
-s.number.abs; // TODO | Transforms the number to an absolute number
-s.number.sign; // TODO | Gets the number's sign
+s.number.abs; // Transforms the number to an absolute number
+s.number.sign; // Gets the number's sign
 
-s.number.trunc; // TODO | Transforms the number to the result of Math.trunc`
-s.number.floor; // TODO | Transforms the number to the result of Math.floor`
-s.number.fround; // TODO | Transforms the number to the result of Math.fround`
-s.number.round; // TODO | Transforms the number to the result of Math.round`
-s.number.ceil; // TODO | Transforms the number to the result of Math.ceil`
+s.number.trunc; // Transforms the number to the result of `Math.trunc`
+s.number.floor; // Transforms the number to the result of `Math.floor`
+s.number.fround; // Transforms the number to the result of `Math.fround`
+s.number.round; // Transforms the number to the result of `Math.round`
+s.number.ceil; // Transforms the number to the result of `Math.ceil`
 ```
 
 #### BigInts
@@ -419,7 +419,7 @@ All schemas in ShapeShift contain certain methods.
 ```typescript
 import { s } from '@sapphire/shapeshift';
 
-const getLength = s.string.transform((value) => value.length); // TODO
+const getLength = s.string.transform((value) => value.length);
 getLength.parse('Hello There'); // => 11
 ```
 
