@@ -8,6 +8,10 @@ describe('RecordValidator', () => {
 		expect(() => predicate.parse(false)).toThrow(new ValidationError('RecordValidator', 'Expected a record', false));
 	});
 
+	test('GIVEN null THEN throws ValidationError', () => {
+		expect(() => predicate.parse(null)).toThrow(new ValidationError('RecordValidator', 'Expected the value to not be null', null));
+	});
+
 	test('GIVEN a matching record THEN returns a record', () => {
 		expect(predicate.parse(value)).toStrictEqual(value);
 	});
