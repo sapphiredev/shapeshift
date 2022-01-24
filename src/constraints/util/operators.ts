@@ -19,7 +19,7 @@ export function gt(a: number | bigint, b: number | bigint): boolean {
 export function ge(a: number, b: number): boolean;
 export function ge(a: bigint, b: bigint): boolean;
 export function ge(a: number | bigint, b: number | bigint): boolean {
-	return a > b;
+	return a >= b;
 }
 
 export function eq(a: number, b: number): boolean;
