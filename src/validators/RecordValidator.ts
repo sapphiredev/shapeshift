@@ -17,7 +17,7 @@ export class RecordValidator<T> extends BaseValidator<Record<string, T>> {
 
 	protected handle(value: unknown): Result<Record<string, T>, ValidationError | AggregateError> {
 		if (typeof value !== 'object') {
-			return Result.err(new ValidationError('RecordValidator', 'Expected a record', value));
+			return Result.err(new ValidationError('RecordValidator', 'Expected an object', value));
 		}
 
 		if (value === null) {

@@ -5,7 +5,7 @@ describe('RecordValidator', () => {
 	const predicate = s.record(s.string);
 
 	test('GIVEN a non-record THEN throws ValidationError', () => {
-		expect(() => predicate.parse(false)).toThrow(new ValidationError('RecordValidator', 'Expected a record', false));
+		expect(() => predicate.parse(false)).toThrow(new ValidationError('RecordValidator', 'Expected an object', false));
 	});
 
 	test('GIVEN null THEN throws ValidationError', () => {
