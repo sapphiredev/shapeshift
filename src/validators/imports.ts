@@ -15,3 +15,4 @@ export * from './RecordValidator';
 export * from './SetValidator';
 export * from './StringValidator';
 export * from './UnionValidator';
+export * from './MapValidator';
