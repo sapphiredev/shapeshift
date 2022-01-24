@@ -17,17 +17,17 @@ export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 		return Reflect.construct(this.constructor, [this.keyValidator, this.valueValidator, this.constraints]);
 	}
 
-	protected handle(values: unknown): Result<Map<K, V>, ValidationError | AggregateError> {
-		if (!(values instanceof Map)) {
-			return Result.err(new ValidationError('MapValidator', 'Expected a map', values));
+	protected handle(value: unknown): Result<Map<K, V>, ValidationError | AggregateError> {
+		if (!(value instanceof Map)) {
+			return Result.err(new ValidationError('MapValidator', 'Expected a map', value));
 		}
 
 		const errors: Error[] = [];
 		const transformed = new Map<K, V>();
 
-		for (const [key, value] of values.entries()) {
+		for (const [key, val] of value.entries()) {
 			const keyResult = this.keyValidator.run(key);
-			const valueResult = this.valueValidator.run(value);
+			const valueResult = this.valueValidator.run(val);
 			const results = [keyResult, valueResult].filter((result) => result.isErr());
 			if (results.length === 0) transformed.set(keyResult.value!, valueResult.value!);
 			else errors.push(...results.map((result) => result.error!));
