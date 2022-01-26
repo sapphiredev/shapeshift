@@ -28,9 +28,10 @@ export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 		for (const [key, val] of value.entries()) {
 			const keyResult = this.keyValidator.run(key);
 			const valueResult = this.valueValidator.run(val);
-			const results = [keyResult, valueResult].filter((result) => result.isErr());
-			if (results.length === 0) transformed.set(keyResult.value!, valueResult.value!);
-			else errors.push(...results.map((result) => result.error!));
+			const { length } = errors;
+			if (keyResult.isErr()) errors.push(keyResult.error);
+			if (valueResult.isErr()) errors.push(valueResult.error);
+			if (errors.length === length) transformed.set(keyResult.value!, valueResult.value!);
 		}
 
 		return errors.length === 0 //
