@@ -1,5 +1,9 @@
 import { ConstraintError, s, ValidationError } from '../../src';
 
+const safeInteger = 42;
+// eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+const unsafeInteger = 242043489611808769;
+
 describe('NumberValidator', () => {
 	const predicate = s.number;
 
@@ -59,10 +63,6 @@ describe('NumberValidator', () => {
 	});
 
 	describe('Constraints', () => {
-		const safeInteger = 42;
-		// eslint-disable-next-line @typescript-eslint/no-loss-of-precision
-		const unsafeInteger = 242043489611808769;
-
 		describe('Integer', () => {
 			const intPredicate = s.number.int;
 
@@ -158,6 +158,78 @@ describe('NumberValidator', () => {
 				expect(() => neNanPredicate.parse(input)).toThrow(
 					new ConstraintError('numberNeNaN', `Expected number to not be a NaN, but received ${input}`, input, 'Not NaN')
 				);
+			});
+		});
+
+		describe('DivisibleBy', () => {
+			const divisibleByPredicate = s.number.divisibleBy(5);
+
+			test.each([5, 10, 20, 500])('GIVEN %d THEN returns given value', (input) => {
+				expect(divisibleByPredicate.parse(input)).toBe(input);
+			});
+
+			test.each([safeInteger, unsafeInteger, 6, 42.1, Infinity, -Infinity, NaN])('GIVEN %d THEN throws a ConstraintError', (input) => {
+				expect(() => divisibleByPredicate.parse(input)).toThrow(
+					new ConstraintError('numberDivisibleBy', `Expected number to be divisible by 5, but received ${input}`, input, '% 5')
+				);
+			});
+		});
+	});
+
+	describe('Transformers', () => {
+		describe('abs', () => {
+			const absPredicate = s.number.abs;
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN returns transformed the result from Math.abs', (input) => {
+				expect(absPredicate.parse(input)).toBe(Math.abs(input));
+			});
+		});
+
+		describe('sign', () => {
+			const signPredicate = s.number.sign;
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN returns transformed the result from Math.sign', (input) => {
+				expect(signPredicate.parse(input)).toBe(Math.sign(input));
+			});
+		});
+
+		describe('trunc', () => {
+			const truncPredicate = s.number.trunc;
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN returns transformed the result from Math.trunc', (input) => {
+				expect(truncPredicate.parse(input)).toBe(Math.trunc(input));
+			});
+		});
+
+		describe('floor', () => {
+			const floorPredicate = s.number.floor;
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN returns transformed the result from Math.floor', (input) => {
+				expect(floorPredicate.parse(input)).toBe(Math.floor(input));
+			});
+		});
+
+		describe('fround', () => {
+			const froundPredicate = s.number.fround;
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN returns transformed the result from Math.fround', (input) => {
+				expect(froundPredicate.parse(input)).toBe(Math.fround(input));
+			});
+		});
+
+		describe('round', () => {
+			const roundPredicate = s.number.round;
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN returns transformed the result from Math.round', (input) => {
+				expect(roundPredicate.parse(input)).toBe(Math.round(input));
+			});
+		});
+
+		describe('ceil', () => {
+			const ceilPredicate = s.number.ceil;
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN returns transformed the result from Math.ceil', (input) => {
+				expect(ceilPredicate.parse(input)).toBe(Math.ceil(input));
 			});
 		});
 	});
