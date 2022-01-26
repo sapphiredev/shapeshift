@@ -11,8 +11,12 @@ export default defineConfig({
 	target: 'es2021',
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
-	banner: {
-		js: '"use strict";'
-	},
-	globalName: 'SapphireShapeshift'
+	globalName: 'SapphireShapeshift',
+	esbuildOptions: (options, context) => {
+		if (context.format === 'cjs') {
+			options.banner = {
+				js: '"use strict";'
+			};
+		}
+	}
 });
