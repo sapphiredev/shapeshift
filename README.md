@@ -361,7 +361,7 @@ s.enum('Red', 'Green', 'Blue');
 // s.union(s.literal('Red'), s.literal('Green'), s.literal('Blue'));
 ```
 
-#### Maps // TODO
+#### Maps
 
 ```typescript
 const map = s.map(s.string, s.number);

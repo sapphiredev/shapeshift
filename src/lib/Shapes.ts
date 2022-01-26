@@ -14,7 +14,8 @@ import {
 	SetValidator,
 	StringValidator,
 	UnionValidator,
-	RecordValidator
+	RecordValidator,
+	MapValidator
 } from '../validators/imports';
 import type { Constructor, MappedObjectValidator } from './util-types';
 
@@ -94,5 +95,9 @@ export class Shapes {
 
 	public record<T>(validator: BaseValidator<T>) {
 		return new RecordValidator(validator);
+	}
+
+	public map<T, U>(keyValidator: BaseValidator<T>, valueValidator: BaseValidator<U>) {
+		return new MapValidator(keyValidator, valueValidator);
 	}
 }
