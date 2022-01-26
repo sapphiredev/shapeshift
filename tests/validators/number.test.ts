@@ -238,7 +238,7 @@ describe('NumberValidator', () => {
 			const defaultFunctionPredicate = s.number.default(() => 5);
 
 			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN returns the input', (input) => {
-				expect(defaultPredicate.parse(input)).toBe(Math.abs(input));
+				expect(defaultPredicate.parse(input)).toBe(input);
 			});
 
 			test('GIVEN undefined THEN returns the default', () => {
