@@ -13,7 +13,8 @@ import {
 	PassthroughValidator,
 	SetValidator,
 	StringValidator,
-	UnionValidator
+	UnionValidator,
+	RecordValidator
 } from '../validators/imports';
 import type { Constructor, MappedObjectValidator } from './util-types';
 
@@ -89,5 +90,9 @@ export class Shapes {
 
 	public set<T>(validator: BaseValidator<T>) {
 		return new SetValidator(validator);
+	}
+
+	public record<T>(validator: BaseValidator<T>) {
+		return new RecordValidator(validator);
 	}
 }
