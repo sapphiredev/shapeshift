@@ -12,9 +12,10 @@ export class LiteralValidator<T> extends BaseValidator<T> {
 	}
 
 	protected handle(value: unknown): Result<T, ExpectedValidationError<T>> {
-		return Object.is(value, this.expected) //
-			? Result.ok(value as T)
-			: Result.err(new ExpectedValidationError('LiteralValidator', 'Expected', value, this.expected));
+		const conditioned = this.defaultConstraint?.run(value).unwrap() ?? value;
+		return Object.is(conditioned, this.expected) //
+			? Result.ok(conditioned as T)
+			: Result.err(new ExpectedValidationError('LiteralValidator', 'Expected', conditioned, this.expected));
 	}
 
 	protected override clone(): this {

@@ -2,9 +2,11 @@ import type { IConstraint } from '../constraints/base/IConstraint';
 import type { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { ArrayValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator } from './imports';
+import { getValue } from './util/getValue';
 
 export abstract class BaseValidator<T> {
 	protected constraints: readonly IConstraint<T>[] = [];
+	protected defaultConstraint?: IConstraint<unknown>;
 
 	public constructor(constraints: readonly IConstraint<T>[] = []) {
 		this.constraints = constraints;
@@ -38,6 +40,14 @@ export abstract class BaseValidator<T> {
 	public transform<O>(cb: (value: T) => O): BaseValidator<O>;
 	public transform<O>(cb: (value: T) => O): BaseValidator<O> {
 		return this.addConstraint({ run: (input) => Result.ok(cb(input) as unknown as T) }) as unknown as BaseValidator<O>;
+	}
+
+	public default(value: T | (() => T)): this {
+		const clone = this.clone();
+		clone.defaultConstraint = {
+			run: (input) => Result.ok(typeof input === 'undefined' ? getValue(value) : input)
+		};
+		return clone;
 	}
 
 	public run(value: unknown): Result<T, Error> {

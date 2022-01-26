@@ -38,8 +38,9 @@ export class BigIntValidator<T extends bigint> extends BaseValidator<T> {
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {
-		return typeof value === 'bigint' //
-			? Result.ok(value as T)
-			: Result.err(new ValidationError('BigIntValidator', 'Expected a bigint primitive', value));
+		const conditioned = this.defaultConstraint?.run(value).unwrap() ?? value;
+		return typeof conditioned === 'bigint' //
+			? Result.ok(conditioned as T)
+			: Result.err(new ValidationError('BigIntValidator', 'Expected a bigint primitive', conditioned));
 	}
 }

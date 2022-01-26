@@ -16,18 +16,19 @@ export class RecordValidator<T> extends BaseValidator<Record<string, T>> {
 	}
 
 	protected handle(value: unknown): Result<Record<string, T>, ValidationError | AggregateError> {
-		if (typeof value !== 'object') {
-			return Result.err(new ValidationError('RecordValidator', 'Expected an object', value));
+		const conditioned = this.defaultConstraint?.run(value).unwrap() ?? value;
+		if (typeof conditioned !== 'object') {
+			return Result.err(new ValidationError('RecordValidator', 'Expected an object', conditioned));
 		}
 
-		if (value === null) {
-			return Result.err(new ValidationError('RecordValidator', 'Expected the value to not be null', value));
+		if (conditioned === null) {
+			return Result.err(new ValidationError('RecordValidator', 'Expected the value to not be null', conditioned));
 		}
 
 		const errors: Error[] = [];
 		const transformed: Record<string, T> = {};
 
-		for (const [key, val] of Object.entries(value!)) {
+		for (const [key, val] of Object.entries(conditioned!)) {
 			const result = this.validator.run(val);
 			if (result.isOk()) transformed[key] = result.value;
 			else errors.push(result.error!);

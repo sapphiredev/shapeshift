@@ -30,8 +30,9 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {
-		return typeof value === 'string' //
-			? Result.ok(value as T)
-			: Result.err(new ValidationError('StringValidator', 'Expected a string primitive', value));
+		const conditioned = this.defaultConstraint?.run(value).unwrap() ?? value;
+		return typeof conditioned === 'string' //
+			? Result.ok(conditioned as T)
+			: Result.err(new ValidationError('StringValidator', 'Expected a string primitive', conditioned));
 	}
 }
