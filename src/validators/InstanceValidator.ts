@@ -13,10 +13,9 @@ export class InstanceValidator<T> extends BaseValidator<T> {
 	}
 
 	protected handle(value: unknown): Result<T, ExpectedValidationError<Constructor<T>>> {
-		const conditioned = this.defaultConstraint?.run(value).unwrap() ?? value;
-		return conditioned instanceof this.expected //
-			? Result.ok(conditioned)
-			: Result.err(new ExpectedValidationError('InstanceValidator', 'Expected', conditioned, this.expected));
+		return value instanceof this.expected //
+			? Result.ok(value)
+			: Result.err(new ExpectedValidationError('InstanceValidator', 'Expected', value, this.expected));
 	}
 
 	protected override clone(): this {

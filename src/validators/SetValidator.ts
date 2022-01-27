@@ -16,15 +16,14 @@ export class SetValidator<T> extends BaseValidator<Set<T>> {
 	}
 
 	protected handle(values: unknown): Result<Set<T>, ValidationError | AggregateError> {
-		const conditioned = this.defaultConstraint?.run(values).unwrap() ?? values;
-		if (!(conditioned instanceof Set)) {
-			return Result.err(new ValidationError('SetValidator', 'Expected a set', conditioned));
+		if (!(values instanceof Set)) {
+			return Result.err(new ValidationError('SetValidator', 'Expected a set', values));
 		}
 
 		const errors: Error[] = [];
 		const transformed = new Set<T>();
 
-		for (const value of conditioned) {
+		for (const value of values) {
 			const result = this.validator.run(value);
 			if (result.isOk()) transformed.add(result.value);
 			else errors.push(result.error!);

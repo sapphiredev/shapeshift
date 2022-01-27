@@ -35,9 +35,8 @@ export class DateValidator extends BaseValidator<Date> {
 	}
 
 	protected handle(value: unknown): Result<Date, ValidationError> {
-		const conditioned = this.defaultConstraint?.run(value).unwrap() ?? value;
-		return conditioned instanceof Date //
-			? Result.ok(conditioned)
-			: Result.err(new ValidationError('DateValidator', 'Expected a Date', conditioned));
+		return value instanceof Date //
+			? Result.ok(value)
+			: Result.err(new ValidationError('DateValidator', 'Expected a Date', value));
 	}
 }

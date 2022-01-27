@@ -99,9 +99,8 @@ export class NumberValidator<T extends number> extends BaseValidator<T> {
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {
-		const conditioned = this.defaultConstraint?.run(value).unwrap() ?? value;
-		return typeof conditioned === 'number'
-			? Result.ok(conditioned as T)
+		return typeof value === 'number'
+			? Result.ok(value as T)
 			: Result.err(new ValidationError('NumberValidator', 'Expected a number primitive', value));
 	}
 }

@@ -22,9 +22,8 @@ export class BooleanValidator<T extends boolean = boolean> extends BaseValidator
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {
-		const conditioned = this.defaultConstraint?.run(value).unwrap() ?? value;
-		return typeof conditioned === 'boolean' //
-			? Result.ok(conditioned as T)
-			: Result.err(new ValidationError('BooleanValidator', 'Expected a boolean primitive', conditioned));
+		return typeof value === 'boolean' //
+			? Result.ok(value as T)
+			: Result.err(new ValidationError('BooleanValidator', 'Expected a boolean primitive', value));
 	}
 }

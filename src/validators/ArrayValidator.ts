@@ -16,15 +16,14 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 	}
 
 	protected handle(values: unknown): Result<T[], ValidationError | AggregateError> {
-		const conditioned = this.defaultConstraint?.run(values).unwrap() ?? values;
-		if (!Array.isArray(conditioned)) {
-			return Result.err(new ValidationError('ArrayValidator', 'Expected an array', conditioned));
+		if (!Array.isArray(values)) {
+			return Result.err(new ValidationError('ArrayValidator', 'Expected an array', values));
 		}
 
 		const errors: Error[] = [];
 		const transformed: T[] = [];
 
-		for (const value of conditioned) {
+		for (const value of values) {
 			const result = this.validator.run(value);
 			if (result.isOk()) transformed.push(result.value);
 			else errors.push(result.error!);

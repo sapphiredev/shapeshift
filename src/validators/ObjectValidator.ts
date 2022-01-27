@@ -62,19 +62,18 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	}
 
 	protected override handle(value: unknown): Result<T, ValidationError | AggregateError> {
-		const conditioned = this.defaultConstraint?.run(value).unwrap() ?? value;
-		const typeOfValue = typeof conditioned;
+		const typeOfValue = typeof value;
 		if (typeOfValue !== 'object') {
 			return Result.err(
-				new ValidationError('ObjectValidator', `Expected the value to be an object, but received ${typeOfValue} instead`, conditioned)
+				new ValidationError('ObjectValidator', `Expected the value to be an object, but received ${typeOfValue} instead`, value)
 			);
 		}
 
-		if (conditioned === null) {
-			return Result.err(new ValidationError('ObjectValidator', 'Expected the value to not be null', conditioned));
+		if (value === null) {
+			return Result.err(new ValidationError('ObjectValidator', 'Expected the value to not be null', value));
 		}
 
-		return this.handleStrategy(conditioned as NonNullObject);
+		return this.handleStrategy(value as NonNullObject);
 	}
 
 	protected clone(): this {
