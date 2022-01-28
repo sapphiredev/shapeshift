@@ -45,3 +45,4 @@ export type { SetValidator } from './validators/SetValidator';
 export type { StringValidator } from './validators/StringValidator';
 export type { UnionValidator } from './validators/UnionValidator';
 export type { MapValidator } from './validators/MapValidator';
+export type { DefaultValidator } from './validators/DefaultValidator';

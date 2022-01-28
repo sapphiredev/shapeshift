@@ -439,13 +439,13 @@ getLength.parse('Hello There'); // => 11
 `.default(value: T | (() => T))`: transform `undefined` into the given value or the callback's returned value:
 
 ```typescript
-const name = s.string.default('Sapphire'); // TODO
+const name = s.string.default('Sapphire');
 name.parse('Hello'); // => 'Hello'
 name.parse(undefined); // => 'Sapphire'
 ```
 
 ```typescript
-const number = s.number.default(Math.random); // TODO
+const number = s.number.default(Math.random);
 number.parse(12); // => 12
 number.parse(undefined); // => 0.989911985608602
 number.parse(undefined); // => 0.3224350185068794

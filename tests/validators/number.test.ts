@@ -232,5 +232,22 @@ describe('NumberValidator', () => {
 				expect(ceilPredicate.parse(input)).toBe(Math.ceil(input));
 			});
 		});
+
+		describe('default', () => {
+			const defaultPredicate = s.number.default(5);
+			const defaultFunctionPredicate = s.number.default(() => 5);
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN returns the input', (input) => {
+				expect(defaultPredicate.parse(input)).toBe(input);
+			});
+
+			test('GIVEN undefined THEN returns the default', () => {
+				expect(defaultPredicate.parse(undefined)).toBe(5);
+			});
+
+			test('GIVEN undefined THEN returns the output of default function', () => {
+				expect(defaultFunctionPredicate.parse(undefined)).toBe(5);
+			});
+		});
 	});
 });
