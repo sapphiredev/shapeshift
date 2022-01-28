@@ -4,7 +4,7 @@ import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
 import { getValue } from './util/getValue';
 
-export class DefaultValidator<T> extends BaseValidator<T> {
+export class DefaultValidator<T> extends BaseValidator<T | undefined> {
 	private readonly validator: BaseValidator<T>;
 	private readonly defaultValue: T | (() => T);
 
@@ -14,7 +14,7 @@ export class DefaultValidator<T> extends BaseValidator<T> {
 		this.defaultValue = value;
 	}
 
-	protected handle(value: undefined): Result<T, ValidationError | AggregateError> {
+	protected handle(value: unknown): Result<T, ValidationError | AggregateError> {
 		return typeof value === 'undefined' //
 			? Result.ok(getValue(this.defaultValue))
 			: this.validator['handle'](value); // eslint-disable-line @typescript-eslint/dot-notation
