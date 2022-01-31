@@ -20,7 +20,7 @@ export class ValidationError extends BaseError {
 		};
 	}
 
-	public [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
 		if (depth < 0) {
 			return options.stylize('[ValidationError]', 'special');
 		}

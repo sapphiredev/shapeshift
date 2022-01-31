@@ -18,7 +18,7 @@ export class MissingPropertyError extends BaseError {
 	}
 
 	// TODO
-	public [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
 		void depth;
 		void options;
 

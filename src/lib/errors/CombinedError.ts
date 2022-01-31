@@ -10,7 +10,7 @@ export class CombinedError extends BaseError {
 		this.errors = errors;
 	}
 
-	public [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
 		if (depth < 0) {
 			return options.stylize('[CombinedError]', 'special');
 		}
@@ -26,7 +26,7 @@ export class CombinedError extends BaseError {
 				const index = options.stylize((i + 1).toString(), 'number');
 				const body = error[customInspectSymbolStackLess](depth - 1, newOptions).replaceAll('\n', padding);
 
-				return `  ${index}. ${body}`;
+				return `  ${index} ${body}`;
 			})
 			.join('\n\n');
 		return `${header}\n  ${message}\n\n${errors}`;
