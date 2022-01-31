@@ -1,4 +1,4 @@
-import { MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
+import { CombinedError, MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
 
 describe('ObjectValidator', () => {
 	const predicate = s.object({
@@ -20,24 +20,18 @@ describe('ObjectValidator', () => {
 		expect(predicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({ username: 'Sapphire', password: 'helloworld' });
 	});
 
-	test('GIVEN mismatching in one property THEN throws AggregateError with one error', () => {
+	test('GIVEN mismatching in one property THEN throws CombinedError with one error', () => {
 		expect(() => predicate.parse({ username: 42, password: 'helloworld' })).toThrow(
-			new AggregateError(
-				[new ValidationError('StringValidator', 'Expected a string primitive', 42)],
-				'Failed to match at least one of the properties'
-			)
+			new CombinedError([new ValidationError('StringValidator', 'Expected a string primitive', 42)])
 		);
 	});
 
-	test('GIVEN mismatching in two properties THEN throws AggregateError with two errors', () => {
+	test('GIVEN mismatching in two properties THEN throws CombinedError with two errors', () => {
 		expect(() => predicate.parse({ username: 42, password: true })).toThrow(
-			new AggregateError(
-				[
-					new ValidationError('StringValidator', 'Expected a string primitive', 42),
-					new ValidationError('StringValidator', 'Expected a string primitive', true)
-				],
-				'Failed to match at least one of the properties'
-			)
+			new CombinedError([
+				new ValidationError('StringValidator', 'Expected a string primitive', 42),
+				new ValidationError('StringValidator', 'Expected a string primitive', true)
+			])
 		);
 	});
 
@@ -51,30 +45,21 @@ describe('ObjectValidator', () => {
 			});
 		});
 
-		test('GIVEN mismatching in one property THEN throws AggregateError with one error', () => {
+		test('GIVEN mismatching in one property THEN throws CombinedError with one error', () => {
 			expect(() => strictPredicate.parse({ username: 42, password: 'helloworld' })).toThrow(
-				new AggregateError(
-					[new ValidationError('StringValidator', 'Expected a string primitive', 42)],
-					'Failed to match at least one of the properties'
-				)
+				new CombinedError([new ValidationError('StringValidator', 'Expected a string primitive', 42)])
 			);
 		});
 
-		test('GIVEN mismatching in one property and one unknown key THEN throws AggregateError with two errors', () => {
+		test('GIVEN mismatching in one property and one unknown key THEN throws CombinedError with two errors', () => {
 			expect(() => strictPredicate.parse({ username: 42, password: 'helloworld', foo: 'bar' })).toThrow(
-				new AggregateError(
-					[new UnknownPropertyError('foo', 'bar'), new ValidationError('StringValidator', 'Expected a string primitive', 42)],
-					'Failed to match at least one of the properties'
-				)
+				new CombinedError([new UnknownPropertyError('foo', 'bar'), new ValidationError('StringValidator', 'Expected a string primitive', 42)])
 			);
 		});
 
-		test('GIVEN mismatching in one property and one missing key THEN throws AggregateError with two errors', () => {
+		test('GIVEN mismatching in one property and one missing key THEN throws CombinedError with two errors', () => {
 			expect(() => strictPredicate.parse({ username: 42, foo: 'owo' })).toThrow(
-				new AggregateError(
-					[new UnknownPropertyError('foo', 'owo'), new MissingPropertyError('password')],
-					'Failed to match at least one of the properties'
-				)
+				new CombinedError([new UnknownPropertyError('foo', 'owo'), new MissingPropertyError('password')])
 			);
 		});
 

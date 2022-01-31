@@ -1,4 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
+import type { BaseError } from '../lib/errors/BaseError';
+import { CombinedError } from '../lib/errors/CombinedError';
 import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
 import { UnknownPropertyError } from '../lib/errors/UnknownPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
@@ -10,7 +12,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	public readonly shape: MappedObjectValidator<T>;
 	public readonly strategy: ObjectValidatorStrategy;
 	private readonly keys: readonly (keyof T)[];
-	private readonly handleStrategy: (value: NonNullObject) => Result<T, AggregateError>;
+	private readonly handleStrategy: (value: NonNullObject) => Result<T, CombinedError>;
 
 	public constructor(
 		shape: MappedObjectValidator<T>,
@@ -61,7 +63,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
 
-	protected override handle(value: unknown): Result<T, ValidationError | AggregateError> {
+	protected override handle(value: unknown): Result<T, ValidationError | CombinedError> {
 		const typeOfValue = typeof value;
 		if (typeOfValue !== 'object') {
 			return Result.err(
@@ -80,7 +82,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.shape, this.strategy, this.constraints]);
 	}
 
-	private handleIgnoreStrategy(value: NonNullObject, errors: Error[] = []): Result<T, AggregateError> {
+	private handleIgnoreStrategy(value: NonNullObject, errors: BaseError[] = []): Result<T, CombinedError> {
 		const entries = {} as T;
 		let i = this.keys.length;
 
@@ -102,11 +104,11 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 
 		return errors.length === 0 //
 			? Result.ok(entries)
-			: Result.err(new AggregateError(errors, 'Failed to match at least one of the properties'));
+			: Result.err(new CombinedError(errors));
 	}
 
-	private handleStrictStrategy(value: NonNullObject): Result<T, AggregateError> {
-		const errors: Error[] = [];
+	private handleStrictStrategy(value: NonNullObject): Result<T, CombinedError> {
+		const errors: BaseError[] = [];
 		const finalResult = {} as T;
 		const keysToIterateOver = [...new Set([...Object.keys(value), ...this.keys])].reverse();
 		let i = keysToIterateOver.length;
@@ -136,7 +138,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 
 		return errors.length === 0 //
 			? Result.ok(finalResult)
-			: Result.err(new AggregateError(errors, 'Failed to match at least one of the properties'));
+			: Result.err(new CombinedError(errors));
 	}
 }
 

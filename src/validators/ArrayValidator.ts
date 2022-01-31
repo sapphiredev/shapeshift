@@ -1,4 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
+import type { BaseError } from '../lib/errors/BaseError';
+import { CombinedError } from '../lib/errors/CombinedError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
@@ -15,12 +17,12 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
 	}
 
-	protected handle(values: unknown): Result<T[], ValidationError | AggregateError> {
+	protected handle(values: unknown): Result<T[], ValidationError | CombinedError> {
 		if (!Array.isArray(values)) {
 			return Result.err(new ValidationError('ArrayValidator', 'Expected an array', values));
 		}
 
-		const errors: Error[] = [];
+		const errors: BaseError[] = [];
 		const transformed: T[] = [];
 
 		for (const value of values) {
@@ -31,6 +33,6 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 
 		return errors.length === 0 //
 			? Result.ok(transformed)
-			: Result.err(new AggregateError(errors, 'Failed to validate at least one entry'));
+			: Result.err(new CombinedError(errors));
 	}
 }

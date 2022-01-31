@@ -1,4 +1,4 @@
-import { s, ValidationError } from '../../src';
+import { CombinedError, s, ValidationError } from '../../src';
 
 describe('MapValidator', () => {
 	const value = new Map([
@@ -15,7 +15,7 @@ describe('MapValidator', () => {
 		expect(predicate.parse(value)).toStrictEqual(value);
 	});
 
-	test('GIVEN a non-matching map THEN throws AggregateError', () => {
+	test('GIVEN a non-matching map THEN throws CombinedError', () => {
 		// @ts-ignore Purposefully invalid
 		const map = new Map([
 			['fizz', 1],
@@ -24,15 +24,12 @@ describe('MapValidator', () => {
 			[4, 'buzz']
 		]);
 		expect(() => predicate.parse(map)).toThrow(
-			new AggregateError(
-				[
-					new ValidationError('StringValidator', 'Expected a string primitive', 2),
-					new ValidationError('NumberValidator', 'Expected a number primitive', 'bar'),
-					new ValidationError('StringValidator', 'Expected a string primitive', 4),
-					new ValidationError('NumberValidator', 'Expected a number primitive', 'buzz')
-				],
-				'Failed to validate at least one entry'
-			)
+			new CombinedError([
+				new ValidationError('StringValidator', 'Expected a string primitive', 2),
+				new ValidationError('NumberValidator', 'Expected a number primitive', 'bar'),
+				new ValidationError('StringValidator', 'Expected a string primitive', 4),
+				new ValidationError('NumberValidator', 'Expected a number primitive', 'buzz')
+			])
 		);
 	});
 });

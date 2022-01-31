@@ -1,4 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
+import type { BaseError } from '../lib/errors/BaseError';
+import { CombinedError } from '../lib/errors/CombinedError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
@@ -17,12 +19,12 @@ export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 		return Reflect.construct(this.constructor, [this.keyValidator, this.valueValidator, this.constraints]);
 	}
 
-	protected handle(value: unknown): Result<Map<K, V>, ValidationError | AggregateError> {
+	protected handle(value: unknown): Result<Map<K, V>, ValidationError | CombinedError> {
 		if (!(value instanceof Map)) {
 			return Result.err(new ValidationError('MapValidator', 'Expected a map', value));
 		}
 
-		const errors: Error[] = [];
+		const errors: BaseError[] = [];
 		const transformed = new Map<K, V>();
 
 		for (const [key, val] of value.entries()) {
@@ -36,6 +38,6 @@ export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 
 		return errors.length === 0 //
 			? Result.ok(transformed)
-			: Result.err(new AggregateError(errors, 'Failed to validate at least one entry'));
+			: Result.err(new CombinedError(errors));
 	}
 }

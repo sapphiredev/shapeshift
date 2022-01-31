@@ -1,4 +1,7 @@
-export class UnknownPropertyError extends Error {
+import type { InspectOptionsStylized } from 'util';
+import { BaseError, customInspectSymbolStackLess } from './BaseError';
+
+export class UnknownPropertyError extends BaseError {
 	public readonly property: PropertyKey;
 	public readonly value: unknown;
 
@@ -15,5 +18,13 @@ export class UnknownPropertyError extends Error {
 			property: this.property,
 			value: this.value
 		};
+	}
+
+	// TODO
+	public [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+		void depth;
+		void options;
+
+		throw new Error('Method not implemented.');
 	}
 }

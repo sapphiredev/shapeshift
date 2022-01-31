@@ -1,61 +1,44 @@
-import { ConstraintError, ConstraintErrorMessageBuilder } from '../lib/errors/ConstraintError';
+import { ConstraintError } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-function stringLength(
-	comparator: Comparator,
-	name: string,
-	messageBuilder: ConstraintErrorMessageBuilder<string>,
-	length: number
-): IConstraint<string> {
+function stringLengthComparator(comparator: Comparator, name: string, expected: string, length: number): IConstraint<string> {
 	return {
 		run(input: string) {
 			return comparator(input.length, length) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(name, messageBuilder(input, length), input, length));
+				: Result.err(new ConstraintError(name, 'Invalid string length', input, expected));
 		}
 	};
 }
 
-export const stringLengthLt = stringLength.bind(
-	null,
-	lt,
-	'stringLengthLt',
-	(given, expected) => `Expected string to have less than ${expected} characters, but received one with ${given.length} characters`
-);
+export function stringLengthLt(length: number): IConstraint<string> {
+	const expected = `expected.length < ${length}`;
+	return stringLengthComparator(lt, 's.string.lengthLt', expected, length);
+}
 
-export const stringLengthLe = stringLength.bind(
-	null,
-	le,
-	'stringLengthLe',
-	(given, expected) => `Expected string to have maximum ${expected} characters, but received one with ${given.length} characters`
-);
+export function stringLengthLe(length: number): IConstraint<string> {
+	const expected = `expected.length <= ${length}`;
+	return stringLengthComparator(le, 's.string.lengthLe', expected, length);
+}
 
-export const stringLengthGt = stringLength.bind(
-	null,
-	gt,
-	'stringLengthGt',
-	(given, expected) => `Expected string to have more than ${expected} characters, but received one with ${given.length} characters`
-);
+export function stringLengthGt(length: number): IConstraint<string> {
+	const expected = `expected.length > ${length}`;
+	return stringLengthComparator(gt, 's.string.lengthGt', expected, length);
+}
 
-export const stringLengthGe = stringLength.bind(
-	null,
-	ge,
-	'stringLengthGe',
-	(given, expected) => `Expected string to have at least ${expected} characters, but received one with ${given.length} characters`
-);
+export function stringLengthGe(length: number): IConstraint<string> {
+	const expected = `expected.length >= ${length}`;
+	return stringLengthComparator(ge, 's.string.lengthGe', expected, length);
+}
 
-export const stringLengthEq = stringLength.bind(
-	null,
-	eq,
-	'stringLengthEq',
-	(given, expected) => `Expected string to have exactly ${expected} characters, but received one with ${given.length} characters`
-);
+export function stringLengthEq(length: number): IConstraint<string> {
+	const expected = `expected.length === ${length}`;
+	return stringLengthComparator(eq, 's.string.lengthEq', expected, length);
+}
 
-export const stringLengthNe = stringLength.bind(
-	null,
-	ne,
-	'stringLengthNe',
-	(given, expected) => `Expected string to not have exactly ${expected} characters, but received one with ${given.length} characters`
-);
+export function stringLengthNe(length: number): IConstraint<string> {
+	const expected = `expected.length !== ${length}`;
+	return stringLengthComparator(ne, 's.string.lengthNe', expected, length);
+}

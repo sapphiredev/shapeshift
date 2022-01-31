@@ -18,7 +18,7 @@ export type {
 } from './constraints/NumberConstraints';
 export type { stringLengthEq, stringLengthGe, stringLengthGt, stringLengthLe, stringLengthLt, stringLengthNe } from './constraints/StringConstraints';
 //
-export type { ConstraintError, ConstraintErrorMessageBuilder } from './lib/errors/ConstraintError';
+export type { ConstraintError } from './lib/errors/ConstraintError';
 export type { ExpectedValidationError } from './lib/errors/ExpectedValidationError';
 export type { MissingPropertyError } from './lib/errors/MissingPropertyError';
 export type { UnknownPropertyError } from './lib/errors/UnknownPropertyError';

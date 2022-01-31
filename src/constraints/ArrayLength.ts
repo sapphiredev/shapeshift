@@ -1,61 +1,44 @@
-import { ConstraintError, ConstraintErrorMessageBuilder } from '../lib/errors/ConstraintError';
+import { ConstraintError } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-function arrayLength<T>(
-	comparator: Comparator, //
-	name: string,
-	messageBuilder: ConstraintErrorMessageBuilder<T[]>,
-	length: number
-): IConstraint<T[]> {
+function arrayLengthComparator<T>(comparator: Comparator, name: string, expected: string, length: number): IConstraint<T[]> {
 	return {
 		run(input: T[]) {
 			return comparator(input.length, length) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(name, messageBuilder(input, length), input, length));
+				: Result.err(new ConstraintError(name, 'Invalid Array length', input, expected));
 		}
 	};
 }
 
-export const arrayLengthLt = arrayLength.bind(
-	null,
-	lt,
-	'arrayLengthLt',
-	(given, expected) => `Expected array to have less than ${expected} elements, but received one with ${given.length} elements.`
-);
+export function arrayLengthLt<T>(value: number): IConstraint<T[]> {
+	const expected = `expected.length < ${value}`;
+	return arrayLengthComparator(lt, 's.array(T).lengthLt', expected, value);
+}
 
-export const arrayLengthLe = arrayLength.bind(
-	null,
-	le,
-	'arrayLengthLe',
-	(given, expected) => `Expected array to have maximum ${expected} elements, but received one with ${given.length} elements.`
-);
+export function arrayLengthLe<T>(value: number): IConstraint<T[]> {
+	const expected = `expected.length <= ${value}`;
+	return arrayLengthComparator(le, 's.array(T).lengthLe', expected, value);
+}
 
-export const arrayLengthGt = arrayLength.bind(
-	null,
-	gt,
-	'arrayLengthGt',
-	(given, expected) => `Expected array to have more than ${expected} elements, but received one with ${given.length} elements.`
-);
+export function arrayLengthGt<T>(value: number): IConstraint<T[]> {
+	const expected = `expected.length > ${value}`;
+	return arrayLengthComparator(gt, 's.array(T).lengthGt', expected, value);
+}
 
-export const arrayLengthGe = arrayLength.bind(
-	null,
-	ge,
-	'arrayLengthGe',
-	(given, expected) => `Expected array to have at least ${expected} elements, but received one with ${given.length} elements.`
-);
+export function arrayLengthGe<T>(value: number): IConstraint<T[]> {
+	const expected = `expected.length >= ${value}`;
+	return arrayLengthComparator(ge, 's.array(T).lengthGe', expected, value);
+}
 
-export const arrayLengthEq = arrayLength.bind(
-	null,
-	eq,
-	'arrayLengthEq',
-	(given, expected) => `Expected array to have exactly ${expected} elements, but received one with ${given.length} elements.`
-);
+export function arrayLengthEq<T>(value: number): IConstraint<T[]> {
+	const expected = `expected.length === ${value}`;
+	return arrayLengthComparator(eq, 's.array(T).lengthEq', expected, value);
+}
 
-export const arrayLengthNe = arrayLength.bind(
-	null,
-	ne,
-	'arrayLengthNe',
-	(given, expected) => `Expected array to not have exactly ${expected} elements, but received one with ${given.length} elements.`
-);
+export function arrayLengthNe<T>(value: number): IConstraint<T[]> {
+	const expected = `expected.length !== ${value}`;
+	return arrayLengthComparator(ne, 's.array(T).lengthNe', expected, value);
+}

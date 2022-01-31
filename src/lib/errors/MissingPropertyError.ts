@@ -1,4 +1,7 @@
-export class MissingPropertyError extends Error {
+import type { InspectOptionsStylized } from 'node:util';
+import { BaseError, customInspectSymbolStackLess } from './BaseError';
+
+export class MissingPropertyError extends BaseError {
 	public readonly property: PropertyKey;
 
 	public constructor(property: PropertyKey) {
@@ -12,5 +15,13 @@ export class MissingPropertyError extends Error {
 			name: this.name,
 			property: this.property
 		};
+	}
+
+	// TODO
+	public [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+		void depth;
+		void options;
+
+		throw new Error('Method not implemented.');
 	}
 }
