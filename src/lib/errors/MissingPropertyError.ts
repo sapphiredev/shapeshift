@@ -5,8 +5,7 @@ export class MissingPropertyError extends BaseError {
 	public readonly property: PropertyKey;
 
 	public constructor(property: PropertyKey) {
-		super(`Expected property "${String(property)}" is missing`);
-
+		super('A required property is missing');
 		this.property = property;
 	}
 
@@ -17,11 +16,13 @@ export class MissingPropertyError extends BaseError {
 		};
 	}
 
-	// TODO
 	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
-		void depth;
-		void options;
+		if (depth < 0) {
+			return options.stylize('[MissingPropertyError]', 'special');
+		}
 
-		throw new Error('Method not implemented.');
+		const header = `${options.stylize('MissingPropertyError', 'special')} > ${options.stylize(this.property.toString(), 'string')}`;
+		const message = options.stylize(this.message, 'regexp');
+		return `${header}\n  ${message}`;
 	}
 }

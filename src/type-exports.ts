@@ -18,6 +18,8 @@ export type {
 } from './constraints/NumberConstraints';
 export type { stringLengthEq, stringLengthGe, stringLengthGt, stringLengthLe, stringLengthLt, stringLengthNe } from './constraints/StringConstraints';
 //
+export type { BaseError } from './lib/errors/BaseError';
+export type { CombinedError } from './lib/errors/CombinedError';
 export type { ConstraintError } from './lib/errors/ConstraintError';
 export type { ExpectedValidationError } from './lib/errors/ExpectedValidationError';
 export type { MissingPropertyError } from './lib/errors/MissingPropertyError';

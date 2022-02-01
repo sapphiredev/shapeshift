@@ -1,4 +1,4 @@
-import type { InspectOptionsStylized } from 'util';
+import { inspect, type InspectOptionsStylized } from 'node:util';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
 export class UnknownPropertyError extends BaseError {
@@ -20,11 +20,19 @@ export class UnknownPropertyError extends BaseError {
 		};
 	}
 
-	// TODO
 	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
-		void depth;
-		void options;
+		if (depth < 0) {
+			return options.stylize('[UnknownPropertyError]', 'special');
+		}
 
-		throw new Error('Method not implemented.');
+		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1, compact: true };
+
+		const padding = `\n  ${options.stylize('|', 'undefined')} `;
+		const given = inspect(this.value, newOptions).replaceAll('\n', padding);
+
+		const header = `${options.stylize('UnknownPropertyError', 'special')} > ${options.stylize(this.property.toString(), 'string')}`;
+		const message = options.stylize(this.message, 'regexp');
+		const givenBlock = `\n  ${options.stylize('Received:', 'regexp')}${padding}${given}`;
+		return `${header}\n  ${message}\n${givenBlock}`;
 	}
 }
