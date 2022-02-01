@@ -1,24 +1,28 @@
 import { inspect } from 'node:util';
-import { UnknownPropertyError } from '../../../src';
+import { ExpectedValidationError } from '../../../src';
 
-describe('UnknownPropertyError', () => {
-	const error = new UnknownPropertyError('foo', 42);
+describe('ExpectedValidationError', () => {
+	const error = new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', 'world', 'hello');
 
 	test('GIVEN an instance THEN assigns fields correctly', () => {
-		expect(error.message).toBe('Received unexpected property');
-		expect(error.property).toBe('foo');
-		expect(error.value).toBe(42);
+		expect(error.message).toBe('Expected values to be equals');
+		expect(error.validator).toBe('LiteralValidator');
+		expect(error.given).toBe('world');
+		expect(error.expected).toBe('hello');
 	});
 
 	describe('inspect', () => {
 		test('GIVEN an inspected instance THEN formats data correctly', () => {
 			const content = inspect(error, { colors: false });
 			const expected = [
-				'UnknownPropertyError > foo', //
-				'  Received unexpected property',
+				'ExpectedValidationError > LiteralValidator', //
+				'  Expected values to be equals',
+				'',
+				'  Expected:',
+				"  | 'hello'",
 				'',
 				'  Received:',
-				'  | 42',
+				"  | 'world'",
 				''
 			];
 
@@ -28,7 +32,7 @@ describe('UnknownPropertyError', () => {
 		test('GIVEN an inspected instance with negative depth THEN formats name only', () => {
 			const content = inspect(error, { colors: false, depth: -1 });
 			const expected = [
-				'[UnknownPropertyError: foo]' //
+				'[ExpectedValidationError]' //
 			];
 
 			expect(content.startsWith(expected.join('\n'))).toBe(true);

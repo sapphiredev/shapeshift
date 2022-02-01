@@ -6,7 +6,7 @@ export class UnknownPropertyError extends BaseError {
 	public readonly value: unknown;
 
 	public constructor(property: PropertyKey, value: unknown) {
-		super('Unknown property received');
+		super('Received unexpected property');
 
 		this.property = property;
 		this.value = value;
@@ -21,8 +21,9 @@ export class UnknownPropertyError extends BaseError {
 	}
 
 	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+		const property = options.stylize(this.property.toString(), 'string');
 		if (depth < 0) {
-			return options.stylize('[UnknownPropertyError]', 'special');
+			return options.stylize(`[UnknownPropertyError: ${property}]`, 'special');
 		}
 
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1, compact: true };
@@ -30,7 +31,7 @@ export class UnknownPropertyError extends BaseError {
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
 		const given = inspect(this.value, newOptions).replaceAll('\n', padding);
 
-		const header = `${options.stylize('UnknownPropertyError', 'special')} > ${options.stylize(this.property.toString(), 'string')}`;
+		const header = `${options.stylize('UnknownPropertyError', 'special')} > ${property}`;
 		const message = options.stylize(this.message, 'regexp');
 		const givenBlock = `\n  ${options.stylize('Received:', 'regexp')}${padding}${given}`;
 		return `${header}\n  ${message}\n${givenBlock}`;
