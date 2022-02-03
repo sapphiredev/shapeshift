@@ -1,14 +1,30 @@
 import { inspect, type InspectOptionsStylized } from 'node:util';
+import type {
+	ArrayConstraintName,
+	BigIntConstraintName,
+	BooleanConstraintName,
+	DateConstraintName,
+	NumberConstraintName,
+	StringConstraintName
+} from '../../constraints/type-exports';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
+export type ConstraintErrorNames =
+	| ArrayConstraintName
+	| BigIntConstraintName
+	| BooleanConstraintName
+	| DateConstraintName
+	| NumberConstraintName
+	| StringConstraintName;
+
 export class ConstraintError<T = unknown> extends BaseError {
-	public readonly constraint: string;
+	public readonly constraint: ConstraintErrorNames;
 	public readonly given: T;
 	public readonly expected: string;
 
-	public constructor(validator: string, message: string, given: T, expected: string) {
+	public constructor(constraint: ConstraintErrorNames, message: string, given: T, expected: string) {
 		super(message);
-		this.constraint = validator;
+		this.constraint = constraint;
 		this.given = given;
 		this.expected = expected;
 	}

@@ -2,6 +2,8 @@ import { ConstraintError } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 
+export type BooleanConstraintName = `s.boolean.${boolean}`;
+
 export const booleanTrue: IConstraint<boolean, true> = {
 	run(input: boolean) {
 		return input //

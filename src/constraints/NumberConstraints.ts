@@ -3,7 +3,12 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-function numberComparator(comparator: Comparator, name: string, expected: string, number: number): IConstraint<number> {
+export type NumberComparatorConstraintName = `s.number.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'ne'}`;
+export type NumberConstraintName =
+	| NumberComparatorConstraintName
+	| `s.number.${'int' | 'safeInt' | 'finite' | 'eq(NaN)' | 'ne(NaN)' | 'divisibleBy'}`;
+
+function numberComparator(comparator: Comparator, name: NumberComparatorConstraintName, expected: string, number: number): IConstraint<number> {
 	return {
 		run(input: number) {
 			return comparator(input, number) //

@@ -1,9 +1,37 @@
-export type { arrayLengthEq, arrayLengthGe, arrayLengthGt, arrayLengthLe, arrayLengthLt, arrayLengthNe } from './constraints/ArrayLength';
-export type { IConstraint } from './constraints/base/IConstraint';
-export type { bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe } from './constraints/BigIntConstraints';
-export type { booleanFalse, booleanTrue } from './constraints/BooleanConstraints';
-export type { dateEq, dateGe, dateGt, dateInvalid, dateLe, dateLt, dateNe, dateValid } from './constraints/DateConstraints';
 export type {
+	ArrayConstraintName,
+	ArrayLengthComparatorConstraintName,
+	arrayLengthEq,
+	arrayLengthGe,
+	arrayLengthGt,
+	arrayLengthLe,
+	arrayLengthLt,
+	arrayLengthNe,
+	BigIntComparatorConstraintName,
+	BigIntConstraintName,
+	bigintEq,
+	bigintGe,
+	bigintGt,
+	bigintLe,
+	bigintLt,
+	bigintNe,
+	BooleanConstraintName,
+	booleanFalse,
+	booleanTrue,
+	DateComparatorConstraintName,
+	DateConstraintName,
+	dateEq,
+	dateGe,
+	dateGt,
+	dateInvalid,
+	dateLe,
+	dateLt,
+	dateNe,
+	dateValid,
+	IConstraint,
+	NumberComparatorConstraintName,
+	NumberConstraintName,
+	numberDivisibleBy,
 	numberEq,
 	numberFinite,
 	numberGe,
@@ -14,13 +42,20 @@ export type {
 	numberNaN,
 	numberNe,
 	numberNeNaN,
-	numberSafeInt
-} from './constraints/NumberConstraints';
-export type { stringLengthEq, stringLengthGe, stringLengthGt, stringLengthLe, stringLengthLt, stringLengthNe } from './constraints/StringConstraints';
+	numberSafeInt,
+	StringConstraintName,
+	StringLengthComparatorConstraintName,
+	stringLengthEq,
+	stringLengthGe,
+	stringLengthGt,
+	stringLengthLe,
+	stringLengthLt,
+	stringLengthNe
+} from './constraints/type-exports';
 //
 export type { BaseError } from './lib/errors/BaseError';
 export type { CombinedError } from './lib/errors/CombinedError';
-export type { ConstraintError } from './lib/errors/ConstraintError';
+export type { ConstraintError, ConstraintErrorNames } from './lib/errors/ConstraintError';
 export type { ExpectedValidationError } from './lib/errors/ExpectedValidationError';
 export type { MissingPropertyError } from './lib/errors/MissingPropertyError';
 export type { UnknownPropertyError } from './lib/errors/UnknownPropertyError';
@@ -35,8 +70,10 @@ export type { BaseValidator } from './validators/BaseValidator';
 export type { BigIntValidator } from './validators/BigIntValidator';
 export type { BooleanValidator } from './validators/BooleanValidator';
 export type { DateValidator } from './validators/DateValidator';
+export type { DefaultValidator } from './validators/DefaultValidator';
 export type { InstanceValidator } from './validators/InstanceValidator';
 export type { LiteralValidator } from './validators/LiteralValidator';
+export type { MapValidator } from './validators/MapValidator';
 export type { NeverValidator } from './validators/NeverValidator';
 export type { NullishValidator } from './validators/NullishValidator';
 export type { NumberValidator } from './validators/NumberValidator';
@@ -46,5 +83,3 @@ export type { RecordValidator } from './validators/RecordValidator';
 export type { SetValidator } from './validators/SetValidator';
 export type { StringValidator } from './validators/StringValidator';
 export type { UnionValidator } from './validators/UnionValidator';
-export type { MapValidator } from './validators/MapValidator';
-export type { DefaultValidator } from './validators/DefaultValidator';
