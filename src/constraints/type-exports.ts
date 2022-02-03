@@ -1,6 +1,5 @@
 export type {
 	ArrayConstraintName,
-	ArrayLengthComparatorConstraintName,
 	arrayLengthEq,
 	arrayLengthGe,
 	arrayLengthGt,
@@ -9,31 +8,10 @@ export type {
 	arrayLengthNe
 } from './ArrayLengthConstraints';
 export type { IConstraint } from './base/IConstraint';
-export type {
-	BigIntComparatorConstraintName,
-	BigIntConstraintName,
-	bigintEq,
-	bigintGe,
-	bigintGt,
-	bigintLe,
-	bigintLt,
-	bigintNe
-} from './BigIntConstraints';
+export type { BigIntConstraintName, bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe } from './BigIntConstraints';
 export type { BooleanConstraintName, booleanFalse, booleanTrue } from './BooleanConstraints';
+export type { DateConstraintName, dateEq, dateGe, dateGt, dateInvalid, dateLe, dateLt, dateNe, dateValid } from './DateConstraints';
 export type {
-	DateComparatorConstraintName,
-	DateConstraintName,
-	dateEq,
-	dateGe,
-	dateGt,
-	dateInvalid,
-	dateLe,
-	dateLt,
-	dateNe,
-	dateValid
-} from './DateConstraints';
-export type {
-	NumberComparatorConstraintName,
 	NumberConstraintName,
 	numberDivisibleBy,
 	numberEq,
@@ -50,7 +28,6 @@ export type {
 } from './NumberConstraints';
 export type {
 	StringConstraintName,
-	StringLengthComparatorConstraintName,
 	stringLengthEq,
 	stringLengthGe,
 	stringLengthGt,

@@ -3,10 +3,9 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-export type DateComparatorConstraintName = `s.date.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'ne'}`;
-export type DateConstraintName = DateComparatorConstraintName | `s.date.${'eq(NaN)' | 'ne(NaN)'}`;
+export type DateConstraintName = `s.date.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'eq(NaN)' | 'ne' | 'ne(NaN)'}`;
 
-function dateComparator(comparator: Comparator, name: DateComparatorConstraintName, expected: string, number: number): IConstraint<Date> {
+function dateComparator(comparator: Comparator, name: DateConstraintName, expected: string, number: number): IConstraint<Date> {
 	return {
 		run(input: Date) {
 			return comparator(input.getTime(), number) //

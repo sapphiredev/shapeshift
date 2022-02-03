@@ -3,10 +3,9 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-export type BigIntComparatorConstraintName = `s.bigint.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'ne'}`;
-export type BigIntConstraintName = BigIntComparatorConstraintName;
+export type BigIntConstraintName = `s.bigint.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'ne'}`;
 
-function bigintComparator(comparator: Comparator, name: BigIntComparatorConstraintName, expected: string, number: bigint): IConstraint<bigint> {
+function bigintComparator(comparator: Comparator, name: BigIntConstraintName, expected: string, number: bigint): IConstraint<bigint> {
 	return {
 		run(input: bigint) {
 			return comparator(input, number) //

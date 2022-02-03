@@ -3,15 +3,9 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-export type ArrayLengthComparatorConstraintName = `s.array(T).length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}`;
-export type ArrayConstraintName = ArrayLengthComparatorConstraintName;
+export type ArrayConstraintName = `s.array(T).length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}`;
 
-function arrayLengthComparator<T>(
-	comparator: Comparator,
-	name: ArrayLengthComparatorConstraintName,
-	expected: string,
-	length: number
-): IConstraint<T[]> {
+function arrayLengthComparator<T>(comparator: Comparator, name: ArrayConstraintName, expected: string, length: number): IConstraint<T[]> {
 	return {
 		run(input: T[]) {
 			return comparator(input.length, length) //
