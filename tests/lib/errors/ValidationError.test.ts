@@ -28,7 +28,7 @@ describe('ValidationError', () => {
 		test('GIVEN an inspected instance with negative depth THEN formats name only', () => {
 			const content = inspect(error, { colors: false, depth: -1 });
 			const expected = [
-				'[ValidationError]' //
+				'[ValidationError: StringValidator]' //
 			];
 
 			expect(content.startsWith(expected.join('\n'))).toBe(true);

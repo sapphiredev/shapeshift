@@ -20,8 +20,9 @@ export class ExpectedValidationError<T> extends ValidationError {
 	}
 
 	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+		const validator = options.stylize(this.validator, 'string');
 		if (depth < 0) {
-			return options.stylize('[ExpectedValidationError]', 'special');
+			return options.stylize(`[ExpectedValidationError: ${validator}]`, 'special');
 		}
 
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1 };
@@ -30,7 +31,7 @@ export class ExpectedValidationError<T> extends ValidationError {
 		const expected = inspect(this.expected, newOptions).replaceAll('\n', padding);
 		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
 
-		const header = `${options.stylize('ExpectedValidationError', 'special')} > ${options.stylize(this.validator, 'string')}`;
+		const header = `${options.stylize('ExpectedValidationError', 'special')} > ${validator}`;
 		const message = options.stylize(this.message, 'regexp');
 		const expectedBlock = `\n  ${options.stylize('Expected:', 'string')}${padding}${expected}`;
 		const givenBlock = `\n  ${options.stylize('Received:', 'regexp')}${padding}${given}`;

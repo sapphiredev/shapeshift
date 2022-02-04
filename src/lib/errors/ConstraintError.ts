@@ -39,8 +39,9 @@ export class ConstraintError<T = unknown> extends BaseError {
 	}
 
 	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+		const constraint = options.stylize(this.constraint, 'string');
 		if (depth < 0) {
-			return options.stylize('[ConstraintError]', 'special');
+			return options.stylize(`[ConstraintError: ${constraint}]`, 'special');
 		}
 
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1 };
@@ -48,9 +49,9 @@ export class ConstraintError<T = unknown> extends BaseError {
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
 		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
 
-		const header = `${options.stylize('ConstraintError', 'special')} > ${options.stylize(this.constraint, 'string')}`;
+		const header = `${options.stylize('ConstraintError', 'special')} > ${constraint}`;
 		const message = options.stylize(this.message, 'regexp');
-		const expectedBlock = `\n  ${options.stylize(`Expected ${this.expected}`, 'string')}`;
+		const expectedBlock = `\n  ${options.stylize('Expected: ', 'string')}${options.stylize(this.expected, 'boolean')}`;
 		const givenBlock = `\n  ${options.stylize('Received:', 'regexp')}${padding}${given}`;
 		return `${header}\n  ${message}\n${expectedBlock}\n${givenBlock}`;
 	}

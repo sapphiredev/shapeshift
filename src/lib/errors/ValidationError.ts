@@ -21,8 +21,9 @@ export class ValidationError extends BaseError {
 	}
 
 	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+		const validator = options.stylize(this.validator, 'string');
 		if (depth < 0) {
-			return options.stylize('[ValidationError]', 'special');
+			return options.stylize(`[ValidationError: ${validator}]`, 'special');
 		}
 
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1, compact: true };
@@ -30,7 +31,7 @@ export class ValidationError extends BaseError {
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
 		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
 
-		const header = `${options.stylize('ValidationError', 'special')} > ${options.stylize(this.validator, 'string')}`;
+		const header = `${options.stylize('ValidationError', 'special')} > ${validator}`;
 		const message = options.stylize(this.message, 'regexp');
 		const givenBlock = `\n  ${options.stylize('Received:', 'regexp')}${padding}${given}`;
 		return `${header}\n  ${message}\n${givenBlock}`;

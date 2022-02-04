@@ -61,7 +61,7 @@ export const numberInt: IConstraint<number> = {
 	run(input: number) {
 		return Number.isInteger(input) //
 			? Result.ok(input)
-			: Result.err(new ConstraintError('s.number.int', 'Given value is not an integer', input, 'Number.isInteger(expected)'));
+			: Result.err(new ConstraintError('s.number.int', 'Given value is not an integer', input, 'Number.isInteger(expected) to be true'));
 	}
 };
 
@@ -69,7 +69,9 @@ export const numberSafeInt: IConstraint<number> = {
 	run(input: number) {
 		return Number.isSafeInteger(input) //
 			? Result.ok(input)
-			: Result.err(new ConstraintError('s.number.safeInt', 'Given value is not a safe integer', input, 'Number.isSafeInteger(expected)'));
+			: Result.err(
+					new ConstraintError('s.number.safeInt', 'Given value is not a safe integer', input, 'Number.isSafeInteger(expected) to be true')
+			  );
 	}
 };
 
@@ -77,7 +79,7 @@ export const numberFinite: IConstraint<number> = {
 	run(input: number) {
 		return Number.isFinite(input) //
 			? Result.ok(input)
-			: Result.err(new ConstraintError('s.number.finite', 'Given value is not finite', input, 'Number.isFinite(expected)'));
+			: Result.err(new ConstraintError('s.number.finite', 'Given value is not finite', input, 'Number.isFinite(expected) to be true'));
 	}
 };
 
