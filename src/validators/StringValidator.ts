@@ -5,19 +5,19 @@ import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
 
 export class StringValidator<T extends string> extends BaseValidator<T> {
-	public lengthLe(length: number): this {
+	public lengthLt(length: number): this {
 		return this.addConstraint(stringLengthLt(length) as IConstraint<T>);
 	}
 
-	public lengthLte(length: number): this {
+	public lengthLe(length: number): this {
 		return this.addConstraint(stringLengthLe(length) as IConstraint<T>);
 	}
 
-	public lengthGe(length: number): this {
+	public lengthGt(length: number): this {
 		return this.addConstraint(stringLengthGt(length) as IConstraint<T>);
 	}
 
-	public lengthGte(length: number): this {
+	public lengthGe(length: number): this {
 		return this.addConstraint(stringLengthGe(length) as IConstraint<T>);
 	}
 

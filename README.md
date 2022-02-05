@@ -336,7 +336,7 @@ Record schemas are similar to objects, but validate `Record<string, T>` types, k
 const tags = s.record(s.string);
 
 tags.parse({ foo: 'bar', hello: 'world' }); // => { foo: 'bar', hello: 'world' }
-tags.parse({ foo: 42 }); // => throws AggregateError
+tags.parse({ foo: 42 }); // => throws CombinedError
 tags.parse('Hello'); // => throws ValidateError
 ```
 
@@ -349,7 +349,7 @@ const stringOrNumber = s.union([s.string, s.number]);
 
 stringOrNumber.parse('Sapphire'); // => 'Sapphire'
 stringOrNumber.parse(42); // => 42
-stringOrNumber.parse({}); // => throws AggregateError
+stringOrNumber.parse({}); // => throws CombinedError
 ```
 
 #### Enums

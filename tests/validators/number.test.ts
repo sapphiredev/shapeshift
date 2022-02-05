@@ -19,47 +19,102 @@ describe('NumberValidator', () => {
 		describe('lt', () => {
 			const ltPredicate = s.number.lt(42);
 
-			// TODO: Rewrite to test.each
-			test('GIVEN a smaller number THEN returns a number', () => {
-				expect(ltPredicate.parse(10)).toBe(10);
+			test.each([10])('GIVEN %d THEN returns given value', (value) => {
+				expect(ltPredicate.parse(value)).toBe(value);
 			});
 
-			test('GIVEN an equal number THEN throws ConstraintError', () => {
-				expect(() => ltPredicate.parse(42)).toThrow(
-					new ConstraintError('numberLt', 'Expected number to be less than 42, but received 42', 42, 42) //
-				);
-			});
-
-			test('GIVEN a greater number THEN throws ConstraintError', () => {
-				expect(() => ltPredicate.parse(100)).toThrow(
-					new ConstraintError('numberLt', 'Expected number to be less than 42, but received 100', 100, 42)
-				);
+			test.each([42, 100])('GIVEN %d THEN throws ConstraintError', (value) => {
+				expect(() => ltPredicate.parse(value)).toThrow(new ConstraintError('s.number.lt', 'Invalid number value', value, 'expected < 42'));
 			});
 		});
 
 		describe('le', () => {
-			const ltePredicate = s.number.le(42);
+			const lePredicate = s.number.le(42);
 
-			// TODO: Rewrite to test.each
-			test('GIVEN a smaller number THEN returns a number', () => {
-				expect(ltePredicate.parse(10)).toBe(10);
+			test.each([10, 42])('GIVEN %d THEN returns given value', (input) => {
+				expect(lePredicate.parse(input)).toBe(input);
 			});
 
-			test('GIVEN an equal number THEN returns a number', () => {
-				expect(ltePredicate.parse(42)).toBe(42);
+			test.each([100])('GIVEN %d THEN throws ConstraintError', (input) => {
+				expect(() => lePredicate.parse(input)).toThrow(new ConstraintError('s.number.le', 'Invalid number value', input, 'expected <= 42'));
+			});
+		});
+
+		describe('gt', () => {
+			const gtPredicate = s.number.gt(42);
+
+			test.each([100])('GIVEN %d THEN returns given value', (value) => {
+				expect(gtPredicate.parse(value)).toBe(value);
 			});
 
-			test('GIVEN a greater number THEN throws ConstraintError', () => {
-				expect(() => ltePredicate.parse(100)).toThrow(
-					new ConstraintError('numberLe', 'Expected number to be less or equals than 42, but received 100', 100, 42)
+			test.each([10, 42])('GIVEN %d THEN throws ConstraintError', (value) => {
+				expect(() => gtPredicate.parse(value)).toThrow(new ConstraintError('s.number.gt', 'Invalid number value', value, 'expected > 42'));
+			});
+		});
+
+		describe('ge', () => {
+			const gePredicate = s.number.ge(42);
+
+			test.each([42, 100])('GIVEN %d THEN returns given value', (value) => {
+				expect(gePredicate.parse(value)).toBe(value);
+			});
+
+			test.each([10])('GIVEN %d THEN throws ConstraintError', (value) => {
+				expect(() => gePredicate.parse(value)).toThrow(new ConstraintError('s.number.ge', 'Invalid number value', value, 'expected >= 42'));
+			});
+		});
+
+		describe('eq', () => {
+			const eqPredicate = s.number.eq(42);
+
+			test.each([42])('GIVEN %d THEN returns given value', (value) => {
+				expect(eqPredicate.parse(value)).toBe(value);
+			});
+
+			test.each([10, 100])('GIVEN %d THEN throws ConstraintError', (value) => {
+				expect(() => eqPredicate.parse(value)).toThrow(new ConstraintError('s.number.eq', 'Invalid number value', value, 'expected === 42'));
+			});
+		});
+
+		describe('eq(NaN)', () => {
+			const eqNanPredicate = s.number.eq(NaN);
+
+			test.each([NaN])('GIVEN %d THEN returns given value', (input) => {
+				expect(eqNanPredicate.parse(input)).toBe(input);
+			});
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity, -Infinity])('GIVEN %d THEN throws a ConstraintError', (input) => {
+				expect(() => eqNanPredicate.parse(input)).toThrow(
+					new ConstraintError('s.number.eq(NaN)', 'Invalid number value', input, 'expected === NaN')
 				);
 			});
 		});
 
-		// TODO: Add GT
-		// TODO: Add GE
-		// TODO: Add EQ
-		// TODO: Add NE
+		describe('ne', () => {
+			const nePredicate = s.number.ne(42);
+
+			test.each([10, 100])('GIVEN %d THEN returns given value', (value) => {
+				expect(nePredicate.parse(value)).toBe(value);
+			});
+
+			test.each([42])('GIVEN %d THEN throws ConstraintError', (value) => {
+				expect(() => nePredicate.parse(value)).toThrow(new ConstraintError('s.number.ne', 'Invalid number value', value, 'expected !== 42'));
+			});
+		});
+
+		describe('ne(NaN)', () => {
+			const neNanPredicate = s.number.ne(NaN);
+
+			test.each([safeInteger, unsafeInteger, 42.1, Infinity, -Infinity])('GIVEN %d THEN returns given value', (input) => {
+				expect(neNanPredicate.parse(input)).toBe(input);
+			});
+
+			test.each([NaN])('GIVEN %d THEN throws a ConstraintError', (input) => {
+				expect(() => neNanPredicate.parse(input)).toThrow(
+					new ConstraintError('s.number.ne(NaN)', 'Invalid number value', input, 'expected !== NaN')
+				);
+			});
+		});
 	});
 
 	describe('Constraints', () => {
@@ -72,7 +127,7 @@ describe('NumberValidator', () => {
 
 			test.each([42.1, Infinity, NaN])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expect(() => intPredicate.parse(input)).toThrow(
-					new ConstraintError('numberInt', `Expected number to be an integer, but received ${input}`, input, 'An integer')
+					new ConstraintError('s.number.int', 'Given value is not an integer', input, 'Number.isInteger(expected)')
 				);
 			});
 		});
@@ -86,7 +141,7 @@ describe('NumberValidator', () => {
 
 			test.each([unsafeInteger, 42.1, Infinity, NaN])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expect(() => safeIntPredicate.parse(input)).toThrow(
-					new ConstraintError('numberSafeInt', `Expected number to be a safe integer, but received ${input}`, input, 'A safe integer')
+					new ConstraintError('s.number.safeInt', 'Given value is not a safe integer', input, 'Number.isSafeInteger(expected)')
 				);
 			});
 		});
@@ -100,7 +155,7 @@ describe('NumberValidator', () => {
 
 			test.each([-safeInteger, -unsafeInteger, -42.1, -Infinity])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expect(() => positivePredicate.parse(input)).toThrow(
-					new ConstraintError('numberGe', `Expected number to be greater or equals than 0, but received ${input}`, input, 0)
+					new ConstraintError('s.number.ge', 'Invalid number value', input, 'expected >= 0')
 				);
 			});
 		});
@@ -114,7 +169,7 @@ describe('NumberValidator', () => {
 
 			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expect(() => positivePredicate.parse(input)).toThrow(
-					new ConstraintError('numberLt', `Expected number to be less than 0, but received ${input}`, input, 0)
+					new ConstraintError('s.number.lt', 'Invalid number value', input, 'expected < 0')
 				);
 			});
 		});
@@ -128,35 +183,7 @@ describe('NumberValidator', () => {
 
 			test.each([Infinity, -Infinity, NaN])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expect(() => finitePredicate.parse(input)).toThrow(
-					new ConstraintError('numberFinite', `Expected number to be a finite number, but received ${input}`, input, 'A finite number')
-				);
-			});
-		});
-
-		describe('NaN', () => {
-			const nanPredicate = s.number.eq(NaN);
-
-			test.each([NaN])('GIVEN %d THEN returns given value', (input) => {
-				expect(nanPredicate.parse(input)).toBe(input);
-			});
-
-			test.each([safeInteger, unsafeInteger, 42.1, Infinity, -Infinity])('GIVEN %d THEN throws a ConstraintError', (input) => {
-				expect(() => nanPredicate.parse(input)).toThrow(
-					new ConstraintError('numberNaN', `Expected number to be a NaN, but received ${input}`, input, 'A NaN')
-				);
-			});
-		});
-
-		describe('NeNaN', () => {
-			const neNanPredicate = s.number.ne(NaN);
-
-			test.each([safeInteger, unsafeInteger, 42.1, Infinity, -Infinity])('GIVEN %d THEN returns given value', (input) => {
-				expect(neNanPredicate.parse(input)).toBe(input);
-			});
-
-			test.each([NaN])('GIVEN %d THEN throws a ConstraintError', (input) => {
-				expect(() => neNanPredicate.parse(input)).toThrow(
-					new ConstraintError('numberNeNaN', `Expected number to not be a NaN, but received ${input}`, input, 'Not NaN')
+					new ConstraintError('s.number.finite', 'Given value is not finite', input, 'Number.isFinite(expected)')
 				);
 			});
 		});
@@ -170,7 +197,7 @@ describe('NumberValidator', () => {
 
 			test.each([safeInteger, unsafeInteger, 6, 42.1, Infinity, -Infinity, NaN])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expect(() => divisibleByPredicate.parse(input)).toThrow(
-					new ConstraintError('numberDivisibleBy', `Expected number to be divisible by 5, but received ${input}`, input, '% 5')
+					new ConstraintError('s.number.divisibleBy', 'Number is not divisible', input, 'expected % 5 === 0')
 				);
 			});
 		});

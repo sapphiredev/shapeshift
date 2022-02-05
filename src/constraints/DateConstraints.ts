@@ -1,67 +1,62 @@
-import { ConstraintError, ConstraintErrorMessageBuilder } from '../lib/errors/ConstraintError';
+import { ConstraintError } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-function dateComparator(
-	comparator: Comparator,
-	name: string,
-	messageBuilder: ConstraintErrorMessageBuilder<Date>,
-	date: Date,
-	number = date.getTime()
-): IConstraint<Date> {
+export type DateConstraintName = `s.date.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'eq(NaN)' | 'ne' | 'ne(NaN)'}`;
+
+function dateComparator(comparator: Comparator, name: DateConstraintName, expected: string, number: number): IConstraint<Date> {
 	return {
 		run(input: Date) {
 			return comparator(input.getTime(), number) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(name, messageBuilder(input, date), input, date));
+				: Result.err(new ConstraintError(name, 'Invalid Date value', input, expected));
 		}
 	};
 }
 
-export const dateLt = dateComparator.bind(
-	null,
-	lt,
-	'dateLt',
-	(given, expected) => `Expected date to be earlier than ${expected}, but received ${given}`
-);
+export function dateLt(value: Date): IConstraint<Date> {
+	const expected = `expected < ${value}`;
+	return dateComparator(lt, 's.date.lt', expected, value.getTime());
+}
 
-export const dateLe = dateComparator.bind(
-	null,
-	le,
-	'dateLe',
-	(given, expected) => `Expected date to be earlier or equals than ${expected}, but received ${given}`
-);
+export function dateLe(value: Date): IConstraint<Date> {
+	const expected = `expected <= ${value}`;
+	return dateComparator(le, 's.date.le', expected, value.getTime());
+}
 
-export const dateGt = dateComparator.bind(
-	null,
-	gt,
-	'dateGt',
-	(given, expected) => `Expected date to be later than ${expected}, but received ${given}`
-);
+export function dateGt(value: Date): IConstraint<Date> {
+	const expected = `expected > ${value}`;
+	return dateComparator(gt, 's.date.gt', expected, value.getTime());
+}
 
-export const dateGe = dateComparator.bind(
-	null,
-	ge,
-	'dateGe',
-	(given, expected) => `Expected date to be later or equals than ${expected}, but received ${given}`
-);
+export function dateGe(value: Date): IConstraint<Date> {
+	const expected = `expected >= ${value}`;
+	return dateComparator(ge, 's.date.ge', expected, value.getTime());
+}
 
-export const dateEq = dateComparator.bind(null, eq, 'dateEq', (given, expected) => `Expected date to be exactly ${expected}, but received ${given}`);
-export const dateNe = dateComparator.bind(null, ne, 'dateNe', (_, expected) => `Expected date to not be ${expected}`);
+export function dateEq(value: Date): IConstraint<Date> {
+	const expected = `expected === ${value}`;
+	return dateComparator(eq, 's.date.eq', expected, value.getTime());
+}
+
+export function dateNe(value: Date): IConstraint<Date> {
+	const expected = `expected !== ${value}`;
+	return dateComparator(ne, 's.date.ne', expected, value.getTime());
+}
 
 export const dateInvalid: IConstraint<Date> = {
 	run(input: Date) {
 		return Number.isNaN(input.getTime()) //
 			? Result.ok(input)
-			: Result.err(new ConstraintError('dateInvalid', `Expected Date's time to be a NaN, but received ${input}`, input, 'An invalid Date'));
+			: Result.err(new ConstraintError('s.date.eq(NaN)', 'Invalid Date value', input, 'expected === NaN'));
 	}
 };
 
 export const dateValid: IConstraint<Date> = {
 	run(input: Date) {
 		return Number.isNaN(input.getTime()) //
-			? Result.err(new ConstraintError('dateValid', `Expected Date's time to not be a NaN, but received ${input}`, input, 'A valid Date'))
+			? Result.err(new ConstraintError('s.date.ne(NaN)', 'Invalid Date value', input, 'expected !== NaN'))
 			: Result.ok(input);
 	}
 };

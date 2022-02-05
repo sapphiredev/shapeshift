@@ -1,4 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
+import type { BaseError } from '../lib/errors/BaseError';
+import { CombinedError } from '../lib/errors/CombinedError';
 import type { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator, LiteralValidator, NullishValidator } from './imports';
@@ -77,15 +79,15 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.validators, this.constraints]);
 	}
 
-	protected handle(value: unknown): Result<T, ValidationError | AggregateError> {
-		const errors: Error[] = [];
+	protected handle(value: unknown): Result<T, ValidationError | CombinedError> {
+		const errors: BaseError[] = [];
 
 		for (const validator of this.validators) {
 			const result = validator.run(value);
-			if (result.isOk()) return result as Result<T, AggregateError>;
+			if (result.isOk()) return result as Result<T, CombinedError>;
 			errors.push(result.error!);
 		}
 
-		return Result.err(new AggregateError(errors, 'Could not match any of the defined validators'));
+		return Result.err(new CombinedError(errors));
 	}
 }

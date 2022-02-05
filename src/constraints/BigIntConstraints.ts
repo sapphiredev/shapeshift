@@ -1,56 +1,46 @@
-import { ConstraintError, ConstraintErrorMessageBuilder } from '../lib/errors/ConstraintError';
+import { ConstraintError } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-function bigintComparator(
-	comparator: Comparator,
-	name: string,
-	messageBuilder: ConstraintErrorMessageBuilder<bigint>,
-	number: bigint
-): IConstraint<bigint> {
+export type BigIntConstraintName = `s.bigint.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'ne'}`;
+
+function bigintComparator(comparator: Comparator, name: BigIntConstraintName, expected: string, number: bigint): IConstraint<bigint> {
 	return {
 		run(input: bigint) {
 			return comparator(input, number) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(name, messageBuilder(input, number), input, number));
+				: Result.err(new ConstraintError(name, 'Invalid bigint value', input, expected));
 		}
 	};
 }
 
-export const bigintLt = bigintComparator.bind(
-	null,
-	lt,
-	'bigintLt',
-	(given, expected) => `Expected bigint to be less than ${expected}, but received ${given}`
-);
+export function bigintLt(value: bigint): IConstraint<bigint> {
+	const expected = `expected < ${value}n`;
+	return bigintComparator(lt, 's.bigint.lt', expected, value);
+}
 
-export const bigintLe = bigintComparator.bind(
-	null,
-	le,
-	'bigintLe',
-	(given, expected) => `Expected bigint to be less or equals than ${expected}, but received ${given}`
-);
+export function bigintLe(value: bigint): IConstraint<bigint> {
+	const expected = `expected <= ${value}n`;
+	return bigintComparator(le, 's.bigint.le', expected, value);
+}
 
-export const bigintGt = bigintComparator.bind(
-	null,
-	gt,
-	'bigintGt',
-	(given, expected) => `Expected bigint to be greater than ${expected}, but received ${given}`
-);
+export function bigintGt(value: bigint): IConstraint<bigint> {
+	const expected = `expected > ${value}n`;
+	return bigintComparator(gt, 's.bigint.gt', expected, value);
+}
 
-export const bigintGe = bigintComparator.bind(
-	null,
-	ge,
-	'bigintGe',
-	(given, expected) => `Expected bigint to be greater or equals than ${expected}, but received ${given}`
-);
+export function bigintGe(value: bigint): IConstraint<bigint> {
+	const expected = `expected >= ${value}n`;
+	return bigintComparator(ge, 's.bigint.ge', expected, value);
+}
 
-export const bigintEq = bigintComparator.bind(
-	null,
-	eq,
-	'bigintEq',
-	(given, expected) => `Expected bigint to be exactly ${expected}, but received ${given}`
-);
+export function bigintEq(value: bigint): IConstraint<bigint> {
+	const expected = `expected === ${value}n`;
+	return bigintComparator(eq, 's.bigint.eq', expected, value);
+}
 
-export const bigintNe = bigintComparator.bind(null, ne, 'bigintNe', (_, expected) => `Expected bigint to not be ${expected}`);
+export function bigintNe(value: bigint): IConstraint<bigint> {
+	const expected = `expected !== ${value}n`;
+	return bigintComparator(ne, 's.bigint.ne', expected, value);
+}
