@@ -1,5 +1,5 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
-import { bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe } from '../constraints/BigIntConstraints';
+import { bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe, bigintDivisibleBy } from '../constraints/BigIntConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
@@ -35,6 +35,22 @@ export class BigIntValidator<T extends bigint> extends BaseValidator<T> {
 
 	public get negative(): this {
 		return this.lt(0n);
+	}
+
+	public divisibleBy(number: bigint): this {
+		return this.addConstraint(bigintDivisibleBy(number) as IConstraint<T>);
+	}
+
+	public get abs(): this {
+		return this.transform(((value) => (value < 0 ? -value : value)) as (value: bigint) => T);
+	}
+
+	public intN(bits: number): this {
+		return this.transform(((value) => BigInt.asIntN(bits, value)) as (value: bigint) => T);
+	}
+
+	public uintN(bits: number): this {
+		return this.transform(((value) => BigInt.asUintN(bits, value)) as (value: bigint) => T);
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {

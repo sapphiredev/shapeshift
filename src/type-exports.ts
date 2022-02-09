@@ -13,6 +13,7 @@ export type {
 	bigintLe,
 	bigintLt,
 	bigintNe,
+	bigintDivisibleBy,
 	BooleanConstraintName,
 	booleanFalse,
 	booleanTrue,

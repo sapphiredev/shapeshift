@@ -163,16 +163,16 @@ s.bigint.ne(5n); // !== 5n
 s.bigint.positive; // .ge(0n)
 s.bigint.negative; // .lt(0n)
 
-s.bigint.divisibleBy(5n); // TODO | Divisible by 5n
+s.bigint.divisibleBy(5n); // Divisible by 5n
 ```
 
 And transformations:
 
 ```typescript
-s.bigint.abs; // TODO | Transforms the bigint to an absolute bigint
+s.bigint.abs; // Transforms the bigint to an absolute bigint
 
-s.bigint.intN(5); // TODO | Clamps to a bigint to a signed bigint with 5 digits, see BigInt.asIntN
-s.bigint.uintN(5); // TODO | Clamps to a bigint to an unsigned bigint with 5 digits, see BigInt.asUintN
+s.bigint.intN(5); // Clamps to a bigint to a signed bigint with 5 digits, see BigInt.asIntN
+s.bigint.uintN(5); // Clamps to a bigint to an unsigned bigint with 5 digits, see BigInt.asUintN
 ```
 
 #### Booleans

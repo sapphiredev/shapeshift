@@ -3,7 +3,7 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-export type BigIntConstraintName = `s.bigint.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'ne'}`;
+export type BigIntConstraintName = `s.bigint.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'ne' | 'divisibleBy'}`;
 
 function bigintComparator(comparator: Comparator, name: BigIntConstraintName, expected: string, number: bigint): IConstraint<bigint> {
 	return {
@@ -43,4 +43,15 @@ export function bigintEq(value: bigint): IConstraint<bigint> {
 export function bigintNe(value: bigint): IConstraint<bigint> {
 	const expected = `expected !== ${value}n`;
 	return bigintComparator(ne, 's.bigint.ne', expected, value);
+}
+
+export function bigintDivisibleBy(divider: bigint): IConstraint<bigint> {
+	const expected = `expected % ${divider}n === 0n`;
+	return {
+		run(input: bigint) {
+			return input % divider === 0n //
+				? Result.ok(input)
+				: Result.err(new ConstraintError('s.bigint.divisibleBy', 'BigInt is not divisible', input, expected));
+		}
+	};
 }
