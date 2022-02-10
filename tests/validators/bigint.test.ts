@@ -1,8 +1,7 @@
 import { ConstraintError, s, ValidationError } from '../../src';
 
-const safeInteger = 42n;
-// eslint-disable-next-line @typescript-eslint/no-loss-of-precision
-const unsafeInteger = 242043489611808769n;
+const smallInteger = 42n;
+const largeInteger = 242043489611808769n;
 
 describe('BigIntValidator', () => {
 	const predicate = s.bigint;
@@ -93,11 +92,11 @@ describe('BigIntValidator', () => {
 		describe('Positive', () => {
 			const positivePredicate = s.bigint.positive;
 
-			test.each([safeInteger, unsafeInteger])('GIVEN %d THEN returns given value', (input) => {
+			test.each([smallInteger, largeInteger])('GIVEN %d THEN returns given value', (input) => {
 				expect(positivePredicate.parse(input)).toBe(input);
 			});
 
-			test.each([-safeInteger, -unsafeInteger])('GIVEN %d THEN throws a ConstraintError', (input) => {
+			test.each([-smallInteger, -largeInteger])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expect(() => positivePredicate.parse(input)).toThrow(
 					new ConstraintError('s.bigint.ge', 'Invalid bigint value', input, 'expected >= 0n')
 				);
@@ -107,11 +106,11 @@ describe('BigIntValidator', () => {
 		describe('Negative', () => {
 			const positivePredicate = s.bigint.negative;
 
-			test.each([-safeInteger, -unsafeInteger])('GIVEN %d THEN returns given value', (input) => {
+			test.each([-smallInteger, -largeInteger])('GIVEN %d THEN returns given value', (input) => {
 				expect(positivePredicate.parse(input)).toBe(input);
 			});
 
-			test.each([safeInteger, unsafeInteger])('GIVEN %d THEN throws a ConstraintError', (input) => {
+			test.each([smallInteger, largeInteger])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expect(() => positivePredicate.parse(input)).toThrow(
 					new ConstraintError('s.bigint.lt', 'Invalid bigint value', input, 'expected < 0n')
 				);
@@ -125,7 +124,7 @@ describe('BigIntValidator', () => {
 				expect(divisibleByPredicate.parse(input)).toBe(input);
 			});
 
-			test.each([safeInteger, unsafeInteger, 6n])('GIVEN %d THEN throws a ConstraintError', (input) => {
+			test.each([smallInteger, largeInteger, 6n])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expect(() => divisibleByPredicate.parse(input)).toThrow(
 					new ConstraintError('s.bigint.divisibleBy', 'BigInt is not divisible', input, 'expected % 5n === 0n')
 				);
@@ -137,7 +136,7 @@ describe('BigIntValidator', () => {
 		describe('abs', () => {
 			const absPredicate = s.bigint.abs;
 
-			test.each([safeInteger, unsafeInteger, -safeInteger, -unsafeInteger])('GIVEN %d THEN returns transformed the result', (input) => {
+			test.each([smallInteger, largeInteger, -smallInteger, -largeInteger])('GIVEN %d THEN returns transformed the result', (input) => {
 				expect(absPredicate.parse(input)).toBe(input < 0 ? -input : input);
 			});
 		});
@@ -145,7 +144,7 @@ describe('BigIntValidator', () => {
 		describe('intN', () => {
 			const absPredicate = s.bigint.intN(5);
 
-			test.each([safeInteger, unsafeInteger])('GIVEN %d THEN returns transformed the result from BigInt.asIntN', (input) => {
+			test.each([smallInteger, largeInteger])('GIVEN %d THEN returns transformed the result from BigInt.asIntN', (input) => {
 				expect(absPredicate.parse(input)).toBe(BigInt.asIntN(5, input));
 			});
 		});
@@ -153,7 +152,7 @@ describe('BigIntValidator', () => {
 		describe('uintN', () => {
 			const absPredicate = s.bigint.uintN(5);
 
-			test.each([safeInteger, unsafeInteger])('GIVEN %d THEN returns transformed the result from BigInt.asUintN', (input) => {
+			test.each([smallInteger, largeInteger])('GIVEN %d THEN returns transformed the result from BigInt.asUintN', (input) => {
 				expect(absPredicate.parse(input)).toBe(BigInt.asUintN(5, input));
 			});
 		});
@@ -162,7 +161,7 @@ describe('BigIntValidator', () => {
 			const defaultPredicate = s.bigint.default(5n);
 			const defaultFunctionPredicate = s.bigint.default(() => 5n);
 
-			test.each([safeInteger, unsafeInteger])('GIVEN %d THEN returns the input', (input) => {
+			test.each([smallInteger, largeInteger])('GIVEN %d THEN returns the input', (input) => {
 				expect(defaultPredicate.parse(input)).toBe(input);
 			});
 
