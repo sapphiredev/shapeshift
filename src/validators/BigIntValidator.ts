@@ -42,15 +42,15 @@ export class BigIntValidator<T extends bigint> extends BaseValidator<T> {
 	}
 
 	public get abs(): this {
-		return this.transform(((value) => (value < 0 ? -value : value)) as (value: bigint) => T);
+		return this.transform((value) => (value < 0 ? -value : value) as T);
 	}
 
 	public intN(bits: number): this {
-		return this.transform(((value) => BigInt.asIntN(bits, value)) as (value: bigint) => T);
+		return this.transform((value) => BigInt.asIntN(bits, value) as T);
 	}
 
 	public uintN(bits: number): this {
-		return this.transform(((value) => BigInt.asUintN(bits, value)) as (value: bigint) => T);
+		return this.transform((value) => BigInt.asUintN(bits, value) as T);
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {
