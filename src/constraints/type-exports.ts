@@ -8,7 +8,7 @@ export type {
 	arrayLengthNe
 } from './ArrayLengthConstraints';
 export type { IConstraint } from './base/IConstraint';
-export type { BigIntConstraintName, bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe } from './BigIntConstraints';
+export type { BigIntConstraintName, bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe, bigintDivisibleBy } from './BigIntConstraints';
 export type { BooleanConstraintName, booleanFalse, booleanTrue } from './BooleanConstraints';
 export type { DateConstraintName, dateEq, dateGe, dateGt, dateInvalid, dateLe, dateLt, dateNe, dateValid } from './DateConstraints';
 export type {
