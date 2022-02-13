@@ -1,6 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
-import { CombinedError } from '../lib/errors/CombinedError';
+import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
@@ -17,7 +17,7 @@ export class RecordValidator<T> extends BaseValidator<Record<string, T>> {
 		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
 	}
 
-	protected handle(value: unknown): Result<Record<string, T>, ValidationError | CombinedError> {
+	protected handle(value: unknown): Result<Record<string, T>, ValidationError | CombinedPropertyError> {
 		if (typeof value !== 'object') {
 			return Result.err(new ValidationError('RecordValidator', 'Expected an object', value));
 		}
@@ -26,17 +26,17 @@ export class RecordValidator<T> extends BaseValidator<Record<string, T>> {
 			return Result.err(new ValidationError('RecordValidator', 'Expected the value to not be null', value));
 		}
 
-		const errors: BaseError[] = [];
+		const errors: [string, BaseError][] = [];
 		const transformed: Record<string, T> = {};
 
 		for (const [key, val] of Object.entries(value!)) {
 			const result = this.validator.run(val);
 			if (result.isOk()) transformed[key] = result.value;
-			else errors.push(result.error!);
+			else errors.push([key, result.error!]);
 		}
 
 		return errors.length === 0 //
 			? Result.ok(transformed)
-			: Result.err(new CombinedError(errors));
+			: Result.err(new CombinedPropertyError(errors));
 	}
 }

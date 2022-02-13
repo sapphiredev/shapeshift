@@ -1,6 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
-import { CombinedError } from '../lib/errors/CombinedError';
+import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
 import { UnknownPropertyError } from '../lib/errors/UnknownPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
@@ -12,7 +12,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	public readonly shape: MappedObjectValidator<T>;
 	public readonly strategy: ObjectValidatorStrategy;
 	private readonly keys: readonly (keyof T)[];
-	private readonly handleStrategy: (value: NonNullObject) => Result<T, CombinedError>;
+	private readonly handleStrategy: (value: NonNullObject) => Result<T, CombinedPropertyError>;
 
 	public constructor(
 		shape: MappedObjectValidator<T>,
@@ -63,7 +63,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
 
-	protected override handle(value: unknown): Result<T, ValidationError | CombinedError> {
+	protected override handle(value: unknown): Result<T, ValidationError | CombinedPropertyError> {
 		const typeOfValue = typeof value;
 		if (typeOfValue !== 'object') {
 			return Result.err(
@@ -82,7 +82,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.shape, this.strategy, this.constraints]);
 	}
 
-	private handleIgnoreStrategy(value: NonNullObject, errors: BaseError[] = []): Result<T, CombinedError> {
+	private handleIgnoreStrategy(value: NonNullObject, errors: [PropertyKey, BaseError][] = []): Result<T, CombinedPropertyError> {
 		const entries = {} as T;
 		let i = this.keys.length;
 
@@ -95,20 +95,20 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			} else {
 				const error = result.error!;
 				if (error instanceof ValidationError && error.given === undefined) {
-					errors.push(new MissingPropertyError(key));
+					errors.push([key, new MissingPropertyError(key)]);
 				} else {
-					errors.push(error);
+					errors.push([key, error]);
 				}
 			}
 		}
 
 		return errors.length === 0 //
 			? Result.ok(entries)
-			: Result.err(new CombinedError(errors));
+			: Result.err(new CombinedPropertyError(errors));
 	}
 
-	private handleStrictStrategy(value: NonNullObject): Result<T, CombinedError> {
-		const errors: BaseError[] = [];
+	private handleStrictStrategy(value: NonNullObject): Result<T, CombinedPropertyError> {
+		const errors: [PropertyKey, BaseError][] = [];
 		const finalResult = {} as T;
 		const keysToIterateOver = [...new Set([...Object.keys(value), ...this.keys])].reverse();
 		let i = keysToIterateOver.length;
@@ -124,21 +124,21 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 				} else {
 					const error = result.error!;
 					if (error instanceof ValidationError && error.given === undefined) {
-						errors.push(new MissingPropertyError(key));
+						errors.push([key, new MissingPropertyError(key)]);
 					} else {
-						errors.push(error);
+						errors.push([key, error]);
 					}
 				}
 
 				continue;
 			}
 
-			errors.push(new UnknownPropertyError(key, value[key as keyof NonNullObject]));
+			errors.push([key, new UnknownPropertyError(key, value[key as keyof NonNullObject])]);
 		}
 
 		return errors.length === 0 //
 			? Result.ok(finalResult)
-			: Result.err(new CombinedError(errors));
+			: Result.err(new CombinedPropertyError(errors));
 	}
 }
 

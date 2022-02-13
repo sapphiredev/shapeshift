@@ -1,6 +1,7 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
 import type { CombinedError } from '../lib/errors/CombinedError';
+import type { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import type { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { ArrayValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator, DefaultValidator } from './imports';
@@ -66,7 +67,7 @@ export abstract class BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.constraints]);
 	}
 
-	protected abstract handle(value: unknown): Result<T, ValidationError | CombinedError>;
+	protected abstract handle(value: unknown): Result<T, ValidationError | CombinedError | CombinedPropertyError>;
 
 	protected addConstraint(constraint: IConstraint<T>): this {
 		const clone = this.clone();

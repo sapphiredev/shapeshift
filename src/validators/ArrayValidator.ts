@@ -1,6 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
-import { CombinedError } from '../lib/errors/CombinedError';
+import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
@@ -17,22 +17,22 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
 	}
 
-	protected handle(values: unknown): Result<T[], ValidationError | CombinedError> {
+	protected handle(values: unknown): Result<T[], ValidationError | CombinedPropertyError> {
 		if (!Array.isArray(values)) {
 			return Result.err(new ValidationError('ArrayValidator', 'Expected an array', values));
 		}
 
-		const errors: BaseError[] = [];
+		const errors: [number, BaseError][] = [];
 		const transformed: T[] = [];
 
-		for (const value of values) {
-			const result = this.validator.run(value);
+		for (const entry of values.entries()) {
+			const result = this.validator.run(entry[1]);
 			if (result.isOk()) transformed.push(result.value);
-			else errors.push(result.error!);
+			else errors.push([entry[0], result.error!]);
 		}
 
 		return errors.length === 0 //
 			? Result.ok(transformed)
-			: Result.err(new CombinedError(errors));
+			: Result.err(new CombinedPropertyError(errors));
 	}
 }
