@@ -26,15 +26,15 @@ export class CombinedPropertyError extends BaseError {
 				const property = CombinedPropertyError.formatProperty(key, options);
 				const body = error[customInspectSymbolStackLess](depth - 1, newOptions).replaceAll('\n', padding);
 
-				return `  ${property}${padding}${body}`;
+				return `  input${property}${padding}${body}`;
 			})
 			.join('\n\n');
 		return `${header}\n  ${message}\n\n${errors}`;
 	}
 
 	private static formatProperty(key: PropertyKey, options: InspectOptionsStylized): string {
-		if (typeof key === 'number') return `[${options.stylize(key.toString(), 'number')}]`;
 		if (typeof key === 'string') return options.stylize(`.${key}`, 'symbol');
+		if (typeof key === 'number') return `[${options.stylize(key.toString(), 'number')}]`;
 		return `[${options.stylize('Symbol', 'symbol')}(${key.description})]`;
 	}
 }

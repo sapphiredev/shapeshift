@@ -25,10 +25,10 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 		const errors: [number, BaseError][] = [];
 		const transformed: T[] = [];
 
-		for (const entry of values.entries()) {
-			const result = this.validator.run(entry[1]);
+		for (let i = 0; i < values.length; i++) {
+			const result = this.validator.run(values[i]);
 			if (result.isOk()) transformed.push(result.value);
-			else errors.push([entry[0], result.error!]);
+			else errors.push([i, result.error!]);
 		}
 
 		return errors.length === 0 //
