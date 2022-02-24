@@ -2,6 +2,7 @@ import { ConstraintError } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
+import net from 'net';
 
 export type StringConstraintName =
 	| `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email'}`
@@ -9,8 +10,6 @@ export type StringConstraintName =
 type StringIpName = `s.string.ip${'v4' | 'v6' | ''}`;
 export type StringProtocol = `${string}:`;
 export type StringDomain = `${string}.${string}`;
-import net from 'net';
-
 export interface UrlOptions {
 	allowedProtocols?: StringProtocol[];
 	allowedDomains?: StringDomain[];
