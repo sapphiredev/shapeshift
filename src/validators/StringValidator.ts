@@ -63,11 +63,11 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 	}
 
 	public get ipv4(): this {
-		return this.addConstraint(stringIp(4) as IConstraint<T>);
+		return this.ip(4);
 	}
 
 	public get ipv6(): this {
-		return this.addConstraint(stringIp(6) as IConstraint<T>);
+		return this.ip(6);
 	}
 
 	public ip(version?: 4 | 6): this {
