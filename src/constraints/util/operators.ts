@@ -38,3 +38,8 @@ export interface Comparator {
 	(a: number, b: number): boolean;
 	(a: bigint, b: bigint): boolean;
 }
+
+export interface UrlOptions {
+	allowedProtocols?: string[];
+	allowedDomains?: string[];
+}
