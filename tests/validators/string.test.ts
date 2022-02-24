@@ -111,67 +111,77 @@ describe('StringValidator', () => {
 		});
 
 		describe('url', () => {
-			const urlPredicate = s.string.url();
+			describe('Without any options', () => {
+				const urlPredicate = s.string.url();
 
-			test.each(['https://google.com', 'http://foo.bar'])('GIVEN %s THEN returns given value', (input) => {
-				expect(urlPredicate.parse(input)).toBe(input);
+				test.each(['https://google.com', 'http://foo.bar'])('GIVEN %s THEN returns given value', (input) => {
+					expect(urlPredicate.parse(input)).toBe(input);
+				});
+
+				test.each(['google.com', 'foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => urlPredicate.parse(input)).toThrow(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected.url'));
+				});
 			});
 
-			test.each(['google.com', 'foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => urlPredicate.parse(input)).toThrow(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected.url'));
+			describe('With protocol', () => {
+				const urlPredicateWithProtocol = s.string.url({ allowedProtocols: ['git:'] });
+
+				test.each(['git://foo.bar'])('GIVEN %s THEN returns given value', (input) => {
+					expect(urlPredicateWithProtocol.parse(input)).toBe(input);
+				});
+
+				test.each(['https://google.com', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => urlPredicateWithProtocol.parse(input)).toThrow(
+						new ConstraintError('s.string.url', 'Invalid URL protocol', input, 'expected.url')
+					);
+				});
 			});
 
-			const urlPredicateWithProtocol = s.string.url({ allowedProtocols: ['git:'] });
+			describe('With domain', () => {
+				const urlPredicateWithDomain = s.string.url({ allowedDomains: ['google.com'] });
 
-			test.each(['git://foo.bar'])('GIVEN %s THEN returns given value', (input) => {
-				expect(urlPredicateWithProtocol.parse(input)).toBe(input);
-			});
+				test.each(['https://google.com', 'http://google.com'])('GIVEN %s THEN returns given value', (input) => {
+					expect(urlPredicateWithDomain.parse(input)).toBe(input);
+				});
 
-			test.each(['https://google.com', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => urlPredicateWithProtocol.parse(input)).toThrow(
-					new ConstraintError('s.string.url', 'Invalid URL protocol', input, 'expected.url')
-				);
-			});
-
-			const urlPredicateWithDomain = s.string.url({ allowedDomains: ['google.com'] });
-
-			test.each(['https://google.com', 'http://google.com'])('GIVEN %s THEN returns given value', (input) => {
-				expect(urlPredicateWithDomain.parse(input)).toBe(input);
-			});
-
-			test.each(['https://foo.bar', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => urlPredicateWithDomain.parse(input)).toThrow(
-					new ConstraintError('s.string.url', 'Invalid URL domain', input, 'expected.url')
-				);
+				test.each(['https://foo.bar', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => urlPredicateWithDomain.parse(input)).toThrow(
+						new ConstraintError('s.string.url', 'Invalid URL domain', input, 'expected.url')
+					);
+				});
 			});
 		});
 
 		describe('uuid', () => {
-			const uuidPredicate = s.string.uuid();
+			describe('default', () => {
+				const uuidPredicate = s.string.uuid();
 
-			test.each(['450d6a23-9e6f-45d9-9d5a-fd4f6e014f16'])('GIVEN %s THEN returns given value', (input) => {
-				expect(uuidPredicate.parse(input)).toBe(input);
+				test.each(['450d6a23-9e6f-45d9-9d5a-fd4f6e014f16'])('GIVEN %s THEN returns given value', (input) => {
+					expect(uuidPredicate.parse(input)).toBe(input);
+				});
+
+				test.each(['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => uuidPredicate.parse(input)).toThrow(
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected.uuid')
+					);
+				});
 			});
 
-			test.each(['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => uuidPredicate.parse(input)).toThrow(
-					new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected.uuid')
+			describe('with version range', () => {
+				const uuidRangePredicate = s.string.uuid('1-4');
+
+				test.each(['6e8bc430-9a1b-4f7f-b7a5-ea4dede09a4b', '6e8bc430-9a1b-1f7f-b7a5-ea4dede09a4b', '6e8bc430-9a1b-3f7f-b7a5-ea4dede09a4b'])(
+					'GIVEN %s THEN returns given value',
+					(input) => {
+						expect(uuidRangePredicate.parse(input)).toBe(input);
+					}
 				);
-			});
 
-			const uuidRangePredicate = s.string.uuid('1-4');
-
-			test.each(['6e8bc430-9a1b-4f7f-b7a5-ea4dede09a4b', '6e8bc430-9a1b-1f7f-b7a5-ea4dede09a4b', '6e8bc430-9a1b-3f7f-b7a5-ea4dede09a4b'])(
-				'GIVEN %s THEN returns given value',
-				(input) => {
-					expect(uuidRangePredicate.parse(input)).toBe(input);
-				}
-			);
-
-			test.each(['6e8bc430-9a1b-5f7f-b7a5-ea4dede09a4b'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => uuidRangePredicate.parse(input)).toThrow(
-					new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected.uuid')
-				);
+				test.each(['6e8bc430-9a1b-5f7f-b7a5-ea4dede09a4b'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => uuidRangePredicate.parse(input)).toThrow(
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected.uuid')
+					);
+				});
 			});
 		});
 
@@ -191,42 +201,48 @@ describe('StringValidator', () => {
 		});
 
 		describe('ip', () => {
-			const ipPredicate = s.string.ip();
+			describe('default', () => {
+				const ipPredicate = s.string.ip();
 
-			test.each(['::1', '127.0.0.1'])('GIVEN %s THEN returns given value', (input) => {
-				expect(ipPredicate.parse(input)).toBe(input);
+				test.each(['::1', '127.0.0.1'])('GIVEN %s THEN returns given value', (input) => {
+					expect(ipPredicate.parse(input)).toBe(input);
+				});
+
+				test.each(['127.000.000.001', '127.0.0.1/24', 'fhqwhgads'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => ipPredicate.parse(input)).toThrow(new ConstraintError('s.string.ip', 'Invalid ip address', input, 'expected.ip'));
+				});
 			});
 
-			test.each(['127.000.000.001', '127.0.0.1/24', 'fhqwhgads'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => ipPredicate.parse(input)).toThrow(new ConstraintError('s.string.ip', 'Invalid ip address', input, 'expected.ip'));
+			describe('v4', () => {
+				const ipv4Predicate = s.string.ipv4;
+
+				test.each(['127.0.0.1'])('GIVEN %s THEN returns given value', (input) => {
+					expect(ipv4Predicate.parse(input)).toBe(input);
+				});
+
+				test.each(['127.000.000.001', '127.0.0.1/24', 'fhqwhgads'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => ipv4Predicate.parse(input)).toThrow(
+						new ConstraintError('s.string.ipv4', 'Invalid ipv4 address', input, 'expected.ipv4')
+					);
+				});
 			});
 
-			const ipv4Predicate = s.string.ipv4;
+			describe('v6', () => {
+				const ipv6Predicate = s.string.ipv6;
 
-			test.each(['127.0.0.1'])('GIVEN %s THEN returns given value', (input) => {
-				expect(ipv4Predicate.parse(input)).toBe(input);
-			});
+				test.each(['::1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'])('GIVEN %s THEN returns given value', (input) => {
+					expect(ipv6Predicate.parse(input)).toBe(input);
+				});
 
-			test.each(['127.000.000.001', '127.0.0.1/24', 'fhqwhgads'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => ipv4Predicate.parse(input)).toThrow(
-					new ConstraintError('s.string.ipv4', 'Invalid ipv4 address', input, 'expected.ipv4')
+				test.each(['fhqwhgads', '2001:0db8:85a3:0000:0000:8a2e:0370:7334/24', '2001:0db8:85a3:0000:0000:8a2e:0370:7334/24/24'])(
+					'GIVEN %s THEN throws a ConstraintError',
+					(input) => {
+						expect(() => ipv6Predicate.parse(input)).toThrow(
+							new ConstraintError('s.string.ipv6', 'Invalid ipv6 address', input, 'expected.ipv6')
+						);
+					}
 				);
 			});
-
-			const ipv6Predicate = s.string.ipv6;
-
-			test.each(['::1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'])('GIVEN %s THEN returns given value', (input) => {
-				expect(ipv6Predicate.parse(input)).toBe(input);
-			});
-
-			test.each(['fhqwhgads', '2001:0db8:85a3:0000:0000:8a2e:0370:7334/24', '2001:0db8:85a3:0000:0000:8a2e:0370:7334/24/24'])(
-				'GIVEN %s THEN throws a ConstraintError',
-				(input) => {
-					expect(() => ipv6Predicate.parse(input)).toThrow(
-						new ConstraintError('s.string.ipv6', 'Invalid ipv6 address', input, 'expected.ipv6')
-					);
-				}
-			);
 		});
 	});
 });
