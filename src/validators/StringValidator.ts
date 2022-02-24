@@ -8,9 +8,9 @@ import {
 	stringLengthLt,
 	stringLengthNe,
 	stringRegex,
-	stringUrl
+	stringUrl,
+	type UrlOptions
 } from '../constraints/StringConstraints';
-import type { UrlOptions } from '../constraints/util/operators';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';

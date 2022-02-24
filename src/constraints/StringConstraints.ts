@@ -1,9 +1,16 @@
 import { ConstraintError } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
-import { Comparator, eq, ge, gt, le, lt, ne, UrlOptions } from './util/operators';
+import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
 export type StringConstraintName = `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email'}`;
+export type StringProtocol = `${string}:`;
+export type StringDomain = `${string}.${string}`;
+
+export interface UrlOptions {
+	allowedProtocols?: StringProtocol[];
+	allowedDomains?: StringDomain[];
+}
 
 // from https://stackoverflow.com/a/46181/1550155
 export const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -64,7 +71,7 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 		run(input: string) {
 			try {
 				const url = new URL(input);
-				if (options?.allowedProtocols && !options.allowedProtocols.includes(url.protocol)) {
+				if (options?.allowedProtocols && !options.allowedProtocols.includes(url.protocol as StringProtocol)) {
 					return Result.err(
 						new ConstraintError(
 							's.string.url',
@@ -74,7 +81,7 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 						)
 					);
 				}
-				if (options?.allowedDomains && !options.allowedDomains.includes(url.hostname)) {
+				if (options?.allowedDomains && !options.allowedDomains.includes(url.hostname as StringDomain)) {
 					return Result.err(
 						new ConstraintError(
 							's.string.url',
