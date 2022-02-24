@@ -1,6 +1,7 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import {
 	emailRegex,
+	stringIp,
 	stringLengthEq,
 	stringLengthGe,
 	stringLengthGt,
@@ -40,7 +41,7 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 		return this.addConstraint(stringLengthNe(length) as IConstraint<T>);
 	}
 
-	public email(): this {
+	public get email(): this {
 		return this.addConstraint(stringRegex(emailRegex, 'email') as IConstraint<T>);
 	}
 
@@ -59,6 +60,18 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 
 	public regex(regex: RegExp): this {
 		return this.addConstraint(stringRegex(regex, 'regex') as IConstraint<T>);
+	}
+
+	public get ipv4(): this {
+		return this.addConstraint(stringIp(4) as IConstraint<T>);
+	}
+
+	public get ipv6(): this {
+		return this.addConstraint(stringIp(6) as IConstraint<T>);
+	}
+
+	public ip(version?: 4 | 6): this {
+		return this.addConstraint(stringIp(version) as IConstraint<T>);
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {

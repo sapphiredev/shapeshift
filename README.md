@@ -109,6 +109,9 @@ s.string.email();
 s.string.url();
 s.string.uuid();
 s.string.regex(regex);
+s.string.ip();
+s.string.ipv4;
+s.string.ipv6;
 ```
 
 #### Numbers

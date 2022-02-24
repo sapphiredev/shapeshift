@@ -3,9 +3,13 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-export type StringConstraintName = `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email'}`;
+export type StringConstraintName =
+	| `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email'}`
+	| StringIpName;
+type StringIpName = `s.string.ip${'v4' | 'v6' | ''}`;
 export type StringProtocol = `${string}:`;
 export type StringDomain = `${string}.${string}`;
+import net from 'net';
 
 export interface UrlOptions {
 	allowedProtocols?: StringProtocol[];
@@ -98,6 +102,24 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 			} catch {
 				return Result.err(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected.url'));
 			}
+		}
+	};
+}
+
+export function stringIp(version?: 4 | 6): IConstraint<string> {
+	const ipVersion = version ? `v${version}` : '';
+	return {
+		run(input: string) {
+			return (version === 4 ? net.isIPv4(input) : version === 6 ? net.isIPv6(input) : net.isIP(input)) //
+				? Result.ok(input)
+				: Result.err(
+						new ConstraintError(
+							`s.string.ip${ipVersion}` as StringIpName,
+							`Invalid ip${ipVersion} address`,
+							input,
+							`expected.ip${ipVersion}`
+						)
+				  );
 		}
 	};
 }

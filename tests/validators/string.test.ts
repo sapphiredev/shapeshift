@@ -97,7 +97,7 @@ describe('StringValidator', () => {
 		});
 
 		describe('email', () => {
-			const emailPredicate = s.string.email();
+			const emailPredicate = s.string.email;
 
 			test.each(['hi@hello.com', 'foo@bar.net'])('GIVEN %s THEN returns given value', (input) => {
 				expect(emailPredicate.parse(input)).toBe(input);
@@ -188,6 +188,45 @@ describe('StringValidator', () => {
 					new ConstraintError('s.string.regex', 'Invalid string format', input, `expected.regex`)
 				);
 			});
+		});
+
+		describe('ip', () => {
+			const ipPredicate = s.string.ip();
+
+			test.each(['::1', '127.0.0.1'])('GIVEN %s THEN returns given value', (input) => {
+				expect(ipPredicate.parse(input)).toBe(input);
+			});
+
+			test.each(['127.000.000.001', '127.0.0.1/24', 'fhqwhgads'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				expect(() => ipPredicate.parse(input)).toThrow(new ConstraintError('s.string.ip', 'Invalid ip address', input, 'expected.ip'));
+			});
+
+			const ipv4Predicate = s.string.ipv4;
+
+			test.each(['127.0.0.1'])('GIVEN %s THEN returns given value', (input) => {
+				expect(ipv4Predicate.parse(input)).toBe(input);
+			});
+
+			test.each(['127.000.000.001', '127.0.0.1/24', 'fhqwhgads'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				expect(() => ipv4Predicate.parse(input)).toThrow(
+					new ConstraintError('s.string.ipv4', 'Invalid ipv4 address', input, 'expected.ipv4')
+				);
+			});
+
+			const ipv6Predicate = s.string.ipv6;
+
+			test.each(['::1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'])('GIVEN %s THEN returns given value', (input) => {
+				expect(ipv6Predicate.parse(input)).toBe(input);
+			});
+
+			test.each(['fhqwhgads', '2001:0db8:85a3:0000:0000:8a2e:0370:7334/24', '2001:0db8:85a3:0000:0000:8a2e:0370:7334/24/24'])(
+				'GIVEN %s THEN throws a ConstraintError',
+				(input) => {
+					expect(() => ipv6Predicate.parse(input)).toThrow(
+						new ConstraintError('s.string.ipv6', 'Invalid ipv6 address', input, 'expected.ipv6')
+					);
+				}
+			);
 		});
 	});
 });
