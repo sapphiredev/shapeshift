@@ -95,5 +95,74 @@ describe('StringValidator', () => {
 				);
 			});
 		});
+
+		describe('email', () => {
+			const emailPredicate = s.string.email();
+
+			test.each(['hi@hello.com', 'foo@bar.net'])('GIVEN %s THEN returns given value', (input) => {
+				expect(emailPredicate.parse(input)).toBe(input);
+			});
+
+			test.each(['hi@hello', 'foo@bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				expect(() => emailPredicate.parse(input)).toThrow(
+					new ConstraintError('s.string.email', 'Invalid string format', input, 'expected.email')
+				);
+			});
+		});
+
+		describe('url', () => {
+			const urlPredicate = s.string.url();
+
+			test.each(['https://google.com', 'http://foo.bar'])('GIVEN %s THEN returns given value', (input) => {
+				expect(urlPredicate.parse(input)).toBe(input);
+			});
+
+			test.each(['google.com', 'foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				expect(() => urlPredicate.parse(input)).toThrow(new ConstraintError('s.string.url', 'Invalid string format', input, 'expected.url'));
+			});
+		});
+
+		describe('uuid', () => {
+			const uuidPredicate = s.string.uuid();
+
+			test.each(['6e8bc430-9a1b-4f7f-b7a5-ea4dede09a4b'])('GIVEN %s THEN returns given value', (input) => {
+				expect(uuidPredicate.parse(input)).toBe(input);
+			});
+
+			test.each(['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				expect(() => uuidPredicate.parse(input)).toThrow(
+					new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected.uuid')
+				);
+			});
+		});
+
+		describe('uuid4', () => {
+			const uuid4Predicate = s.string.uuid(4);
+
+			test.each(['6e8bc430-9a1b-4f7f-b7a5-ea4dede09a4b'])('GIVEN %s THEN returns given value', (input) => {
+				expect(uuid4Predicate.parse(input)).toBe(input);
+			});
+
+			test.each(['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				expect(() => uuid4Predicate.parse(input)).toThrow(
+					new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected.uuid')
+				);
+			});
+		});
+
+		describe('regex', () => {
+			const regex = /^[a-z]+$/;
+			const regexPredicate = s.string.regex(regex);
+
+			test.each(['abc', 'xyz'])('GIVEN %s THEN returns given value', (input) => {
+				expect(regexPredicate.parse(input)).toBe(input);
+			});
+
+			test.each(['ABC', '123A'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				expect(() => regexPredicate.parse(input)).toThrow(
+					new ConstraintError('s.string.regex', 'Invalid string format', input, `expected.regex.match(${regex.source})`)
+				);
+			});
+		});
 	});
 });

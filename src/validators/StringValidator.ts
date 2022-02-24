@@ -43,7 +43,7 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 	}
 
 	public url(allowedProtocols: string[] = ['https?']): this {
-		const urlRegex = new RegExp(`^(?:${allowedProtocols.join('|')}):\/\/[^\s\.]+\.\S{2,}$`);
+		const urlRegex = new RegExp(`^(?:${allowedProtocols.join('|')}):\/\/[^\s\.]+\.\\S{2,}$`);
 		return this.addConstraint(stringRegex(urlRegex, 'url') as IConstraint<T>);
 	}
 

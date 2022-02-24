@@ -46,11 +46,12 @@ export function stringLengthNe(length: number): IConstraint<string> {
 }
 
 export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex' | 'email'): IConstraint<string> {
+	const expected = `expected.${type === `regex(/${regex.source}/)` ? 'match' : type}`;
 	return {
 		run(input: string) {
 			return regex.test(input) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(`s.string.${type}`, 'Invalid string format', input, type === 'regex' ? regex.source : type));
+				: Result.err(new ConstraintError(`s.string.${type}`, 'Invalid string format', input, expected));
 		}
 	};
 }
