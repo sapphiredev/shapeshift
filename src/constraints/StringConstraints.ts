@@ -46,7 +46,7 @@ export function stringLengthNe(length: number): IConstraint<string> {
 }
 
 export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex' | 'email'): IConstraint<string> {
-	const expected = `expected.${type === `regex(/${regex.source}/)` ? 'match' : type}`;
+	const expected = `expected.${type}`;
 	return {
 		run(input: string) {
 			return regex.test(input) //
