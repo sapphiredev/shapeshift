@@ -13,6 +13,7 @@ import {
 	PassthroughValidator,
 	SetValidator,
 	StringValidator,
+	TupleValidator,
 	UnionValidator,
 	RecordValidator,
 	MapValidator
@@ -87,6 +88,10 @@ export class Shapes {
 
 	public array<T>(validator: BaseValidator<T>) {
 		return new ArrayValidator(validator);
+	}
+
+	public tuple<T extends readonly unknown[]>(...validators: BaseValidator<T[number]>[]) {
+		return new TupleValidator(validators);
 	}
 
 	public set<T>(validator: BaseValidator<T>) {
