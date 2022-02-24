@@ -90,7 +90,7 @@ export class Shapes {
 		return new ArrayValidator(validator);
 	}
 
-	public tuple<T extends readonly unknown[]>(...validators: BaseValidator<T[number]>[]) {
+	public tuple<T extends readonly unknown[]>(validators: BaseValidator<T[number]>[]) {
 		return new TupleValidator(validators);
 	}
 

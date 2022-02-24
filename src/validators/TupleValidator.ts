@@ -26,6 +26,8 @@ export class TupleValidator<T extends unknown[]> extends BaseValidator<T> {
 		}
 
 		const errors: [number, BaseError][] = [];
+		// FIXME: fix the generic type
+		// @ts-ignore
 		const transformed: T = [];
 
 		for (let i = 0; i < values.length; i++) {

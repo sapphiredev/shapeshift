@@ -1,7 +1,7 @@
 import { CombinedError, s, ValidationError } from '../../src';
 
 describe('TupleValidator', () => {
-	const predicate = s.tuple(s.string, s.number);
+	const predicate = s.tuple([s.string, s.number]);
 
 	test('GIVEN a non-tuple THEN throws ValidationError', () => {
 		expect(() => predicate.parse(false)).toThrow(new ValidationError('TupleValidator', 'Expected a tuple', false));
