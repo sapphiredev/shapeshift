@@ -71,6 +71,8 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 		run(input: string) {
 			try {
 				const url = new URL(input);
+
+				// TODO: optimize theses checks
 				if (options?.allowedProtocols && !options.allowedProtocols.includes(url.protocol as StringProtocol)) {
 					return Result.err(
 						new ConstraintError(
