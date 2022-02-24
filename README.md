@@ -105,9 +105,9 @@ s.string.lengthGt(5);
 s.string.lengthGe(5);
 s.string.lengthEq(5);
 s.string.lengthNe(5);
-s.string.url; // TODO
-s.string.uuid; // TODO
-s.string.regex(regex); // TODO
+s.string.url;
+s.string.uuid;
+s.string.regex(regex);
 ```
 
 #### Numbers

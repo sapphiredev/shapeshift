@@ -3,7 +3,7 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-export type StringConstraintName = `s.string.length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}`;
+export type StringConstraintName = `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | `regex` | `url` | `uuid`}`;
 
 function stringLengthComparator(comparator: Comparator, name: StringConstraintName, expected: string, length: number): IConstraint<string> {
 	return {
@@ -43,4 +43,14 @@ export function stringLengthEq(length: number): IConstraint<string> {
 export function stringLengthNe(length: number): IConstraint<string> {
 	const expected = `expected.length !== ${length}`;
 	return stringLengthComparator(ne, 's.string.lengthNe', expected, length);
+}
+
+export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex'): IConstraint<string> {
+	return {
+		run(input: string) {
+			return regex.test(input) //
+				? Result.ok(input)
+				: Result.err(new ConstraintError(`s.string.${type}`, 'Invalid string format', input, regex.toString()));
+		}
+	};
 }

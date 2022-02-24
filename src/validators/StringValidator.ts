@@ -1,5 +1,13 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
-import { stringLengthEq, stringLengthGe, stringLengthGt, stringLengthLe, stringLengthLt, stringLengthNe } from '../constraints/StringConstraints';
+import {
+	stringLengthEq,
+	stringLengthGe,
+	stringLengthGt,
+	stringLengthLe,
+	stringLengthLt,
+	stringLengthNe,
+	stringRegex
+} from '../constraints/StringConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
@@ -27,6 +35,20 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 
 	public lengthNe(length: number): this {
 		return this.addConstraint(stringLengthNe(length) as IConstraint<T>);
+	}
+
+	public url(allowedProtocols: string[] = ['https?']): this {
+		const urlRegex = new RegExp(`^(?:${allowedProtocols.join('|')}):\/\/[^\s\.]+\.\S{2,}$`);
+		return this.addConstraint(stringRegex(urlRegex, 'url') as IConstraint<T>);
+	}
+
+	public uuid(): this {
+		const uuidRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-[1-5][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+		return this.addConstraint(stringRegex(uuidRegex, 'uuid') as IConstraint<T>);
+	}
+
+	public regex(regex: RegExp): this {
+		return this.addConstraint(stringRegex(regex, 'regex') as IConstraint<T>);
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {
