@@ -28,10 +28,16 @@ export type {
 } from './NumberConstraints';
 export type {
 	StringConstraintName,
+	StringProtocol,
+	StringDomain,
+	UrlOptions,
 	stringLengthEq,
 	stringLengthGe,
 	stringLengthGt,
 	stringLengthLe,
 	stringLengthLt,
-	stringLengthNe
+	stringLengthNe,
+	stringIp,
+	stringRegex,
+	stringUrl
 } from './StringConstraints';
