@@ -37,13 +37,21 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 		return this.addConstraint(stringLengthNe(length) as IConstraint<T>);
 	}
 
+	public email(): this {
+		const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+		return this.addConstraint(stringRegex(emailRegex, 'email') as IConstraint<T>);
+	}
+
 	public url(allowedProtocols: string[] = ['https?']): this {
 		const urlRegex = new RegExp(`^(?:${allowedProtocols.join('|')}):\/\/[^\s\.]+\.\S{2,}$`);
 		return this.addConstraint(stringRegex(urlRegex, 'url') as IConstraint<T>);
 	}
 
-	public uuid(): this {
-		const uuidRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-[1-5][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+	public uuid(v?: 1 | 2 | 3 | 4 | 5): this {
+		const uuidRegex = new RegExp(
+			`^([0-9A-F]{8}-[0-9A-F]{4}-[${v ?? '1-5'}][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}|00000000-0000-0000-0000-000000000000)$`,
+			'i'
+		);
 		return this.addConstraint(stringRegex(uuidRegex, 'uuid') as IConstraint<T>);
 	}
 

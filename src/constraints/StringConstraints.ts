@@ -3,7 +3,7 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-export type StringConstraintName = `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | `regex` | `url` | `uuid`}`;
+export type StringConstraintName = `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email'}`;
 
 function stringLengthComparator(comparator: Comparator, name: StringConstraintName, expected: string, length: number): IConstraint<string> {
 	return {
@@ -45,12 +45,12 @@ export function stringLengthNe(length: number): IConstraint<string> {
 	return stringLengthComparator(ne, 's.string.lengthNe', expected, length);
 }
 
-export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex'): IConstraint<string> {
+export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex' | 'email'): IConstraint<string> {
 	return {
 		run(input: string) {
 			return regex.test(input) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(`s.string.${type}`, 'Invalid string format', input, regex.toString()));
+				: Result.err(new ConstraintError(`s.string.${type}`, 'Invalid string format', input, type === 'regex' ? regex.source : type));
 		}
 	};
 }
