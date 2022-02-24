@@ -78,4 +78,5 @@ export type { PassthroughValidator } from './validators/PassthroughValidator';
 export type { RecordValidator } from './validators/RecordValidator';
 export type { SetValidator } from './validators/SetValidator';
 export type { StringValidator } from './validators/StringValidator';
+export type { TupleValidator } from './validators/TupleValidator';
 export type { UnionValidator } from './validators/UnionValidator';
