@@ -99,7 +99,7 @@ describe('StringValidator', () => {
 		describe('email', () => {
 			const emailPredicate = s.string.email;
 
-			test.each(['hi@hello.com', 'foo@bar.net'])('GIVEN %s THEN returns given value', (input) => {
+			test.each(['hi@hello.com', 'foo@bar.net', 'hello+world@example.com'])('GIVEN %s THEN returns given value', (input) => {
 				expect(emailPredicate.parse(input)).toBe(input);
 			});
 

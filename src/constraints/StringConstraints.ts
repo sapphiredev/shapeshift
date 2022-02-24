@@ -9,7 +9,9 @@ export type StringConstraintName =
 	| StringIpName;
 type StringIpName = `s.string.ip${'v4' | 'v6' | ''}`;
 export type StringProtocol = `${string}:`;
+
 export type StringDomain = `${string}.${string}`;
+
 export interface UrlOptions {
 	allowedProtocols?: StringProtocol[];
 	allowedDomains?: StringDomain[];
@@ -59,7 +61,7 @@ export function stringLengthNe(length: number): IConstraint<string> {
 }
 
 export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex' | 'email'): IConstraint<string> {
-	const expected = `expected.${type}`;
+	const expected = `expected to be a ${type}`;
 	return {
 		run(input: string) {
 			return regex.test(input) //
@@ -99,7 +101,7 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 
 				return Result.ok(input);
 			} catch {
-				return Result.err(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected.url'));
+				return Result.err(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected to be a valid url'));
 			}
 		}
 	};
@@ -116,7 +118,7 @@ export function stringIp(version?: 4 | 6): IConstraint<string> {
 							`s.string.ip${ipVersion}` as StringIpName,
 							`Invalid ip${ipVersion} address`,
 							input,
-							`expected.ip${ipVersion}`
+							`expected to be an ip${ipVersion} address`
 						)
 				  );
 		}
