@@ -122,6 +122,18 @@ describe('StringValidator', () => {
 			});
 		});
 
+		describe('url with protocol', () => {
+			const urlPredicate = s.string.url(['git', 'http', 'https']);
+
+			test.each(['https://google.com', 'http://foo.bar', 'git://foo.bar'])('GIVEN %s THEN returns given value', (input) => {
+				expect(urlPredicate.parse(input)).toBe(input);
+			});
+
+			test.each(['google.com', 'foo.bar', 'discord://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				expect(() => urlPredicate.parse(input)).toThrow(new ConstraintError('s.string.url', 'Invalid string format', input, 'expected.url'));
+			});
+		});
+
 		describe('uuid', () => {
 			const uuidPredicate = s.string.uuid();
 
