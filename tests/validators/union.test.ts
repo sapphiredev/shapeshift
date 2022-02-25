@@ -4,14 +4,14 @@ describe('UnionValidator', () => {
 	const stringPredicate = s.string;
 	const numberPredicate = s.number;
 
-	const unionPredicate = s.union([stringPredicate, numberPredicate]);
+	const unionPredicate = s.union(stringPredicate, numberPredicate);
 
 	test('Given a string should return string', () => {
-		expect(unionPredicate.parse('hello')).toBe('hello');
+		expect<string | number>(unionPredicate.parse('hello')).toBe('hello');
 	});
 
 	test('Given a number should return number', () => {
-		expect(unionPredicate.parse(5)).toBe(5);
+		expect<string | number>(unionPredicate.parse(5)).toBe(5);
 	});
 
 	test('Given a boolean should throw a ConstraintError', () => {

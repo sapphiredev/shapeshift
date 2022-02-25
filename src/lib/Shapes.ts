@@ -6,16 +6,16 @@ import {
 	DateValidator,
 	InstanceValidator,
 	LiteralValidator,
+	MapValidator,
 	NeverValidator,
 	NullishValidator,
 	NumberValidator,
 	ObjectValidator,
 	PassthroughValidator,
+	RecordValidator,
 	SetValidator,
 	StringValidator,
-	UnionValidator,
-	RecordValidator,
-	MapValidator
+	UnionValidator
 } from '../validators/imports';
 import type { Constructor, MappedObjectValidator } from './util-types';
 
@@ -69,7 +69,7 @@ export class Shapes {
 	}
 
 	public enum<T>(...values: readonly T[]) {
-		return this.union(values.map((value) => this.literal(value)));
+		return this.union(...values.map((value) => this.literal(value)));
 	}
 
 	public literal<T>(value: T): BaseValidator<T> {
@@ -81,8 +81,8 @@ export class Shapes {
 		return new InstanceValidator(expected);
 	}
 
-	public union<T extends BaseValidator<unknown>>(validators: readonly T[]): T {
-		return new UnionValidator(validators) as unknown as T;
+	public union<T extends [...BaseValidator<any>[]]>(...validators: [...T]): UnionValidator<T[number] extends BaseValidator<infer U> ? U : never> {
+		return new UnionValidator(validators);
 	}
 
 	public array<T>(validator: BaseValidator<T>) {
