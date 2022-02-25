@@ -4,7 +4,7 @@ describe('TupleValidator', () => {
 	const predicate = s.tuple([s.string, s.number]);
 
 	test('GIVEN a non-tuple THEN throws ValidationError', () => {
-		expect(() => predicate.parse(false)).toThrow(new ValidationError('TupleValidator', 'Expected a tuple', false));
+		expect(() => predicate.parse(false)).toThrow(new ValidationError('TupleValidator', 'Expected an array', false));
 	});
 
 	test('GIVEN a matching tuple THEN returns a tuple', () => {
@@ -22,7 +22,7 @@ describe('TupleValidator', () => {
 
 	test('GIVEN a tuple with too many elements THEN throws ValidationError', () => {
 		expect(() => predicate.parse(['foo', 1, 'bar'])).toThrow(
-			new ValidationError('TupleValidator', 'Expected a tuple of length 2', ['foo', 1, 'bar'])
+			new ValidationError('TupleValidator', 'Expected an array of length 2', ['foo', 1, 'bar'])
 		);
 	});
 });
