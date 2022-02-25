@@ -7,7 +7,9 @@ import net from 'net';
 export type StringConstraintName =
 	| `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email'}`
 	| StringIpName;
-type StringIpName = `s.string.ip${'v4' | 'v6' | ''}`;
+
+export type StringIpName = `s.string.ip${'v4' | 'v6' | ''}`;
+
 export type StringProtocol = `${string}:`;
 
 export type StringDomain = `${string}.${string}`;
@@ -84,7 +86,7 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 							's.string.url',
 							'Invalid URL protocol',
 							input,
-							`expected.url.protocol in ${options.allowedProtocols.join(', ')}`
+							`expected ${url.protocol} to be one of: ${options.allowedProtocols.join(', ')}`
 						)
 					);
 				}
@@ -94,7 +96,7 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 							's.string.url',
 							'Invalid URL domain',
 							input,
-							`expected.url.domain in ${options.allowedDomains.join(', ')}`
+							`expected ${url.hostname} to be one of: ${options.allowedDomains.join(', ')}`
 						)
 					);
 				}
