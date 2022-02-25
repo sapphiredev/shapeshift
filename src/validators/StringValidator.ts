@@ -48,7 +48,7 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 				// TODO: refactor email validator
 				return EmailValidator.validate(input)
 					? Result.ok(input)
-					: Result.err(new ConstraintError('s.string.email', 'Invalid email format', input, 'expected to be an email address'));
+					: Result.err(new ConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address'));
 			}
 		} as IConstraint<T>);
 	}

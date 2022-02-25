@@ -105,7 +105,7 @@ describe('StringValidator', () => {
 
 			test.each(['hi@hello', 'foo@bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 				expect(() => emailPredicate.parse(input)).toThrow(
-					new ConstraintError('s.string.email', 'Invalid string format', input, 'expected.email')
+					new ConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address')
 				);
 			});
 		});

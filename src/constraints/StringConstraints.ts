@@ -59,13 +59,13 @@ export function stringLengthNe(length: number): IConstraint<string> {
 	return stringLengthComparator(ne, 's.string.lengthNe', expected, length);
 }
 
-export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex'): IConstraint<string> {
-	const expected = `expected to match ${type === 'regex' ? regex.source : `a ${type}`}`;
+export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex', expected?: string): IConstraint<string> {
+	expected ??= `expected to match ${type === 'regex' ? regex.source : `a ${type}`}`;
 	return {
 		run(input: string) {
 			return regex.test(input) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(`s.string.${type}`, 'Invalid string format', input, expected));
+				: Result.err(new ConstraintError(`s.string.${type}`, 'Invalid string format', input, expected as string));
 		}
 	};
 }
