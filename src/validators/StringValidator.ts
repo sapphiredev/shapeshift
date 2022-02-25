@@ -1,6 +1,7 @@
+import * as EmailValidator from 'email-validator';
+import { ConstraintError } from '..';
 import type { IConstraint } from '../constraints/base/IConstraint';
 import {
-	emailRegex,
 	stringIp,
 	stringLengthEq,
 	stringLengthGe,
@@ -42,7 +43,14 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 	}
 
 	public get email(): this {
-		return this.addConstraint(stringRegex(emailRegex, 'email') as IConstraint<T>);
+		return this.addConstraint({
+			run(input: string) {
+				// TODO: refactor email validator
+				return EmailValidator.validate(input)
+					? Result.ok(input)
+					: Result.err(new ConstraintError('s.string.email', 'Invalid email format', input, 'expected to be an email address'));
+			}
+		} as IConstraint<T>);
 	}
 
 	public url(options?: UrlOptions): this {

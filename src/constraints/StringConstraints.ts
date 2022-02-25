@@ -19,9 +19,6 @@ export interface UrlOptions {
 	allowedDomains?: StringDomain[];
 }
 
-// from https://stackoverflow.com/a/46181/1550155
-export const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
 function stringLengthComparator(comparator: Comparator, name: StringConstraintName, expected: string, length: number): IConstraint<string> {
 	return {
 		run(input: string) {
@@ -62,7 +59,7 @@ export function stringLengthNe(length: number): IConstraint<string> {
 	return stringLengthComparator(ne, 's.string.lengthNe', expected, length);
 }
 
-export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex' | 'email'): IConstraint<string> {
+export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex'): IConstraint<string> {
 	const expected = `expected to match ${type === 'regex' ? regex.source : `a ${type}`}`;
 	return {
 		run(input: string) {

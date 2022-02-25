@@ -1031,6 +1031,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.12.0
     "@typescript-eslint/parser": ^5.12.0
     cz-conventional-changelog: ^3.3.0
+    email-validator: ^2.0.4
     eslint: ^8.9.0
     eslint-config-prettier: ^8.4.0
     eslint-plugin-prettier: ^4.0.0
@@ -2690,6 +2691,13 @@ __metadata:
   version: 1.4.71
   resolution: "electron-to-chromium@npm:1.4.71"
   checksum: ecb2546eed6b0e95003d787c259de730f32e2f5c0fa2acb27069c0cd21378cbc2a6c7516f4ec677a5960db4e180644f87ed91a729825a238454e31e4e74617db
+  languageName: node
+  linkType: hard
+
+"email-validator@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "email-validator@npm:2.0.4"
+  checksum: e702fee24e1b9efb7e6a84abb309bebdb4ddde137fdb99a61e24bd82ac0b605be34e191b1c4d04fbc855be7b94cad967f932a456c0def2240303881f4e388f2d
   languageName: node
   linkType: hard
 
