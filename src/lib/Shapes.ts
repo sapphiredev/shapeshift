@@ -81,8 +81,8 @@ export class Shapes {
 		return new InstanceValidator(expected);
 	}
 
-	public union<T extends BaseValidator<unknown>>(validators: readonly T[]) {
-		return new UnionValidator(validators);
+	public union<T extends BaseValidator<unknown>>(validators: readonly T[]): T {
+		return new UnionValidator(validators) as unknown as T;
 	}
 
 	public array<T>(validator: BaseValidator<T>) {
