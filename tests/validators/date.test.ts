@@ -47,4 +47,16 @@ describe('DateValidator', () => {
 			expect(() => gtPredicate.parse(value)).toThrow(new ConstraintError('s.date.gt', 'Invalid Date value', value, 'expected > 2022-01-01'));
 		});
 	});
+
+	describe('ge', () => {
+		const gePredicate = s.date.ge(new Date('2022-01-02'));
+
+		test.each([new Date('2022-01-02'), new Date('2023-01-01')])('GIVEN %s THEN returns given value', (value) => {
+			expect(gePredicate.parse(value)).toBe(value);
+		});
+
+		test.each([new Date('2021-01-02'), new Date('2022-01-01')])('GIVEN %s THEN throws ConstraintError', (value) => {
+			expect(() => gePredicate.parse(value)).toThrow(new ConstraintError('s.date.ge', 'Invalid Date value', value, 'expected >= 2022-01-01'));
+		});
+	});
 });
