@@ -18,11 +18,11 @@ export class TupleValidator<T extends BaseValidator<unknown>> extends BaseValida
 
 	protected handle(values: unknown): Result<T[], ValidationError | CombinedPropertyError> {
 		if (!Array.isArray(values)) {
-			return Result.err(new ValidationError('TupleValidator', 'Expected a tuple', values));
+			return Result.err(new ValidationError('TupleValidator', 'Expected an array', values));
 		}
 
 		if (values.length !== this.validators.length) {
-			return Result.err(new ValidationError('TupleValidator', `Expected a tuple of length ${this.validators.length}`, values));
+			return Result.err(new ValidationError('TupleValidator', `Expected an array of length ${this.validators.length}`, values));
 		}
 
 		const errors: [number, BaseError][] = [];
