@@ -61,7 +61,7 @@ export function stringLengthNe(length: number): IConstraint<string> {
 }
 
 export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex' | 'email'): IConstraint<string> {
-	const expected = `expected to be a ${type}`;
+	const expected = `expected to match ${type === 'regex' ? regex.source : `an ${type}`}`;
 	return {
 		run(input: string) {
 			return regex.test(input) //
@@ -101,7 +101,7 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 
 				return Result.ok(input);
 			} catch {
-				return Result.err(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected to be a valid url'));
+				return Result.err(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected to match an URL'));
 			}
 		}
 	};
