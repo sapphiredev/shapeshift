@@ -69,7 +69,7 @@ export class Shapes {
 	}
 
 	public enum<T>(...values: readonly T[]) {
-		return this.union(...values.map((value) => this.literal(value)));
+		return this.union(values.map((value) => this.literal(value)));
 	}
 
 	public literal<T>(value: T): BaseValidator<T> {
@@ -81,7 +81,7 @@ export class Shapes {
 		return new InstanceValidator(expected);
 	}
 
-	public union<T>(...validators: readonly BaseValidator<T>[]) {
+	public union<T extends BaseValidator<unknown>>(validators: readonly T[]) {
 		return new UnionValidator(validators);
 	}
 
