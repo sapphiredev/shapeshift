@@ -156,7 +156,7 @@ describe('StringValidator', () => {
 			describe('default', () => {
 				const uuidPredicate = s.string.uuid();
 
-				test.each(['450d6a23-9e6f-45d9-9d5a-fd4f6e014f16', '00000000-0000-0000-0000-000000000000)$'])(
+				test.each(['450d6a23-9e6f-45d9-9d5a-fd4f6e014f16', '00000000-0000-0000-0000-000000000000'])(
 					'GIVEN %s THEN returns given value',
 					(input) => {
 						expect(uuidPredicate.parse(input)).toBe(input);
@@ -165,7 +165,7 @@ describe('StringValidator', () => {
 
 				test.each(['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuidPredicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match a uuid')
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v4')
 					);
 				});
 			});
@@ -182,7 +182,7 @@ describe('StringValidator', () => {
 
 				test.each(['6e8bc430-9a1b-5f7f-b7a5-ea4dede09a4b'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuidRangePredicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match a uuid')
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, `expected UUID in range 1-4`)
 					);
 				});
 			});
