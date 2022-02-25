@@ -7,7 +7,7 @@ describe('InstanceValidator', () => {
 	const predicate = s.instance(User);
 
 	test('GIVEN an instance of User THEN returns the given value', () => {
-		expect(predicate.parse(new User('Sapphire'))).toBe(new User('Sapphire'));
+		expect(predicate.parse(new User('Sapphire'))).toStrictEqual(new User('Sapphire'));
 	});
 
 	test("GIVEN anything which isn't and instance of User THEN throws ValidationError", () => {

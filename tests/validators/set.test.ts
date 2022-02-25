@@ -4,7 +4,7 @@ describe('SetValidator', () => {
 	const predicate = s.set(s.string);
 
 	test('GIVEN a set with string value THEN returns the given value', () => {
-		expect(predicate.parse(new Set().add('b'))).toBe(new Set().add('b'));
+		expect(predicate.parse(new Set().add('b'))).toStrictEqual(new Set().add('b'));
 	});
 
 	test("GIVEN a value which isn't a set THEN throws ValidationError", () => {
