@@ -132,7 +132,7 @@ describe('StringValidator', () => {
 
 				test.each(['https://google.com', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => urlPredicateWithProtocol.parse(input)).toThrow(
-						new ConstraintError('s.string.url', 'Invalid URL protocol', input, 'expected.url')
+						new ConstraintError('s.string.url', 'Invalid URL protocol', input, 'expected to be one of: git:')
 					);
 				});
 			});
@@ -146,7 +146,7 @@ describe('StringValidator', () => {
 
 				test.each(['https://foo.bar', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => urlPredicateWithDomain.parse(input)).toThrow(
-						new ConstraintError('s.string.url', 'Invalid URL domain', input, 'expected.url')
+						new ConstraintError('s.string.url', 'Invalid URL domain', input, 'expected to be one of: google.com')
 					);
 				});
 			});
@@ -165,7 +165,7 @@ describe('StringValidator', () => {
 
 				test.each(['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuidPredicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected.uuid')
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match a uuid')
 					);
 				});
 			});
@@ -182,7 +182,7 @@ describe('StringValidator', () => {
 
 				test.each(['6e8bc430-9a1b-5f7f-b7a5-ea4dede09a4b'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuidRangePredicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected.uuid')
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match a uuid')
 					);
 				});
 			});
