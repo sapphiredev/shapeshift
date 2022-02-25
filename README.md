@@ -345,7 +345,7 @@ tags.parse('Hello'); // => throws ValidateError
 ShapeShift includes a built-in method for composing OR types:
 
 ```typescript
-const stringOrNumber = s.union([s.string, s.number]);
+const stringOrNumber = s.union(s.string, s.number);
 
 stringOrNumber.parse('Sapphire'); // => 'Sapphire'
 stringOrNumber.parse(42); // => 42
