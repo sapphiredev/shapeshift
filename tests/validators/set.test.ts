@@ -8,11 +8,13 @@ describe('SetValidator', () => {
 	});
 
 	test.each(['1', 'a', 'foo'])('GIVEN a set with string value %s THEN returns the given set', (input) => {
-		expect(predicate.parse(new Set().add(input))).toStrictEqual(new Set().add(input));
+		const set = new Set([input]);
+
+		expect(predicate.parse(set)).toStrictEqual(set);
 	});
 
 	test.each([123, [], {}])('Given a set with non-string value %s THEN throw CombinedError', (input) => {
-		const set = new Set().add(input);
+		const set = new Set([input]);
 
 		expect(() => predicate.parse(set)).toThrow(new CombinedError([new ValidationError('StringValidator', 'Expected a string', input)]));
 	});
