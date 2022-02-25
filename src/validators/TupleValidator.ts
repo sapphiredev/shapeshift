@@ -4,10 +4,10 @@ import { Result } from '../lib/Result';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 
-export class TupleValidator<T extends BaseValidator<unknown>> extends BaseValidator<T[]> {
-	private readonly validators: BaseValidator<unknown>[] = [];
+export class TupleValidator<T extends BaseValidator<any>[]> extends BaseValidator<[...T]> {
+	private readonly validators: BaseValidator<any>[] = [];
 
-	public constructor(validators: T[], constraints: readonly IConstraint<T[]>[] = []) {
+	public constructor(validators: [...T], constraints: readonly IConstraint<[...T]>[] = []) {
 		super(constraints);
 		this.validators = validators;
 	}
@@ -16,7 +16,7 @@ export class TupleValidator<T extends BaseValidator<unknown>> extends BaseValida
 		return Reflect.construct(this.constructor, [this.validators, this.constraints]);
 	}
 
-	protected handle(values: unknown): Result<T[], ValidationError | CombinedPropertyError> {
+	protected handle(values: unknown): Result<[...T], ValidationError | CombinedPropertyError> {
 		if (!Array.isArray(values)) {
 			return Result.err(new ValidationError('TupleValidator', 'Expected an array', values));
 		}
@@ -26,11 +26,11 @@ export class TupleValidator<T extends BaseValidator<unknown>> extends BaseValida
 		}
 
 		const errors: [number, BaseError][] = [];
-		const transformed: T[] = [];
+		const transformed: T = [] as unknown as T;
 
 		for (let i = 0; i < values.length; i++) {
 			const result = this.validators[i].run(values[i]);
-			if (result.isOk()) transformed.push(result.value as T);
+			if (result.isOk()) transformed.push(result.value);
 			else errors.push([i, result.error!]);
 		}
 
