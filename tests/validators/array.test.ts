@@ -124,7 +124,7 @@ describe('ArrayValidator', () => {
 		});
 	});
 
-	describe('clone', () => {
+	describe('Clone', () => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-expect-error
 		const clonePredicate = s.string.array.clone();

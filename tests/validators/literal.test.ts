@@ -13,7 +13,7 @@ describe('LiteralValidator', () => {
 		);
 	});
 
-	test('clone', () => {
+	test('Clone', () => {
 		// @ts-ignore Test clone
 		const clonePredicate = predicate.clone();
 

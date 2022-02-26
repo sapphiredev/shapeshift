@@ -14,7 +14,7 @@ describe('InstanceValidator', () => {
 		expect(() => predicate.parse(123)).toThrow(new ExpectedValidationError('InstanceValidator', 'Expected', 123, Array));
 	});
 
-	test('clone', () => {
+	test('Clone', () => {
 		// @ts-ignore Test clone
 		const clonePredicate = predicate.clone();
 

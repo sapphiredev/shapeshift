@@ -173,4 +173,14 @@ describe('ObjectValidator', () => {
 			expect(pickPredicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({ username: 'Sapphire' });
 		});
 	});
+
+	test('Clone', () => {
+		// @ts-ignore Test clone
+		const clonePredicate = predicate.clone();
+
+		expect(clonePredicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({
+			username: 'Sapphire',
+			password: 'helloworld'
+		});
+	});
 });

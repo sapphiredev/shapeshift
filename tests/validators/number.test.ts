@@ -276,5 +276,14 @@ describe('NumberValidator', () => {
 				expect(defaultFunctionPredicate.parse(undefined)).toBe(5);
 			});
 		});
+
+		describe('Clone', () => {
+			// @ts-ignore Test clone
+			const clonePredicate = s.number.default(5).clone();
+
+			test('GIVEN undefined THEN returns the default value', () => {
+				expect(clonePredicate.parse(undefined)).toBe(5);
+			});
+		});
 	});
 });

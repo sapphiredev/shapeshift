@@ -19,7 +19,7 @@ describe('SetValidator', () => {
 		expect(() => predicate.parse(set)).toThrow(new CombinedError([new ValidationError('StringValidator', 'Expected a string', input)]));
 	});
 
-	test('clone', () => {
+	test('Clone', () => {
 		// @ts-ignore Test clone
 		const clonePredicate = predicate.clone();
 

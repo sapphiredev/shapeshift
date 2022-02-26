@@ -78,7 +78,7 @@ describe('UnionValidator', () => {
 		);
 	});
 
-	test('clone', () => {
+	test('Clone', () => {
 		// @ts-ignore Test clone
 		const clonePredicate = unionPredicate.clone();
 
