@@ -1,4 +1,4 @@
-import { CombinedError, MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
+import { CombinedError, CombinedPropertyError, MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
 
 describe('ObjectValidator', () => {
 	const predicate = s.object({
@@ -73,6 +73,23 @@ describe('ObjectValidator', () => {
 				password: 'helloworld',
 				optionalKey: undefined
 			});
+		});
+	});
+
+	describe('Ignore', () => {
+		const ignorePredicate = predicate.strict.ignore;
+
+		test('GIVEN matching keys and values THEN returns no errors', () => {
+			expect(ignorePredicate.parse({ username: 'Sapphire', password: 'helloworld', email: 'foo@bar.com' })).toStrictEqual({
+				username: 'Sapphire',
+				password: 'helloworld'
+			});
+		});
+
+		test('GIVEN missing keys THEN throws CombinedPropertyError with MissingPropertyError', () => {
+			expect(() => ignorePredicate.parse({ username: 'Sapphire' })).toThrow(
+				new CombinedPropertyError([['password', new MissingPropertyError('password')]])
+			);
 		});
 	});
 
