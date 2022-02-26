@@ -26,7 +26,7 @@ describe('UnionValidator', () => {
 	test('or', () => {
 		const orPredicate = unionPredicate.or(s.union(s.string.array, s.number.array));
 
-		expect(orPredicate.parse(['hello'])).toStrictEqual(['hello']);
+		expect<string | number | string[] | number[]>(orPredicate.parse(['hello'])).toStrictEqual(['hello']);
 		expect(orPredicate.parse([5])).toStrictEqual([5]);
 		expect(orPredicate.parse('hello')).toBe('hello');
 		expect(orPredicate.parse(5)).toBe(5);
@@ -35,7 +35,7 @@ describe('UnionValidator', () => {
 	test('optional', () => {
 		const optionalPredicate = unionPredicate.optional;
 
-		expect(optionalPredicate.parse(undefined)).toBeUndefined();
+		expect<string | number | undefined>(optionalPredicate.parse(undefined)).toBeUndefined();
 		expect(optionalPredicate.parse('hello')).toBe('hello');
 		expect(optionalPredicate.parse(5)).toBe(5);
 
@@ -50,7 +50,7 @@ describe('UnionValidator', () => {
 	test('nullable', () => {
 		const nullablePredicate = unionPredicate.nullable;
 
-		expect(nullablePredicate.parse(null)).toBeNull();
+		expect<string | number | null>(nullablePredicate.parse(null)).toBeNull();
 		expect(nullablePredicate.parse('hello')).toBe('hello');
 		expect(nullablePredicate.parse(5)).toBe(5);
 
@@ -65,7 +65,7 @@ describe('UnionValidator', () => {
 	test('nullish', () => {
 		const nullishPredicate = unionPredicate.nullish;
 
-		expect(nullishPredicate.parse(null)).toBeNull();
+		expect<string | number | undefined | null>(nullishPredicate.parse(null)).toBeNull();
 		expect(nullishPredicate.parse('hello')).toBe('hello');
 		expect(nullishPredicate.parse(5)).toBe(5);
 		expect(nullishPredicate.parse(undefined)).toBeUndefined();
