@@ -1,5 +1,4 @@
-import * as EmailValidator from 'email-validator';
-import { ConstraintError } from '..';
+import { ConstraintError } from '../lib/errors/ConstraintError';
 import type { IConstraint } from '../constraints/base/IConstraint';
 import {
 	stringIp,
@@ -13,6 +12,7 @@ import {
 	stringUrl,
 	type UrlOptions
 } from '../constraints/StringConstraints';
+import { validateEmail } from '../constraints/util/emailValidator';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
@@ -45,8 +45,7 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 	public get email(): this {
 		return this.addConstraint({
 			run(input: string) {
-				// TODO: refactor email validator
-				return EmailValidator.validate(input)
+				return validateEmail(input)
 					? Result.ok(input)
 					: Result.err(new ConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address'));
 			}
