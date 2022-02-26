@@ -12,4 +12,11 @@ describe('LiteralValidator', () => {
 			new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', 'hello', 'sapphire')
 		);
 	});
+
+	test('clone', () => {
+		// @ts-ignore Test clone
+		const clonePredicate = predicate.clone();
+
+		expect(clonePredicate.parse('sapphire')).toBe('sapphire');
+	});
 });

@@ -13,4 +13,11 @@ describe('InstanceValidator', () => {
 	test("GIVEN anything which isn't and instance of User THEN throws ValidationError", () => {
 		expect(() => predicate.parse(123)).toThrow(new ExpectedValidationError('InstanceValidator', 'Expected', 123, Array));
 	});
+
+	test('clone', () => {
+		// @ts-ignore Test clone
+		const clonePredicate = predicate.clone();
+
+		expect(clonePredicate.parse(new User('Sapphire'))).toStrictEqual(new User('Sapphire'));
+	});
 });

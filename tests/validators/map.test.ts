@@ -32,4 +32,11 @@ describe('MapValidator', () => {
 			])
 		);
 	});
+
+	test('clone', () => {
+		// @ts-ignore Test clone
+		const clonePredicate = predicate.clone();
+
+		expect(clonePredicate.parse(value)).toStrictEqual(value);
+	});
 });

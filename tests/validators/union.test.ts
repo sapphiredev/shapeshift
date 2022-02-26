@@ -77,4 +77,12 @@ describe('UnionValidator', () => {
 			])
 		);
 	});
+
+	test('clone', () => {
+		// @ts-ignore Test clone
+		const clonePredicate = unionPredicate.clone();
+
+		expect(clonePredicate.parse('hello')).toBe('hello');
+		expect(clonePredicate.parse(5)).toBe(5);
+	});
 });

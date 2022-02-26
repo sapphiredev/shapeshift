@@ -123,4 +123,23 @@ describe('ArrayValidator', () => {
 			});
 		});
 	});
+
+	describe('clone', () => {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
+		const clonePredicate = s.string.array.clone();
+
+		test.each([
+			[
+				['Hello', 'there'],
+				['Hello', 'there']
+			],
+			[
+				['Hello', 'there', 'foo'],
+				['Hello', 'there', 'foo']
+			]
+		])('GIVEN %p THEN returns given value', (value) => {
+			expect(clonePredicate.parse(value)).toEqual(value);
+		});
+	});
 });
