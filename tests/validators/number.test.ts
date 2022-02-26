@@ -278,7 +278,7 @@ describe('NumberValidator', () => {
 		});
 
 		describe('Clone', () => {
-			// @ts-ignore Test clone
+			// @ts-expect-error Test clone
 			const clonePredicate = s.number.default(5).clone();
 
 			test('GIVEN undefined THEN returns the default value', () => {

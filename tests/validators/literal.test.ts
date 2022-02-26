@@ -14,7 +14,7 @@ describe('LiteralValidator', () => {
 	});
 
 	test('Clone', () => {
-		// @ts-ignore Test clone
+		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 
 		expect(clonePredicate.parse('sapphire')).toBe('sapphire');

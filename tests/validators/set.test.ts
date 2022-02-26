@@ -26,7 +26,7 @@ describe('SetValidator', () => {
 	});
 
 	test('Clone', () => {
-		// @ts-ignore Test clone
+		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 
 		expect(clonePredicate.parse(new Set(['foo']))).toStrictEqual(new Set(['foo']));

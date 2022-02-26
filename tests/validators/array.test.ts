@@ -125,8 +125,7 @@ describe('ArrayValidator', () => {
 	});
 
 	describe('Clone', () => {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
+		// @ts-expect-error Accessing protected method
 		const clonePredicate = s.string.array.clone();
 
 		test.each([
