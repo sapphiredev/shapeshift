@@ -1,8 +1,9 @@
-import type { BaseError, IConstraint } from '..';
 import { BaseValidator } from './imports';
 import { Result } from '../lib/Result';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
+import type { IConstraint } from '../constraints/base/IConstraint';
+import type { BaseError } from '../lib/errors/BaseError';
 
 export class TupleValidator<T extends BaseValidator<any>[]> extends BaseValidator<[...T]> {
 	private readonly validators: BaseValidator<any>[] = [];
