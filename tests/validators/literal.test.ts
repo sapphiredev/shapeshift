@@ -7,7 +7,7 @@ describe('LiteralValidator', () => {
 		expect(predicate.parse('sapphire')).toBe('sapphire');
 	});
 
-	test("GIVEN anything which isn't the literal THEN throws ValidationError", () => {
+	test("GIVEN anything which isn't the literal THEN throws ExpectedValidationError", () => {
 		expect(() => predicate.parse('hello')).toThrow(
 			new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', 'hello', 'sapphire')
 		);
