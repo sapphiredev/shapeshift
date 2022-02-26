@@ -19,7 +19,7 @@ describe('ArrayValidator', () => {
 		);
 	});
 
-	test('s.string.array and array(s.string) should return same', () => {
+	test('s.string.array and s.array(s.string) should return same', () => {
 		expect(predicate.parse(['hello'])).toStrictEqual(s.array(s.string).parse(['hello']));
 	});
 

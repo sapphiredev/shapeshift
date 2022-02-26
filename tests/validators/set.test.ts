@@ -19,6 +19,12 @@ describe('SetValidator', () => {
 		expect(() => predicate.parse(set)).toThrow(new CombinedError([new ValidationError('StringValidator', 'Expected a string', input)]));
 	});
 
+	test('s.string.set and s.set(s.string) should return same', () => {
+		const set = new Set(['hello']);
+
+		expect(predicate.parse(set)).toStrictEqual(s.string.set.parse(set));
+	});
+
 	test('Clone', () => {
 		// @ts-ignore Test clone
 		const clonePredicate = predicate.clone();
