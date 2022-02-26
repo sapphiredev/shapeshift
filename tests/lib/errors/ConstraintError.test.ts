@@ -39,8 +39,8 @@ describe('ConstraintError', () => {
 	});
 
 	describe('toJSON', () => {
-		test('toJSON should return an object with name and property', () => {
-			expect(error.toJSON()).toEqual({
+		test('toJSON should return an object with name, constraint, given and expected', () => {
+			expect(error.toJSON()).toStrictEqual({
 				name: 'Error',
 				constraint: 's.number.int',
 				given: 42.1,

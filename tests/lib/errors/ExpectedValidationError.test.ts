@@ -40,8 +40,8 @@ describe('ExpectedValidationError', () => {
 	});
 
 	describe('toJSON', () => {
-		test('toJSON should return an object with name and property', () => {
-			expect(error.toJSON()).toEqual({
+		test('toJSON should return an object with name, validator, given and expected', () => {
+			expect(error.toJSON()).toStrictEqual({
 				name: 'Error',
 				validator: 'LiteralValidator',
 				given: 'world',
