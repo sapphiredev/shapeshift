@@ -59,7 +59,7 @@ export function stringLengthNe(length: number): IConstraint<string> {
 	return stringLengthComparator(ne, 's.string.lengthNe', expected, length);
 }
 
-export function stringRegex(regex: RegExp, type: 'url' | 'uuid' | 'regex', expected?: string): IConstraint<string> {
+export function stringRegex(regex: RegExp, type: 'uuid' | 'regex', expected?: string): IConstraint<string> {
 	expected ??= `expected to match ${type === 'regex' ? regex.source : `a ${type}`}`;
 	return {
 		run(input: string) {
@@ -76,7 +76,7 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 			try {
 				const url = new URL(input);
 
-				// TODO: optimize theses checks
+				// TODO(kyranet): optimize the option checks
 				if (options?.allowedProtocols && !options.allowedProtocols.includes(url.protocol as StringProtocol)) {
 					return Result.err(
 						new ConstraintError(
