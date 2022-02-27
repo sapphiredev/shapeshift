@@ -24,7 +24,7 @@ describe('UnionValidator', () => {
 	});
 
 	describe('or', () => {
-		test('Union Or', () => {
+		test('GIVEN string, number, array THEN return the input', () => {
 			const orPredicate = unionPredicate.or(s.union(s.string.array, s.number.array));
 
 			expect<string | number | string[] | number[]>(orPredicate.parse(['hello'])).toStrictEqual(['hello']);
@@ -36,6 +36,7 @@ describe('UnionValidator', () => {
 		test('Or and union should be strict equal', () => {
 			const orUnionPredicate = s.string.or(s.number);
 
+			expect(orUnionPredicate).toBeInstanceOf(unionPredicate.constructor);
 			expect(unionPredicate).toStrictEqual(orUnionPredicate);
 		});
 	});

@@ -49,7 +49,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('Transform', () => {
+	describe('transform', () => {
 		const transformPredicate = s.string.transform((value) => value.toUpperCase());
 
 		test('GIVEN a string THEN returns a number', () => {
@@ -57,7 +57,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('Default', () => {
+	describe('default', () => {
 		const defaultPredicate = s.string.default('Hello There');
 
 		test('GIVEN a string THEN returns the given string', () => {
