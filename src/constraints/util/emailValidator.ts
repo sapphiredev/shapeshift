@@ -65,8 +65,7 @@ export function validateEmail(email: string): boolean {
 
 export function validateEmailDomain(domain: string): boolean {
 	try {
-		const url = new URL(`http://${domain}`);
-		return url.hostname === domain && url.pathname === '/' && !url.search;
+		return new URL(`http://${domain}`).hostname === domain;
 	} catch {
 		return false;
 	}
