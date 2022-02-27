@@ -8,7 +8,7 @@ describe('AnyValidator', () => {
 	});
 });
 
-describe('unknownValidator', () => {
+describe('UnknownValidator', () => {
 	const predicate = s.unknown;
 
 	test.each([1, 'hello', null])('GIVEN anything %s THEN returns the given value', (input) => {

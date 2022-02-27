@@ -1,6 +1,6 @@
 import { s } from '../../src';
 
-describe('null', () => {
+describe('NullValidator', () => {
 	const predicate = s.null;
 
 	test('GIVEN null should return null', () => {

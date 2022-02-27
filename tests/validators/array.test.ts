@@ -129,14 +129,8 @@ describe('ArrayValidator', () => {
 		const clonePredicate = s.string.array.clone();
 
 		test.each([
-			[
-				['Hello', 'there'],
-				['Hello', 'there']
-			],
-			[
-				['Hello', 'there', 'foo'],
-				['Hello', 'there', 'foo']
-			]
+			[['Hello', 'there']],
+			[['Hello', 'there', 'foo']]
 		])('GIVEN %p THEN returns given value', (value) => {
 			expect(clonePredicate.parse(value)).toEqual(value);
 		});

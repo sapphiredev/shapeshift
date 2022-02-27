@@ -1,9 +1,9 @@
 import { s } from '../../src';
 
-describe('undefined', () => {
+describe('UndefinedValidator', () => {
 	const predicate = s.undefined;
 
-	test('GIVEN undefined should return undefined', () => {
+	test('GIVEN undefined THEN returns undefined', () => {
 		expect(predicate.parse(undefined)).toBe(undefined);
 	});
 });
