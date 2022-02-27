@@ -242,7 +242,7 @@ describe('StringValidator', () => {
 
 			test.each(['ABC', '123A'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 				expect(() => regexPredicate.parse(input)).toThrow(
-					new ConstraintError('s.string.regex', 'Invalid string format', input, `expected to match ${regex.source}`)
+					new ConstraintError('s.string.regex', 'Invalid string format', input, `expected ${regex}.test(expected) to be true`)
 				);
 			});
 		});
