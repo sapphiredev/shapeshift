@@ -1,43 +1,78 @@
 import { s } from '../../src';
 
 describe('BaseValidator', () => {
+	describe('Optional', () => {
+		const optionalPredicate = s.string.optional;
+
+		test.each([undefined, 'hello'])('GIVEN %s THEN returns given value', (input) => {
+			expect(optionalPredicate.parse(input)).toEqual(input);
+		});
+	});
+
 	describe('Nullable', () => {
 		const nullablePredicate = s.string.nullable;
 
-		test('GIVEN a null THEN returns null', () => {
-			expect<string | null>(nullablePredicate.parse(null)).toBe(null);
-		});
-
-		test('GIVEN a string THEN returns a string', () => {
-			expect(nullablePredicate.parse('Hello There')).toBe('Hello There');
+		test.each([null, 'Hello There'])('GIVEN %s THEN returns given value', (input) => {
+			expect<string | null>(nullablePredicate.parse(input)).toBe(input);
 		});
 	});
 
 	describe('Nullish', () => {
 		const nullishPredicate = s.string.nullish;
 
-		test('GIVEN a null THEN returns null', () => {
-			expect<string | undefined | null>(nullishPredicate.parse(null)).toBe(null);
+		test.each(['Hello There', undefined, null])('GIVEN %s THEN returns the given value', (input) => {
+			expect<string | undefined | null>(nullishPredicate.parse(input)).toBe(input);
 		});
+	});
 
-		test('GIVEN a undefined THEN returns undefined', () => {
-			expect(nullishPredicate.parse(undefined)).toBe(undefined);
+	describe('Array', () => {
+		const arrayPredicate = s.number.array;
+
+		test('GIVEN an array of string THEN returns the given value', () => {
+			expect(arrayPredicate.parse([1, 2, 3])).toStrictEqual([1, 2, 3]);
 		});
+	});
 
-		test('GIVEN a string THEN returns a string', () => {
-			expect(nullishPredicate.parse('Hello There')).toBe('Hello There');
+	describe('Set', () => {
+		const setPredicate = s.number.set;
+
+		test('GIVEN a set of string THEN returns the given value', () => {
+			expect(setPredicate.parse(new Set([1, 2, 3]))).toStrictEqual(new Set([1, 2, 3]));
 		});
 	});
 
 	describe('Or', () => {
 		const orPredicate = s.string.or(s.number);
 
-		test('GIVEN a string THEN returns a string', () => {
-			expect(orPredicate.parse('Hello There')).toBe('Hello There');
+		test.each(['Hello There', 6])('GIVEN a string or number THEN returns a string', (input) => {
+			expect(orPredicate.parse(input)).toBe(input);
+		});
+	});
+
+	describe('Transform', () => {
+		const transformPredicate = s.string.transform((value) => value.toUpperCase());
+
+		test('GIVEN a string THEN returns a number', () => {
+			expect(transformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
+		});
+	});
+
+	describe('Default', () => {
+		const defaultPredicate = s.string.default('Hello There');
+
+		test('GIVEN a string THEN returns the given string', () => {
+			expect(defaultPredicate.parse('Hello There')).toBe('Hello There');
 		});
 
-		test('GIVEN a number THEN returns a number', () => {
-			expect(orPredicate.parse(6)).toBe(6);
+		test('GIVEN undefined THEN returns the default string', () => {
+			expect(defaultPredicate.parse(undefined)).toBe('Hello There');
 		});
+	});
+	test('GIVEN clone THEN returns similar instance', () => {
+		// @ts-expect-error Test clone
+		const clonePredicate = s.string.clone();
+
+		expect(clonePredicate).toBeInstanceOf(clonePredicate.constructor);
+		expect(clonePredicate.parse('Hello There')).toStrictEqual(s.string.parse('Hello There'));
 	});
 });
