@@ -37,7 +37,8 @@ export type {
 	stringLengthLe,
 	stringLengthLt,
 	stringLengthNe,
-	stringIp,
+	stringEmail,
 	stringRegex,
-	stringUrl
+	stringUrl,
+	stringIp
 } from './StringConstraints';

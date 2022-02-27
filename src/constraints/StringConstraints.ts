@@ -2,13 +2,11 @@ import { ConstraintError } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
-import net from 'node:net';
+import { isIP, isIPv4, isIPv6 } from 'node:net';
+import { validateEmail } from './util/emailValidator';
 
 export type StringConstraintName =
-	| `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email'}`
-	| StringIpName;
-
-export type StringIpName = `s.string.ip${'v4' | 'v6' | ''}`;
+	| `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email' | `ip${'v4' | 'v6' | ''}`}`;
 
 export type StringProtocol = `${string}:`;
 
@@ -57,6 +55,16 @@ export function stringLengthEq(length: number): IConstraint<string> {
 export function stringLengthNe(length: number): IConstraint<string> {
 	const expected = `expected.length !== ${length}`;
 	return stringLengthComparator(ne, 's.string.lengthNe', expected, length);
+}
+
+export function stringEmail(): IConstraint<string> {
+	return {
+		run(input: string) {
+			return validateEmail(input)
+				? Result.ok(input)
+				: Result.err(new ConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address'));
+		}
+	};
 }
 
 export function stringRegex(regex: RegExp, type: 'uuid' | 'regex', expected?: string): IConstraint<string> {
@@ -110,11 +118,11 @@ export function stringIp(version?: 4 | 6): IConstraint<string> {
 	const ipVersion = version ? `v${version}` : '';
 	return {
 		run(input: string) {
-			return (version === 4 ? net.isIPv4(input) : version === 6 ? net.isIPv6(input) : net.isIP(input)) //
+			return (version === 4 ? isIPv4(input) : version === 6 ? isIPv6(input) : isIP(input)) //
 				? Result.ok(input)
 				: Result.err(
 						new ConstraintError(
-							`s.string.ip${ipVersion}` as StringIpName,
+							`s.string.ip${ipVersion}` as StringConstraintName,
 							`Invalid ip${ipVersion} address`,
 							input,
 							`expected to be an ip${ipVersion} address`
