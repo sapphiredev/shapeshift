@@ -77,4 +77,14 @@ describe('BaseValidator', () => {
 		expect(clonePredicate).toBeInstanceOf(stringPredicate.constructor);
 		expect(clonePredicate.parse('Hello There')).toStrictEqual(stringPredicate.parse('Hello There'));
 	});
+
+	test('GIVEN clone of default THEN returns similar instance', () => {
+		const predicate = s.number.default(5);
+		// @ts-expect-error Test clone
+		const clonePredicate = predicate.clone();
+
+		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
+		expect(clonePredicate.parse(undefined)).toStrictEqual(5);
+		expect(clonePredicate.parse(10)).toStrictEqual(10);
+	});
 });
