@@ -1,7 +1,7 @@
 import { s } from '../../src';
 
 describe('BaseValidator', () => {
-	describe('Optional', () => {
+	describe('#optional', () => {
 		const optionalPredicate = s.string.optional;
 
 		test.each([undefined, 'hello'])('GIVEN %s THEN returns given value', (input) => {
@@ -9,7 +9,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('Nullable', () => {
+	describe('#nullable', () => {
 		const nullablePredicate = s.string.nullable;
 
 		test.each([null, 'Hello There'])('GIVEN %s THEN returns given value', (input) => {
@@ -17,7 +17,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('Nullish', () => {
+	describe('#nullish', () => {
 		const nullishPredicate = s.string.nullish;
 
 		test.each(['Hello There', undefined, null])('GIVEN %s THEN returns the given value', (input) => {
@@ -25,7 +25,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('Array', () => {
+	describe('#array', () => {
 		const arrayPredicate = s.number.array;
 
 		test('GIVEN an array of string THEN returns the given value', () => {
@@ -33,7 +33,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('Set', () => {
+	describe('#set', () => {
 		const setPredicate = s.number.set;
 
 		test('GIVEN a set of string THEN returns the given value', () => {
@@ -41,7 +41,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('Or', () => {
+	describe('or', () => {
 		const orPredicate = s.string.or(s.number);
 
 		test.each(['Hello There', 6])('GIVEN a string or number THEN returns a string', (input) => {
