@@ -23,13 +23,21 @@ describe('UnionValidator', () => {
 		);
 	});
 
-	test('or', () => {
-		const orPredicate = unionPredicate.or(s.union(s.string.array, s.number.array));
+	describe('or', () => {
+		test('Union Or', () => {
+			const orPredicate = unionPredicate.or(s.union(s.string.array, s.number.array));
 
-		expect<string | number | string[] | number[]>(orPredicate.parse(['hello'])).toStrictEqual(['hello']);
-		expect(orPredicate.parse([5])).toStrictEqual([5]);
-		expect(orPredicate.parse('hello')).toBe('hello');
-		expect(orPredicate.parse(5)).toBe(5);
+			expect<string | number | string[] | number[]>(orPredicate.parse(['hello'])).toStrictEqual(['hello']);
+			expect(orPredicate.parse([5])).toStrictEqual([5]);
+			expect(orPredicate.parse('hello')).toBe('hello');
+			expect(orPredicate.parse(5)).toBe(5);
+		});
+
+		test('Or and union should be strict equal', () => {
+			const orUnionPredicate = s.string.or(s.number);
+
+			expect(unionPredicate).toStrictEqual(orUnionPredicate);
+		});
 	});
 
 	test('optional', () => {
@@ -76,14 +84,6 @@ describe('UnionValidator', () => {
 				new ValidationError('s.number', 'Expected a number primitive', false)
 			])
 		);
-	});
-
-	describe('Or', () => {
-		const orPredicate = s.string.or(s.number);
-
-		test('Or and union should be strict equal', () => {
-			expect(unionPredicate).toStrictEqual(orPredicate);
-		});
 	});
 
 	test('GIVEN clone THEN returns similar instance', () => {
