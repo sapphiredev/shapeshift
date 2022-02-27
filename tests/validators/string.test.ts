@@ -95,7 +95,9 @@ describe('StringValidator', () => {
 				);
 			});
 		});
+	});
 
+	describe('Formats', () => {
 		describe('email', () => {
 			const emailPredicate = s.string.email;
 
@@ -153,38 +155,90 @@ describe('StringValidator', () => {
 		});
 
 		describe('uuid', () => {
-			describe('default', () => {
-				const uuidPredicate = s.string.uuid();
+			describe('uuid5', () => {
+				const uuid5Predicate = s.string.uuid(5);
 
-				test.each(['450d6a23-9e6f-45d9-9d5a-fd4f6e014f16', '00000000-0000-0000-0000-000000000000'])(
-					'GIVEN %s THEN returns given value',
+				test.each(['2a7ff881-2944-55ae-94b0-b2ed34432297'])('GIVEN %s THEN returns given value', (input) => {
+					expect(uuid5Predicate.parse(input)).toBe(input);
+				});
+
+				test.each(['1b671a64-40d5-491e-99b0-da01ff1f3342'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => uuid5Predicate.parse(input)).toThrow(
+						new ConstraintError('s.string.uuid', 'Invalid UUID', input, 'expected UUID v5')
+					);
+				});
+			});
+
+			describe('uuid4', () => {
+				const uuid4Predicate = s.string.uuid(4);
+
+				test.each(['450d6a23-9e6f-45d9-9d5a-fd4f6e014f16'])('GIVEN %s THEN returns given value', (input) => {
+					expect(uuid4Predicate.parse(input)).toBe(input);
+				});
+
+				test.each(['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5', '450d6a23-9e6f-35d9-9d5a-fd4f6e014f16'])(
+					'GIVEN %s THEN throws a ConstraintError',
 					(input) => {
-						expect(uuidPredicate.parse(input)).toBe(input);
+						expect(() => uuid4Predicate.parse(input)).toThrow(
+							new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v4')
+						);
 					}
 				);
 
-				test.each(['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => uuidPredicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v4')
+				test('Given no version then match v4', () => {
+					const defaultPredicate = s.string.uuid();
+					const input = 'a0d32a64-3843-4475-90f3-7ce5b74168d8';
+					expect(uuid4Predicate.parse(input)).toStrictEqual(defaultPredicate.parse(input));
+				});
+			});
+
+			describe('uuid3', () => {
+				const uuid3Predicate = s.string.uuid(3);
+
+				test.each(['6e8bc430-9a1b-4f7f-b7a5'])('GIVEN %s THEN returns given value', (input) => {
+					expect(uuid3Predicate.parse(input)).toBe(input);
+				});
+
+				test.each(['6e8bc430-9a1b-4f7f-b7a5', '450d6a23-9e6f-35d9-9d5a-fd4f6e014f16'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => uuid3Predicate.parse(input)).toThrow(
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v3')
 					);
 				});
 			});
 
 			describe('with version range', () => {
-				const uuidRangePredicate = s.string.uuid('1-4');
+				const uuidRangePredicate = s.string.uuid('1-5');
 
-				test.each(['6e8bc430-9a1b-4f7f-b7a5-ea4dede09a4b', '6e8bc430-9a1b-1f7f-b7a5-ea4dede09a4b', '6e8bc430-9a1b-3f7f-b7a5-ea4dede09a4b'])(
-					'GIVEN %s THEN returns given value',
-					(input) => {
-						expect(uuidRangePredicate.parse(input)).toBe(input);
-					}
-				);
+				test.each([
+					'6e8bc430-9a1b-4f7f-b7a5-ea4dede09a4b',
+					'6e8bc430-9a1b-1f7f-b7a5-ea4dede09a4b',
+					'6e8bc430-9a1b-3f7f-b7a5-ea4dede09a4b',
+					'2a7ff881-2944-55ae-94b0-b2ed34432297'
+				])('GIVEN %s THEN returns given value', (input) => {
+					expect(uuidRangePredicate.parse(input)).toBe(input);
+				});
 
 				test.each(['6e8bc430-9a1b-5f7f-b7a5-ea4dede09a4b'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuidRangePredicate.parse(input)).toThrow(
 						new ConstraintError('s.string.uuid', 'Invalid string format', input, `expected UUID in range 1-4`)
 					);
 				});
+
+				describe('Given null version then match v1-5', () => {
+					const rangePredicate = s.string.uuid();
+
+					test.each(['a84f1360-9782-11ec-909d-d7f2210bf3b4', '6e8bc430-9a1b-4f7f-b7a5-ea4dede09a4b'])(
+						'GIVEN %s THEN returns given value',
+						(input) => {
+							expect(uuidRangePredicate.parse(input)).toStrictEqual(rangePredicate.parse(input));
+						}
+					);
+				});
+			});
+
+			test('Given NIL UUID THEN return NIL UUID', () => {
+				const uuidPredicate = s.string.uuid(null);
+				expect(uuidPredicate.parse('00000000-0000-0000-0000-000000000000')).toBe('00000000-0000-0000-0000-000000000000');
 			});
 		});
 
