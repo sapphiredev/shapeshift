@@ -28,4 +28,16 @@ describe('BaseValidator', () => {
 			expect(nullishPredicate.parse('Hello There')).toBe('Hello There');
 		});
 	});
+
+	describe('Or', () => {
+		const orPredicate = s.string.or(s.number);
+
+		test('GIVEN a string THEN returns a string', () => {
+			expect(orPredicate.parse('Hello There')).toBe('Hello There');
+		});
+
+		test('GIVEN a number THEN returns a number', () => {
+			expect(orPredicate.parse(6)).toBe(6);
+		});
+	});
 });
