@@ -52,7 +52,7 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 
 	public uuid(v: 1 | 3 | 4 | 5 | `${bigint}-${bigint}` | null = 4): this {
 		// from https://stackoverflow.com/a/38191078/16893382
-		const uuidRegex = v ? new RegExp(`^([0-9A-F]{8}-[0-9A-F]{4}-[${v}][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$`, 'i') : NIL_UUID;
+		const uuidRegex = v ? new RegExp(`^[0-9A-F]{8}-[0-9A-F]{4}-[${v}][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$`, 'i') : NIL_UUID;
 		return this.addConstraint(
 			stringRegex(uuidRegex, 'uuid', `expected UUID ${typeof v === 'number' ? `v${v}` : `in range of ${v}`} `) as IConstraint<T>
 		);

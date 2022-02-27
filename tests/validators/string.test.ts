@@ -164,7 +164,7 @@ describe('StringValidator', () => {
 
 				test.each(['1b671a64-40d5-491e-99b0-da01ff1f3342'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuid5Predicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid UUID', input, 'expected UUID v5')
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v5')
 					);
 				});
 			});
@@ -195,11 +195,11 @@ describe('StringValidator', () => {
 			describe('uuid3', () => {
 				const uuid3Predicate = s.string.uuid(3);
 
-				test.each(['6e8bc430-9a1b-4f7f-b7a5'])('GIVEN %s THEN returns given value', (input) => {
+				test.each(['2962d7f2-92f2-3105-8606-2234808bdfc8'])('GIVEN %s THEN returns given value', (input) => {
 					expect(uuid3Predicate.parse(input)).toBe(input);
 				});
 
-				test.each(['6e8bc430-9a1b-4f7f-b7a5', '450d6a23-9e6f-35d9-9d5a-fd4f6e014f16'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each(['6e8bc430-9a1b-4f7f-b7a5', '450d6a23-9e6f-15d9-9d5a-fd4f6e014f16'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuid3Predicate.parse(input)).toThrow(
 						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v3')
 					);
@@ -207,31 +207,18 @@ describe('StringValidator', () => {
 			});
 
 			describe('with version range', () => {
-				const uuidRangePredicate = s.string.uuid('1-5');
+				const uuidRangePredicate = s.string.uuid('1-4');
 
-				test.each([
-					'6e8bc430-9a1b-4f7f-b7a5-ea4dede09a4b',
-					'6e8bc430-9a1b-1f7f-b7a5-ea4dede09a4b',
-					'6e8bc430-9a1b-3f7f-b7a5-ea4dede09a4b',
-					'2a7ff881-2944-55ae-94b0-b2ed34432297'
-				])('GIVEN %s THEN returns given value', (input) => {
-					expect(uuidRangePredicate.parse(input)).toBe(input);
-				});
+				test.each(['c310deb0-9785-11ec-8e65-592cb74aa664', '2962d7f2-92f2-3105-8606-2234808bdfc8', '8c4b7c67-5f22-4049-bff4-fd442d9ad7f4'])(
+					'GIVEN %s THEN returns given value',
+					(input) => {
+						expect(uuidRangePredicate.parse(input)).toBe(input);
+					}
+				);
 
-				test.each(['6e8bc430-9a1b-5f7f-b7a5-ea4dede09a4b'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each(['2a7ff881-2944-55ae-94b0-b2ed34432297'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuidRangePredicate.parse(input)).toThrow(
 						new ConstraintError('s.string.uuid', 'Invalid string format', input, `expected UUID in range 1-4`)
-					);
-				});
-
-				describe('Given null version then match v1-5', () => {
-					const rangePredicate = s.string.uuid();
-
-					test.each(['a84f1360-9782-11ec-909d-d7f2210bf3b4', '6e8bc430-9a1b-4f7f-b7a5-ea4dede09a4b'])(
-						'GIVEN %s THEN returns given value',
-						(input) => {
-							expect(uuidRangePredicate.parse(input)).toStrictEqual(rangePredicate.parse(input));
-						}
 					);
 				});
 			});
@@ -258,14 +245,23 @@ describe('StringValidator', () => {
 		});
 
 		describe('ip', () => {
+			const v4Ips = ['127.0.0.1'];
+			const v6Ips = ['::1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'];
+			const invalidIps = [
+				'127.000.000.001',
+				'127.0.0.1/24',
+				'fhqwhgads',
+				'2001:0db8:85a3:0000:0000:8a2e:0370:7334/24',
+				'2001:0db8:85a3:0000:0000:8a2e:0370:7334/24/24'
+			];
 			describe('default', () => {
 				const ipPredicate = s.string.ip();
 
-				test.each(['::1', '127.0.0.1'])('GIVEN %s THEN returns given value', (input) => {
+				test.each([...v4Ips, ...v6Ips])('GIVEN %s THEN returns given value', (input) => {
 					expect(ipPredicate.parse(input)).toBe(input);
 				});
 
-				test.each(['127.000.000.001', '127.0.0.1/24', 'fhqwhgads'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each(invalidIps)('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => ipPredicate.parse(input)).toThrow(
 						new ConstraintError('s.string.ip', 'Invalid ip address', input, 'expected to be an ip address')
 					);
@@ -275,11 +271,11 @@ describe('StringValidator', () => {
 			describe('v4', () => {
 				const ipv4Predicate = s.string.ipv4;
 
-				test.each(['127.0.0.1'])('GIVEN %s THEN returns given value', (input) => {
+				test.each(v4Ips)('GIVEN %s THEN returns given value', (input) => {
 					expect(ipv4Predicate.parse(input)).toBe(input);
 				});
 
-				test.each(['127.000.000.001', '127.0.0.1/24', 'fhqwhgads'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each([...v6Ips, ...invalidIps])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => ipv4Predicate.parse(input)).toThrow(
 						new ConstraintError('s.string.ipv4', 'Invalid ipv4 address', input, 'expected to be an ipv4 address')
 					);
@@ -289,18 +285,15 @@ describe('StringValidator', () => {
 			describe('v6', () => {
 				const ipv6Predicate = s.string.ipv6;
 
-				test.each(['::1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'])('GIVEN %s THEN returns given value', (input) => {
+				test.each(v6Ips)('GIVEN %s THEN returns given value', (input) => {
 					expect(ipv6Predicate.parse(input)).toBe(input);
 				});
 
-				test.each(['fhqwhgads', '2001:0db8:85a3:0000:0000:8a2e:0370:7334/24', '2001:0db8:85a3:0000:0000:8a2e:0370:7334/24/24'])(
-					'GIVEN %s THEN throws a ConstraintError',
-					(input) => {
-						expect(() => ipv6Predicate.parse(input)).toThrow(
-							new ConstraintError('s.string.ipv6', 'Invalid ipv6 address', input, 'expected to be an ipv6 address')
-						);
-					}
-				);
+				test.each([...v4Ips, ...invalidIps])('GIVEN %s THEN throws a ConstraintError', (input) => {
+					expect(() => ipv6Predicate.parse(input)).toThrow(
+						new ConstraintError('s.string.ipv6', 'Invalid ipv6 address', input, 'expected to be an ipv6 address')
+					);
+				});
 			});
 		});
 	});
