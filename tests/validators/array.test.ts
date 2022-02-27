@@ -128,10 +128,7 @@ describe('ArrayValidator', () => {
 		// @ts-expect-error Accessing protected method
 		const clonePredicate = s.string.array.clone();
 
-		test.each([
-			[['Hello', 'there']],
-			[['Hello', 'there', 'foo']]
-		])('GIVEN %p THEN returns given value', (value) => {
+		test.each([[['Hello', 'there']], [['Hello', 'there', 'foo']]])('GIVEN %p THEN returns given value', (value) => {
 			expect(clonePredicate.parse(value)).toEqual(value);
 		});
 	});

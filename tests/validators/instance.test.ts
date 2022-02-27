@@ -14,7 +14,7 @@ describe('InstanceValidator', () => {
 		expect(() => predicate.parse(123)).toThrow(new ExpectedValidationError('InstanceValidator', 'Expected', 123, Array));
 	});
 
-	test('Clone', () => {
+	test('GIVEN clone THEN returns similar instance', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 

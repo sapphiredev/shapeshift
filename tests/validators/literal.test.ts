@@ -13,10 +13,20 @@ describe('LiteralValidator', () => {
 		);
 	});
 
-	test('Clone', () => {
+	test('GIVEN clone THEN returns similar instance', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 
-		expect(clonePredicate.parse('sapphire')).toBe('sapphire');
+		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
+	});
+
+	describe('DateLiteral', () => {
+		const date = new Date('2022-01-01');
+		const dateLiteralPredicate = s.literal(date);
+		const datePredicate = s.date;
+
+		test('GIVEN a date literal THEN returns the given value', () => {
+			expect(dateLiteralPredicate.parse(date)).toStrictEqual(datePredicate.parse(date));
+		});
 	});
 });

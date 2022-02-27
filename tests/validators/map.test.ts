@@ -33,7 +33,7 @@ describe('MapValidator', () => {
 		);
 	});
 
-	test('Clone', () => {
+	test('GIVEN clone THEN returns similar instance', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 

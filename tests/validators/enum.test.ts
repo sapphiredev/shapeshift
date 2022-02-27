@@ -7,7 +7,7 @@ describe('EnumValidator', () => {
 		expect(predicate.parse(input)).toBe(input);
 	});
 
-	test.each(['d', 'e', 'f'])('GIVEN a string %s THEN throws CombinedError', (input) => {
+	test.each(['d', 'e', 'f', 1, null, true])('GIVEN a invalid value %s THEN throws CombinedError', (input) => {
 		expect(() => predicate.parse(input)).toThrow(
 			new CombinedError([
 				new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, 'a'),

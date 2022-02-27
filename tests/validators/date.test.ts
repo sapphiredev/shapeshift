@@ -8,8 +8,8 @@ describe('DateValidator', () => {
 		expect(predicate.parse(date)).toBe(date);
 	});
 
-	test('GIVEN a non-date THEN throws ValidationError', () => {
-		expect(() => predicate.parse('Hello there')).toThrow(new ValidationError('DateValidator', 'Expected a Date', 'Hello there'));
+	test.each(['abc', '', null, undefined])('GIVEN a non-date THEN throws ValidationError', (input) => {
+		expect(() => predicate.parse(input)).toThrow(new ValidationError('DateValidator', 'Expected a Date', input));
 	});
 
 	describe('lt', () => {
@@ -70,10 +70,6 @@ describe('DateValidator', () => {
 		test.each([new Date('2021-01-02'), new Date('2023-01-02')])('GIVEN %s THEN throws ConstraintError', (value) => {
 			expect(() => eqPredicate.parse(value)).toThrow(new ConstraintError('s.date.eq', 'Invalid Date value', value, 'expected = 2022-01-02'));
 		});
-
-		test.each(['abc', '', null, undefined])('GIVEN %s THEN throws ConstraintError', (value) => {
-			expect(() => eqPredicate.parse(value)).toThrow(new ConstraintError('s.date.ge', 'Expected a Date', value, 'expected = 2022-01-02'));
-		});
 	});
 
 	describe('ne', () => {
@@ -85,10 +81,6 @@ describe('DateValidator', () => {
 
 		test.each([new Date('2022-01-02')])('GIVEN %s THEN throws ConstraintError', (value) => {
 			expect(() => nePredicate.parse(value)).toThrow(new ConstraintError('s.date.ne', 'Invalid Date value', value, 'expected != 2022-01-02'));
-		});
-
-		test.each(['abc', '', null, undefined])('GIVEN %s THEN throws ConstraintError', (value) => {
-			expect(() => nePredicate.parse(value)).toThrow(new ConstraintError('s.date.ne', 'Expected a Date', value, 'expected != 2022-01-02'));
 		});
 	});
 });

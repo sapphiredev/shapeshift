@@ -25,7 +25,7 @@ describe('SetValidator', () => {
 		expect(predicate.parse(set)).toStrictEqual(s.string.set.parse(set));
 	});
 
-	test('Clone', () => {
+	test('GIVEN clone THEN returns similar instance', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 

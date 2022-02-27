@@ -78,7 +78,15 @@ describe('UnionValidator', () => {
 		);
 	});
 
-	test('Clone', () => {
+	describe('Or', () => {
+		const orPredicate = s.string.or(s.number);
+
+		test('Or and union should be strict equal', () => {
+			expect(unionPredicate).toStrictEqual(orPredicate);
+		});
+	});
+
+	test('GIVEN clone THEN returns similar instance', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = unionPredicate.clone();
 
