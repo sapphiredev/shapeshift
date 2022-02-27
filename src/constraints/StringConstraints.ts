@@ -17,7 +17,10 @@ export interface UrlOptions {
 	allowedDomains?: StringDomain[];
 }
 
-export const NIL_UUID = /^00000000-0000-0000-0000-000000000000$/;
+export interface StringUuidOptions {
+	version?: 1 | 3 | 4 | 5 | `${bigint}-${bigint}` | null;
+	nullable?: boolean;
+}
 
 function stringLengthComparator(comparator: Comparator, name: StringConstraintName, expected: string, length: number): IConstraint<string> {
 	return {
@@ -69,13 +72,12 @@ export function stringEmail(): IConstraint<string> {
 	};
 }
 
-export function stringRegex(regex: RegExp, type: 'uuid' | 'regex', expected?: string): IConstraint<string> {
-	expected ??= `expected to match ${type === 'regex' ? regex.source : `a ${type}`}`;
+export function stringRegexValidator(type: `s.string.${'uuid' | 'regex'}`, expected: string, regex: RegExp): IConstraint<string> {
 	return {
 		run(input: string) {
 			return regex.test(input) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(`s.string.${type}`, 'Invalid string format', input, expected as string));
+				: Result.err(new ConstraintError(type, 'Invalid string format', input, expected));
 		}
 	};
 }
@@ -132,4 +134,20 @@ export function stringIp(version?: 4 | 6): IConstraint<string> {
 				  );
 		}
 	};
+}
+
+export function stringRegex(regex: RegExp) {
+	return stringRegexValidator('s.string.regex', `expected ${regex}.test(expected) to be true`, regex);
+}
+
+export function stringUuid({ version = 4, nullable = false }: StringUuidOptions = {}) {
+	version ??= '1-5';
+	const regex = new RegExp(
+		`^(?:[0-9A-F]{8}-[0-9A-F]{4}-[${version}][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}${
+			nullable ? '|00000000-0000-0000-0000-000000000000' : ''
+		})$`,
+		'i'
+	);
+	const expected = `expected to match UUID${typeof version === 'number' ? `v${version}` : ` in range of ${version}`}`;
+	return stringRegexValidator('s.string.uuid', expected, regex);
 }

@@ -156,7 +156,7 @@ describe('StringValidator', () => {
 
 		describe('uuid', () => {
 			describe('uuid5', () => {
-				const uuid5Predicate = s.string.uuid(5);
+				const uuid5Predicate = s.string.uuid({ version: 5 });
 
 				test.each(['2a7ff881-2944-55ae-94b0-b2ed34432297'])('GIVEN %s THEN returns given value', (input) => {
 					expect(uuid5Predicate.parse(input)).toBe(input);
@@ -170,7 +170,7 @@ describe('StringValidator', () => {
 			});
 
 			describe('uuid4', () => {
-				const uuid4Predicate = s.string.uuid(4);
+				const uuid4Predicate = s.string.uuid({ version: 4 });
 
 				test.each(['450d6a23-9e6f-45d9-9d5a-fd4f6e014f16'])('GIVEN %s THEN returns given value', (input) => {
 					expect(uuid4Predicate.parse(input)).toBe(input);
@@ -193,7 +193,7 @@ describe('StringValidator', () => {
 			});
 
 			describe('uuid3', () => {
-				const uuid3Predicate = s.string.uuid(3);
+				const uuid3Predicate = s.string.uuid({ version: 3 });
 
 				test.each(['2962d7f2-92f2-3105-8606-2234808bdfc8'])('GIVEN %s THEN returns given value', (input) => {
 					expect(uuid3Predicate.parse(input)).toBe(input);
@@ -207,7 +207,7 @@ describe('StringValidator', () => {
 			});
 
 			describe('with version range', () => {
-				const uuidRangePredicate = s.string.uuid('1-4');
+				const uuidRangePredicate = s.string.uuid({ version: '1-4' });
 
 				test.each(['c310deb0-9785-11ec-8e65-592cb74aa664', '2962d7f2-92f2-3105-8606-2234808bdfc8', '8c4b7c67-5f22-4049-bff4-fd442d9ad7f4'])(
 					'GIVEN %s THEN returns given value',
@@ -224,7 +224,7 @@ describe('StringValidator', () => {
 			});
 
 			test('Given NIL UUID THEN return NIL UUID', () => {
-				const uuidPredicate = s.string.uuid(null);
+				const uuidPredicate = s.string.uuid({ version: '1-5', nullable: true });
 				expect(uuidPredicate.parse('00000000-0000-0000-0000-000000000000')).toBe('00000000-0000-0000-0000-000000000000');
 			});
 		});
