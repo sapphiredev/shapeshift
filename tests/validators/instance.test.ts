@@ -18,6 +18,7 @@ describe('InstanceValidator', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 
+		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
 		expect(clonePredicate.parse(new User('Sapphire'))).toStrictEqual(new User('Sapphire'));
 	});
 });

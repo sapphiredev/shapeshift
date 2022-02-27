@@ -178,9 +178,9 @@ describe('ObjectValidator', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 
-		expect(clonePredicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({
-			username: 'Sapphire',
-			password: 'helloworld'
-		});
+		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
+		expect(clonePredicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual(
+			predicate.parse({ username: 'Sapphire', password: 'helloworld' })
+		);
 	});
 });

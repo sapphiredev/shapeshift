@@ -16,7 +16,7 @@ describe('MapValidator', () => {
 	});
 
 	test('GIVEN a non-matching map THEN throws CombinedError', () => {
-		// @ts-ignore Purposefully invalid
+		// @ts-expect-error Purposefully invalid
 		const map = new Map([
 			['fizz', 1],
 			[2, 3],
@@ -37,6 +37,7 @@ describe('MapValidator', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 
-		expect(clonePredicate.parse(value)).toStrictEqual(value);
+		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
+		expect(clonePredicate.parse(value)).toStrictEqual(predicate.parse(value));
 	});
 });

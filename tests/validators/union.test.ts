@@ -90,7 +90,8 @@ describe('UnionValidator', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = unionPredicate.clone();
 
-		expect(clonePredicate.parse('hello')).toBe('hello');
-		expect(clonePredicate.parse(5)).toBe(5);
+		expect(clonePredicate).toBeInstanceOf(unionPredicate.constructor);
+		expect(clonePredicate.parse('hello')).toBe(unionPredicate.parse('hello'));
+		expect(clonePredicate.parse(5)).toBe(unionPredicate.parse(5));
 	});
 });

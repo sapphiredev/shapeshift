@@ -18,6 +18,7 @@ describe('LiteralValidator', () => {
 		const clonePredicate = predicate.clone();
 
 		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
+		expect(clonePredicate.parse('sapphire')).toBe('sapphire');
 	});
 
 	describe('DateLiteral', () => {

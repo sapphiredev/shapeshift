@@ -124,14 +124,12 @@ describe('ArrayValidator', () => {
 		});
 	});
 
-	describe('Clone', () => {
-		// @ts-expect-error Accessing protected method
-		const clonePredicate = s.string.array.clone();
+	test('GIVEN clone THEN returns similar instance', () => {
+		const arrayPredicate = s.string.array;
+		// @ts-expect-error Test clone
+		const clonePredicate = arrayPredicate.clone();
 
-		expect(clonePredicate).toBeInstanceOf(s.string.array.constructor);
-
-		test.each([[['Hello', 'there']], [['Hello', 'there', 'foo']]])('GIVEN %p THEN returns given value', (value) => {
-			expect(clonePredicate.parse(value)).toEqual(value);
-		});
+		expect(clonePredicate).toBeInstanceOf(arrayPredicate.constructor);
+		expect(clonePredicate.parse(['Hello There'])).toStrictEqual(arrayPredicate.parse(['Hello There']));
 	});
 });

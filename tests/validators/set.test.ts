@@ -29,6 +29,7 @@ describe('SetValidator', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 
-		expect(clonePredicate.parse(new Set(['foo']))).toStrictEqual(new Set(['foo']));
+		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
+		expect(clonePredicate.parse(new Set(['foo']))).toStrictEqual(predicate.parse(new Set(['foo'])));
 	});
 });

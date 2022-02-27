@@ -29,6 +29,7 @@ describe('RecordValidator', () => {
 		// @ts-expect-error Test clone
 		const clonePredicate = predicate.clone();
 
-		expect(clonePredicate.parse(value)).toStrictEqual(value);
+		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
+		expect(clonePredicate.parse(value)).toStrictEqual(predicate.parse(value));
 	});
 });
