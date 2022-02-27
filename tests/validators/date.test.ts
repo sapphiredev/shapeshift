@@ -13,14 +13,17 @@ describe('DateValidator', () => {
 	});
 
 	describe('Comparator', () => {
+		const date = new Date('2022-02-01');
+		const datesInFuture = [new Date('2022-03-01'), new Date('2023-01-01')];
+		const datesInPast = [new Date('2022-01-01'), new Date('2020-01-01')];
 		describe('lt', () => {
-			const ltPredicate = s.date.lt(new Date('2022-02-01'));
+			const ltPredicate = s.date.lt(date);
 
-			test.each([new Date('2022-01-01'), new Date('2020-01-01')])('GIVEN %s THEN returns given value', (value) => {
+			test.each(datesInPast)('GIVEN %s THEN returns given value', (value) => {
 				expect(ltPredicate.parse(value)).toBe(value);
 			});
 
-			test.each([new Date('2022-03-01'), new Date('2023-01-02')])('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each(datesInFuture)('GIVEN %s THEN throws ConstraintError', (value) => {
 				expect(() => ltPredicate.parse(value)).toThrow(
 					new ConstraintError('s.date.lt', 'Invalid Date value', value, 'expected < 2022-01-01')
 				);
@@ -28,13 +31,13 @@ describe('DateValidator', () => {
 		});
 
 		describe('le', () => {
-			const lePredicate = s.date.le(new Date('2022-01-01'));
+			const lePredicate = s.date.le(date);
 
-			test.each([new Date('2022-01-01'), new Date('2020-01-01')])('GIVEN %s THEN returns given value', (value) => {
+			test.each([...datesInPast, date])('GIVEN %s THEN returns given value', (value) => {
 				expect(lePredicate.parse(value)).toBe(value);
 			});
 
-			test.each([new Date('2022-01-02'), new Date('2022-02-02')])('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each(datesInFuture)('GIVEN %s THEN throws ConstraintError', (value) => {
 				expect(() => lePredicate.parse(value)).toThrow(
 					new ConstraintError('s.date.le', 'Invalid Date value', value, 'expected <= 2022-01-01')
 				);
@@ -42,13 +45,13 @@ describe('DateValidator', () => {
 		});
 
 		describe('gt', () => {
-			const gtPredicate = s.date.gt(new Date('2022-01-01'));
+			const gtPredicate = s.date.gt(date);
 
-			test.each([new Date('2022-01-02'), new Date('2023-01-01')])('GIVEN %s THEN returns given value', (value) => {
+			test.each(datesInFuture)('GIVEN %s THEN returns given value', (value) => {
 				expect(gtPredicate.parse(value)).toBe(value);
 			});
 
-			test.each([new Date('2022-01-01'), new Date('2020-01-01')])('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each(datesInPast)('GIVEN %s THEN throws ConstraintError', (value) => {
 				expect(() => gtPredicate.parse(value)).toThrow(
 					new ConstraintError('s.date.gt', 'Invalid Date value', value, 'expected > 2022-01-01')
 				);
@@ -56,13 +59,13 @@ describe('DateValidator', () => {
 		});
 
 		describe('ge', () => {
-			const gePredicate = s.date.ge(new Date('2022-01-02'));
+			const gePredicate = s.date.ge(date);
 
-			test.each([new Date('2022-01-02'), new Date('2023-01-01')])('GIVEN %s THEN returns given value', (value) => {
+			test.each([date, ...datesInFuture])('GIVEN %s THEN returns given value', (value) => {
 				expect(gePredicate.parse(value)).toBe(value);
 			});
 
-			test.each([new Date('2021-01-02'), new Date('2022-01-01')])('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each(datesInPast)('GIVEN %s THEN throws ConstraintError', (value) => {
 				expect(() => gePredicate.parse(value)).toThrow(
 					new ConstraintError('s.date.ge', 'Invalid Date value', value, 'expected >= 2022-01-01')
 				);
@@ -70,13 +73,13 @@ describe('DateValidator', () => {
 		});
 
 		describe('eq', () => {
-			const eqPredicate = s.date.eq(new Date('2022-01-02'));
+			const eqPredicate = s.date.eq(date);
 
-			test.each([new Date('2022-01-02')])('GIVEN %s THEN returns given value', (value) => {
-				expect(eqPredicate.parse(value)).toBe(value);
+			test('GIVEN date THEN returns given value', () => {
+				expect(eqPredicate.parse(date)).toBe(date);
 			});
 
-			test.each([new Date('2021-01-02'), new Date('2023-01-02')])('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each([...datesInPast, ...datesInFuture])('GIVEN %s THEN throws ConstraintError', (value) => {
 				expect(() => eqPredicate.parse(value)).toThrow(
 					new ConstraintError('s.date.eq', 'Invalid Date value', value, 'expected = 2022-01-02')
 				);
@@ -84,16 +87,14 @@ describe('DateValidator', () => {
 		});
 
 		describe('ne', () => {
-			const nePredicate = s.date.ne(new Date('2022-01-02'));
+			const nePredicate = s.date.ne(date);
 
-			test.each([new Date('2021-01-02'), new Date('2023-01-02')])('GIVEN %s THEN returns given value', (value) => {
+			test.each([...datesInPast, ...datesInFuture])('GIVEN %s THEN returns given value', (value) => {
 				expect(nePredicate.parse(value)).toBe(value);
 			});
 
-			test.each([new Date('2022-01-02')])('GIVEN %s THEN throws ConstraintError', (value) => {
-				expect(() => nePredicate.parse(value)).toThrow(
-					new ConstraintError('s.date.ne', 'Invalid Date value', value, 'expected != 2022-01-02')
-				);
+			test('GIVEN date THEN throws ConstraintError', () => {
+				expect(() => nePredicate.parse(date)).toThrow(new ConstraintError('s.date.ne', 'Invalid Date value', date, 'expected != 2022-01-02'));
 			});
 		});
 	});
