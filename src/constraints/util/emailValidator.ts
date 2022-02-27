@@ -6,8 +6,6 @@
  */
 const accountRegex =
 	/^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")$/;
-const domainRegex =
-	/^(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
 
 /**
  * Validates an email address string based on various checks:
@@ -62,5 +60,14 @@ export function validateEmail(email: string): boolean {
 	if (domainParts.some((part) => part.length > 63)) return false;
 
 	// If all the checks above have passed then validate the entire email address against the email regex
-	return accountRegex.test(account) && domainRegex.test(domain);
+	return accountRegex.test(account) && validateEmailDomain(domain);
+}
+
+export function validateEmailDomain(domain: string): boolean {
+	try {
+		const url = new URL(`http://${domain}`);
+		return url.hostname === domain && url.pathname === '/' && !url.search;
+	} catch {
+		return false;
+	}
 }

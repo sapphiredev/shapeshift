@@ -105,7 +105,7 @@ describe('StringValidator', () => {
 				expect(emailPredicate.parse(input)).toBe(input);
 			});
 
-			test.each(['hi@hello', 'foo@bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+			test.each(['hi@hello', 'foo@bar', 'foo@bar.com/', 'foo@bar.com/index?search=ok'])('GIVEN %s THEN throws a ConstraintError', (input) => {
 				expect(() => emailPredicate.parse(input)).toThrow(
 					new ConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address')
 				);
