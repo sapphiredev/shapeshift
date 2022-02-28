@@ -17,8 +17,10 @@ export interface UrlOptions {
 	allowedDomains?: StringDomain[];
 }
 
+export type UUIDVersion = 1 | 3 | 4 | 5;
+
 export interface StringUuidOptions {
-	version?: 1 | 3 | 4 | 5 | `${bigint}-${bigint}` | null;
+	version?: UUIDVersion | `${UUIDVersion}-${UUIDVersion}` | null;
 	nullable?: boolean;
 }
 
