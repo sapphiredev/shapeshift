@@ -160,7 +160,7 @@ describe('StringValidator', () => {
 			const uuid3 = '2962d7f2-92f2-3105-8606-2234808bdfc8';
 			const uuid1 = 'c310deb0-9785-11ec-8e65-592cb74aa664';
 			const nullUuid = '00000000-0000-0000-0000-000000000000';
-			const invalidUUids = ['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5'];
+			const invalidUuids = ['6e8bc430-9a1b-4f7f-b7a5', '6e8bc430-9a1b-4f7f-b7a5'];
 
 			describe('uuid5', () => {
 				const uuid5Predicate = s.string.uuid({ version: 5 });
@@ -183,7 +183,7 @@ describe('StringValidator', () => {
 					expect(uuid4Predicate.parse(input)).toBe(input);
 				});
 
-				test.each([...invalidUUids, uuid5])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each([...invalidUuids, uuid5])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuid4Predicate.parse(input)).toThrow(
 						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v4')
 					);
@@ -195,7 +195,7 @@ describe('StringValidator', () => {
 						expect(uuid4Predicate.parse(uuid4)).toStrictEqual(defaultPredicate.parse(uuid4));
 					});
 
-					test.each([uuid1, ...invalidUUids])('GIVEN UUID other than v4 THEN throws a ConstraintError', (input) => {
+					test.each([uuid1, ...invalidUuids])('GIVEN UUID other than v4 THEN throws a ConstraintError', (input) => {
 						expect(() => defaultPredicate.parse(input)).toThrow(
 							new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v4')
 						);
@@ -210,7 +210,7 @@ describe('StringValidator', () => {
 					expect(uuid3Predicate.parse(input)).toBe(input);
 				});
 
-				test.each([...invalidUUids, uuid4, uuid5])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each([...invalidUuids, uuid4, uuid5])('GIVEN %s THEN throws a ConstraintError', (input) => {
 					expect(() => uuid3Predicate.parse(input)).toThrow(
 						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v3')
 					);
@@ -232,7 +232,7 @@ describe('StringValidator', () => {
 			});
 
 			describe('Nullable', () => {
-				test('GIVEN NIL UUID THEN returns NIL UUID', () => {
+				test('GIVEN null UUID THEN returns null UUID', () => {
 					const uuidPredicate = s.string.uuid({ version: '1-5', nullable: true });
 					expect(uuidPredicate.parse(nullUuid)).toBe(nullUuid);
 				});
