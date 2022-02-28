@@ -13,9 +13,17 @@ describe('SetValidator', () => {
 		expect(predicate.parse(set)).toStrictEqual(set);
 	});
 
-	test.each([123, [], {}])('Given a set with non-string value %s THEN throw CombinedError', (input) => {
+	test.each([123, [], {}])('GIVEN a set with non-string value %s THEN throw CombinedError', (input) => {
 		const set = new Set([input]);
 
 		expect(() => predicate.parse(set)).toThrow(new CombinedError([new ValidationError('StringValidator', 'Expected a string', input)]));
+	});
+
+	test('GIVEN clone THEN returns similar instance', () => {
+		// @ts-expect-error Test clone
+		const clonePredicate = predicate.clone();
+
+		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
+		expect(clonePredicate.parse(new Set(['foo']))).toStrictEqual(predicate.parse(new Set(['foo'])));
 	});
 });

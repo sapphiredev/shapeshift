@@ -1,4 +1,4 @@
-import { CombinedError, MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
+import { CombinedError, CombinedPropertyError, MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
 
 describe('ObjectValidator', () => {
 	const predicate = s.object({
@@ -73,6 +73,23 @@ describe('ObjectValidator', () => {
 				password: 'helloworld',
 				optionalKey: undefined
 			});
+		});
+	});
+
+	describe('Ignore', () => {
+		const ignorePredicate = predicate.strict.ignore;
+
+		test('GIVEN matching keys and values THEN returns no errors', () => {
+			expect(ignorePredicate.parse({ username: 'Sapphire', password: 'helloworld', email: 'foo@bar.com' })).toStrictEqual({
+				username: 'Sapphire',
+				password: 'helloworld'
+			});
+		});
+
+		test('GIVEN missing keys THEN throws CombinedPropertyError with MissingPropertyError', () => {
+			expect(() => ignorePredicate.parse({ username: 'Sapphire' })).toThrow(
+				new CombinedPropertyError([['password', new MissingPropertyError('password')]])
+			);
 		});
 	});
 
@@ -155,5 +172,15 @@ describe('ObjectValidator', () => {
 			expect(Object.keys(pickPredicate.shape)).toStrictEqual(['username']);
 			expect(pickPredicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({ username: 'Sapphire' });
 		});
+	});
+
+	test('GIVEN clone THEN returns similar instance', () => {
+		// @ts-expect-error Test clone
+		const clonePredicate = predicate.clone();
+
+		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
+		expect(clonePredicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual(
+			predicate.parse({ username: 'Sapphire', password: 'helloworld' })
+		);
 	});
 });
