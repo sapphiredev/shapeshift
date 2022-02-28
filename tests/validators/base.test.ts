@@ -1,7 +1,7 @@
 import { s } from '../../src';
 
 describe('BaseValidator', () => {
-	describe('#optional', () => {
+	describe('optional', () => {
 		const optionalPredicate = s.string.optional;
 
 		test.each([undefined, 'hello'])('GIVEN %s THEN returns given value', (input) => {
@@ -9,7 +9,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('#nullable', () => {
+	describe('nullable', () => {
 		const nullablePredicate = s.string.nullable;
 
 		test.each([null, 'Hello There'])('GIVEN %s THEN returns given value', (input) => {
@@ -17,7 +17,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('#nullish', () => {
+	describe('nullish', () => {
 		const nullishPredicate = s.string.nullish;
 
 		test.each(['Hello There', undefined, null])('GIVEN %s THEN returns the given value', (input) => {
@@ -25,7 +25,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('#array', () => {
+	describe('array', () => {
 		const arrayPredicate = s.number.array;
 
 		test('GIVEN an array of string THEN returns the given value', () => {
@@ -33,7 +33,7 @@ describe('BaseValidator', () => {
 		});
 	});
 
-	describe('#set', () => {
+	describe('set', () => {
 		const setPredicate = s.number.set;
 
 		test('GIVEN a set of string THEN returns the given value', () => {
