@@ -69,6 +69,18 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "imranbarbhuiya",
+      "name": "Parbez",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74945038?v=4",
+      "profile": "https://github.com/imranbarbhuiya",
+      "contributions": [
+        "code",
+        "test",
+        "bug",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
