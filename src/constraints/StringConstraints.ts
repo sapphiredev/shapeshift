@@ -72,7 +72,7 @@ export function stringEmail(): IConstraint<string> {
 	};
 }
 
-export function stringRegexValidator(type: `s.string.${'uuid' | 'regex'}`, expected: string, regex: RegExp): IConstraint<string> {
+function stringRegexValidator(type: StringConstraintName, expected: string, regex: RegExp): IConstraint<string> {
 	return {
 		run(input: string) {
 			return regex.test(input) //
