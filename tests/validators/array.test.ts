@@ -13,7 +13,7 @@ describe('ArrayValidator', () => {
 
 	const invalidArray = [[123], [true], [{}], [[]], [null]];
 
-	test.each([invalidArray])('Given an array with value %s other than string THEN throws CombinedPropertyError', (input) => {
+	test.each([invalidArray])('GIVEN an array with value %s other than string THEN throws CombinedPropertyError', (input) => {
 		expect(() => predicate.parse(input)).toThrow(
 			new CombinedPropertyError([[invalidArray.indexOf(input), new ValidationError('StringValidator', 'Expected a string primitive', input)]])
 		);

@@ -6,15 +6,15 @@ describe('UnionValidator', () => {
 
 	const unionPredicate = s.union(stringPredicate, numberPredicate);
 
-	test('Given a string should return string', () => {
+	test('GIVEN a string THEN returns string', () => {
 		expect<string | number>(unionPredicate.parse('hello')).toBe('hello');
 	});
 
-	test('Given a number should return number', () => {
+	test('GIVEN a number THEN returns number', () => {
 		expect<string | number>(unionPredicate.parse(5)).toBe(5);
 	});
 
-	test('Given a boolean should throw a ConstraintError', () => {
+	test('GIVEN a boolean THEN throw a ConstraintError', () => {
 		expect(() => unionPredicate.parse(true)).toThrow(
 			new CombinedError([
 				new ValidationError('s.string', 'Expected a string primitive', true),
@@ -31,13 +31,6 @@ describe('UnionValidator', () => {
 			expect(orPredicate.parse([5])).toStrictEqual([5]);
 			expect(orPredicate.parse('hello')).toBe('hello');
 			expect(orPredicate.parse(5)).toBe(5);
-		});
-
-		test('Or and union should be strict equal', () => {
-			const orUnionPredicate = s.string.or(s.number);
-
-			expect(orUnionPredicate).toBeInstanceOf(unionPredicate.constructor);
-			expect(unionPredicate).toStrictEqual(orUnionPredicate);
 		});
 	});
 

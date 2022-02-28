@@ -13,7 +13,7 @@ describe('SetValidator', () => {
 		expect(predicate.parse(set)).toStrictEqual(set);
 	});
 
-	test.each([123, [], {}])('Given a set with non-string value %s THEN throw CombinedError', (input) => {
+	test.each([123, [], {}])('GIVEN a set with non-string value %s THEN throw CombinedError', (input) => {
 		const set = new Set([input]);
 
 		expect(() => predicate.parse(set)).toThrow(new CombinedError([new ValidationError('StringValidator', 'Expected a string', input)]));

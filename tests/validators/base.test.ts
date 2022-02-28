@@ -5,7 +5,7 @@ describe('BaseValidator', () => {
 		const optionalPredicate = s.string.optional;
 
 		test.each([undefined, 'hello'])('GIVEN %s THEN returns given value', (input) => {
-			expect(optionalPredicate.parse(input)).toEqual(input);
+			expect<string | undefined>(optionalPredicate.parse(input)).toEqual(input);
 		});
 
 		test.each([null, 0, false, true])('GIVEN %s THEN throws CombinedError', (input) => {
@@ -57,10 +57,10 @@ describe('BaseValidator', () => {
 		const arrayPredicate = s.number.array;
 
 		test('GIVEN an array of string THEN returns the given value', () => {
-			expect(arrayPredicate.parse([1, 2, 3])).toStrictEqual([1, 2, 3]);
+			expect<number[]>(arrayPredicate.parse([1, 2, 3])).toStrictEqual([1, 2, 3]);
 		});
 
-		test('Given s.string.array THEN returns s.array(s.string)', () => {
+		test('GIVEN s.string.array THEN returns s.array(s.string)', () => {
 			expect(arrayPredicate.parse([1, 2, 3])).toStrictEqual(s.array(s.number).parse([1, 2, 3]));
 		});
 	});
@@ -69,7 +69,7 @@ describe('BaseValidator', () => {
 		const setPredicate = s.number.set;
 
 		test('GIVEN a set of string THEN returns the given value', () => {
-			expect(setPredicate.parse(new Set([1, 2, 3]))).toStrictEqual(new Set([1, 2, 3]));
+			expect<Set<number>>(setPredicate.parse(new Set([1, 2, 3]))).toStrictEqual(new Set([1, 2, 3]));
 		});
 
 		test('GIVEN s.string.set THEN returns s.set(s.string)', () => {
@@ -83,7 +83,7 @@ describe('BaseValidator', () => {
 		const orPredicate = s.string.or(s.number);
 
 		test.each(['Hello There', 6])('GIVEN a string or number THEN returns a string', (input) => {
-			expect(orPredicate.parse(input)).toBe(input);
+			expect<string | number>(orPredicate.parse(input)).toBe(input);
 		});
 
 		test.each([false, true, null])('GIVEN %s THEN throws CombinedError', (input) => {
@@ -94,22 +94,30 @@ describe('BaseValidator', () => {
 				])
 			);
 		});
+
+		test('GIVEN s.string.or(s.number) THEN returns s.union(s.number)', () => {
+			const orUnionPredicate = s.string.or(s.number);
+			const unionPredicate = s.union(s.string, s.number);
+
+			expect(orUnionPredicate).toBeInstanceOf(unionPredicate.constructor);
+			expect(unionPredicate).toStrictEqual(orUnionPredicate);
+		});
 	});
 
 	describe('transform', () => {
 		const transformPredicate = s.string.transform((value) => value.toUpperCase());
 
 		test('GIVEN a string THEN returns a number', () => {
-			expect(transformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
+			expect<string>(transformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
 		});
 
 		const unionTransformPredicate = s.string.transform((value) => value.toUpperCase()).or(s.number);
 
 		test('GIVEN string THEN returns uppercase string', () => {
-			expect(unionTransformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
+			expect<string | number>(unionTransformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
 		});
 		test('GIVEN number THEN returns number', () => {
-			expect(unionTransformPredicate.parse(6)).toStrictEqual(6);
+			expect<string | number>(unionTransformPredicate.parse(6)).toStrictEqual(6);
 		});
 
 		test.each([false, true, null])('GIVEN %s THEN throws CombinedError', (input) => {
@@ -151,5 +159,14 @@ describe('BaseValidator', () => {
 		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
 		expect(clonePredicate.parse(undefined)).toStrictEqual(5);
 		expect(clonePredicate.parse(10)).toStrictEqual(10);
+	});
+
+	describe('Methods and Getters returns a clone', () => {
+		const stringPredicate = s.string;
+
+		test('', () => {
+			expect(stringPredicate.lengthEq(1)).not.toStrictEqual(stringPredicate);
+			expect(stringPredicate.lengthEq(1)).toBeInstanceOf(stringPredicate.constructor);
+		});
 	});
 });

@@ -3,7 +3,7 @@ import { ExpectedValidationError, s } from '../../src';
 describe('NullValidator', () => {
 	const predicate = s.null;
 
-	test('GIVEN null should returns null', () => {
+	test('GIVEN null THEN returns null', () => {
 		expect(predicate.parse(null)).toBe(null);
 	});
 
