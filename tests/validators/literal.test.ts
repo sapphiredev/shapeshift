@@ -20,6 +20,7 @@ describe('LiteralValidator', () => {
 
 		test('GIVEN a date literal THEN returns the given value', () => {
 			expect(dateLiteralPredicate.parse(date)).toStrictEqual(datePredicate.parse(date));
+			expect(dateLiteralPredicate.parse(date)).toStrictEqual(new Date('2022-01-01'));
 		});
 	});
 
