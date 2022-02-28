@@ -1,4 +1,4 @@
-import { s } from '../../src';
+import { CombinedError, ExpectedValidationError, s, ValidationError } from '../../src';
 
 describe('BaseValidator', () => {
 	describe('optional', () => {
@@ -6,6 +6,15 @@ describe('BaseValidator', () => {
 
 		test.each([undefined, 'hello'])('GIVEN %s THEN returns given value', (input) => {
 			expect(optionalPredicate.parse(input)).toEqual(input);
+		});
+
+		test.each([null, 0, false, true])('GIVEN %s THEN throws CombinedError', (input) => {
+			expect(() => optionalPredicate.parse(input)).toThrow(
+				new CombinedError([
+					new ValidationError('s.string', 'Expected a string primitive', input),
+					new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, undefined)
+				])
+			);
 		});
 	});
 
@@ -15,6 +24,15 @@ describe('BaseValidator', () => {
 		test.each([null, 'Hello There'])('GIVEN %s THEN returns given value', (input) => {
 			expect<string | null>(nullablePredicate.parse(input)).toBe(input);
 		});
+
+		test.each([0, false, true])('GIVEN %s THEN throws CombinedError', (input) => {
+			expect(() => nullablePredicate.parse(input)).toThrow(
+				new CombinedError([
+					new ValidationError('s.string', 'Expected a string primitive', input),
+					new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, null)
+				])
+			);
+		});
 	});
 
 	describe('nullish', () => {
@@ -22,6 +40,16 @@ describe('BaseValidator', () => {
 
 		test.each(['Hello There', undefined, null])('GIVEN %s THEN returns the given value', (input) => {
 			expect<string | undefined | null>(nullishPredicate.parse(input)).toBe(input);
+		});
+
+		test.each([0, false, true])('GIVEN %s THEN throws CombinedError', (input) => {
+			expect(() => nullishPredicate.parse(input)).toThrow(
+				new CombinedError([
+					new ValidationError('s.string', 'Expected a string primitive', input),
+					new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, undefined),
+					new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, null)
+				])
+			);
 		});
 	});
 
@@ -31,6 +59,10 @@ describe('BaseValidator', () => {
 		test('GIVEN an array of string THEN returns the given value', () => {
 			expect(arrayPredicate.parse([1, 2, 3])).toStrictEqual([1, 2, 3]);
 		});
+
+		test('Given s.string.array THEN returns s.array(s.string)', () => {
+			expect(arrayPredicate.parse([1, 2, 3])).toStrictEqual(s.array(s.number).parse([1, 2, 3]));
+		});
 	});
 
 	describe('set', () => {
@@ -38,6 +70,12 @@ describe('BaseValidator', () => {
 
 		test('GIVEN a set of string THEN returns the given value', () => {
 			expect(setPredicate.parse(new Set([1, 2, 3]))).toStrictEqual(new Set([1, 2, 3]));
+		});
+
+		test('GIVEN s.string.set THEN returns s.set(s.string)', () => {
+			const set = new Set([1]);
+
+			expect(setPredicate.parse(set)).toStrictEqual(s.set(s.number).parse(set));
 		});
 	});
 
@@ -47,6 +85,15 @@ describe('BaseValidator', () => {
 		test.each(['Hello There', 6])('GIVEN a string or number THEN returns a string', (input) => {
 			expect(orPredicate.parse(input)).toBe(input);
 		});
+
+		test.each([false, true, null])('GIVEN %s THEN throws CombinedError', (input) => {
+			expect(() => orPredicate.parse(input)).toThrow(
+				new CombinedError([
+					new ValidationError('s.string', 'Expected a string primitive', input),
+					new ValidationError('s.number', 'Expected a number primitive', input)
+				])
+			);
+		});
 	});
 
 	describe('transform', () => {
@@ -54,6 +101,24 @@ describe('BaseValidator', () => {
 
 		test('GIVEN a string THEN returns a number', () => {
 			expect(transformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
+		});
+
+		const unionTransformPredicate = s.string.transform((value) => value.toUpperCase()).or(s.number);
+
+		test('GIVEN string THEN returns uppercase string', () => {
+			expect(unionTransformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
+		});
+		test('GIVEN number THEN returns number', () => {
+			expect(unionTransformPredicate.parse(6)).toStrictEqual(6);
+		});
+
+		test.each([false, true, null])('GIVEN %s THEN throws CombinedError', (input) => {
+			expect(() => unionTransformPredicate.parse(input)).toThrow(
+				new CombinedError([
+					new ValidationError('s.string', 'Expected a string primitive', input),
+					new ValidationError('s.number', 'Expected a number primitive', input)
+				])
+			);
 		});
 	});
 

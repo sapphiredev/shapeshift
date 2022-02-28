@@ -19,10 +19,6 @@ describe('ArrayValidator', () => {
 		);
 	});
 
-	test('s.string.array and s.array(s.string) should return same', () => {
-		expect(predicate.parse(['hello'])).toStrictEqual(s.array(s.string).parse(['hello']));
-	});
-
 	describe('Comparators', () => {
 		describe('length', () => {
 			const lengthPredicate = s.string.array.lengthEq(2);
