@@ -107,7 +107,7 @@ describe('BaseValidator', () => {
 	describe('transform', () => {
 		const transformPredicate = s.string.transform((value) => value.toUpperCase());
 
-		test('GIVEN a string THEN returns a number', () => {
+		test('GIVEN a string THEN returns uppercase string', () => {
 			expect<string>(transformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
 		});
 
@@ -120,7 +120,7 @@ describe('BaseValidator', () => {
 			expect<string | number>(unionTransformPredicate.parse(6)).toStrictEqual(6);
 		});
 
-		test.each([false, true, null])('GIVEN %s THEN throws CombinedError', (input) => {
+		test.each([false, true, null, undefined])('GIVEN %s THEN throws CombinedError', (input) => {
 			expect(() => unionTransformPredicate.parse(input)).toThrow(
 				new CombinedError([
 					new ValidationError('s.string', 'Expected a string primitive', input),
