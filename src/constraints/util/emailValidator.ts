@@ -63,7 +63,7 @@ export function validateEmail(email: string): boolean {
 	return accountRegex.test(account) && validateEmailDomain(domain);
 }
 
-export function validateEmailDomain(domain: string): boolean {
+function validateEmailDomain(domain: string): boolean {
 	try {
 		return new URL(`http://${domain}`).hostname === domain;
 	} catch {
