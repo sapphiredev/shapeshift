@@ -110,7 +110,9 @@ describe('BaseValidator', () => {
 		test('GIVEN a string THEN returns uppercase string', () => {
 			expect<string>(transformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
 		});
+	});
 
+	describe('transform with union', () => {
 		const unionTransformPredicate = s.string.transform((value) => value.toUpperCase()).or(s.number);
 
 		test('GIVEN string THEN returns uppercase string', () => {
