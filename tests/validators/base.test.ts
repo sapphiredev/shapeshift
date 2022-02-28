@@ -162,11 +162,70 @@ describe('BaseValidator', () => {
 	});
 
 	describe('Methods and Getters returns a clone', () => {
-		const stringPredicate = s.string;
+		test('GIVEN string.length constraint THEN returns modified clone of the validator', () => {
+			const stringPredicate = s.string;
 
-		test('', () => {
-			expect(stringPredicate.lengthEq(1)).not.toStrictEqual(stringPredicate);
+			expect(stringPredicate.lengthEq(1)).not.toBe(stringPredicate);
 			expect(stringPredicate.lengthEq(1)).toBeInstanceOf(stringPredicate.constructor);
+
+			expect(stringPredicate.lengthGe(1)).not.toBe(stringPredicate);
+			expect(stringPredicate.lengthGe(1)).toBeInstanceOf(stringPredicate.constructor);
+
+			expect(stringPredicate.lengthGt(1)).not.toBe(stringPredicate);
+			expect(stringPredicate.lengthGt(1)).toBeInstanceOf(stringPredicate.constructor);
+
+			expect(stringPredicate.lengthLe(1)).not.toBe(stringPredicate);
+			expect(stringPredicate.lengthLe(1)).toBeInstanceOf(stringPredicate.constructor);
+
+			expect(stringPredicate.lengthLt(1)).not.toBe(stringPredicate);
+			expect(stringPredicate.lengthLt(1)).toBeInstanceOf(stringPredicate.constructor);
+
+			expect(stringPredicate.lengthNe(1)).not.toBe(stringPredicate);
+			expect(stringPredicate.lengthNe(1)).toBeInstanceOf(stringPredicate.constructor);
+		});
+
+		test('GIVEN number.comparator constraint THEN returns modified clone of the validator', () => {
+			const numberPredicate = s.number;
+
+			expect(numberPredicate.eq(1)).not.toBe(numberPredicate);
+			expect(numberPredicate.eq(1)).toBeInstanceOf(numberPredicate.constructor);
+
+			expect(numberPredicate.ge(1)).not.toBe(numberPredicate);
+			expect(numberPredicate.ge(1)).toBeInstanceOf(numberPredicate.constructor);
+
+			expect(numberPredicate.gt(1)).not.toBe(numberPredicate);
+			expect(numberPredicate.gt(1)).toBeInstanceOf(numberPredicate.constructor);
+
+			expect(numberPredicate.le(1)).not.toBe(numberPredicate);
+			expect(numberPredicate.le(1)).toBeInstanceOf(numberPredicate.constructor);
+
+			expect(numberPredicate.lt(1)).not.toBe(numberPredicate);
+			expect(numberPredicate.lt(1)).toBeInstanceOf(numberPredicate.constructor);
+
+			expect(numberPredicate.ne(1)).not.toBe(numberPredicate);
+			expect(numberPredicate.ne(1)).toBeInstanceOf(numberPredicate.constructor);
+		});
+
+		test('GIVEN bigint.comparator constraint THEN returns modified clone of the validator', () => {
+			const bigintPredicate = s.bigint;
+
+			expect(bigintPredicate.eq(1n)).not.toBe(bigintPredicate);
+			expect(bigintPredicate.eq(1n)).toBeInstanceOf(bigintPredicate.constructor);
+
+			expect(bigintPredicate.ge(1n)).not.toBe(bigintPredicate);
+			expect(bigintPredicate.ge(1n)).toBeInstanceOf(bigintPredicate.constructor);
+
+			expect(bigintPredicate.gt(1n)).not.toBe(bigintPredicate);
+			expect(bigintPredicate.gt(1n)).toBeInstanceOf(bigintPredicate.constructor);
+
+			expect(bigintPredicate.le(1n)).not.toBe(bigintPredicate);
+			expect(bigintPredicate.le(1n)).toBeInstanceOf(bigintPredicate.constructor);
+
+			expect(bigintPredicate.lt(1n)).not.toBe(bigintPredicate);
+			expect(bigintPredicate.lt(1n)).toBeInstanceOf(bigintPredicate.constructor);
+
+			expect(bigintPredicate.ne(1n)).not.toBe(bigintPredicate);
+			expect(bigintPredicate.ne(1n)).toBeInstanceOf(bigintPredicate.constructor);
 		});
 	});
 });
