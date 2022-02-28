@@ -37,4 +37,15 @@ describe('ConstraintError', () => {
 			expect(content.startsWith(expected.join('\n'))).toBe(true);
 		});
 	});
+
+	describe('toJSON', () => {
+		test('toJSON should return an object with name, constraint, given and expected', () => {
+			expect(error.toJSON()).toStrictEqual({
+				name: 'Error',
+				constraint: 's.number.int',
+				given: 42.1,
+				expected: 'Number.isInteger(expected) to be true'
+			});
+		});
+	});
 });

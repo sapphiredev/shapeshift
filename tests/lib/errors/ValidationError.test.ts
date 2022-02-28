@@ -34,4 +34,14 @@ describe('ValidationError', () => {
 			expect(content.startsWith(expected.join('\n'))).toBe(true);
 		});
 	});
+
+	describe('toJSON', () => {
+		test('toJSON should return an object with name, validator and given', () => {
+			expect(error.toJSON()).toStrictEqual({
+				name: 'Error',
+				validator: 'StringValidator',
+				given: 42
+			});
+		});
+	});
 });

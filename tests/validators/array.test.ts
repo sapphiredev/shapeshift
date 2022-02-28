@@ -1,4 +1,4 @@
-import { ConstraintError, s, ValidationError } from '../../src';
+import { CombinedPropertyError, ConstraintError, s, ValidationError } from '../../src';
 
 describe('ArrayValidator', () => {
 	const predicate = s.string.array;
@@ -9,6 +9,14 @@ describe('ArrayValidator', () => {
 
 	test('GIVEN a non-array THEN throws ValidationError', () => {
 		expect(() => predicate.parse('Hello there')).toThrow(new ValidationError('ArrayValidator', 'Expected an array', 'Hello there'));
+	});
+
+	const invalidArray = [[123], [true], [{}], [[]], [null]];
+
+	test.each([invalidArray])('GIVEN an array with value %s other than string THEN throws CombinedPropertyError', (input) => {
+		expect(() => predicate.parse(input)).toThrow(
+			new CombinedPropertyError([[invalidArray.indexOf(input), new ValidationError('StringValidator', 'Expected a string primitive', input)]])
+		);
 	});
 
 	describe('Comparators', () => {
@@ -110,5 +118,14 @@ describe('ArrayValidator', () => {
 				);
 			});
 		});
+	});
+
+	test('GIVEN clone THEN returns similar instance', () => {
+		const arrayPredicate = s.string.array;
+		// @ts-expect-error Test clone
+		const clonePredicate = arrayPredicate.clone();
+
+		expect(clonePredicate).toBeInstanceOf(arrayPredicate.constructor);
+		expect(clonePredicate.parse(['Hello There'])).toStrictEqual(arrayPredicate.parse(['Hello There']));
 	});
 });

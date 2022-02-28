@@ -30,4 +30,13 @@ describe('MissingPropertyError', () => {
 			expect(content.startsWith(expected.join('\n'))).toBe(true);
 		});
 	});
+
+	describe('toJSON', () => {
+		test('toJSON should return an object with name and property', () => {
+			expect(error.toJSON()).toEqual({
+				name: 'Error',
+				property: 'foo'
+			});
+		});
+	});
 });

@@ -34,4 +34,14 @@ describe('UnknownPropertyError', () => {
 			expect(content.startsWith(expected.join('\n'))).toBe(true);
 		});
 	});
+
+	describe('toJSON', () => {
+		test('toJSON should return an object with name, property and value', () => {
+			expect(error.toJSON()).toStrictEqual({
+				name: 'Error',
+				property: 'foo',
+				value: 42
+			});
+		});
+	});
 });
