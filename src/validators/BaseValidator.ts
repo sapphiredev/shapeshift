@@ -43,8 +43,8 @@ export abstract class BaseValidator<T> {
 		return this.addConstraint({ run: (input) => Result.ok(cb(input) as unknown as T) }) as unknown as BaseValidator<O>;
 	}
 
-	public default(value: T | (() => T)): DefaultValidator<T> {
-		return new DefaultValidator(this.clone(), value);
+	public default(value: Exclude<T, undefined> | (() => Exclude<T, undefined>)): DefaultValidator<Exclude<T, undefined>> {
+		return new DefaultValidator(this.clone() as unknown as BaseValidator<Exclude<T, undefined>>, value);
 	}
 
 	public run(value: unknown): Result<T, BaseError> {

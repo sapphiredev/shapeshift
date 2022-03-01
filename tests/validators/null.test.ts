@@ -1,4 +1,5 @@
 import { ExpectedValidationError, s } from '../../src';
+import { expectError } from '../common/macros/comparators';
 
 describe('NullValidator', () => {
 	const predicate = s.null;
@@ -8,6 +9,6 @@ describe('NullValidator', () => {
 	});
 
 	test.each([undefined, 123, 'Hello', {}])('GIVEN non-null %s THEN throws ExpectedValidationError', (input) => {
-		expect(() => predicate.parse(input)).toThrow(new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, null));
+		expectError(() => predicate.parse(input), new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, null));
 	});
 });

@@ -1,4 +1,5 @@
-import { CombinedError, CombinedPropertyError, MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
+import { CombinedPropertyError, MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
+import { expectError } from '../common/macros/comparators';
 
 describe('ObjectValidator', () => {
 	const predicate = s.object({
@@ -7,13 +8,14 @@ describe('ObjectValidator', () => {
 	});
 
 	test('GIVEN a non-object value THEN throws ValidationError', () => {
-		expect(() => predicate.parse('hello')).toThrow(
-			new ValidationError('ObjectValidator', 'Expected the value to be an object, but received string instead', 'hello')
+		expectError(
+			() => predicate.parse('hello'),
+			new ValidationError('s.object(T)', 'Expected the value to be an object, but received string instead', 'hello')
 		);
 	});
 
 	test('GIVEN a null object value THEN throws ValidationError', () => {
-		expect(() => predicate.parse(null)).toThrow(new ValidationError('ObjectValidator', 'Expected the value to not be null', null));
+		expectError(() => predicate.parse(null), new ValidationError('s.object(T)', 'Expected the value to not be null', null));
 	});
 
 	test('GIVEN a valid object THEN returns processed object', () => {
@@ -21,16 +23,21 @@ describe('ObjectValidator', () => {
 	});
 
 	test('GIVEN mismatching in one property THEN throws CombinedError with one error', () => {
-		expect(() => predicate.parse({ username: 42, password: 'helloworld' })).toThrow(
-			new CombinedError([new ValidationError('StringValidator', 'Expected a string primitive', 42)])
+		expectError(
+			() => predicate.parse({ username: 42, password: 'helloworld' }),
+			new CombinedPropertyError([
+				//
+				['username', new ValidationError('s.string', 'Expected a string primitive', 42)]
+			])
 		);
 	});
 
 	test('GIVEN mismatching in two properties THEN throws CombinedError with two errors', () => {
-		expect(() => predicate.parse({ username: 42, password: true })).toThrow(
-			new CombinedError([
-				new ValidationError('StringValidator', 'Expected a string primitive', 42),
-				new ValidationError('StringValidator', 'Expected a string primitive', true)
+		expectError(
+			() => predicate.parse({ username: 42, password: true }),
+			new CombinedPropertyError([
+				['password', new ValidationError('s.string', 'Expected a string primitive', true)],
+				['username', new ValidationError('s.string', 'Expected a string primitive', 42)]
 			])
 		);
 	});
@@ -46,20 +53,33 @@ describe('ObjectValidator', () => {
 		});
 
 		test('GIVEN mismatching in one property THEN throws CombinedError with one error', () => {
-			expect(() => strictPredicate.parse({ username: 42, password: 'helloworld' })).toThrow(
-				new CombinedError([new ValidationError('StringValidator', 'Expected a string primitive', 42)])
+			expectError(
+				() => strictPredicate.parse({ username: 42, password: 'helloworld' }),
+				new CombinedPropertyError([
+					//
+					['username', new ValidationError('s.string', 'Expected a string primitive', 42)]
+				])
 			);
 		});
 
 		test('GIVEN mismatching in one property and one unknown key THEN throws CombinedError with two errors', () => {
-			expect(() => strictPredicate.parse({ username: 42, password: 'helloworld', foo: 'bar' })).toThrow(
-				new CombinedError([new UnknownPropertyError('foo', 'bar'), new ValidationError('StringValidator', 'Expected a string primitive', 42)])
+			expectError(
+				() => strictPredicate.parse({ username: 42, password: 'helloworld', foo: 'bar' }),
+				new CombinedPropertyError([
+					['username', new ValidationError('s.string', 'Expected a string primitive', 42)],
+					['foo', new UnknownPropertyError('foo', 'bar')]
+				])
 			);
 		});
 
 		test('GIVEN mismatching in one property and one missing key THEN throws CombinedError with two errors', () => {
-			expect(() => strictPredicate.parse({ username: 42, foo: 'owo' })).toThrow(
-				new CombinedError([new UnknownPropertyError('foo', 'owo'), new MissingPropertyError('password')])
+			expectError(
+				() => strictPredicate.parse({ username: 42, foo: 'owo' }),
+				new CombinedPropertyError([
+					['username', new ValidationError('s.string', 'Expected a string primitive', 42)],
+					['foo', new UnknownPropertyError('foo', 'owo')],
+					['password', new MissingPropertyError('password')]
+				])
 			);
 		});
 
@@ -87,7 +107,8 @@ describe('ObjectValidator', () => {
 		});
 
 		test('GIVEN missing keys THEN throws CombinedPropertyError with MissingPropertyError', () => {
-			expect(() => ignorePredicate.parse({ username: 'Sapphire' })).toThrow(
+			expectError(
+				() => ignorePredicate.parse({ username: 'Sapphire' }),
 				new CombinedPropertyError([['password', new MissingPropertyError('password')]])
 			);
 		});

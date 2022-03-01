@@ -1,4 +1,5 @@
 import { ConstraintError, s, ValidationError } from '../../src';
+import { expectError } from '../common/macros/comparators';
 
 describe('BooleanValidator', () => {
 	const predicate = s.boolean;
@@ -8,7 +9,7 @@ describe('BooleanValidator', () => {
 	});
 
 	test('GIVEN a non-boolean THEN throws ValidationError', () => {
-		expect(() => predicate.parse('Hello there')).toThrow(new ValidationError('BooleanValidator', 'Expected a boolean primitive', 'Hello there'));
+		expectError(() => predicate.parse('Hello there'), new ValidationError('s.boolean', 'Expected a boolean primitive', 'Hello there'));
 	});
 
 	describe('Comparators', () => {
@@ -21,9 +22,7 @@ describe('BooleanValidator', () => {
 			});
 
 			test('GIVEN false THEN throws ConstraintError', () => {
-				expect(() => eqPredicate.parse(false)).toThrow(
-					new ConstraintError('s.boolean.true', 'Invalid boolean value', false, 'expected === true')
-				);
+				expectError(() => eqPredicate.parse(false), new ConstraintError('s.boolean.true', 'Invalid boolean value', false, 'true'));
 			});
 		});
 
@@ -35,9 +34,7 @@ describe('BooleanValidator', () => {
 			});
 
 			test('GIVEN true THEN throws ConstraintError', () => {
-				expect(() => nePredicate.parse(true)).toThrow(
-					new ConstraintError('s.boolean.false', 'Invalid boolean value', true, 'expected !== true')
-				);
+				expectError(() => nePredicate.parse(true), new ConstraintError('s.boolean.false', 'Invalid boolean value', true, 'false'));
 			});
 		});
 	});
@@ -51,7 +48,7 @@ describe('BooleanValidator', () => {
 			});
 
 			test('GIVEN false THEN throws ConstraintError', () => {
-				expect(() => truePredicate.parse(false)).toThrow(new ConstraintError('s.boolean.true', 'Invalid boolean value', false, 'true'));
+				expectError(() => truePredicate.parse(false), new ConstraintError('s.boolean.true', 'Invalid boolean value', false, 'true'));
 			});
 		});
 
@@ -63,7 +60,7 @@ describe('BooleanValidator', () => {
 			});
 
 			test('GIVEN true THEN throws ConstraintError', () => {
-				expect(() => falsePredicate.parse(true)).toThrow(new ConstraintError('s.boolean.false', 'Invalid boolean value', true, 'false'));
+				expectError(() => falsePredicate.parse(true), new ConstraintError('s.boolean.false', 'Invalid boolean value', true, 'false'));
 			});
 		});
 	});

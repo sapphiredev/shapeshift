@@ -1,4 +1,5 @@
 import { ConstraintError, s, ValidationError } from '../../src';
+import { expectError } from '../common/macros/comparators';
 
 const smallInteger = 42n;
 const largeInteger = 242043489611808769n;
@@ -11,7 +12,7 @@ describe('BigIntValidator', () => {
 	});
 
 	test('GIVEN a non-bigint THEN throws ValidationError', () => {
-		expect(() => predicate.parse('Hello there')).toThrow(new ValidationError('BigIntValidator', 'Expected a bigint primitive', 'Hello there'));
+		expectError(() => predicate.parse('Hello there'), new ValidationError('s.bigint', 'Expected a bigint primitive', 'Hello there'));
 	});
 
 	describe('Comparators', () => {
@@ -23,7 +24,7 @@ describe('BigIntValidator', () => {
 			});
 
 			test.each([42n, 100n])('GIVEN %d THEN throws ConstraintError', (value) => {
-				expect(() => ltPredicate.parse(value)).toThrow(new ConstraintError('s.bigint.lt', 'Invalid bigint value', value, 'expected < 42n'));
+				expectError(() => ltPredicate.parse(value), new ConstraintError('s.bigint.lt', 'Invalid bigint value', value, 'expected < 42n'));
 			});
 		});
 
@@ -35,7 +36,7 @@ describe('BigIntValidator', () => {
 			});
 
 			test.each([100n])('GIVEN %d THEN throws ConstraintError', (input) => {
-				expect(() => lePredicate.parse(input)).toThrow(new ConstraintError('s.bigint.le', 'Invalid bigint value', input, 'expected <= 42n'));
+				expectError(() => lePredicate.parse(input), new ConstraintError('s.bigint.le', 'Invalid bigint value', input, 'expected <= 42n'));
 			});
 		});
 
@@ -47,7 +48,7 @@ describe('BigIntValidator', () => {
 			});
 
 			test.each([10n, 42n])('GIVEN %d THEN throws ConstraintError', (value) => {
-				expect(() => gtPredicate.parse(value)).toThrow(new ConstraintError('s.bigint.gt', 'Invalid bigint value', value, 'expected > 42n'));
+				expectError(() => gtPredicate.parse(value), new ConstraintError('s.bigint.gt', 'Invalid bigint value', value, 'expected > 42n'));
 			});
 		});
 
@@ -59,7 +60,7 @@ describe('BigIntValidator', () => {
 			});
 
 			test.each([10n])('GIVEN %d THEN throws ConstraintError', (value) => {
-				expect(() => gePredicate.parse(value)).toThrow(new ConstraintError('s.bigint.ge', 'Invalid bigint value', value, 'expected >= 42n'));
+				expectError(() => gePredicate.parse(value), new ConstraintError('s.bigint.ge', 'Invalid bigint value', value, 'expected >= 42n'));
 			});
 		});
 
@@ -71,7 +72,7 @@ describe('BigIntValidator', () => {
 			});
 
 			test.each([10n, 100n])('GIVEN %d THEN throws ConstraintError', (value) => {
-				expect(() => eqPredicate.parse(value)).toThrow(new ConstraintError('s.bigint.eq', 'Invalid bigint value', value, 'expected === 42n'));
+				expectError(() => eqPredicate.parse(value), new ConstraintError('s.bigint.eq', 'Invalid bigint value', value, 'expected === 42n'));
 			});
 		});
 
@@ -83,7 +84,7 @@ describe('BigIntValidator', () => {
 			});
 
 			test.each([42n])('GIVEN %d THEN throws ConstraintError', (value) => {
-				expect(() => nePredicate.parse(value)).toThrow(new ConstraintError('s.bigint.ne', 'Invalid bigint value', value, 'expected !== 42n'));
+				expectError(() => nePredicate.parse(value), new ConstraintError('s.bigint.ne', 'Invalid bigint value', value, 'expected !== 42n'));
 			});
 		});
 	});
@@ -97,7 +98,8 @@ describe('BigIntValidator', () => {
 			});
 
 			test.each([-smallInteger, -largeInteger])('GIVEN %d THEN throws a ConstraintError', (input) => {
-				expect(() => positivePredicate.parse(input)).toThrow(
+				expectError(
+					() => positivePredicate.parse(input),
 					new ConstraintError('s.bigint.ge', 'Invalid bigint value', input, 'expected >= 0n')
 				);
 			});
@@ -111,9 +113,7 @@ describe('BigIntValidator', () => {
 			});
 
 			test.each([smallInteger, largeInteger])('GIVEN %d THEN throws a ConstraintError', (input) => {
-				expect(() => positivePredicate.parse(input)).toThrow(
-					new ConstraintError('s.bigint.lt', 'Invalid bigint value', input, 'expected < 0n')
-				);
+				expectError(() => positivePredicate.parse(input), new ConstraintError('s.bigint.lt', 'Invalid bigint value', input, 'expected < 0n'));
 			});
 		});
 
@@ -125,7 +125,8 @@ describe('BigIntValidator', () => {
 			});
 
 			test.each([smallInteger, largeInteger, 6n])('GIVEN %d THEN throws a ConstraintError', (input) => {
-				expect(() => divisibleByPredicate.parse(input)).toThrow(
+				expectError(
+					() => divisibleByPredicate.parse(input),
 					new ConstraintError('s.bigint.divisibleBy', 'BigInt is not divisible', input, 'expected % 5n === 0n')
 				);
 			});

@@ -19,11 +19,11 @@ export class RecordValidator<T> extends BaseValidator<Record<string, T>> {
 
 	protected handle(value: unknown): Result<Record<string, T>, ValidationError | CombinedPropertyError> {
 		if (typeof value !== 'object') {
-			return Result.err(new ValidationError('RecordValidator', 'Expected an object', value));
+			return Result.err(new ValidationError('s.record(T)', 'Expected an object', value));
 		}
 
 		if (value === null) {
-			return Result.err(new ValidationError('RecordValidator', 'Expected the value to not be null', value));
+			return Result.err(new ValidationError('s.record(T)', 'Expected the value to not be null', value));
 		}
 
 		const errors: [string, BaseError][] = [];

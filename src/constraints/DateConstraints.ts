@@ -16,32 +16,32 @@ function dateComparator(comparator: Comparator, name: DateConstraintName, expect
 }
 
 export function dateLt(value: Date): IConstraint<Date> {
-	const expected = `expected < ${value}`;
+	const expected = `expected < ${value.toISOString()}`;
 	return dateComparator(lt, 's.date.lt', expected, value.getTime());
 }
 
 export function dateLe(value: Date): IConstraint<Date> {
-	const expected = `expected <= ${value}`;
+	const expected = `expected <= ${value.toISOString()}`;
 	return dateComparator(le, 's.date.le', expected, value.getTime());
 }
 
 export function dateGt(value: Date): IConstraint<Date> {
-	const expected = `expected > ${value}`;
+	const expected = `expected > ${value.toISOString()}`;
 	return dateComparator(gt, 's.date.gt', expected, value.getTime());
 }
 
 export function dateGe(value: Date): IConstraint<Date> {
-	const expected = `expected >= ${value}`;
+	const expected = `expected >= ${value.toISOString()}`;
 	return dateComparator(ge, 's.date.ge', expected, value.getTime());
 }
 
 export function dateEq(value: Date): IConstraint<Date> {
-	const expected = `expected === ${value}`;
+	const expected = `expected === ${value.toISOString()}`;
 	return dateComparator(eq, 's.date.eq', expected, value.getTime());
 }
 
 export function dateNe(value: Date): IConstraint<Date> {
-	const expected = `expected !== ${value}`;
+	const expected = `expected !== ${value.toISOString()}`;
 	return dateComparator(ne, 's.date.ne', expected, value.getTime());
 }
 

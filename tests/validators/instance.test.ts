@@ -1,4 +1,5 @@
 import { ExpectedValidationError, s } from '../../src';
+import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('InstanceValidator', () => {
 	class User {
@@ -10,15 +11,12 @@ describe('InstanceValidator', () => {
 		expect(predicate.parse(new User('Sapphire'))).toStrictEqual(new User('Sapphire'));
 	});
 
-	test("GIVEN anything which isn't and instance of User THEN throws ValidationError", () => {
-		expect(() => predicate.parse(123)).toThrow(new ExpectedValidationError('InstanceValidator', 'Expected', 123, Array));
+	test('GIVEN anything which is not and instance of User THEN throws ValidationError', () => {
+		expectError(() => predicate.parse(123), new ExpectedValidationError('s.instance(V)', 'Expected', 123, User));
 	});
 
 	test('GIVEN clone THEN returns similar instance', () => {
-		// @ts-expect-error Test clone
-		const clonePredicate = predicate.clone();
-
-		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
-		expect(clonePredicate.parse(new User('Sapphire'))).toStrictEqual(new User('Sapphire'));
+		// eslint-disable-next-line @typescript-eslint/dot-notation
+		expectClonedValidator(predicate, predicate['clone']());
 	});
 });
