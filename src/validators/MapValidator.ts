@@ -21,7 +21,7 @@ export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 
 	protected handle(value: unknown): Result<Map<K, V>, ValidationError | CombinedPropertyError> {
 		if (!(value instanceof Map)) {
-			return Result.err(new ValidationError('MapValidator', 'Expected a map', value));
+			return Result.err(new ValidationError('s.map(K, V)', 'Expected a map', value));
 		}
 
 		const errors: [string, BaseError][] = [];

@@ -74,6 +74,6 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 	protected handle(value: unknown): Result<T, ValidationError> {
 		return typeof value === 'string' //
 			? Result.ok(value as T)
-			: Result.err(new ValidationError('StringValidator', 'Expected a string primitive', value));
+			: Result.err(new ValidationError('s.string', 'Expected a string primitive', value));
 	}
 }

@@ -1,4 +1,5 @@
 import { ExpectedValidationError, s } from '../../src';
+import { expectError } from '../common/macros/comparators';
 
 describe('UndefinedValidator', () => {
 	const predicate = s.undefined;
@@ -8,8 +9,6 @@ describe('UndefinedValidator', () => {
 	});
 
 	test.each([null, 123, 'Hello'])('GIVEN %s THEN throws ExpectedValidationError', (input) => {
-		expect(() => predicate.parse(input)).toThrow(
-			new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, undefined)
-		);
+		expectError(() => predicate.parse(input), new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, undefined));
 	});
 });

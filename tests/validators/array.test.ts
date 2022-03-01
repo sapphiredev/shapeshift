@@ -1,4 +1,5 @@
 import { CombinedPropertyError, ConstraintError, s, ValidationError } from '../../src';
+import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('ArrayValidator', () => {
 	const predicate = s.string.array;
@@ -8,14 +9,16 @@ describe('ArrayValidator', () => {
 	});
 
 	test('GIVEN a non-array THEN throws ValidationError', () => {
-		expect(() => predicate.parse('Hello there')).toThrow(new ValidationError('ArrayValidator', 'Expected an array', 'Hello there'));
+		expectError(() => predicate.parse('Hello there'), new ValidationError('s.array(T)', 'Expected an array', 'Hello there'));
 	});
 
-	const invalidArray = [[123], [true], [{}], [[]], [null]];
-
-	test.each([invalidArray])('GIVEN an array with value %s other than string THEN throws CombinedPropertyError', (input) => {
-		expect(() => predicate.parse(input)).toThrow(
-			new CombinedPropertyError([[invalidArray.indexOf(input), new ValidationError('StringValidator', 'Expected a string primitive', input)]])
+	test.each([123, true, {}, [], null])('GIVEN an array with value %s other than string THEN throws CombinedPropertyError', (input) => {
+		expectError(
+			() => predicate.parse([input]),
+			new CombinedPropertyError([
+				//
+				[0, new ValidationError('s.string', 'Expected a string primitive', input)]
+			])
 		);
 	});
 
@@ -28,8 +31,9 @@ describe('ArrayValidator', () => {
 			});
 
 			test.each<any[]>([[[], ['Hello']]])('GIVEN %p THEN throws ConstraintError', (value) => {
-				expect(() => lengthPredicate.parse(value)).toThrow(
-					new ConstraintError('s.array(T).lengthEq', 'Invalid Array length', value, 'expected length 2')
+				expectError(
+					() => lengthPredicate.parse(value),
+					new ConstraintError('s.array(T).lengthEq', 'Invalid Array length', value, 'expected.length === 2')
 				);
 			});
 		});
@@ -47,7 +51,8 @@ describe('ArrayValidator', () => {
 					['foo', 'bar', 'baaz']
 				]
 			])('GIVEN %p THEN throws ConstraintError', (value) => {
-				expect(() => lengthLtPredicate.parse(value)).toThrow(
+				expectError(
+					() => lengthLtPredicate.parse(value),
 					new ConstraintError('s.array(T).lengthLt', 'Invalid Array length', value, 'expected.length < 2')
 				);
 			});
@@ -61,7 +66,8 @@ describe('ArrayValidator', () => {
 			});
 
 			test.each<any[]>([[['foo', 'bar', 'baaz']]])('GIVEN %p THEN throws ConstraintError', (value) => {
-				expect(() => lengthLePredicate.parse(value)).toThrow(
+				expectError(
+					() => lengthLePredicate.parse(value),
 					new ConstraintError('s.array(T).lengthLe', 'Invalid Array length', value, 'expected.length <= 2')
 				);
 			});
@@ -75,7 +81,8 @@ describe('ArrayValidator', () => {
 			});
 
 			test.each<any[]>([[['Hello'], []]])('GIVEN %p THEN throws ConstraintError', (value) => {
-				expect(() => lengthGtPredicate.parse(value)).toThrow(
+				expectError(
+					() => lengthGtPredicate.parse(value),
 					new ConstraintError('s.array(T).lengthGt', 'Invalid Array length', value, 'expected.length > 2')
 				);
 			});
@@ -94,7 +101,8 @@ describe('ArrayValidator', () => {
 			});
 
 			test.each<any[]>([[[], ['foo']]])('GIVEN %p THEN throws ConstraintError', (value) => {
-				expect(() => lengthGePredicate.parse(value)).toThrow(
+				expectError(
+					() => lengthGePredicate.parse(value),
 					new ConstraintError('s.array(T).lengthGe', 'Invalid Array length', value, 'expected.length >= 2')
 				);
 			});
@@ -113,8 +121,9 @@ describe('ArrayValidator', () => {
 					['foo', 'bar']
 				]
 			])('GIVEN %p THEN throws ConstraintError', (value) => {
-				expect(() => lengthNotEqPredicate.parse(value)).toThrow(
-					new ConstraintError('s.array(T).lengthNe', 'Invalid Array length', value, 'expected.length != 2')
+				expectError(
+					() => lengthNotEqPredicate.parse(value),
+					new ConstraintError('s.array(T).lengthNe', 'Invalid Array length', value, 'expected.length !== 2')
 				);
 			});
 		});
@@ -122,10 +131,8 @@ describe('ArrayValidator', () => {
 
 	test('GIVEN clone THEN returns similar instance', () => {
 		const arrayPredicate = s.string.array;
-		// @ts-expect-error Test clone
-		const clonePredicate = arrayPredicate.clone();
 
-		expect(clonePredicate).toBeInstanceOf(arrayPredicate.constructor);
-		expect(clonePredicate.parse(['Hello There'])).toStrictEqual(arrayPredicate.parse(['Hello There']));
+		// eslint-disable-next-line @typescript-eslint/dot-notation
+		expectClonedValidator(arrayPredicate, arrayPredicate['clone']());
 	});
 });

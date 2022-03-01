@@ -44,7 +44,7 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 
 	protected handle(values: unknown): Result<T[], ValidationError | CombinedPropertyError> {
 		if (!Array.isArray(values)) {
-			return Result.err(new ValidationError('ArrayValidator', 'Expected an array', values));
+			return Result.err(new ValidationError('s.array(T)', 'Expected an array', values));
 		}
 
 		const errors: [number, BaseError][] = [];

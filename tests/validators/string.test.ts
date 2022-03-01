@@ -1,4 +1,5 @@
 import { ConstraintError, s, ValidationError } from '../../src';
+import { expectError } from '../common/macros/comparators';
 
 describe('StringValidator', () => {
 	const predicate = s.string;
@@ -8,7 +9,7 @@ describe('StringValidator', () => {
 	});
 
 	test('GIVEN a non-string THEN throws ValidationError', () => {
-		expect(() => predicate.parse(42)).toThrow(new ValidationError('StringValidator', 'Expected a string primitive', 42));
+		expectError(() => predicate.parse(42), new ValidationError('s.string', 'Expected a string primitive', 42));
 	});
 
 	describe('Comparators', () => {
@@ -20,7 +21,8 @@ describe('StringValidator', () => {
 			});
 
 			test.each(['Hello', 'Foo Bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => lengthLtPredicate.parse(input)).toThrow(
+				expectError(
+					() => lengthLtPredicate.parse(input),
 					new ConstraintError('s.string.lengthLt', 'Invalid string length', input, 'expected.length < 5')
 				);
 			});
@@ -34,8 +36,9 @@ describe('StringValidator', () => {
 			});
 
 			test.each(['Foo Bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => lengthLePredicate.parse(input)).toThrow(
-					new ConstraintError('s.string.lengthLt', 'Invalid string length', input, 'expected.length <= 5')
+				expectError(
+					() => lengthLePredicate.parse(input),
+					new ConstraintError('s.string.lengthLe', 'Invalid string length', input, 'expected.length <= 5')
 				);
 			});
 		});
@@ -48,7 +51,8 @@ describe('StringValidator', () => {
 			});
 
 			test.each(['Hi', 'Hello'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => lengthGtPredicate.parse(input)).toThrow(
+				expectError(
+					() => lengthGtPredicate.parse(input),
 					new ConstraintError('s.string.lengthGt', 'Invalid string length', input, 'expected.length > 5')
 				);
 			});
@@ -62,7 +66,8 @@ describe('StringValidator', () => {
 			});
 
 			test.each(['Hi'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => lengthGePredicate.parse(input)).toThrow(
+				expectError(
+					() => lengthGePredicate.parse(input),
 					new ConstraintError('s.string.lengthGe', 'Invalid string length', input, 'expected.length >= 5')
 				);
 			});
@@ -76,7 +81,8 @@ describe('StringValidator', () => {
 			});
 
 			test.each(['Hi', 'Foo Bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => lengthEqPredicate.parse(input)).toThrow(
+				expectError(
+					() => lengthEqPredicate.parse(input),
 					new ConstraintError('s.string.lengthEq', 'Invalid string length', input, 'expected.length === 5')
 				);
 			});
@@ -90,8 +96,9 @@ describe('StringValidator', () => {
 			});
 
 			test.each(['Hello'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => lengthNePredicate.parse(input)).toThrow(
-					new ConstraintError('s.string.lengthNe', 'Invalid string length', input, 'expected.length === 5')
+				expectError(
+					() => lengthNePredicate.parse(input),
+					new ConstraintError('s.string.lengthNe', 'Invalid string length', input, 'expected.length !== 5')
 				);
 			});
 		});
@@ -106,7 +113,8 @@ describe('StringValidator', () => {
 			});
 
 			test.each(['hi@hello', 'foo@bar', 'foo@bar.com/', 'foo@bar.com/index?search=ok'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => emailPredicate.parse(input)).toThrow(
+				expectError(
+					() => emailPredicate.parse(input),
 					new ConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address')
 				);
 			});
@@ -121,7 +129,10 @@ describe('StringValidator', () => {
 				});
 
 				test.each(['google.com', 'foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => urlPredicate.parse(input)).toThrow(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected.url'));
+					expectError(
+						() => urlPredicate.parse(input),
+						new ConstraintError('s.string.url', 'Invalid URL', input, 'expected to match an URL')
+					);
 				});
 			});
 
@@ -133,8 +144,9 @@ describe('StringValidator', () => {
 				});
 
 				test.each(['https://google.com', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => urlPredicateWithProtocol.parse(input)).toThrow(
-						new ConstraintError('s.string.url', 'Invalid URL protocol', input, 'expected to be one of: git:')
+					expectError(
+						() => urlPredicateWithProtocol.parse(input),
+						new ConstraintError('s.string.url', 'Invalid URL protocol', input, `expected ${new URL(input).protocol} to be one of: git:`)
 					);
 				});
 			});
@@ -147,8 +159,9 @@ describe('StringValidator', () => {
 				});
 
 				test.each(['https://foo.bar', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => urlPredicateWithDomain.parse(input)).toThrow(
-						new ConstraintError('s.string.url', 'Invalid URL domain', input, 'expected to be one of: google.com')
+					expectError(
+						() => urlPredicateWithDomain.parse(input),
+						new ConstraintError('s.string.url', 'Invalid URL domain', input, 'expected foo.bar to be one of: google.com')
 					);
 				});
 			});
@@ -170,8 +183,9 @@ describe('StringValidator', () => {
 				});
 
 				test.each([uuid1, uuid3, uuid4])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => uuid5Predicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v5')
+					expectError(
+						() => uuid5Predicate.parse(input),
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match UUIDv5')
 					);
 				});
 			});
@@ -184,8 +198,9 @@ describe('StringValidator', () => {
 				});
 
 				test.each([...invalidUuids, uuid5])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => uuid4Predicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v4')
+					expectError(
+						() => uuid4Predicate.parse(input),
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match UUIDv4')
 					);
 				});
 
@@ -196,8 +211,9 @@ describe('StringValidator', () => {
 					});
 
 					test.each([uuid1, ...invalidUuids])('GIVEN UUID other than v4 THEN throws a ConstraintError', (input) => {
-						expect(() => defaultPredicate.parse(input)).toThrow(
-							new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v4')
+						expectError(
+							() => defaultPredicate.parse(input),
+							new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match UUIDv4')
 						);
 					});
 				});
@@ -211,8 +227,9 @@ describe('StringValidator', () => {
 				});
 
 				test.each([...invalidUuids, uuid4, uuid5])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => uuid3Predicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected UUID v3')
+					expectError(
+						() => uuid3Predicate.parse(input),
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match UUIDv3')
 					);
 				});
 			});
@@ -225,8 +242,9 @@ describe('StringValidator', () => {
 				});
 
 				test.each([uuid5, nullUuid])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => uuidRangePredicate.parse(input)).toThrow(
-						new ConstraintError('s.string.uuid', 'Invalid string format', input, `expected UUID in range 1-4`)
+					expectError(
+						() => uuidRangePredicate.parse(input),
+						new ConstraintError('s.string.uuid', 'Invalid string format', input, `expected to match UUID in range of 1-4`)
 					);
 				});
 			});
@@ -248,7 +266,8 @@ describe('StringValidator', () => {
 			});
 
 			test.each(['ABC', '123A'])('GIVEN %s THEN throws a ConstraintError', (input) => {
-				expect(() => regexPredicate.parse(input)).toThrow(
+				expectError(
+					() => regexPredicate.parse(input),
 					new ConstraintError('s.string.regex', 'Invalid string format', input, `expected ${regex}.test(expected) to be true`)
 				);
 			});
@@ -272,7 +291,8 @@ describe('StringValidator', () => {
 				});
 
 				test.each(invalidIps)('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => ipPredicate.parse(input)).toThrow(
+					expectError(
+						() => ipPredicate.parse(input),
 						new ConstraintError('s.string.ip', 'Invalid ip address', input, 'expected to be an ip address')
 					);
 				});
@@ -286,7 +306,8 @@ describe('StringValidator', () => {
 				});
 
 				test.each([...v6Ips, ...invalidIps])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => ipv4Predicate.parse(input)).toThrow(
+					expectError(
+						() => ipv4Predicate.parse(input),
 						new ConstraintError('s.string.ipv4', 'Invalid ipv4 address', input, 'expected to be an ipv4 address')
 					);
 				});
@@ -300,7 +321,8 @@ describe('StringValidator', () => {
 				});
 
 				test.each([...v4Ips, ...invalidIps])('GIVEN %s THEN throws a ConstraintError', (input) => {
-					expect(() => ipv6Predicate.parse(input)).toThrow(
+					expectError(
+						() => ipv6Predicate.parse(input),
 						new ConstraintError('s.string.ipv6', 'Invalid ipv6 address', input, 'expected to be an ipv6 address')
 					);
 				});

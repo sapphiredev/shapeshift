@@ -19,7 +19,7 @@ export class SetValidator<T> extends BaseValidator<Set<T>> {
 
 	protected handle(values: unknown): Result<Set<T>, ValidationError | CombinedError> {
 		if (!(values instanceof Set)) {
-			return Result.err(new ValidationError('SetValidator', 'Expected a set', values));
+			return Result.err(new ValidationError('s.set(T)', 'Expected a set', values));
 		}
 
 		const errors: BaseError[] = [];

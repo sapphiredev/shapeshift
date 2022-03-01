@@ -1,4 +1,5 @@
 import { CombinedError, ExpectedValidationError, s } from '../../src';
+import { expectError } from '../common/macros/comparators';
 
 describe('EnumValidator', () => {
 	const predicate = s.enum('a', 'b', 'c');
@@ -8,11 +9,12 @@ describe('EnumValidator', () => {
 	});
 
 	test.each(['d', 'e', 'f', 1, null, true])('GIVEN a invalid value %s THEN throws CombinedError', (input) => {
-		expect(() => predicate.parse(input)).toThrow(
+		expectError(
+			() => predicate.parse(input),
 			new CombinedError([
-				new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, 'a'),
-				new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, 'b'),
-				new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, 'c')
+				new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, 'a'),
+				new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, 'b'),
+				new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, 'c')
 			])
 		);
 	});

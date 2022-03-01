@@ -66,13 +66,11 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	protected override handle(value: unknown): Result<T, ValidationError | CombinedPropertyError> {
 		const typeOfValue = typeof value;
 		if (typeOfValue !== 'object') {
-			return Result.err(
-				new ValidationError('ObjectValidator', `Expected the value to be an object, but received ${typeOfValue} instead`, value)
-			);
+			return Result.err(new ValidationError('s.object(T)', `Expected the value to be an object, but received ${typeOfValue} instead`, value));
 		}
 
 		if (value === null) {
-			return Result.err(new ValidationError('ObjectValidator', 'Expected the value to not be null', value));
+			return Result.err(new ValidationError('s.object(T)', 'Expected the value to not be null', value));
 		}
 
 		return this.handleStrategy(value as NonNullObject);

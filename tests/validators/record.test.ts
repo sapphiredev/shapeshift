@@ -1,15 +1,16 @@
-import { CombinedError, s, ValidationError } from '../../src';
+import { CombinedPropertyError, s, ValidationError } from '../../src';
+import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('RecordValidator', () => {
 	const value = { foo: 'bar', fizz: 'buzz' };
 	const predicate = s.record(s.string);
 
 	test('GIVEN a non-record THEN throws ValidationError', () => {
-		expect(() => predicate.parse(false)).toThrow(new ValidationError('RecordValidator', 'Expected an object', false));
+		expectError(() => predicate.parse(false), new ValidationError('s.record(T)', 'Expected an object', false));
 	});
 
 	test('GIVEN null THEN throws ValidationError', () => {
-		expect(() => predicate.parse(null)).toThrow(new ValidationError('RecordValidator', 'Expected the value to not be null', null));
+		expectError(() => predicate.parse(null), new ValidationError('s.record(T)', 'Expected the value to not be null', null));
 	});
 
 	test('GIVEN a matching record THEN returns a record', () => {
@@ -17,19 +18,17 @@ describe('RecordValidator', () => {
 	});
 
 	test('GIVEN a non-matching record THEN throws CombinedError', () => {
-		expect(() => predicate.parse({ foo: 1, fizz: true })).toThrow(
-			new CombinedError([
-				new ValidationError('StringValidator', 'Expected a string primitive', 1),
-				new ValidationError('StringValidator', 'Expected a string primitive', true)
+		expectError(
+			() => predicate.parse({ foo: 1, fizz: true }),
+			new CombinedPropertyError([
+				['foo', new ValidationError('s.string', 'Expected a string primitive', 1)],
+				['fizz', new ValidationError('s.string', 'Expected a string primitive', true)]
 			])
 		);
 	});
 
 	test('GIVEN clone THEN returns similar instance', () => {
-		// @ts-expect-error Test clone
-		const clonePredicate = predicate.clone();
-
-		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
-		expect(clonePredicate.parse(value)).toStrictEqual(predicate.parse(value));
+		// eslint-disable-next-line @typescript-eslint/dot-notation
+		expectClonedValidator(predicate, predicate['clone']());
 	});
 });

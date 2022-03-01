@@ -1,4 +1,5 @@
 import { CombinedError, ExpectedValidationError, s, ValidationError } from '../../src';
+import { expectClonedValidator, expectError, expectModifiedClonedValidator } from '../common/macros/comparators';
 
 describe('BaseValidator', () => {
 	describe('optional', () => {
@@ -9,10 +10,11 @@ describe('BaseValidator', () => {
 		});
 
 		test.each([null, 0, false, true])('GIVEN %s THEN throws CombinedError', (input) => {
-			expect(() => optionalPredicate.parse(input)).toThrow(
+			expectError(
+				() => optionalPredicate.parse(input),
 				new CombinedError([
-					new ValidationError('s.string', 'Expected a string primitive', input),
-					new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, undefined)
+					new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, undefined),
+					new ValidationError('s.string', 'Expected a string primitive', input)
 				])
 			);
 		});
@@ -26,10 +28,11 @@ describe('BaseValidator', () => {
 		});
 
 		test.each([0, false, true])('GIVEN %s THEN throws CombinedError', (input) => {
-			expect(() => nullablePredicate.parse(input)).toThrow(
+			expectError(
+				() => nullablePredicate.parse(input),
 				new CombinedError([
-					new ValidationError('s.string', 'Expected a string primitive', input),
-					new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, null)
+					new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, null),
+					new ValidationError('s.string', 'Expected a string primitive', input)
 				])
 			);
 		});
@@ -43,51 +46,56 @@ describe('BaseValidator', () => {
 		});
 
 		test.each([0, false, true])('GIVEN %s THEN throws CombinedError', (input) => {
-			expect(() => nullishPredicate.parse(input)).toThrow(
+			expectError(
+				() => nullishPredicate.parse(input),
 				new CombinedError([
-					new ValidationError('s.string', 'Expected a string primitive', input),
-					new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, undefined),
-					new ExpectedValidationError('LiteralValidator', 'Expected values to be equals', input, null)
+					new ValidationError('s.nullish', 'Expected undefined or null', input),
+					new ValidationError('s.string', 'Expected a string primitive', input)
 				])
 			);
 		});
 	});
 
 	describe('array', () => {
-		const arrayPredicate = s.number.array;
+		const numberArrayPredicate = s.number.array;
+		const input = [1, 2, 3];
 
 		test('GIVEN an array of string THEN returns the given value', () => {
-			expect<number[]>(arrayPredicate.parse([1, 2, 3])).toStrictEqual([1, 2, 3]);
+			expect<number[]>(numberArrayPredicate.parse(input)).toStrictEqual(input);
 		});
 
 		test('GIVEN s.string.array THEN returns s.array(s.string)', () => {
-			expect(arrayPredicate.parse([1, 2, 3])).toStrictEqual(s.array(s.number).parse([1, 2, 3]));
+			const arrayNumberPredicate = s.array(s.number);
+
+			expectClonedValidator(numberArrayPredicate, arrayNumberPredicate);
 		});
 	});
 
 	describe('set', () => {
-		const setPredicate = s.number.set;
+		const numberSetPredicate = s.number.set;
+		const input = new Set([1, 2, 3]);
 
 		test('GIVEN a set of string THEN returns the given value', () => {
-			expect<Set<number>>(setPredicate.parse(new Set([1, 2, 3]))).toStrictEqual(new Set([1, 2, 3]));
+			expect<Set<number>>(numberSetPredicate.parse(input)).toStrictEqual(input);
 		});
 
 		test('GIVEN s.string.set THEN returns s.set(s.string)', () => {
-			const set = new Set([1]);
+			const setNumberPredicate = s.set(s.number);
 
-			expect(setPredicate.parse(set)).toStrictEqual(s.set(s.number).parse(set));
+			expectClonedValidator(numberSetPredicate, setNumberPredicate);
 		});
 	});
 
 	describe('or', () => {
-		const orPredicate = s.string.or(s.number);
+		const stringOrPredicate = s.string.or(s.number);
 
 		test.each(['Hello There', 6])('GIVEN a string or number THEN returns a string', (input) => {
-			expect<string | number>(orPredicate.parse(input)).toBe(input);
+			expect<string | number>(stringOrPredicate.parse(input)).toBe(input);
 		});
 
 		test.each([false, true, null])('GIVEN %s THEN throws CombinedError', (input) => {
-			expect(() => orPredicate.parse(input)).toThrow(
+			expectError(
+				() => stringOrPredicate.parse(input),
 				new CombinedError([
 					new ValidationError('s.string', 'Expected a string primitive', input),
 					new ValidationError('s.number', 'Expected a number primitive', input)
@@ -96,11 +104,9 @@ describe('BaseValidator', () => {
 		});
 
 		test('GIVEN s.string.or(s.number) THEN returns s.union(s.number)', () => {
-			const orUnionPredicate = s.string.or(s.number);
 			const unionPredicate = s.union(s.string, s.number);
 
-			expect(orUnionPredicate).toBeInstanceOf(unionPredicate.constructor);
-			expect(unionPredicate).toStrictEqual(orUnionPredicate);
+			expectClonedValidator(stringOrPredicate, unionPredicate);
 		});
 	});
 
@@ -123,7 +129,8 @@ describe('BaseValidator', () => {
 		});
 
 		test.each([false, true, null, undefined])('GIVEN %s THEN throws CombinedError', (input) => {
-			expect(() => unionTransformPredicate.parse(input)).toThrow(
+			expectError(
+				() => unionTransformPredicate.parse(input),
 				new CombinedError([
 					new ValidationError('s.string', 'Expected a string primitive', input),
 					new ValidationError('s.number', 'Expected a number primitive', input)
@@ -133,101 +140,79 @@ describe('BaseValidator', () => {
 	});
 
 	describe('default', () => {
-		const defaultPredicate = s.string.default('Hello There');
+		describe('required', () => {
+			const defaultPredicate = s.string.default('foo');
 
-		test('GIVEN a string THEN returns the given string', () => {
-			expect(defaultPredicate.parse('Hello There')).toBe('Hello There');
+			test('GIVEN a string THEN returns the given string', () => {
+				expect<string>(defaultPredicate.parse('bar')).toBe('bar');
+			});
+
+			test('GIVEN undefined THEN returns the default string', () => {
+				expect<string>(defaultPredicate.parse(undefined)).toBe('foo');
+			});
 		});
 
-		test('GIVEN undefined THEN returns the default string', () => {
-			expect(defaultPredicate.parse(undefined)).toBe('Hello There');
+		describe('optional', () => {
+			const defaultPredicate = s.string.optional.default('foo');
+
+			test('GIVEN a string THEN returns the given string', () => {
+				expect<string>(defaultPredicate.parse('bar')).toBe('bar');
+			});
+
+			test('GIVEN undefined THEN returns the default string', () => {
+				expect<string>(defaultPredicate.parse(undefined)).toBe('foo');
+			});
 		});
 	});
 
-	test('GIVEN clone THEN returns similar instance', () => {
-		const stringPredicate = s.string;
-		// @ts-expect-error Test clone
-		const clonePredicate = stringPredicate.clone();
+	describe('clone', () => {
+		test('GIVEN clone THEN returns similar instance', () => {
+			const predicate = s.string;
 
-		expect(clonePredicate).toBeInstanceOf(stringPredicate.constructor);
-		expect(clonePredicate.parse('Hello There')).toStrictEqual(stringPredicate.parse('Hello There'));
-	});
+			// eslint-disable-next-line @typescript-eslint/dot-notation
+			expectClonedValidator(predicate, predicate['clone']());
+		});
 
-	test('GIVEN clone of default THEN returns similar instance', () => {
-		const predicate = s.number.default(5);
-		// @ts-expect-error Test clone
-		const clonePredicate = predicate.clone();
+		test('GIVEN clone of default THEN returns similar instance', () => {
+			const predicate = s.number.default(5);
 
-		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
-		expect(clonePredicate.parse(undefined)).toStrictEqual(5);
-		expect(clonePredicate.parse(10)).toStrictEqual(10);
+			// eslint-disable-next-line @typescript-eslint/dot-notation
+			expectClonedValidator(predicate, predicate['clone']());
+		});
 	});
 
 	describe('Methods and Getters returns a clone', () => {
 		test('GIVEN string.length constraint THEN returns modified clone of the validator', () => {
 			const stringPredicate = s.string;
 
-			expect(stringPredicate.lengthEq(1)).not.toBe(stringPredicate);
-			expect(stringPredicate.lengthEq(1)).toBeInstanceOf(stringPredicate.constructor);
-
-			expect(stringPredicate.lengthGe(1)).not.toBe(stringPredicate);
-			expect(stringPredicate.lengthGe(1)).toBeInstanceOf(stringPredicate.constructor);
-
-			expect(stringPredicate.lengthGt(1)).not.toBe(stringPredicate);
-			expect(stringPredicate.lengthGt(1)).toBeInstanceOf(stringPredicate.constructor);
-
-			expect(stringPredicate.lengthLe(1)).not.toBe(stringPredicate);
-			expect(stringPredicate.lengthLe(1)).toBeInstanceOf(stringPredicate.constructor);
-
-			expect(stringPredicate.lengthLt(1)).not.toBe(stringPredicate);
-			expect(stringPredicate.lengthLt(1)).toBeInstanceOf(stringPredicate.constructor);
-
-			expect(stringPredicate.lengthNe(1)).not.toBe(stringPredicate);
-			expect(stringPredicate.lengthNe(1)).toBeInstanceOf(stringPredicate.constructor);
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthEq(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthGe(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthGt(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthLe(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthLt(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthNe(1));
 		});
 
 		test('GIVEN number.comparator constraint THEN returns modified clone of the validator', () => {
 			const numberPredicate = s.number;
 
-			expect(numberPredicate.eq(1)).not.toBe(numberPredicate);
-			expect(numberPredicate.eq(1)).toBeInstanceOf(numberPredicate.constructor);
-
-			expect(numberPredicate.ge(1)).not.toBe(numberPredicate);
-			expect(numberPredicate.ge(1)).toBeInstanceOf(numberPredicate.constructor);
-
-			expect(numberPredicate.gt(1)).not.toBe(numberPredicate);
-			expect(numberPredicate.gt(1)).toBeInstanceOf(numberPredicate.constructor);
-
-			expect(numberPredicate.le(1)).not.toBe(numberPredicate);
-			expect(numberPredicate.le(1)).toBeInstanceOf(numberPredicate.constructor);
-
-			expect(numberPredicate.lt(1)).not.toBe(numberPredicate);
-			expect(numberPredicate.lt(1)).toBeInstanceOf(numberPredicate.constructor);
-
-			expect(numberPredicate.ne(1)).not.toBe(numberPredicate);
-			expect(numberPredicate.ne(1)).toBeInstanceOf(numberPredicate.constructor);
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.eq(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.ge(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.gt(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.le(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.lt(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.ne(1));
 		});
 
 		test('GIVEN bigint.comparator constraint THEN returns modified clone of the validator', () => {
 			const bigintPredicate = s.bigint;
 
-			expect(bigintPredicate.eq(1n)).not.toBe(bigintPredicate);
-			expect(bigintPredicate.eq(1n)).toBeInstanceOf(bigintPredicate.constructor);
-
-			expect(bigintPredicate.ge(1n)).not.toBe(bigintPredicate);
-			expect(bigintPredicate.ge(1n)).toBeInstanceOf(bigintPredicate.constructor);
-
-			expect(bigintPredicate.gt(1n)).not.toBe(bigintPredicate);
-			expect(bigintPredicate.gt(1n)).toBeInstanceOf(bigintPredicate.constructor);
-
-			expect(bigintPredicate.le(1n)).not.toBe(bigintPredicate);
-			expect(bigintPredicate.le(1n)).toBeInstanceOf(bigintPredicate.constructor);
-
-			expect(bigintPredicate.lt(1n)).not.toBe(bigintPredicate);
-			expect(bigintPredicate.lt(1n)).toBeInstanceOf(bigintPredicate.constructor);
-
-			expect(bigintPredicate.ne(1n)).not.toBe(bigintPredicate);
-			expect(bigintPredicate.ne(1n)).toBeInstanceOf(bigintPredicate.constructor);
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.eq(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.ge(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.gt(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.le(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.lt(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.ne(1n));
 		});
 	});
 });
