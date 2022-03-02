@@ -16,11 +16,11 @@ describe('StringValidator', () => {
 		describe('lengthLt', () => {
 			const lengthLtPredicate = s.string.lengthLt(5);
 
-			test.each(['Hi'])('GIVEN %s THEN returns given value', (input) => {
+			test.each(['Hi'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthLtPredicate.parse(input)).toBe(input);
 			});
 
-			test.each(['Hello', 'Foo Bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+			test.each(['Hello', 'Foo Bar'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthLtPredicate.parse(input),
 					new ConstraintError('s.string.lengthLt', 'Invalid string length', input, 'expected.length < 5')
@@ -31,11 +31,11 @@ describe('StringValidator', () => {
 		describe('lengthLe', () => {
 			const lengthLePredicate = s.string.lengthLe(5);
 
-			test.each(['Hi', 'Hello'])('GIVEN %s THEN returns given value', (input) => {
+			test.each(['Hi', 'Hello'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthLePredicate.parse(input)).toBe(input);
 			});
 
-			test.each(['Foo Bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+			test.each(['Foo Bar'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthLePredicate.parse(input),
 					new ConstraintError('s.string.lengthLe', 'Invalid string length', input, 'expected.length <= 5')
@@ -46,11 +46,11 @@ describe('StringValidator', () => {
 		describe('lengthGt', () => {
 			const lengthGtPredicate = s.string.lengthGt(5);
 
-			test.each(['Foo Bar'])('GIVEN %s THEN returns given value', (input) => {
+			test.each(['Foo Bar'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthGtPredicate.parse(input)).toBe(input);
 			});
 
-			test.each(['Hi', 'Hello'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+			test.each(['Hi', 'Hello'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthGtPredicate.parse(input),
 					new ConstraintError('s.string.lengthGt', 'Invalid string length', input, 'expected.length > 5')
@@ -61,11 +61,11 @@ describe('StringValidator', () => {
 		describe('lengthGe', () => {
 			const lengthGePredicate = s.string.lengthGe(5);
 
-			test.each(['Hello', 'Foo Bar'])('GIVEN %s THEN returns given value', (input) => {
+			test.each(['Hello', 'Foo Bar'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthGePredicate.parse(input)).toBe(input);
 			});
 
-			test.each(['Hi'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+			test.each(['Hi'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthGePredicate.parse(input),
 					new ConstraintError('s.string.lengthGe', 'Invalid string length', input, 'expected.length >= 5')
@@ -76,11 +76,11 @@ describe('StringValidator', () => {
 		describe('lengthEq', () => {
 			const lengthEqPredicate = s.string.lengthEq(5);
 
-			test.each(['Hello'])('GIVEN %s THEN returns given value', (input) => {
+			test.each(['Hello'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthEqPredicate.parse(input)).toBe(input);
 			});
 
-			test.each(['Hi', 'Foo Bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+			test.each(['Hi', 'Foo Bar'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthEqPredicate.parse(input),
 					new ConstraintError('s.string.lengthEq', 'Invalid string length', input, 'expected.length === 5')
@@ -91,11 +91,11 @@ describe('StringValidator', () => {
 		describe('lengthNe', () => {
 			const lengthNePredicate = s.string.lengthNe(5);
 
-			test.each(['Hi', 'Foo Bar'])('GIVEN %s THEN returns given value', (input) => {
+			test.each(['Hi', 'Foo Bar'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthNePredicate.parse(input)).toBe(input);
 			});
 
-			test.each(['Hello'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+			test.each(['Hello'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthNePredicate.parse(input),
 					new ConstraintError('s.string.lengthNe', 'Invalid string length', input, 'expected.length !== 5')
@@ -108,11 +108,11 @@ describe('StringValidator', () => {
 		describe('email', () => {
 			const emailPredicate = s.string.email;
 
-			test.each(['hi@hello.com', 'foo@bar.net', 'hello+world@example.com'])('GIVEN %s THEN returns given value', (input) => {
+			test.each(['hi@hello.com', 'foo@bar.net', 'hello+world@example.com'])('GIVEN %p THEN returns given value', (input) => {
 				expect(emailPredicate.parse(input)).toBe(input);
 			});
 
-			test.each(['hi@hello', 'foo@bar', 'foo@bar.com/', 'foo@bar.com/index?search=ok'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+			test.each(['hi@hello', 'foo@bar', 'foo@bar.com/', 'foo@bar.com/index?search=ok'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => emailPredicate.parse(input),
 					new ConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address')
@@ -124,11 +124,11 @@ describe('StringValidator', () => {
 			describe('Without any options', () => {
 				const urlPredicate = s.string.url();
 
-				test.each(['https://google.com', 'http://foo.bar'])('GIVEN %s THEN returns given value', (input) => {
+				test.each(['https://google.com', 'http://foo.bar'])('GIVEN %p THEN returns given value', (input) => {
 					expect(urlPredicate.parse(input)).toBe(input);
 				});
 
-				test.each(['google.com', 'foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each(['google.com', 'foo.bar'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => urlPredicate.parse(input),
 						new ConstraintError('s.string.url', 'Invalid URL', input, 'expected to match an URL')
@@ -139,11 +139,11 @@ describe('StringValidator', () => {
 			describe('With protocol', () => {
 				const urlPredicateWithProtocol = s.string.url({ allowedProtocols: ['git:'] });
 
-				test.each(['git://foo.bar'])('GIVEN %s THEN returns given value', (input) => {
+				test.each(['git://foo.bar'])('GIVEN %p THEN returns given value', (input) => {
 					expect(urlPredicateWithProtocol.parse(input)).toBe(input);
 				});
 
-				test.each(['https://google.com', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each(['https://google.com', 'http://foo.bar'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => urlPredicateWithProtocol.parse(input),
 						new ConstraintError('s.string.url', 'Invalid URL protocol', input, `expected ${new URL(input).protocol} to be one of: git:`)
@@ -154,11 +154,11 @@ describe('StringValidator', () => {
 			describe('With domain', () => {
 				const urlPredicateWithDomain = s.string.url({ allowedDomains: ['google.com'] });
 
-				test.each(['https://google.com', 'http://google.com'])('GIVEN %s THEN returns given value', (input) => {
+				test.each(['https://google.com', 'http://google.com'])('GIVEN %p THEN returns given value', (input) => {
 					expect(urlPredicateWithDomain.parse(input)).toBe(input);
 				});
 
-				test.each(['https://foo.bar', 'http://foo.bar'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each(['https://foo.bar', 'http://foo.bar'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => urlPredicateWithDomain.parse(input),
 						new ConstraintError('s.string.url', 'Invalid URL domain', input, 'expected foo.bar to be one of: google.com')
@@ -178,11 +178,11 @@ describe('StringValidator', () => {
 			describe('uuid5', () => {
 				const uuid5Predicate = s.string.uuid({ version: 5 });
 
-				test.each([uuid5])('GIVEN %s THEN returns given value', (input) => {
+				test.each([uuid5])('GIVEN %p THEN returns given value', (input) => {
 					expect(uuid5Predicate.parse(input)).toBe(input);
 				});
 
-				test.each([uuid1, uuid3, uuid4])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each([uuid1, uuid3, uuid4])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => uuid5Predicate.parse(input),
 						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match UUIDv5')
@@ -193,11 +193,11 @@ describe('StringValidator', () => {
 			describe('uuid4', () => {
 				const uuid4Predicate = s.string.uuid({ version: 4 });
 
-				test.each([uuid4])('GIVEN %s THEN returns given value', (input) => {
+				test.each([uuid4])('GIVEN %p THEN returns given value', (input) => {
 					expect(uuid4Predicate.parse(input)).toBe(input);
 				});
 
-				test.each([...invalidUuids, uuid5])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each([...invalidUuids, uuid5])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => uuid4Predicate.parse(input),
 						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match UUIDv4')
@@ -222,11 +222,11 @@ describe('StringValidator', () => {
 			describe('uuid3', () => {
 				const uuid3Predicate = s.string.uuid({ version: 3 });
 
-				test.each([uuid3])('GIVEN %s THEN returns given value', (input) => {
+				test.each([uuid3])('GIVEN %p THEN returns given value', (input) => {
 					expect(uuid3Predicate.parse(input)).toBe(input);
 				});
 
-				test.each([...invalidUuids, uuid4, uuid5])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each([...invalidUuids, uuid4, uuid5])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => uuid3Predicate.parse(input),
 						new ConstraintError('s.string.uuid', 'Invalid string format', input, 'expected to match UUIDv3')
@@ -237,11 +237,11 @@ describe('StringValidator', () => {
 			describe('with version range', () => {
 				const uuidRangePredicate = s.string.uuid({ version: '1-4' });
 
-				test.each([uuid1, uuid3, uuid3])('GIVEN %s THEN returns given value', (input) => {
+				test.each([uuid1, uuid3, uuid3])('GIVEN %p THEN returns given value', (input) => {
 					expect(uuidRangePredicate.parse(input)).toBe(input);
 				});
 
-				test.each([uuid5, nullUuid])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each([uuid5, nullUuid])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => uuidRangePredicate.parse(input),
 						new ConstraintError('s.string.uuid', 'Invalid string format', input, `expected to match UUID in range of 1-4`)
@@ -261,11 +261,11 @@ describe('StringValidator', () => {
 			const regex = /^[a-z]+$/;
 			const regexPredicate = s.string.regex(regex);
 
-			test.each(['abc', 'xyz'])('GIVEN %s THEN returns given value', (input) => {
+			test.each(['abc', 'xyz'])('GIVEN %p THEN returns given value', (input) => {
 				expect(regexPredicate.parse(input)).toBe(input);
 			});
 
-			test.each(['ABC', '123A'])('GIVEN %s THEN throws a ConstraintError', (input) => {
+			test.each(['ABC', '123A'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => regexPredicate.parse(input),
 					new ConstraintError('s.string.regex', 'Invalid string format', input, `expected ${regex}.test(expected) to be true`)
@@ -286,11 +286,11 @@ describe('StringValidator', () => {
 			describe('default', () => {
 				const ipPredicate = s.string.ip();
 
-				test.each([...v4Ips, ...v6Ips])('GIVEN %s THEN returns given value', (input) => {
+				test.each([...v4Ips, ...v6Ips])('GIVEN %p THEN returns given value', (input) => {
 					expect(ipPredicate.parse(input)).toBe(input);
 				});
 
-				test.each(invalidIps)('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each(invalidIps)('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => ipPredicate.parse(input),
 						new ConstraintError('s.string.ip', 'Invalid ip address', input, 'expected to be an ip address')
@@ -301,11 +301,11 @@ describe('StringValidator', () => {
 			describe('v4', () => {
 				const ipv4Predicate = s.string.ipv4;
 
-				test.each(v4Ips)('GIVEN %s THEN returns given value', (input) => {
+				test.each(v4Ips)('GIVEN %p THEN returns given value', (input) => {
 					expect(ipv4Predicate.parse(input)).toBe(input);
 				});
 
-				test.each([...v6Ips, ...invalidIps])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each([...v6Ips, ...invalidIps])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => ipv4Predicate.parse(input),
 						new ConstraintError('s.string.ipv4', 'Invalid ipv4 address', input, 'expected to be an ipv4 address')
@@ -316,11 +316,11 @@ describe('StringValidator', () => {
 			describe('v6', () => {
 				const ipv6Predicate = s.string.ipv6;
 
-				test.each(v6Ips)('GIVEN %s THEN returns given value', (input) => {
+				test.each(v6Ips)('GIVEN %p THEN returns given value', (input) => {
 					expect(ipv6Predicate.parse(input)).toBe(input);
 				});
 
-				test.each([...v4Ips, ...invalidIps])('GIVEN %s THEN throws a ConstraintError', (input) => {
+				test.each([...v4Ips, ...invalidIps])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => ipv6Predicate.parse(input),
 						new ConstraintError('s.string.ipv6', 'Invalid ipv6 address', input, 'expected to be an ipv6 address')

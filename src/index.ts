@@ -9,6 +9,5 @@ export * from './lib/errors/ExpectedValidationError';
 export * from './lib/errors/MissingPropertyError';
 export * from './lib/errors/UnknownPropertyError';
 export * from './lib/errors/ValidationError';
-
 export * from './lib/Result';
 export * from './type-exports';

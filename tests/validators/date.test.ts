@@ -9,7 +9,7 @@ describe('DateValidator', () => {
 		expect(predicate.parse(date)).toBe(date);
 	});
 
-	test.each(['abc', '', null, undefined])('GIVEN a non-date THEN throws ValidationError', (input) => {
+	test.each(['abc', '', null, undefined])('GIVEN a non-date (%p) THEN throws ValidationError', (input) => {
 		expectError(() => predicate.parse(input), new ValidationError('s.date', 'Expected a Date', input));
 	});
 

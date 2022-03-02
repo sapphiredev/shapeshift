@@ -8,7 +8,7 @@ describe('UndefinedValidator', () => {
 		expect(predicate.parse(undefined)).toBe(undefined);
 	});
 
-	test.each([null, 123, 'Hello'])('GIVEN %s THEN throws ExpectedValidationError', (input) => {
+	test.each([null, 123, 'Hello'])('GIVEN %p THEN throws ExpectedValidationError', (input) => {
 		expectError(() => predicate.parse(input), new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, undefined));
 	});
 });

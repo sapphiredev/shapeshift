@@ -4,7 +4,7 @@ import type { CombinedError } from '../lib/errors/CombinedError';
 import type { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import type { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import { ArrayValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator, DefaultValidator } from './imports';
+import { ArrayValidator, DefaultValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator } from './imports';
 
 export abstract class BaseValidator<T> {
 	protected constraints: readonly IConstraint<T>[] = [];

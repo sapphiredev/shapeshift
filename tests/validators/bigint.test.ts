@@ -143,18 +143,18 @@ describe('BigIntValidator', () => {
 		});
 
 		describe('intN', () => {
-			const absPredicate = s.bigint.intN(5);
+			const intNPredicate = s.bigint.intN(5);
 
 			test.each([smallInteger, largeInteger])('GIVEN %d THEN returns transformed the result from BigInt.asIntN', (input) => {
-				expect(absPredicate.parse(input)).toBe(BigInt.asIntN(5, input));
+				expect(intNPredicate.parse(input)).toBe(BigInt.asIntN(5, input));
 			});
 		});
 
 		describe('uintN', () => {
-			const absPredicate = s.bigint.uintN(5);
+			const uintNPredicate = s.bigint.uintN(5);
 
 			test.each([smallInteger, largeInteger])('GIVEN %d THEN returns transformed the result from BigInt.asUintN', (input) => {
-				expect(absPredicate.parse(input)).toBe(BigInt.asUintN(5, input));
+				expect(uintNPredicate.parse(input)).toBe(BigInt.asUintN(5, input));
 			});
 		});
 

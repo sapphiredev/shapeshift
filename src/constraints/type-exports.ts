@@ -5,10 +5,12 @@ export type {
 	arrayLengthGt,
 	arrayLengthLe,
 	arrayLengthLt,
-	arrayLengthNe
+	arrayLengthNe,
+	arrayLengthRange,
+	arrayLengthRangeInclusive
 } from './ArrayLengthConstraints';
 export type { IConstraint } from './base/IConstraint';
-export type { BigIntConstraintName, bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe, bigintDivisibleBy } from './BigIntConstraints';
+export type { BigIntConstraintName, bigintDivisibleBy, bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe } from './BigIntConstraints';
 export type { BooleanConstraintName, booleanFalse, booleanTrue } from './BooleanConstraints';
 export type { DateConstraintName, dateEq, dateGe, dateGt, dateInvalid, dateLe, dateLt, dateNe, dateValid } from './DateConstraints';
 export type {
@@ -28,17 +30,17 @@ export type {
 } from './NumberConstraints';
 export type {
 	StringConstraintName,
-	StringProtocol,
 	StringDomain,
-	UrlOptions,
+	stringEmail,
+	stringIp,
 	stringLengthEq,
 	stringLengthGe,
 	stringLengthGt,
 	stringLengthLe,
 	stringLengthLt,
 	stringLengthNe,
-	stringEmail,
+	StringProtocol,
 	stringRegex,
 	stringUrl,
-	stringIp
+	UrlOptions
 } from './StringConstraints';
