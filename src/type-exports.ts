@@ -7,13 +7,13 @@ export type {
 	arrayLengthLt,
 	arrayLengthNe,
 	BigIntConstraintName,
+	bigintDivisibleBy,
 	bigintEq,
 	bigintGe,
 	bigintGt,
 	bigintLe,
 	bigintLt,
 	bigintNe,
-	bigintDivisibleBy,
 	BooleanConstraintName,
 	booleanFalse,
 	booleanTrue,
@@ -57,7 +57,7 @@ export type { MissingPropertyError } from './lib/errors/MissingPropertyError';
 export type { UnknownPropertyError } from './lib/errors/UnknownPropertyError';
 export type { ValidationError } from './lib/errors/ValidationError';
 //
-export type { Shapes } from './lib/Shapes';
+export type { Shapes, Unwrap } from './lib/Shapes';
 //
 export type { Constructor, MappedObjectValidator, NonNullObject, Type } from './lib/util-types';
 //

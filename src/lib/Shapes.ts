@@ -82,7 +82,7 @@ export class Shapes {
 		return new InstanceValidator(expected);
 	}
 
-	public union<T extends [...BaseValidator<any>[]]>(...validators: [...T]): UnionValidator<T[number] extends BaseValidator<infer U> ? U : never> {
+	public union<T extends [...BaseValidator<any>[]]>(...validators: [...T]): UnionValidator<Unwrap<T[number]>> {
 		return new UnionValidator(validators);
 	}
 
@@ -107,6 +107,5 @@ export class Shapes {
 	}
 }
 
-type UnwrapTuple<T extends [...any[]]> = T extends [infer Head, ...infer Tail]
-	? [Head extends BaseValidator<infer V> ? V : never, ...UnwrapTuple<Tail>]
-	: [];
+type UnwrapTuple<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [Unwrap<Head>, ...UnwrapTuple<Tail>] : [];
+export type Unwrap<T> = T extends BaseValidator<infer V> ? V : never;
