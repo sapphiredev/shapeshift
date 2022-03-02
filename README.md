@@ -212,7 +212,7 @@ s.string.array.lengthEq(5); // Must have exactly 5 elements
 s.string.array.lengthNe(5); // Must not have exactly 5 elements
 ```
 
-> **Note**: `.lengthGt` and `.lengthGe` are overloaded and change the inferred type from 1 to 10. For example, `s.string.array.lengthGe(2)`'s inferred type is `[string, string, ...string[]]` // TODO
+> **Note**: All `.length` methods define tuple types with the given amount of elements. For example, `s.string.array.lengthGe(2)`'s inferred type is `[string, string, ...string[]]`
 
 #### Tuples
 
