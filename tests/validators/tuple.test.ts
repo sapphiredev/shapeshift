@@ -1,5 +1,5 @@
 import { CombinedPropertyError, s, ValidationError } from '../../src';
-import { expectError } from '../common/macros/comparators';
+import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('TupleValidator', () => {
 	const predicate = s.tuple([s.string, s.number]);
@@ -24,5 +24,10 @@ describe('TupleValidator', () => {
 
 	test('GIVEN a tuple with too many elements THEN throws ValidationError', () => {
 		expectError(() => predicate.parse(['foo', 1, 'bar']), new ValidationError('s.tuple(T)', 'Expected an array of length 2', ['foo', 1, 'bar']));
+	});
+
+	test('GIVEN clone THEN returns similar instance', () => {
+		// eslint-disable-next-line @typescript-eslint/dot-notation
+		expectClonedValidator(predicate, predicate['clone']());
 	});
 });
