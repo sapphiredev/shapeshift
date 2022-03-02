@@ -5,10 +5,10 @@ import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
 
-export class TupleValidator<T extends BaseValidator<any>[]> extends BaseValidator<[...T]> {
-	private readonly validators: BaseValidator<any>[] = [];
+export class TupleValidator<T extends any[]> extends BaseValidator<[...T]> {
+	private readonly validators: BaseValidator<[...T]>[] = [];
 
-	public constructor(validators: [...T], constraints: readonly IConstraint<[...T]>[] = []) {
+	public constructor(validators: BaseValidator<[...T]>[], constraints: readonly IConstraint<[...T]>[] = []) {
 		super(constraints);
 		this.validators = validators;
 	}

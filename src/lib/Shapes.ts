@@ -90,7 +90,7 @@ export class Shapes {
 		return new ArrayValidator(validator);
 	}
 
-	public tuple<T extends BaseValidator<any>[]>(validators: [...T]) {
+	public tuple<T extends [...BaseValidator<any>[]]>(validators: [...T]): TupleValidator<UnwrapTuple<T>> {
 		return new TupleValidator(validators);
 	}
 
@@ -106,3 +106,7 @@ export class Shapes {
 		return new MapValidator(keyValidator, valueValidator);
 	}
 }
+
+type UnwrapTuple<T extends [...any[]]> = T extends [infer Head, ...infer Tail]
+	? [Head extends BaseValidator<infer V> ? V : never, ...UnwrapTuple<Tail>]
+	: [];
