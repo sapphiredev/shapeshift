@@ -15,7 +15,7 @@ export class InstanceValidator<T> extends BaseValidator<T> {
 	protected handle(value: unknown): Result<T, ExpectedValidationError<Constructor<T>>> {
 		return value instanceof this.expected //
 			? Result.ok(value)
-			: Result.err(new ExpectedValidationError('InstanceValidator', 'Expected', value, this.expected));
+			: Result.err(new ExpectedValidationError('s.instance(V)', 'Expected', value, this.expected));
 	}
 
 	protected override clone(): this {

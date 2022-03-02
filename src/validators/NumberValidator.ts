@@ -101,6 +101,6 @@ export class NumberValidator<T extends number> extends BaseValidator<T> {
 	protected handle(value: unknown): Result<T, ValidationError> {
 		return typeof value === 'number' //
 			? Result.ok(value as T)
-			: Result.err(new ValidationError('NumberValidator', 'Expected a number primitive', value));
+			: Result.err(new ValidationError('s.number', 'Expected a number primitive', value));
 	}
 }

@@ -37,6 +37,6 @@ export class DateValidator extends BaseValidator<Date> {
 	protected handle(value: unknown): Result<Date, ValidationError> {
 		return value instanceof Date //
 			? Result.ok(value)
-			: Result.err(new ValidationError('DateValidator', 'Expected a Date', value));
+			: Result.err(new ValidationError('s.date', 'Expected a Date', value));
 	}
 }

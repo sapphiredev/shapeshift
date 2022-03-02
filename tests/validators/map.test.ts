@@ -1,4 +1,5 @@
-import { CombinedError, s, ValidationError } from '../../src';
+import { CombinedPropertyError, s, ValidationError } from '../../src';
+import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('MapValidator', () => {
 	const value = new Map([
@@ -8,7 +9,7 @@ describe('MapValidator', () => {
 	const predicate = s.map(s.string, s.number);
 
 	test('GIVEN a non-map THEN throws ValidationError', () => {
-		expect(() => predicate.parse(false)).toThrow(new ValidationError('MapValidator', 'Expected a map', false));
+		expectError(() => predicate.parse(false), new ValidationError('s.map(K, V)', 'Expected a map', false));
 	});
 
 	test('GIVEN a matching map THEN returns a map', () => {
@@ -16,28 +17,26 @@ describe('MapValidator', () => {
 	});
 
 	test('GIVEN a non-matching map THEN throws CombinedError', () => {
-		// @ts-expect-error Purposefully invalid
-		const map = new Map([
+		const map = new Map<string | number, string | number>([
 			['fizz', 1],
 			[2, 3],
 			['foo', 'bar'],
 			[4, 'buzz']
 		]);
-		expect(() => predicate.parse(map)).toThrow(
-			new CombinedError([
-				new ValidationError('StringValidator', 'Expected a string primitive', 2),
-				new ValidationError('NumberValidator', 'Expected a number primitive', 'bar'),
-				new ValidationError('StringValidator', 'Expected a string primitive', 4),
-				new ValidationError('NumberValidator', 'Expected a number primitive', 'buzz')
+
+		expectError(
+			() => predicate.parse(map),
+			new CombinedPropertyError([
+				[2, new ValidationError('s.string', 'Expected a string primitive', 2)],
+				['foo', new ValidationError('s.number', 'Expected a number primitive', 'bar')],
+				[4, new ValidationError('s.string', 'Expected a string primitive', 4)],
+				[4, new ValidationError('s.number', 'Expected a number primitive', 'buzz')]
 			])
 		);
 	});
 
 	test('GIVEN clone THEN returns similar instance', () => {
-		// @ts-expect-error Test clone
-		const clonePredicate = predicate.clone();
-
-		expect(clonePredicate).toBeInstanceOf(predicate.constructor);
-		expect(clonePredicate.parse(value)).toStrictEqual(predicate.parse(value));
+		// eslint-disable-next-line @typescript-eslint/dot-notation
+		expectClonedValidator(predicate, predicate['clone']());
 	});
 });
