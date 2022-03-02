@@ -214,7 +214,7 @@ s.string.array.lengthNe(5); // Must not have exactly 5 elements
 
 > **Note**: `.lengthGt` and `.lengthGe` are overloaded and change the inferred type from 1 to 10. For example, `s.string.array.lengthGe(2)`'s inferred type is `[string, string, ...string[]]` // TODO
 
-#### Tuples // TODO
+#### Tuples
 
 Unlike arrays, tuples have a fixed number of elements and each element can have a different type:
 

@@ -14,6 +14,7 @@ export * from './PassthroughValidator';
 export * from './RecordValidator';
 export * from './SetValidator';
 export * from './StringValidator';
+export * from './TupleValidator';
 export * from './UnionValidator';
 export * from './MapValidator';
 export * from './DefaultValidator';

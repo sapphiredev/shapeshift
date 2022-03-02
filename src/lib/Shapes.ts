@@ -15,6 +15,7 @@ import {
 	RecordValidator,
 	SetValidator,
 	StringValidator,
+	TupleValidator,
 	UnionValidator
 } from '../validators/imports';
 import type { Constructor, MappedObjectValidator } from './util-types';
@@ -89,6 +90,10 @@ export class Shapes {
 		return new ArrayValidator(validator);
 	}
 
+	public tuple<T extends [...BaseValidator<any>[]]>(validators: [...T]): TupleValidator<UnwrapTuple<T>> {
+		return new TupleValidator(validators);
+	}
+
 	public set<T>(validator: BaseValidator<T>) {
 		return new SetValidator(validator);
 	}
@@ -101,3 +106,7 @@ export class Shapes {
 		return new MapValidator(keyValidator, valueValidator);
 	}
 }
+
+type UnwrapTuple<T extends [...any[]]> = T extends [infer Head, ...infer Tail]
+	? [Head extends BaseValidator<infer V> ? V : never, ...UnwrapTuple<Tail>]
+	: [];
