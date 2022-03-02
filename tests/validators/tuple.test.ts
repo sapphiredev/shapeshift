@@ -8,8 +8,8 @@ describe('TupleValidator', () => {
 		expect(predicate.parse(['foo', 1])).toStrictEqual(['foo', 1]);
 	});
 
-	test('GIVEN a non-tuple THEN throws ValidationError', () => {
-		expect(() => predicate.parse(false)).toThrow(new ValidationError('TupleValidator', 'Expected an array', false));
+	test.each([false, 1, 'Hello', null, undefined])('GIVEN a non-tuple THEN throws ValidationError', (input) => {
+		expectError(() => predicate.parse(input), new ValidationError('s.tuple(T)', 'Expected an array', input));
 	});
 
 	test('GIVEN a non-matching tuple THEN throws CombinedError', () => {
@@ -23,9 +23,6 @@ describe('TupleValidator', () => {
 	});
 
 	test('GIVEN a tuple with too many elements THEN throws ValidationError', () => {
-		expectError(
-			() => predicate.parse(['foo', 1, 'bar']),
-			new ValidationError('TupleValidator', 'Expected an array of length 2', ['foo', 1, 'bar'])
-		);
+		expectError(() => predicate.parse(['foo', 1, 'bar']), new ValidationError('s.tuple(T)', 'Expected an array of length 2', ['foo', 1, 'bar']));
 	});
 });
