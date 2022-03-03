@@ -6,6 +6,7 @@ import {
 	arrayLengthLt,
 	arrayLengthNe,
 	arrayLengthRange,
+	arrayLengthRangeExclusive,
 	arrayLengthRangeInclusive
 } from '../constraints/ArrayLengthConstraints';
 import type { IConstraint } from '../constraints/base/IConstraint';
@@ -59,6 +60,13 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 		endAt: E
 	): BaseValidator<Exclude<ExpandSmallerTuples<[...Tuple<T, E>]>, ExpandSmallerTuples<UnshiftTuple<[...Tuple<T, S>]>>>> {
 		return this.addConstraint(arrayLengthRangeInclusive(startAt, endAt)) as any;
+	}
+
+	public lengthRangeExclusive<S extends number, E extends number>(
+		startAfter: S,
+		endBefore: E
+	): BaseValidator<Exclude<ExpandSmallerTuples<UnshiftTuple<[...Tuple<T, E>]>>, ExpandSmallerTuples<[...Tuple<T, S>]>>> {
+		return this.addConstraint(arrayLengthRangeExclusive(startAfter, endBefore)) as any;
 	}
 
 	protected override clone(): this {

@@ -146,6 +146,29 @@ describe('ArrayValidator', () => {
 					)
 				);
 			});
+
+			describe('lengthRangeExclusive', () => {
+				const lengthRangeExclusivePredicate = s.string.array.lengthRangeExclusive(0, 2);
+
+				test.each([[['foo']]])('GIVEN %p THEN returns given value', (value) => {
+					expect<[string]>(lengthRangeExclusivePredicate.parse(value)).toEqual(value);
+				});
+
+				test.each([[[] as string[]], [['hewwo', 'there']], [['hewwo', 'there', 'buddy']]])(
+					'GIVEN %p THEN throws ConstraintError',
+					(value) => {
+						expectError(
+							() => lengthRangeExclusivePredicate.parse(value),
+							new ConstraintError(
+								's.array(T).lengthRangeExclusive',
+								'Invalid Array length',
+								value,
+								'expected.length > 0 && expected.length < 2'
+							)
+						);
+					}
+				);
+			});
 		});
 	});
 
