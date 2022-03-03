@@ -1,6 +1,15 @@
-import { s } from '../../src';
+import { s, ValidationError, WrongEnumInputError } from '../../src';
+import { expectError } from '../common/macros/comparators';
 
 describe('NativeEnumValidator', () => {
+	describe('invalid inputs', () => {
+		const predicate = s.nativeEnum({ hello: 'world' });
+
+		test.each([true, null, undefined, {}])('GIVEN %p THEN throws ValidationError', (value) => {
+			expectError(() => predicate.parse(value), new ValidationError('s.nativeEnum(T)', 'Expected the value to be a string or number', value));
+		});
+	});
+
 	describe('string enum', () => {
 		enum StringEnum {
 			Hi = 'hi'
@@ -13,6 +22,10 @@ describe('NativeEnumValidator', () => {
 			[StringEnum.Hi, StringEnum.Hi]
 		])('GIVEN a key or value of a native enum (%p) THEN returns the value', (value, expected) => {
 			expect<StringEnum>(stringPredicate.parse(value)).toBe(expected);
+		});
+
+		it('GIVEN a number input for a string enum THEN throws ValidationError', () => {
+			expectError(() => stringPredicate.parse(1), new ValidationError('s.nativeEnum(T)', 'Expected the value to be a string', 1));
 		});
 	});
 
@@ -47,6 +60,14 @@ describe('NativeEnumValidator', () => {
 			[MixedEnum.Vladdy, MixedEnum.Vladdy]
 		])('GIVEN a key or value of a native enum (%p) THEN returns the value', (input, expected) => {
 			expect<MixedEnum>(mixedPredicate.parse(input)).toBe(expected);
+		});
+	});
+
+	describe('valid input but invalid enum value', () => {
+		const predicate = s.nativeEnum({ owo: 42 });
+
+		test.each(['uwu', 69])('GIVEN valid type for input but not part of enum (%p) THEN throws ValidationError', (value) => {
+			expectError(() => predicate.parse(value), new WrongEnumInputError(value, [['owo', 42]]));
 		});
 	});
 });
