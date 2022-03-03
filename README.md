@@ -212,7 +212,7 @@ s.string.array.lengthEq(5); // Must have exactly 5 elements
 s.string.array.lengthNe(5); // Must not have exactly 5 elements
 s.string.array.lengthRange(0, 4); // Must have at least 0 elements and less than 4 elements (in math, that is [0, 4))
 s.string.array.lengthRangeInclusive(0, 4); // Must have at least 0 elements and at most 4 elements (in math, that is [0, 4])
-s.string.array.lengthRangeExclusive(0, 4); // Must have more than 0 element and less than 4 elements (in math, that is [firstNumber + 1, 4))
+s.string.array.lengthRangeExclusive(0, 4); // Must have more than 0 element and less than 4 elements (in math, that is (0, 4))
 ```
 
 > **Note**: All `.length` methods define tuple types with the given amount of elements. For example, `s.string.array.lengthGe(2)`'s inferred type is `[string, string, ...string[]]`
