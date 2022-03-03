@@ -1,5 +1,5 @@
 import { s, UnknownEnumValueError, ValidationError } from '../../src';
-import { expectError } from '../common/macros/comparators';
+import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('NativeEnumValidator', () => {
 	describe('invalid inputs', () => {
@@ -67,7 +67,17 @@ describe('NativeEnumValidator', () => {
 		const predicate = s.nativeEnum({ owo: 42 });
 
 		test.each(['uwu', 69])('GIVEN valid type for input but not part of enum (%p) THEN throws ValidationError', (value) => {
-			expectError(() => predicate.parse(value), new UnknownEnumValueError(value, [['owo', 42]]));
+			expectError(() => predicate.parse(value), new UnknownEnumValueError(value, ['owo'], new Map([['owo', 42]])));
 		});
+	});
+
+	test('GIVEN clone THEN returns similar instance', () => {
+		const predicate = s.nativeEnum({ Example: 69 });
+		// @ts-expect-error Test clone
+		const clonePredicate = predicate.clone();
+
+		expectClonedValidator(predicate, clonePredicate);
+		expect(predicate.parse('Example')).toBe(69);
+		expect(predicate.parse(69)).toBe(69);
 	});
 });

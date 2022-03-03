@@ -3,20 +3,23 @@ import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
 export class UnknownEnumValueError extends BaseError {
 	public readonly value: string | number;
-	public readonly pairs: [key: string, value: string | number][];
+	public readonly enumKeys: string[];
+	public readonly enumMappings: Map<string | number, string | number>;
 
-	public constructor(value: string | number, pairs: [key: string, value: string | number][]) {
+	public constructor(value: string | number, keys: string[], enumMappings: Map<string | number, string | number>) {
 		super('Expected the value to be one of the following enum values:');
 
 		this.value = value;
-		this.pairs = pairs;
+		this.enumKeys = keys;
+		this.enumMappings = enumMappings;
 	}
 
 	public toJSON() {
 		return {
 			name: this.name,
 			value: this.value,
-			pairs: this.pairs
+			enumKeys: this.enumKeys,
+			enumMappings: [...this.enumMappings.entries()]
 		};
 	}
 
@@ -27,11 +30,14 @@ export class UnknownEnumValueError extends BaseError {
 		}
 
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
-		const pairs = this.pairs
-			.map(
-				([key, value]) =>
-					`${options.stylize(key, 'string')} or ${options.stylize(value.toString(), typeof value === 'number' ? 'number' : 'string')}`
-			)
+		const pairs = this.enumKeys
+			.map((key) => {
+				const enumValue = this.enumMappings.get(key)!;
+				return `${options.stylize(key, 'string')} or ${options.stylize(
+					enumValue.toString(),
+					typeof enumValue === 'number' ? 'number' : 'string'
+				)}`;
+			})
 			.join(padding);
 
 		const header = `${options.stylize('UnknownEnumValueError', 'special')} > ${value}`;

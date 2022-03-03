@@ -2,18 +2,25 @@ import { inspect } from 'node:util';
 import { UnknownEnumValueError } from '../../../src';
 
 describe('UnknownEnumValueError', () => {
-	const error = new UnknownEnumValueError('foo', [
-		['bar', 1],
-		['baz', 'boo']
-	]);
+	const error = new UnknownEnumValueError(
+		'foo',
+		['bar', 'baz'],
+		new Map<string | number, string | number>([
+			['bar', 1],
+			['baz', 'boo']
+		])
+	);
 
 	test('GIVEN an instance THEN assigns fields correctly', () => {
 		expect(error.message).toBe('Expected the value to be one of the following enum values:');
 		expect(error.value).toBe('foo');
-		expect(error.pairs).toEqual([
-			['bar', 1],
-			['baz', 'boo']
-		]);
+		expect(error.enumKeys).toEqual(['bar', 'baz']);
+		expect(error.enumMappings).toStrictEqual(
+			new Map<string | number, string | number>([
+				['bar', 1],
+				['baz', 'boo']
+			])
+		);
 	});
 
 	describe('inspect', () => {
@@ -45,7 +52,8 @@ describe('UnknownEnumValueError', () => {
 			expect(error.toJSON()).toEqual({
 				name: 'Error',
 				value: 'foo',
-				pairs: [
+				enumKeys: ['bar', 'baz'],
+				enumMappings: [
 					['bar', 1],
 					['baz', 'boo']
 				]

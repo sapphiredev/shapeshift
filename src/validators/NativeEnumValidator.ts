@@ -20,13 +20,13 @@ export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator
 		for (const key of this.enumKeys) {
 			const enumValue = enumShape[key] as T[keyof T];
 
-			if (typeof enumValue === 'number') {
-				this.hasNumericElements = true;
-			}
-
 			this.enumMapping.set(key, enumValue);
 			this.enumMapping.set(enumValue, enumValue);
-			this.enumMapping.set(`${enumValue}`, enumValue);
+
+			if (typeof enumValue === 'number') {
+				this.hasNumericElements = true;
+				this.enumMapping.set(`${enumValue}`, enumValue);
+			}
 		}
 	}
 
@@ -48,13 +48,12 @@ export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator
 		const possibleEnumValue = this.enumMapping.get(casted);
 
 		return typeof possibleEnumValue === 'undefined'
-			? Result.err(
-					new UnknownEnumValueError(
-						casted,
-						this.enumKeys.map((key) => [key, this.enumMapping.get(key)!])
-					)
-			  )
+			? Result.err(new UnknownEnumValueError(casted, this.enumKeys, this.enumMapping))
 			: Result.ok(possibleEnumValue);
+	}
+
+	protected clone(): this {
+		return Reflect.construct(this.constructor, [this.enumShape]);
 	}
 }
 
