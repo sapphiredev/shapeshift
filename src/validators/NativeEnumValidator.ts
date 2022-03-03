@@ -1,5 +1,5 @@
+import { UnknownEnumValueError } from '../lib/errors/UnknownEnumValueError';
 import { ValidationError } from '../lib/errors/ValidationError';
-import { WrongEnumInputError } from '../lib/errors/WrongEnumInputError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
 
@@ -30,7 +30,7 @@ export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator
 		}
 	}
 
-	protected override handle(value: unknown): Result<T[keyof T], ValidationError | WrongEnumInputError> {
+	protected override handle(value: unknown): Result<T[keyof T], ValidationError | UnknownEnumValueError> {
 		const typeOfValue = typeof value;
 
 		// Step 1. Possible numeric enum
@@ -49,7 +49,7 @@ export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator
 
 		return typeof possibleEnumValue === 'undefined'
 			? Result.err(
-					new WrongEnumInputError(
+					new UnknownEnumValueError(
 						casted,
 						this.enumKeys.map((key) => [key, this.enumMapping.get(key)!])
 					)

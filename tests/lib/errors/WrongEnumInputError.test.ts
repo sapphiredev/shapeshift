@@ -1,8 +1,8 @@
 import { inspect } from 'node:util';
-import { WrongEnumInputError } from '../../../src';
+import { UnknownEnumValueError } from '../../../src';
 
-describe('WrongEnumInputError', () => {
-	const error = new WrongEnumInputError('foo', [
+describe('UnknownEnumValueError', () => {
+	const error = new UnknownEnumValueError('foo', [
 		['bar', 1],
 		['baz', 'boo']
 	]);
@@ -20,7 +20,7 @@ describe('WrongEnumInputError', () => {
 		test('GIVEN an inspected instance THEN formats data correctly', () => {
 			const content = inspect(error, { colors: false });
 			const expected = [
-				'WrongEnumInputError > foo', //
+				'UnknownEnumValueError > foo', //
 				'  Expected the value to be one of the following enum values:',
 				'',
 				'  | bar or 1',
@@ -33,7 +33,7 @@ describe('WrongEnumInputError', () => {
 		test('GIVEN an inspected instance with negative depth THEN formats name only', () => {
 			const content = inspect(error, { colors: false, depth: -1 });
 			const expected = [
-				'[WrongEnumInputError: foo]' //
+				'[UnknownEnumValueError: foo]' //
 			];
 
 			expect(content.startsWith(expected.join('\n'))).toBe(true);

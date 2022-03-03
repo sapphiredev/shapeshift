@@ -1,4 +1,4 @@
-import { s, ValidationError, WrongEnumInputError } from '../../src';
+import { s, UnknownEnumValueError, ValidationError } from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('NativeEnumValidator', () => {
@@ -67,7 +67,7 @@ describe('NativeEnumValidator', () => {
 		const predicate = s.nativeEnum({ owo: 42 });
 
 		test.each(['uwu', 69])('GIVEN valid type for input but not part of enum (%p) THEN throws ValidationError', (value) => {
-			expectError(() => predicate.parse(value), new WrongEnumInputError(value, [['owo', 42]]));
+			expectError(() => predicate.parse(value), new UnknownEnumValueError(value, [['owo', 42]]));
 		});
 	});
 });

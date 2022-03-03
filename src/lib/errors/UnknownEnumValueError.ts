@@ -1,7 +1,7 @@
 import type { InspectOptionsStylized } from 'node:util';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
-export class WrongEnumInputError extends BaseError {
+export class UnknownEnumValueError extends BaseError {
 	public readonly value: string | number;
 	public readonly pairs: [key: string, value: string | number][];
 
@@ -23,7 +23,7 @@ export class WrongEnumInputError extends BaseError {
 	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
 		const value = options.stylize(this.value.toString(), 'string');
 		if (depth < 0) {
-			return options.stylize(`[WrongEnumInputError: ${value}]`, 'special');
+			return options.stylize(`[UnknownEnumValueError: ${value}]`, 'special');
 		}
 
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
@@ -34,7 +34,7 @@ export class WrongEnumInputError extends BaseError {
 			)
 			.join(padding);
 
-		const header = `${options.stylize('WrongEnumInputError', 'special')} > ${value}`;
+		const header = `${options.stylize('UnknownEnumValueError', 'special')} > ${value}`;
 		const message = options.stylize(this.message, 'regexp');
 		const pairsBlock = `${padding}${pairs}`;
 		return `${header}\n  ${message}\n${pairsBlock}`;

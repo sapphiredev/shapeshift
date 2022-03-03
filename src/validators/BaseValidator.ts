@@ -2,8 +2,8 @@ import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
 import type { CombinedError } from '../lib/errors/CombinedError';
 import type { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
+import type { UnknownEnumValueError } from '../lib/errors/UnknownEnumValueError';
 import type { ValidationError } from '../lib/errors/ValidationError';
-import type { WrongEnumInputError } from '../lib/errors/WrongEnumInputError';
 import { Result } from '../lib/Result';
 import { ArrayValidator, DefaultValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator } from './imports';
 
@@ -68,7 +68,7 @@ export abstract class BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.constraints]);
 	}
 
-	protected abstract handle(value: unknown): Result<T, ValidationError | CombinedError | CombinedPropertyError | WrongEnumInputError>;
+	protected abstract handle(value: unknown): Result<T, ValidationError | CombinedError | CombinedPropertyError | UnknownEnumValueError>;
 
 	protected addConstraint(constraint: IConstraint<T>): this {
 		const clone = this.clone();

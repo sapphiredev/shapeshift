@@ -54,9 +54,9 @@ export type { CombinedError } from './lib/errors/CombinedError';
 export type { ConstraintError, ConstraintErrorNames } from './lib/errors/ConstraintError';
 export type { ExpectedValidationError } from './lib/errors/ExpectedValidationError';
 export type { MissingPropertyError } from './lib/errors/MissingPropertyError';
+export type { UnknownEnumValueError } from './lib/errors/UnknownEnumValueError';
 export type { UnknownPropertyError } from './lib/errors/UnknownPropertyError';
 export type { ValidationError } from './lib/errors/ValidationError';
-export type { WrongEnumInputError } from './lib/errors/WrongEnumInputError';
 //
 export type { Shapes, Unwrap } from './lib/Shapes';
 //
