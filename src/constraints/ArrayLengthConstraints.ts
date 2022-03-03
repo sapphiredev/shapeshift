@@ -56,11 +56,11 @@ export function arrayLengthRange<T>(start: number, endBefore: number): IConstrai
 	};
 }
 
-export function arrayLengthRangeInclusive<T>(start: number, endBefore: number): IConstraint<T[]> {
-	const expected = `expected.length >= ${start} && expected.length <= ${endBefore}`;
+export function arrayLengthRangeInclusive<T>(start: number, end: number): IConstraint<T[]> {
+	const expected = `expected.length >= ${start} && expected.length <= ${end}`;
 	return {
 		run(input: T[]) {
-			return input.length >= start && input.length <= endBefore //
+			return input.length >= start && input.length <= end //
 				? Result.ok(input)
 				: Result.err(new ConstraintError('s.array(T).lengthRangeInclusive', 'Invalid Array length', input, expected));
 		}
