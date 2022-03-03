@@ -63,7 +63,7 @@ export type { Shapes, Unwrap } from './lib/Shapes';
 export type { Constructor, MappedObjectValidator, NonNullObject, Type } from './lib/util-types';
 //
 export type { ArrayValidator } from './validators/ArrayValidator';
-export type { BaseValidator } from './validators/BaseValidator';
+export type { BaseValidator, ValidatorError } from './validators/BaseValidator';
 export type { BigIntValidator } from './validators/BigIntValidator';
 export type { BooleanValidator } from './validators/BooleanValidator';
 export type { DateValidator } from './validators/DateValidator';

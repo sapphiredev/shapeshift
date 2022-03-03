@@ -68,7 +68,7 @@ export abstract class BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.constraints]);
 	}
 
-	protected abstract handle(value: unknown): Result<T, ValidationError | CombinedError | CombinedPropertyError | UnknownEnumValueError>;
+	protected abstract handle(value: unknown): Result<T, ValidatorError>;
 
 	protected addConstraint(constraint: IConstraint<T>): this {
 		const clone = this.clone();
@@ -76,3 +76,5 @@ export abstract class BaseValidator<T> {
 		return clone;
 	}
 }
+
+export type ValidatorError = ValidationError | CombinedError | CombinedPropertyError | UnknownEnumValueError;
