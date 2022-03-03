@@ -56,6 +56,7 @@ export type { ExpectedValidationError } from './lib/errors/ExpectedValidationErr
 export type { MissingPropertyError } from './lib/errors/MissingPropertyError';
 export type { UnknownPropertyError } from './lib/errors/UnknownPropertyError';
 export type { ValidationError } from './lib/errors/ValidationError';
+export type { WrongEnumInputError } from './lib/errors/WrongEnumInputError';
 //
 export type { Shapes, Unwrap } from './lib/Shapes';
 //

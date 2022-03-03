@@ -2,6 +2,7 @@ import type { IConstraint } from '../constraints/base/IConstraint';
 import type { CombinedError } from '../lib/errors/CombinedError';
 import type { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import type { ValidationError } from '../lib/errors/ValidationError';
+import type { WrongEnumInputError } from '../lib/errors/WrongEnumInputError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
 import { getValue } from './util/getValue';
@@ -22,7 +23,7 @@ export class DefaultValidator<T> extends BaseValidator<T> {
 		return clone;
 	}
 
-	protected handle(value: unknown): Result<T, ValidationError | CombinedError | CombinedPropertyError> {
+	protected handle(value: unknown): Result<T, ValidationError | CombinedError | CombinedPropertyError | WrongEnumInputError> {
 		return typeof value === 'undefined' //
 			? Result.ok(getValue(this.defaultValue))
 			: this.validator['handle'](value); // eslint-disable-line @typescript-eslint/dot-notation
