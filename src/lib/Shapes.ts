@@ -18,6 +18,7 @@ import {
 	TupleValidator,
 	UnionValidator
 } from '../validators/imports';
+import { NativeEnumLike, NativeEnumValidator } from '../validators/NativeEnumValidator';
 import type { Constructor, MappedObjectValidator } from './util-types';
 
 export class Shapes {
@@ -71,6 +72,10 @@ export class Shapes {
 
 	public enum<T>(...values: readonly T[]) {
 		return this.union(...values.map((value) => this.literal(value)));
+	}
+
+	public nativeEnum<T extends NativeEnumLike>(enumShape: T): NativeEnumValidator<T> {
+		return new NativeEnumValidator(enumShape);
 	}
 
 	public literal<T>(value: T): BaseValidator<T> {
