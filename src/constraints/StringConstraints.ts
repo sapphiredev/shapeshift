@@ -1,9 +1,9 @@
+import { isIP, isIPv4, isIPv6 } from 'node:net';
 import { ConstraintError } from '../lib/errors/ConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
-import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
-import { isIP, isIPv4, isIPv6 } from 'node:net';
 import { validateEmail } from './util/emailValidator';
+import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
 export type StringConstraintName =
 	| `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email' | `ip${'v4' | 'v6' | ''}`}`;

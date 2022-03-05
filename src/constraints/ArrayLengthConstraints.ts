@@ -3,7 +3,7 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-export type ArrayConstraintName = `s.array(T).length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}`;
+export type ArrayConstraintName = `s.array(T).length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne' | 'Range' | 'RangeInclusive' | 'RangeExclusive'}`;
 
 function arrayLengthComparator<T>(comparator: Comparator, name: ArrayConstraintName, expected: string, length: number): IConstraint<T[]> {
 	return {
@@ -43,4 +43,37 @@ export function arrayLengthEq<T>(value: number): IConstraint<T[]> {
 export function arrayLengthNe<T>(value: number): IConstraint<T[]> {
 	const expected = `expected.length !== ${value}`;
 	return arrayLengthComparator(ne, 's.array(T).lengthNe', expected, value);
+}
+
+export function arrayLengthRange<T>(start: number, endBefore: number): IConstraint<T[]> {
+	const expected = `expected.length >= ${start} && expected.length < ${endBefore}`;
+	return {
+		run(input: T[]) {
+			return input.length >= start && input.length < endBefore //
+				? Result.ok(input)
+				: Result.err(new ConstraintError('s.array(T).lengthRange', 'Invalid Array length', input, expected));
+		}
+	};
+}
+
+export function arrayLengthRangeInclusive<T>(start: number, end: number): IConstraint<T[]> {
+	const expected = `expected.length >= ${start} && expected.length <= ${end}`;
+	return {
+		run(input: T[]) {
+			return input.length >= start && input.length <= end //
+				? Result.ok(input)
+				: Result.err(new ConstraintError('s.array(T).lengthRangeInclusive', 'Invalid Array length', input, expected));
+		}
+	};
+}
+
+export function arrayLengthRangeExclusive<T>(startAfter: number, endBefore: number): IConstraint<T[]> {
+	const expected = `expected.length > ${startAfter} && expected.length < ${endBefore}`;
+	return {
+		run(input: T[]) {
+			return input.length > startAfter && input.length < endBefore //
+				? Result.ok(input)
+				: Result.err(new ConstraintError('s.array(T).lengthRangeExclusive', 'Invalid Array length', input, expected));
+		}
+	};
 }

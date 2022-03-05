@@ -6,6 +6,8 @@ export type {
 	arrayLengthLe,
 	arrayLengthLt,
 	arrayLengthNe,
+	arrayLengthRange,
+	arrayLengthRangeInclusive,
 	BigIntConstraintName,
 	bigintDivisibleBy,
 	bigintEq,

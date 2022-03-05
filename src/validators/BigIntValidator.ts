@@ -1,5 +1,5 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
-import { bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe, bigintDivisibleBy } from '../constraints/BigIntConstraints';
+import { bigintDivisibleBy, bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe } from '../constraints/BigIntConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';

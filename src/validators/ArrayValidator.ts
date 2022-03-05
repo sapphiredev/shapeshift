@@ -1,4 +1,14 @@
-import { arrayLengthEq, arrayLengthGe, arrayLengthGt, arrayLengthLe, arrayLengthLt, arrayLengthNe } from '../constraints/ArrayLengthConstraints';
+import {
+	arrayLengthEq,
+	arrayLengthGe,
+	arrayLengthGt,
+	arrayLengthLe,
+	arrayLengthLt,
+	arrayLengthNe,
+	arrayLengthRange,
+	arrayLengthRangeExclusive,
+	arrayLengthRangeInclusive
+} from '../constraints/ArrayLengthConstraints';
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
@@ -19,23 +29,44 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 	}
 
 	public lengthLe<N extends number>(length: N): BaseValidator<ExpandSmallerTuples<[...Tuple<T, N>]>> {
-		return this.addConstraint(arrayLengthLe(length) as IConstraint<T[]>) as any;
+		return this.addConstraint(arrayLengthLe(length)) as any;
 	}
 
 	public lengthGt<N extends number>(length: N): BaseValidator<[...Tuple<T, N>, T, ...T[]]> {
-		return this.addConstraint(arrayLengthGt(length) as IConstraint<T[]>) as any;
+		return this.addConstraint(arrayLengthGt(length)) as any;
 	}
 
 	public lengthGe<N extends number>(length: N): BaseValidator<[...Tuple<T, N>, ...T[]]> {
-		return this.addConstraint(arrayLengthGe(length) as IConstraint<T[]>) as any;
+		return this.addConstraint(arrayLengthGe(length)) as any;
 	}
 
 	public lengthEq<N extends number>(length: N): BaseValidator<[...Tuple<T, N>]> {
-		return this.addConstraint(arrayLengthEq(length) as IConstraint<T[]>) as any;
+		return this.addConstraint(arrayLengthEq(length)) as any;
 	}
 
 	public lengthNe(length: number): BaseValidator<[...T[]]> {
-		return this.addConstraint(arrayLengthNe(length) as IConstraint<T[]>);
+		return this.addConstraint(arrayLengthNe(length)) as any;
+	}
+
+	public lengthRange<S extends number, E extends number>(
+		start: S,
+		endBefore: E
+	): BaseValidator<Exclude<ExpandSmallerTuples<UnshiftTuple<[...Tuple<T, E>]>>, ExpandSmallerTuples<UnshiftTuple<[...Tuple<T, S>]>>>> {
+		return this.addConstraint(arrayLengthRange(start, endBefore)) as any;
+	}
+
+	public lengthRangeInclusive<S extends number, E extends number>(
+		startAt: S,
+		endAt: E
+	): BaseValidator<Exclude<ExpandSmallerTuples<[...Tuple<T, E>]>, ExpandSmallerTuples<UnshiftTuple<[...Tuple<T, S>]>>>> {
+		return this.addConstraint(arrayLengthRangeInclusive(startAt, endAt)) as any;
+	}
+
+	public lengthRangeExclusive<S extends number, E extends number>(
+		startAfter: S,
+		endBefore: E
+	): BaseValidator<Exclude<ExpandSmallerTuples<UnshiftTuple<[...Tuple<T, E>]>>, ExpandSmallerTuples<[...Tuple<T, S>]>>> {
+		return this.addConstraint(arrayLengthRangeExclusive(startAfter, endBefore)) as any;
 	}
 
 	protected override clone(): this {

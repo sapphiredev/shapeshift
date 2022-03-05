@@ -8,7 +8,7 @@ describe('NullValidator', () => {
 		expect(predicate.parse(null)).toBe(null);
 	});
 
-	test.each([undefined, 123, 'Hello', {}])('GIVEN non-null %s THEN throws ExpectedValidationError', (input) => {
+	test.each([undefined, 123, 'Hello', {}])('GIVEN %p THEN throws ExpectedValidationError', (input) => {
 		expectError(() => predicate.parse(input), new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, null));
 	});
 });
