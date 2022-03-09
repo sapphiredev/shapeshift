@@ -293,7 +293,7 @@ describe('StringValidator', () => {
 				test.each(invalidIps)('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => ipPredicate.parse(input),
-						new ConstraintError('s.string.ip', 'Invalid ip address', input, 'expected to be an ip address')
+						new ConstraintError('s.string.ip', 'Invalid IP address', input, 'expected to be an IP address')
 					);
 				});
 			});
@@ -308,7 +308,7 @@ describe('StringValidator', () => {
 				test.each([...v6Ips, ...invalidIps])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => ipv4Predicate.parse(input),
-						new ConstraintError('s.string.ipv4', 'Invalid ipv4 address', input, 'expected to be an ipv4 address')
+						new ConstraintError('s.string.ipv4', 'Invalid IPv4 address', input, 'expected to be an IPv4 address')
 					);
 				});
 			});
@@ -323,7 +323,7 @@ describe('StringValidator', () => {
 				test.each([...v4Ips, ...invalidIps])('GIVEN %p THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => ipv6Predicate.parse(input),
-						new ConstraintError('s.string.ipv6', 'Invalid ipv6 address', input, 'expected to be an ipv6 address')
+						new ConstraintError('s.string.ipv6', 'Invalid IPv6 address', input, 'expected to be an IPv6 address')
 					);
 				});
 			});

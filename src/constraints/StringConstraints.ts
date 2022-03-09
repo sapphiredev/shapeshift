@@ -4,6 +4,7 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { validateEmail } from './util/emailValidator';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
+import { createUrlValidators } from './util/urlValidators';
 
 export type StringConstraintName =
 	| `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email' | `ip${'v4' | 'v6' | ''}`}`;
@@ -85,55 +86,33 @@ function stringRegexValidator(type: StringConstraintName, expected: string, rege
 }
 
 export function stringUrl(options?: UrlOptions): IConstraint<string> {
+	const validatorFn = createUrlValidators(options);
 	return {
 		run(input: string) {
+			let url: URL;
 			try {
-				const url = new URL(input);
-
-				// TODO(kyranet): optimize the option checks
-				if (options?.allowedProtocols && !options.allowedProtocols.includes(url.protocol as StringProtocol)) {
-					return Result.err(
-						new ConstraintError(
-							's.string.url',
-							'Invalid URL protocol',
-							input,
-							`expected ${url.protocol} to be one of: ${options.allowedProtocols.join(', ')}`
-						)
-					);
-				}
-				if (options?.allowedDomains && !options.allowedDomains.includes(url.hostname as StringDomain)) {
-					return Result.err(
-						new ConstraintError(
-							's.string.url',
-							'Invalid URL domain',
-							input,
-							`expected ${url.hostname} to be one of: ${options.allowedDomains.join(', ')}`
-						)
-					);
-				}
-
-				return Result.ok(input);
+				url = new URL(input);
 			} catch {
 				return Result.err(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected to match an URL'));
 			}
+
+			const validatorFnResult = validatorFn(input, url);
+			if (validatorFnResult === null) return Result.ok(input);
+			return Result.err(validatorFnResult);
 		}
 	};
 }
 
 export function stringIp(version?: 4 | 6): IConstraint<string> {
-	const ipVersion = version ? `v${version}` : '';
+	const ipVersion = version ? (`v${version}` as const) : '';
+	const validatorFn = version === 4 ? isIPv4 : version === 6 ? isIPv6 : isIP;
+
+	const name = `s.string.ip${ipVersion}` as const;
+	const message = `Invalid IP${ipVersion} address`;
+	const expected = `expected to be an IP${ipVersion} address`;
 	return {
 		run(input: string) {
-			return (version === 4 ? isIPv4(input) : version === 6 ? isIPv6(input) : isIP(input)) //
-				? Result.ok(input)
-				: Result.err(
-						new ConstraintError(
-							`s.string.ip${ipVersion}` as StringConstraintName,
-							`Invalid ip${ipVersion} address`,
-							input,
-							`expected to be an ip${ipVersion} address`
-						)
-				  );
+			return validatorFn(input) ? Result.ok(input) : Result.err(new ConstraintError(name, message, input, expected));
 		}
 	};
 }
