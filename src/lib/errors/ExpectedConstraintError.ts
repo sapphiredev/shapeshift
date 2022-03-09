@@ -1,31 +1,12 @@
 import { inspect, type InspectOptionsStylized } from 'node:util';
-import type {
-	ArrayConstraintName,
-	BigIntConstraintName,
-	BooleanConstraintName,
-	DateConstraintName,
-	NumberConstraintName,
-	StringConstraintName
-} from '../../constraints/type-exports';
-import { BaseError, customInspectSymbolStackLess } from './BaseError';
+import { customInspectSymbolStackLess } from './BaseError';
+import { BaseConstraintError, type ConstraintErrorNames } from './BaseConstraintError';
 
-export type ConstraintErrorNames =
-	| ArrayConstraintName
-	| BigIntConstraintName
-	| BooleanConstraintName
-	| DateConstraintName
-	| NumberConstraintName
-	| StringConstraintName;
-
-export class ConstraintError<T = unknown> extends BaseError {
-	public readonly constraint: ConstraintErrorNames;
-	public readonly given: T;
+export class ExpectedConstraintError<T = unknown> extends BaseConstraintError<T> {
 	public readonly expected: string;
 
 	public constructor(constraint: ConstraintErrorNames, message: string, given: T, expected: string) {
-		super(message);
-		this.constraint = constraint;
-		this.given = given;
+		super(constraint, message, given);
 		this.expected = expected;
 	}
 
@@ -41,7 +22,7 @@ export class ConstraintError<T = unknown> extends BaseError {
 	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
 		const constraint = options.stylize(this.constraint, 'string');
 		if (depth < 0) {
-			return options.stylize(`[ConstraintError: ${constraint}]`, 'special');
+			return options.stylize(`[ExpectedConstraintError: ${constraint}]`, 'special');
 		}
 
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1 };
@@ -49,7 +30,7 @@ export class ConstraintError<T = unknown> extends BaseError {
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
 		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
 
-		const header = `${options.stylize('ConstraintError', 'special')} > ${constraint}`;
+		const header = `${options.stylize('ExpectedConstraintError', 'special')} > ${constraint}`;
 		const message = options.stylize(this.message, 'regexp');
 		const expectedBlock = `\n  ${options.stylize('Expected: ', 'string')}${options.stylize(this.expected, 'boolean')}`;
 		const givenBlock = `\n  ${options.stylize('Received:', 'regexp')}${padding}${given}`;

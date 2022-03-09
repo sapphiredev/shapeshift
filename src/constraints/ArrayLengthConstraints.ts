@@ -1,4 +1,4 @@
-import { ConstraintError } from '../lib/errors/ConstraintError';
+import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
@@ -10,7 +10,7 @@ function arrayLengthComparator<T>(comparator: Comparator, name: ArrayConstraintN
 		run(input: T[]) {
 			return comparator(input.length, length) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(name, 'Invalid Array length', input, expected));
+				: Result.err(new ExpectedConstraintError(name, 'Invalid Array length', input, expected));
 		}
 	};
 }
@@ -51,7 +51,7 @@ export function arrayLengthRange<T>(start: number, endBefore: number): IConstrai
 		run(input: T[]) {
 			return input.length >= start && input.length < endBefore //
 				? Result.ok(input)
-				: Result.err(new ConstraintError('s.array(T).lengthRange', 'Invalid Array length', input, expected));
+				: Result.err(new ExpectedConstraintError('s.array(T).lengthRange', 'Invalid Array length', input, expected));
 		}
 	};
 }
@@ -62,7 +62,7 @@ export function arrayLengthRangeInclusive<T>(start: number, end: number): IConst
 		run(input: T[]) {
 			return input.length >= start && input.length <= end //
 				? Result.ok(input)
-				: Result.err(new ConstraintError('s.array(T).lengthRangeInclusive', 'Invalid Array length', input, expected));
+				: Result.err(new ExpectedConstraintError('s.array(T).lengthRangeInclusive', 'Invalid Array length', input, expected));
 		}
 	};
 }
@@ -73,7 +73,7 @@ export function arrayLengthRangeExclusive<T>(startAfter: number, endBefore: numb
 		run(input: T[]) {
 			return input.length > startAfter && input.length < endBefore //
 				? Result.ok(input)
-				: Result.err(new ConstraintError('s.array(T).lengthRangeExclusive', 'Invalid Array length', input, expected));
+				: Result.err(new ExpectedConstraintError('s.array(T).lengthRangeExclusive', 'Invalid Array length', input, expected));
 		}
 	};
 }

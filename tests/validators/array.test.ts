@@ -1,4 +1,4 @@
-import { CombinedPropertyError, ConstraintError, s, ValidationError } from '../../src';
+import { CombinedPropertyError, ExpectedConstraintError, s, ValidationError } from '../../src';
 import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('ArrayValidator', () => {
@@ -33,7 +33,7 @@ describe('ArrayValidator', () => {
 			test.each([[['Hello', 'there']], [['foo', 'bar', 'baaz']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthLtPredicate.parse(value),
-					new ConstraintError('s.array(T).lengthLt', 'Invalid Array length', value, 'expected.length < 2')
+					new ExpectedConstraintError('s.array(T).lengthLt', 'Invalid Array length', value, 'expected.length < 2')
 				);
 			});
 		});
@@ -48,7 +48,7 @@ describe('ArrayValidator', () => {
 			test.each([[['foo', 'bar', 'baaz']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthLePredicate.parse(value),
-					new ConstraintError('s.array(T).lengthLe', 'Invalid Array length', value, 'expected.length <= 2')
+					new ExpectedConstraintError('s.array(T).lengthLe', 'Invalid Array length', value, 'expected.length <= 2')
 				);
 			});
 		});
@@ -63,7 +63,7 @@ describe('ArrayValidator', () => {
 			test.each([[['Hello']], [[]]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthGtPredicate.parse(value),
-					new ConstraintError('s.array(T).lengthGt', 'Invalid Array length', value, 'expected.length > 2')
+					new ExpectedConstraintError('s.array(T).lengthGt', 'Invalid Array length', value, 'expected.length > 2')
 				);
 			});
 		});
@@ -78,7 +78,7 @@ describe('ArrayValidator', () => {
 			test.each([[[]], [['foo']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthGePredicate.parse(value),
-					new ConstraintError('s.array(T).lengthGe', 'Invalid Array length', value, 'expected.length >= 2')
+					new ExpectedConstraintError('s.array(T).lengthGe', 'Invalid Array length', value, 'expected.length >= 2')
 				);
 			});
 		});
@@ -93,7 +93,7 @@ describe('ArrayValidator', () => {
 			test.each([[[]], [['Hello']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthPredicate.parse(value),
-					new ConstraintError('s.array(T).lengthEq', 'Invalid Array length', value, 'expected.length === 2')
+					new ExpectedConstraintError('s.array(T).lengthEq', 'Invalid Array length', value, 'expected.length === 2')
 				);
 			});
 		});
@@ -108,7 +108,7 @@ describe('ArrayValidator', () => {
 			test.each([[['Hello', 'there']], [['foo', 'bar']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthNotEqPredicate.parse(value),
-					new ConstraintError('s.array(T).lengthNe', 'Invalid Array length', value, 'expected.length !== 2')
+					new ExpectedConstraintError('s.array(T).lengthNe', 'Invalid Array length', value, 'expected.length !== 2')
 				);
 			});
 		});
@@ -123,7 +123,12 @@ describe('ArrayValidator', () => {
 			test.each([[['hewwo', 'there']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthRangePredicate.parse(value),
-					new ConstraintError('s.array(T).lengthRange', 'Invalid Array length', value, 'expected.length >= 0 && expected.length < 2')
+					new ExpectedConstraintError(
+						's.array(T).lengthRange',
+						'Invalid Array length',
+						value,
+						'expected.length >= 0 && expected.length < 2'
+					)
 				);
 			});
 		});
@@ -138,7 +143,7 @@ describe('ArrayValidator', () => {
 			test.each([[['hewwo', 'there', 'buddy']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthRangeInclusivePredicate.parse(value),
-					new ConstraintError(
+					new ExpectedConstraintError(
 						's.array(T).lengthRangeInclusive',
 						'Invalid Array length',
 						value,
@@ -159,7 +164,7 @@ describe('ArrayValidator', () => {
 					(value) => {
 						expectError(
 							() => lengthRangeExclusivePredicate.parse(value),
-							new ConstraintError(
+							new ExpectedConstraintError(
 								's.array(T).lengthRangeExclusive',
 								'Invalid Array length',
 								value,

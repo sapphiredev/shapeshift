@@ -1,4 +1,4 @@
-import { ConstraintError } from '../lib/errors/ConstraintError';
+import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
@@ -22,7 +22,7 @@ function numberComparator(comparator: Comparator, name: NumberConstraintName, ex
 		run(input: number) {
 			return comparator(input, number) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(name, 'Invalid number value', input, expected));
+				: Result.err(new ExpectedConstraintError(name, 'Invalid number value', input, expected));
 		}
 	};
 }
@@ -61,7 +61,9 @@ export const numberInt: IConstraint<number> = {
 	run(input: number) {
 		return Number.isInteger(input) //
 			? Result.ok(input)
-			: Result.err(new ConstraintError('s.number.int', 'Given value is not an integer', input, 'Number.isInteger(expected) to be true'));
+			: Result.err(
+					new ExpectedConstraintError('s.number.int', 'Given value is not an integer', input, 'Number.isInteger(expected) to be true')
+			  );
 	}
 };
 
@@ -70,7 +72,12 @@ export const numberSafeInt: IConstraint<number> = {
 		return Number.isSafeInteger(input) //
 			? Result.ok(input)
 			: Result.err(
-					new ConstraintError('s.number.safeInt', 'Given value is not a safe integer', input, 'Number.isSafeInteger(expected) to be true')
+					new ExpectedConstraintError(
+						's.number.safeInt',
+						'Given value is not a safe integer',
+						input,
+						'Number.isSafeInteger(expected) to be true'
+					)
 			  );
 	}
 };
@@ -79,7 +86,7 @@ export const numberFinite: IConstraint<number> = {
 	run(input: number) {
 		return Number.isFinite(input) //
 			? Result.ok(input)
-			: Result.err(new ConstraintError('s.number.finite', 'Given value is not finite', input, 'Number.isFinite(expected) to be true'));
+			: Result.err(new ExpectedConstraintError('s.number.finite', 'Given value is not finite', input, 'Number.isFinite(expected) to be true'));
 	}
 };
 
@@ -87,14 +94,14 @@ export const numberNaN: IConstraint<number> = {
 	run(input: number) {
 		return Number.isNaN(input) //
 			? Result.ok(input)
-			: Result.err(new ConstraintError('s.number.eq(NaN)', 'Invalid number value', input, 'expected === NaN'));
+			: Result.err(new ExpectedConstraintError('s.number.eq(NaN)', 'Invalid number value', input, 'expected === NaN'));
 	}
 };
 
 export const numberNeNaN: IConstraint<number> = {
 	run(input: number) {
 		return Number.isNaN(input) //
-			? Result.err(new ConstraintError('s.number.ne(NaN)', 'Invalid number value', input, 'expected !== NaN'))
+			? Result.err(new ExpectedConstraintError('s.number.ne(NaN)', 'Invalid number value', input, 'expected !== NaN'))
 			: Result.ok(input);
 	}
 };
@@ -105,7 +112,7 @@ export function numberDivisibleBy(divider: number): IConstraint<number> {
 		run(input: number) {
 			return input % divider === 0 //
 				? Result.ok(input)
-				: Result.err(new ConstraintError('s.number.divisibleBy', 'Number is not divisible', input, expected));
+				: Result.err(new ExpectedConstraintError('s.number.divisibleBy', 'Number is not divisible', input, expected));
 		}
 	};
 }

@@ -1,5 +1,5 @@
 import { isIP, isIPv4, isIPv6 } from 'node:net';
-import { ConstraintError } from '../lib/errors/ConstraintError';
+import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { validateEmail } from './util/emailValidator';
@@ -30,7 +30,7 @@ function stringLengthComparator(comparator: Comparator, name: StringConstraintNa
 		run(input: string) {
 			return comparator(input.length, length) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(name, 'Invalid string length', input, expected));
+				: Result.err(new ExpectedConstraintError(name, 'Invalid string length', input, expected));
 		}
 	};
 }
@@ -70,7 +70,7 @@ export function stringEmail(): IConstraint<string> {
 		run(input: string) {
 			return validateEmail(input)
 				? Result.ok(input)
-				: Result.err(new ConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address'));
+				: Result.err(new ExpectedConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address'));
 		}
 	};
 }
@@ -80,7 +80,7 @@ function stringRegexValidator(type: StringConstraintName, expected: string, rege
 		run(input: string) {
 			return regex.test(input) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(type, 'Invalid string format', input, expected));
+				: Result.err(new ExpectedConstraintError(type, 'Invalid string format', input, expected));
 		}
 	};
 }
@@ -93,7 +93,7 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 			try {
 				url = new URL(input);
 			} catch {
-				return Result.err(new ConstraintError('s.string.url', 'Invalid URL', input, 'expected to match an URL'));
+				return Result.err(new ExpectedConstraintError('s.string.url', 'Invalid URL', input, 'expected to match an URL'));
 			}
 
 			const validatorFnResult = validatorFn(input, url);
@@ -112,7 +112,7 @@ export function stringIp(version?: 4 | 6): IConstraint<string> {
 	const expected = `expected to be an IP${ipVersion} address`;
 	return {
 		run(input: string) {
-			return validatorFn(input) ? Result.ok(input) : Result.err(new ConstraintError(name, message, input, expected));
+			return validatorFn(input) ? Result.ok(input) : Result.err(new ExpectedConstraintError(name, message, input, expected));
 		}
 	};
 }

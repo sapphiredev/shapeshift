@@ -1,4 +1,4 @@
-import { ConstraintError, s, ValidationError } from '../../src';
+import { ExpectedConstraintError, s, ValidationError } from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('BooleanValidator', () => {
@@ -22,7 +22,7 @@ describe('BooleanValidator', () => {
 			});
 
 			test('GIVEN false THEN throws ConstraintError', () => {
-				expectError(() => eqPredicate.parse(false), new ConstraintError('s.boolean.true', 'Invalid boolean value', false, 'true'));
+				expectError(() => eqPredicate.parse(false), new ExpectedConstraintError('s.boolean.true', 'Invalid boolean value', false, 'true'));
 			});
 		});
 
@@ -34,7 +34,7 @@ describe('BooleanValidator', () => {
 			});
 
 			test('GIVEN true THEN throws ConstraintError', () => {
-				expectError(() => nePredicate.parse(true), new ConstraintError('s.boolean.false', 'Invalid boolean value', true, 'false'));
+				expectError(() => nePredicate.parse(true), new ExpectedConstraintError('s.boolean.false', 'Invalid boolean value', true, 'false'));
 			});
 		});
 	});
@@ -48,7 +48,7 @@ describe('BooleanValidator', () => {
 			});
 
 			test('GIVEN false THEN throws ConstraintError', () => {
-				expectError(() => truePredicate.parse(false), new ConstraintError('s.boolean.true', 'Invalid boolean value', false, 'true'));
+				expectError(() => truePredicate.parse(false), new ExpectedConstraintError('s.boolean.true', 'Invalid boolean value', false, 'true'));
 			});
 		});
 
@@ -60,7 +60,7 @@ describe('BooleanValidator', () => {
 			});
 
 			test('GIVEN true THEN throws ConstraintError', () => {
-				expectError(() => falsePredicate.parse(true), new ConstraintError('s.boolean.false', 'Invalid boolean value', true, 'false'));
+				expectError(() => falsePredicate.parse(true), new ExpectedConstraintError('s.boolean.false', 'Invalid boolean value', true, 'false'));
 			});
 		});
 	});

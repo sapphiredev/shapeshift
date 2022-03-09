@@ -1,4 +1,4 @@
-import { ConstraintError, s, ValidationError } from '../../src';
+import { ExpectedConstraintError, s, ValidationError } from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('DateValidator', () => {
@@ -27,7 +27,7 @@ describe('DateValidator', () => {
 			test.each(datesInFuture)('GIVEN %s THEN throws ConstraintError', (value) => {
 				expectError(
 					() => ltPredicate.parse(value),
-					new ConstraintError('s.date.lt', 'Invalid Date value', value, 'expected < 2022-02-01T00:00:00.000Z')
+					new ExpectedConstraintError('s.date.lt', 'Invalid Date value', value, 'expected < 2022-02-01T00:00:00.000Z')
 				);
 			});
 		});
@@ -42,7 +42,7 @@ describe('DateValidator', () => {
 			test.each(datesInFuture)('GIVEN %s THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lePredicate.parse(value),
-					new ConstraintError('s.date.le', 'Invalid Date value', value, 'expected <= 2022-02-01T00:00:00.000Z')
+					new ExpectedConstraintError('s.date.le', 'Invalid Date value', value, 'expected <= 2022-02-01T00:00:00.000Z')
 				);
 			});
 		});
@@ -57,7 +57,7 @@ describe('DateValidator', () => {
 			test.each(datesInPast)('GIVEN %s THEN throws ConstraintError', (value) => {
 				expectError(
 					() => gtPredicate.parse(value),
-					new ConstraintError('s.date.gt', 'Invalid Date value', value, 'expected > 2022-02-01T00:00:00.000Z')
+					new ExpectedConstraintError('s.date.gt', 'Invalid Date value', value, 'expected > 2022-02-01T00:00:00.000Z')
 				);
 			});
 		});
@@ -72,7 +72,7 @@ describe('DateValidator', () => {
 			test.each(datesInPast)('GIVEN %s THEN throws ConstraintError', (value) => {
 				expectError(
 					() => gePredicate.parse(value),
-					new ConstraintError('s.date.ge', 'Invalid Date value', value, 'expected >= 2022-02-01T00:00:00.000Z')
+					new ExpectedConstraintError('s.date.ge', 'Invalid Date value', value, 'expected >= 2022-02-01T00:00:00.000Z')
 				);
 			});
 		});
@@ -87,7 +87,7 @@ describe('DateValidator', () => {
 			test.each([...datesInPast, ...datesInFuture])('GIVEN %s THEN throws ConstraintError', (value) => {
 				expectError(
 					() => eqPredicate.parse(value),
-					new ConstraintError('s.date.eq', 'Invalid Date value', value, 'expected === 2022-02-01T00:00:00.000Z')
+					new ExpectedConstraintError('s.date.eq', 'Invalid Date value', value, 'expected === 2022-02-01T00:00:00.000Z')
 				);
 			});
 		});
@@ -102,7 +102,7 @@ describe('DateValidator', () => {
 			test('GIVEN date THEN throws ConstraintError', () => {
 				expectError(
 					() => nePredicate.parse(date),
-					new ConstraintError('s.date.ne', 'Invalid Date value', date, 'expected !== 2022-02-01T00:00:00.000Z')
+					new ExpectedConstraintError('s.date.ne', 'Invalid Date value', date, 'expected !== 2022-02-01T00:00:00.000Z')
 				);
 			});
 		});
