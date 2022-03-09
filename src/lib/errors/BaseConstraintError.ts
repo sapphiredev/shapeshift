@@ -25,12 +25,4 @@ export abstract class BaseConstraintError<T = unknown> extends BaseError {
 		this.constraint = constraint;
 		this.given = given;
 	}
-
-	public toJSON() {
-		return {
-			name: this.name,
-			constraint: this.constraint,
-			given: this.given
-		};
-	}
 }
