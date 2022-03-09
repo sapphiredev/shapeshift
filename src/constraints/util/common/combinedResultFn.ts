@@ -6,13 +6,17 @@ export function combinedErrorFn<P extends [...any], E extends Error>(...fns: Err
 			return fns[0];
 		case 2: {
 			const [fn0, fn1] = fns;
-			return (...params) => fn0(...params) && fn1(...params);
+			return (...params) => fn0(...params) || fn1(...params);
 		}
 		default: {
-			// We offer optimization up to 2 functions, so we will make a combined result function for the first three
-			// functions and then combined it with the rest using recursion.
-			const [fn0, fn1, ...restFn] = fns;
-			return combinedErrorFn(combinedErrorFn(fn0, fn1), ...restFn);
+			return (...params) => {
+				for (const fn of fns) {
+					const result = fn(...params);
+					if (result) return result;
+				}
+
+				return null;
+			};
 		}
 	}
 }

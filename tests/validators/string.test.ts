@@ -165,6 +165,31 @@ describe('StringValidator', () => {
 					);
 				});
 			});
+
+			describe('With domain and protocol', () => {
+				const urlPredicateWithDomainAndProtocol = s.string.url({
+					allowedProtocols: ['https:'],
+					allowedDomains: ['google.com', 'example.org']
+				});
+
+				test.each(['https://google.com', 'https://example.org'])('GIVEN %p THEN returns given value', (input) => {
+					expect(urlPredicateWithDomainAndProtocol.parse(input)).toBe(input);
+				});
+
+				test.each(['http://example.org', 'git://example.org'])('GIVEN %p THEN throws a ConstraintError', (input) => {
+					expectError(
+						() => urlPredicateWithDomainAndProtocol.parse(input),
+						new MultiplePossibilitiesConstraintError('s.string.url', 'Invalid URL protocol', input, ['https:'])
+					);
+				});
+
+				test.each(['https://discord.js.org', 'https://google.es'])('GIVEN %p THEN throws a ConstraintError', (input) => {
+					expectError(
+						() => urlPredicateWithDomainAndProtocol.parse(input),
+						new MultiplePossibilitiesConstraintError('s.string.url', 'Invalid URL domain', input, ['google.com', 'example.org'])
+					);
+				});
+			});
 		});
 
 		describe('uuid', () => {
