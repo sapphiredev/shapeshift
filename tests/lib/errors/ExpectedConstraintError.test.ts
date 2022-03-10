@@ -1,8 +1,8 @@
 import { inspect } from 'node:util';
-import { ConstraintError } from '../../../src';
+import { ExpectedConstraintError } from '../../../src/lib/errors/ExpectedConstraintError';
 
-describe('ConstraintError', () => {
-	const error = new ConstraintError('s.number.int', 'Given value is not an integer', 42.1, 'Number.isInteger(expected) to be true');
+describe('ExpectedConstraintError', () => {
+	const error = new ExpectedConstraintError('s.number.int', 'Given value is not an integer', 42.1, 'Number.isInteger(expected) to be true');
 
 	test('GIVEN an instance THEN assigns fields correctly', () => {
 		expect(error.message).toBe('Given value is not an integer');
@@ -15,7 +15,7 @@ describe('ConstraintError', () => {
 		test('GIVEN an inspected instance THEN formats data correctly', () => {
 			const content = inspect(error, { colors: false });
 			const expected = [
-				'ConstraintError > s.number.int', //
+				'ExpectedConstraintError > s.number.int', //
 				'  Given value is not an integer',
 				'',
 				'  Expected: Number.isInteger(expected) to be true',
@@ -25,13 +25,13 @@ describe('ConstraintError', () => {
 				''
 			];
 
-			expect(content.startsWith(expected.join('\n'))).toBe(true);
+			expect(content).toEqual(expect.stringContaining(expected.join('\n')));
 		});
 
 		test('GIVEN an inspected instance with negative depth THEN formats name only', () => {
 			const content = inspect(error, { colors: false, depth: -1 });
 			const expected = [
-				'[ConstraintError: s.number.int]' //
+				'[ExpectedConstraintError: s.number.int]' //
 			];
 
 			expect(content.startsWith(expected.join('\n'))).toBe(true);

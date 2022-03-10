@@ -1,9 +1,10 @@
 import {
 	CombinedError,
 	CombinedPropertyError,
-	ConstraintError,
+	ExpectedConstraintError,
 	ExpectedValidationError,
 	MissingPropertyError,
+	MultiplePossibilitiesConstraintError,
 	UnknownPropertyError,
 	ValidationError,
 	type BaseError,
@@ -43,11 +44,14 @@ function expectIdenticalError(actual: BaseError, expected: BaseError) {
 
 	if (actual instanceof CombinedError) expectIdenticalCombinedError(actual, expected as CombinedError);
 	if (actual instanceof CombinedPropertyError) expectIdenticalCombinedPropertyError(actual, expected as CombinedPropertyError);
-	if (actual instanceof ConstraintError) expectIdenticalConstraintError(actual, expected as ConstraintError);
 	if (actual instanceof ExpectedValidationError) expectIdenticalExpectedValidationError(actual, expected as ExpectedValidationError<any>);
 	if (actual instanceof MissingPropertyError) expectIdenticalMissingPropertyError(actual, expected as MissingPropertyError);
 	if (actual instanceof UnknownPropertyError) expectIdenticalUnknownPropertyError(actual, expected as UnknownPropertyError);
 	if (actual instanceof ValidationError) expectIdenticalValidationError(actual, expected as ValidationError);
+	if (actual instanceof ExpectedConstraintError) expectIdenticalExpectedConstraintError(actual, expected as ExpectedConstraintError);
+	if (actual instanceof MultiplePossibilitiesConstraintError) {
+		expectIdenticalMultiplePossibilitiesConstraintError(actual, expected as MultiplePossibilitiesConstraintError);
+	}
 }
 
 function expectIdenticalCombinedError(actual: CombinedError, expected: CombinedError) {
@@ -65,7 +69,16 @@ function expectIdenticalCombinedPropertyError(actual: CombinedPropertyError, exp
 	}
 }
 
-function expectIdenticalConstraintError(actual: ConstraintError, expected: ConstraintError) {
+function expectIdenticalExpectedConstraintError(actual: ExpectedConstraintError, expected: ExpectedConstraintError) {
+	expect(actual.constraint).toBe(expected.constraint);
+	expect(actual.given).toStrictEqual(expected.given);
+	expect(actual.expected).toBe(expected.expected);
+}
+
+function expectIdenticalMultiplePossibilitiesConstraintError(
+	actual: MultiplePossibilitiesConstraintError,
+	expected: MultiplePossibilitiesConstraintError
+) {
 	expect(actual.constraint).toBe(expected.constraint);
 	expect(actual.given).toStrictEqual(expected.given);
 	expect(actual.expected).toStrictEqual(expected.expected);

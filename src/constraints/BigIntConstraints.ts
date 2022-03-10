@@ -1,4 +1,4 @@
-import { ConstraintError } from '../lib/errors/ConstraintError';
+import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
@@ -10,7 +10,7 @@ function bigintComparator(comparator: Comparator, name: BigIntConstraintName, ex
 		run(input: bigint) {
 			return comparator(input, number) //
 				? Result.ok(input)
-				: Result.err(new ConstraintError(name, 'Invalid bigint value', input, expected));
+				: Result.err(new ExpectedConstraintError(name, 'Invalid bigint value', input, expected));
 		}
 	};
 }
@@ -51,7 +51,7 @@ export function bigintDivisibleBy(divider: bigint): IConstraint<bigint> {
 		run(input: bigint) {
 			return input % divider === 0n //
 				? Result.ok(input)
-				: Result.err(new ConstraintError('s.bigint.divisibleBy', 'BigInt is not divisible', input, expected));
+				: Result.err(new ExpectedConstraintError('s.bigint.divisibleBy', 'BigInt is not divisible', input, expected));
 		}
 	};
 }

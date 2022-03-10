@@ -53,9 +53,10 @@ export type {
 //
 export type { BaseError } from './lib/errors/BaseError';
 export type { CombinedError } from './lib/errors/CombinedError';
-export type { ConstraintError, ConstraintErrorNames } from './lib/errors/ConstraintError';
+export type { BaseConstraintError, ConstraintErrorNames } from './lib/errors/BaseConstraintError';
 export type { ExpectedValidationError } from './lib/errors/ExpectedValidationError';
 export type { MissingPropertyError } from './lib/errors/MissingPropertyError';
+export type { MultiplePossibilitiesConstraintError } from './lib/errors/MultiplePossibilitiesConstraintError';
 export type { UnknownEnumValueError } from './lib/errors/UnknownEnumValueError';
 export type { UnknownPropertyError } from './lib/errors/UnknownPropertyError';
 export type { ValidationError } from './lib/errors/ValidationError';
