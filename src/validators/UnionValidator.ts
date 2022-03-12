@@ -33,7 +33,7 @@ export class UnionValidator<T> extends BaseValidator<T> {
 			return this.clone();
 		}
 
-		return new UnionValidator([new LiteralValidator(undefined), this.clone()]);
+		return new UnionValidator([new LiteralValidator(undefined), ...this.validators]);
 	}
 
 	public override get nullable(): UnionValidator<T | null> {
@@ -56,19 +56,24 @@ export class UnionValidator<T> extends BaseValidator<T> {
 			return this.clone();
 		}
 
-		return new UnionValidator([new LiteralValidator(null), this.clone()]);
+		return new UnionValidator([new LiteralValidator(null), ...this.validators]);
 	}
 
 	public override get nullish(): UnionValidator<T | null | undefined> {
 		if (this.validators.length === 0) return new UnionValidator<T | null | undefined>([new NullishValidator()], this.constraints);
 
 		const [validator] = this.validators;
-		if (validator instanceof NullishValidator) {
+		if (validator instanceof LiteralValidator) {
+			// If already nullable, return a clone:
+			if (validator.expected === null || validator.expected === undefined) {
+				return new UnionValidator<T | null | undefined>([new NullishValidator(), ...this.validators.slice(1)], this.constraints);
+			}
+		} else if (validator instanceof NullishValidator) {
 			// If it's already nullish, return a clone:
 			return this.clone();
 		}
 
-		return new UnionValidator<T | null | undefined>([new NullishValidator(), this.clone()]);
+		return new UnionValidator<T | null | undefined>([new NullishValidator(), ...this.validators]);
 	}
 
 	public override or<O>(...predicates: readonly BaseValidator<O>[]): UnionValidator<T | O> {
