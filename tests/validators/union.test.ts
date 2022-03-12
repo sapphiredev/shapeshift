@@ -69,6 +69,14 @@ describe('UnionValidator', () => {
 		test('GIVEN s.union(s.string, s.number).optional THEN returns s.union(s.undefined, s.string, s.number)', () => {
 			expectClonedValidator(optionalPredicate, s.union(s.undefined, s.string, s.number));
 		});
+
+		describe('nullish', () => {
+			const nullishPredicate = optionalPredicate.nullish;
+
+			test('GIVEN s.union(s.string, s.number).nullable.nullish THEN returns s.union(s.nullish, s.string, s.number)', () => {
+				expectClonedValidator(nullishPredicate, s.union(s.nullish, s.string, s.number));
+			});
+		});
 	});
 
 	describe('nullable', () => {
@@ -91,6 +99,14 @@ describe('UnionValidator', () => {
 
 		test('GIVEN s.union(s.string, s.number).nullable THEN returns s.union(s.null, s.string, s.number)', () => {
 			expectClonedValidator(nullablePredicate, s.union(s.null, s.string, s.number));
+		});
+
+		describe('nullish', () => {
+			const nullishPredicate = nullablePredicate.nullish;
+
+			test('GIVEN s.union(s.string, s.number).nullable.nullish THEN returns s.union(s.nullish, s.string, s.number)', () => {
+				expectClonedValidator(nullishPredicate, s.union(s.nullish, s.string, s.number));
+			});
 		});
 	});
 
