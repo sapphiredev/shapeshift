@@ -64,7 +64,7 @@ export class UnionValidator<T> extends BaseValidator<T> {
 
 		const [validator] = this.validators;
 		if (validator instanceof LiteralValidator) {
-			// If already nullable, return a clone:
+			// If already nullable or optional, promote the union to nullish:
 			if (validator.expected === null || validator.expected === undefined) {
 				return new UnionValidator<T | null | undefined>([new NullishValidator(), ...this.validators.slice(1)], this.constraints);
 			}
