@@ -32,6 +32,9 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 				this.handleStrategy = (value) => this.handleStrictStrategy(value);
 				break;
 			}
+			case ObjectValidatorStrategy.Passthrough:
+				this.handleStrategy = (value) => this.handlePassthroughStrategy(value);
+				break;
 		}
 	}
 
@@ -41,6 +44,10 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 
 	public get ignore(): this {
 		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Ignore, this.constraints]);
+	}
+
+	public get passthrough(): this {
+		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Passthrough, this.constraints]);
 	}
 
 	public get partial(): ObjectValidator<{ [Key in keyof T]?: T[Key] }> {
@@ -138,9 +145,15 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			? Result.ok(finalResult)
 			: Result.err(new CombinedPropertyError(errors));
 	}
+
+	private handlePassthroughStrategy(value: NonNullObject): Result<T, CombinedPropertyError> {
+		const result = this.handleIgnoreStrategy(value);
+		return result.isErr() ? result : Result.ok({ ...value, ...result.value } as T);
+	}
 }
 
 export const enum ObjectValidatorStrategy {
 	Ignore,
-	Strict
+	Strict,
+	Passthrough
 }

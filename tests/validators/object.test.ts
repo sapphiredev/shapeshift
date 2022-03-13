@@ -114,6 +114,25 @@ describe('ObjectValidator', () => {
 		});
 	});
 
+	describe('Passthrough', () => {
+		const passthroughPredicate = predicate.strict.passthrough;
+
+		test('GIVEN matching keys and values THEN returns no errors', () => {
+			expect(passthroughPredicate.parse({ username: 'Sapphire', password: 'helloworld', email: 'foo@bar.com' })).toStrictEqual({
+				email: 'foo@bar.com',
+				username: 'Sapphire',
+				password: 'helloworld'
+			});
+		});
+
+		test('GIVEN missing keys THEN throws CombinedPropertyError with MissingPropertyError', () => {
+			expectError(
+				() => passthroughPredicate.parse({ username: 'Sapphire' }),
+				new CombinedPropertyError([['password', new MissingPropertyError('password')]])
+			);
+		});
+	});
+
 	describe('Partial', () => {
 		const partialPredicate = predicate.partial;
 

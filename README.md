@@ -335,6 +335,10 @@ person.parse({
 
 You can use the `.ignore` getter to reset an object schema to the default behaviour (ignoring unrecognized keys).
 
+##### `.passthrough`
+
+You can use the `.passthrough` getter to make the validator add the unrecognized properties the shape does not have, from the input.
+
 #### Records
 
 Record schemas are similar to objects, but validate `Record<string, T>` types, keep in mind this does not check for the keys, and cannot support validation for specific ones:
