@@ -163,6 +163,14 @@ describe('BaseValidator', () => {
 				expect<string>(defaultPredicate.parse(undefined)).toBe('foo');
 			});
 		});
+
+		describe('default', () => {
+			const defaultPredicate = s.string.default('foo').default('bar');
+
+			test('GIVEN a double default THEN returns a clone with updated default', () => {
+				expectClonedValidator(s.string.default('bar'), defaultPredicate);
+			});
+		});
 	});
 
 	describe('clone', () => {
