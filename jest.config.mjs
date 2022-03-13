@@ -6,6 +6,7 @@ const config = {
 	testRunner: 'jest-circus/runner',
 	testMatch: ['<rootDir>/tests/**/*.test.ts'],
 	collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+	setupFilesAfterEnv: ['<rootDir>/tests/jest.setup.ts'],
 	globals: {
 		'ts-jest': {
 			tsconfig: '<rootDir>/tests/tsconfig.json'

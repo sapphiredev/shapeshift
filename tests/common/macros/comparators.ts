@@ -29,7 +29,7 @@ export function expectModifiedClonedValidator<T>(expected: BaseValidator<T>, act
 export function expectError<T = any>(cb: () => T, expected: BaseError) {
 	try {
 		cb();
-		fail('expected to throw, but failed to do so');
+		fail();
 	} catch (error) {
 		expect(error).toBeDefined();
 		expectIdenticalError(error as BaseError, expected);
