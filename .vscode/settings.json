@@ -12,5 +12,6 @@
 		"**/.yarn": true,
 		"**/dist/": true,
 		"**/.git/": true
-	}
+	},
+	"cSpell.words": ["bortzmeyer", "fhqwhgads", "manisharaan", "midichlorians", "Pallas", "Plagueis"]
 }
