@@ -109,7 +109,7 @@ describe('DateValidator', () => {
 	});
 
 	describe('valid', () => {
-		const validPredicate = s.date.ne(NaN);
+		const validPredicate = s.date.valid;
 
 		test.each(['2022-03-13T11:19:13.698Z', 1647170353698])('GIVEN a valid date (%p) THEN returns the given value', (value) => {
 			const date = new Date(value);
@@ -120,13 +120,13 @@ describe('DateValidator', () => {
 			const date = new Date(value);
 			expectError(
 				() => validPredicate.parse(date),
-				new ExpectedConstraintError('s.date.ne(NaN)', 'Invalid Date value', date, 'expected !== NaN')
+				new ExpectedConstraintError('s.date.valid', 'Invalid Date value', date, 'expected !== NaN')
 			);
 		});
 	});
 
 	describe('invalid', () => {
-		const invalidPredicate = s.date.eq(NaN);
+		const invalidPredicate = s.date.invalid;
 
 		test.each([NaN, Infinity, -Infinity])('GIVEN an invalid date (%p) THEN returns the given value', (value) => {
 			const date = new Date(value);
@@ -137,7 +137,7 @@ describe('DateValidator', () => {
 			const date = new Date(value);
 			expectError(
 				() => invalidPredicate.parse(date),
-				new ExpectedConstraintError('s.date.eq(NaN)', 'Invalid Date value', date, 'expected === NaN')
+				new ExpectedConstraintError('s.date.invalid', 'Invalid Date value', date, 'expected === NaN')
 			);
 		});
 	});
