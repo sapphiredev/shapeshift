@@ -7,6 +7,7 @@ export type {
 	arrayLengthLt,
 	arrayLengthNe,
 	arrayLengthRange,
+	arrayLengthRangeExclusive,
 	arrayLengthRangeInclusive,
 	BigIntConstraintName,
 	bigintDivisibleBy,
@@ -43,17 +44,27 @@ export type {
 	numberNeNaN,
 	numberSafeInt,
 	StringConstraintName,
+	StringDomain,
+	stringEmail,
+	stringIp,
 	stringLengthEq,
 	stringLengthGe,
 	stringLengthGt,
 	stringLengthLe,
 	stringLengthLt,
-	stringLengthNe
+	stringLengthNe,
+	StringProtocol,
+	stringRegex,
+	stringUrl,
+	stringUuid,
+	StringUuidOptions,
+	UrlOptions,
+	UUIDVersion
 } from './constraints/type-exports';
-//
-export type { BaseError } from './lib/errors/BaseError';
-export type { CombinedError } from './lib/errors/CombinedError';
 export type { BaseConstraintError, ConstraintErrorNames } from './lib/errors/BaseConstraintError';
+//
+export type { BaseError, customInspectSymbol, customInspectSymbolStackLess } from './lib/errors/BaseError';
+export type { CombinedError } from './lib/errors/CombinedError';
 export type { ExpectedValidationError } from './lib/errors/ExpectedValidationError';
 export type { MissingPropertyError } from './lib/errors/MissingPropertyError';
 export type { MultiplePossibilitiesConstraintError } from './lib/errors/MultiplePossibilitiesConstraintError';
@@ -61,11 +72,11 @@ export type { UnknownEnumValueError } from './lib/errors/UnknownEnumValueError';
 export type { UnknownPropertyError } from './lib/errors/UnknownPropertyError';
 export type { ValidationError } from './lib/errors/ValidationError';
 //
-export type { Shapes, Unwrap } from './lib/Shapes';
+export type { Shapes, Unwrap, UnwrapTuple } from './lib/Shapes';
 //
 export type { Constructor, MappedObjectValidator, NonNullObject, Type } from './lib/util-types';
 //
-export type { ArrayValidator } from './validators/ArrayValidator';
+export type { ArrayValidator, ExpandSmallerTuples, GrowExp, GrowExpRev, Shift, Tuple, UnshiftTuple } from './validators/ArrayValidator';
 export type { BaseValidator, ValidatorError } from './validators/BaseValidator';
 export type { BigIntValidator } from './validators/BigIntValidator';
 export type { BooleanValidator } from './validators/BooleanValidator';
@@ -74,6 +85,7 @@ export type { DefaultValidator } from './validators/DefaultValidator';
 export type { InstanceValidator } from './validators/InstanceValidator';
 export type { LiteralValidator } from './validators/LiteralValidator';
 export type { MapValidator } from './validators/MapValidator';
+export type { NativeEnumLike, NativeEnumValidator } from './validators/NativeEnumValidator';
 export type { NeverValidator } from './validators/NeverValidator';
 export type { NullishValidator } from './validators/NullishValidator';
 export type { NumberValidator } from './validators/NumberValidator';

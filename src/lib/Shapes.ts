@@ -112,5 +112,5 @@ export class Shapes {
 	}
 }
 
-type UnwrapTuple<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [Unwrap<Head>, ...UnwrapTuple<Tail>] : [];
+export type UnwrapTuple<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [Unwrap<Head>, ...UnwrapTuple<Tail>] : [];
 export type Unwrap<T> = T extends BaseValidator<infer V> ? V : never;
