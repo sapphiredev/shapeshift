@@ -94,7 +94,6 @@ describe('DateValidator', () => {
 
 			describe('eq > NaN', () => {
 				test.each(['not-a-date', NaN])('GIVEN %p THEN returns s.date.invalid', (value) => {
-					// @ts-expect-error This sends invalid input to s.date.eq
 					expectClonedValidator(s.date.eq(value), s.date.invalid);
 				});
 			});
@@ -116,7 +115,6 @@ describe('DateValidator', () => {
 
 			describe('ne > NaN', () => {
 				test.each(['not-a-date', NaN])('GIVEN %p THEN returns s.date.invalid', (value) => {
-					// @ts-expect-error This sends invalid input to s.date.ne
 					expectClonedValidator(s.date.ne(value), s.date.invalid);
 				});
 			});
