@@ -60,17 +60,22 @@ describe('UnionValidator', () => {
 				() => optionalPredicate.parse(value),
 				new CombinedError([
 					new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', value, undefined),
-					new CombinedError([
-						new ValidationError('s.string', 'Expected a string primitive', value),
-						new ValidationError('s.number', 'Expected a number primitive', value)
-					])
+					new ValidationError('s.string', 'Expected a string primitive', value),
+					new ValidationError('s.number', 'Expected a number primitive', value)
 				])
 			);
 		});
 
-		// TODO: Fix
-		test.skip('GIVEN s.union(s.string, s.number).optional THEN returns s.union(s.undefined, s.string, s.number)', () => {
+		test('GIVEN s.union(s.string, s.number).optional THEN returns s.union(s.undefined, s.string, s.number)', () => {
 			expectClonedValidator(optionalPredicate, s.union(s.undefined, s.string, s.number));
+		});
+
+		describe('nullish', () => {
+			const nullishPredicate = optionalPredicate.nullish;
+
+			test('GIVEN s.union(s.string, s.number).nullable.nullish THEN returns s.union(s.nullish, s.string, s.number)', () => {
+				expectClonedValidator(nullishPredicate, s.union(s.nullish, s.string, s.number));
+			});
 		});
 	});
 
@@ -86,17 +91,22 @@ describe('UnionValidator', () => {
 				() => nullablePredicate.parse(value),
 				new CombinedError([
 					new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', value, null),
-					new CombinedError([
-						new ValidationError('s.string', 'Expected a string primitive', value),
-						new ValidationError('s.number', 'Expected a number primitive', value)
-					])
+					new ValidationError('s.string', 'Expected a string primitive', value),
+					new ValidationError('s.number', 'Expected a number primitive', value)
 				])
 			);
 		});
 
-		// TODO: Fix
-		test.skip('GIVEN s.union(s.string, s.number).nullable THEN returns s.union(s.null, s.string, s.number)', () => {
+		test('GIVEN s.union(s.string, s.number).nullable THEN returns s.union(s.null, s.string, s.number)', () => {
 			expectClonedValidator(nullablePredicate, s.union(s.null, s.string, s.number));
+		});
+
+		describe('nullish', () => {
+			const nullishPredicate = nullablePredicate.nullish;
+
+			test('GIVEN s.union(s.string, s.number).nullable.nullish THEN returns s.union(s.nullish, s.string, s.number)', () => {
+				expectClonedValidator(nullishPredicate, s.union(s.nullish, s.string, s.number));
+			});
 		});
 	});
 
@@ -112,16 +122,13 @@ describe('UnionValidator', () => {
 				() => nullishPredicate.parse(value),
 				new CombinedError([
 					new ValidationError('s.nullish', 'Expected undefined or null', value),
-					new CombinedError([
-						new ValidationError('s.string', 'Expected a string primitive', value),
-						new ValidationError('s.number', 'Expected a number primitive', value)
-					])
+					new ValidationError('s.string', 'Expected a string primitive', value),
+					new ValidationError('s.number', 'Expected a number primitive', value)
 				])
 			);
 		});
 
-		// TODO: Fix
-		test.skip('GIVEN s.union(s.string, s.number).nullable THEN returns s.union(s.null, s.string, s.number)', () => {
+		test('GIVEN s.union(s.string, s.number).nullable THEN returns s.union(s.null, s.string, s.number)', () => {
 			expectClonedValidator(nullishPredicate, s.union(s.null, s.string, s.number));
 		});
 	});
