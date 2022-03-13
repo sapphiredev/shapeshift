@@ -17,6 +17,7 @@ describe('DateValidator', () => {
 		const date = new Date('2022-02-01');
 		const datesInFuture = [new Date('2022-03-01'), new Date('2023-01-01')];
 		const datesInPast = [new Date('2022-01-01'), new Date('2020-01-01')];
+
 		describe('lt', () => {
 			const ltPredicate = s.date.lt(date);
 
@@ -84,6 +85,11 @@ describe('DateValidator', () => {
 				expect(eqPredicate.parse(date)).toBe(date);
 			});
 
+			test('GIVEN invalid date THEN returns throws ValidationError', () => {
+				// @ts-expect-error This test checks that values as not a date can be parsed
+				expectError(() => s.date.eq('not-a-date').parse(), new ValidationError('s.date', 'Expected a Date', undefined));
+			});
+
 			test.each([...datesInPast, ...datesInFuture])('GIVEN %s THEN throws ConstraintError', (value) => {
 				expectError(
 					() => eqPredicate.parse(value),
@@ -97,6 +103,11 @@ describe('DateValidator', () => {
 
 			test.each([...datesInPast, ...datesInFuture])('GIVEN %s THEN returns given value', (value) => {
 				expect(nePredicate.parse(value)).toBe(value);
+			});
+
+			test('GIVEN invalid date THEN returns throws ValidationError', () => {
+				// @ts-expect-error This test checks that values as not a date can be parsed
+				expectError(() => s.date.ne('not-a-date').parse(), new ValidationError('s.date', 'Expected a Date', undefined));
 			});
 
 			test('GIVEN date THEN throws ConstraintError', () => {
