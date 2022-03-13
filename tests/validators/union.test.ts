@@ -70,11 +70,27 @@ describe('UnionValidator', () => {
 			expectClonedValidator(optionalPredicate, s.union(s.undefined, s.string, s.number));
 		});
 
+		describe('optional', () => {
+			const doubleOptionalPredicate = optionalPredicate.optional;
+
+			test('GIVEN s.union(s.string, s.number).optional.optional THEN returns s.union(s.undefined, s.string, s.number)', () => {
+				expectClonedValidator(s.union(s.undefined, s.string, s.number), doubleOptionalPredicate);
+			});
+		});
+
+		describe('nullable', () => {
+			const nullableOptionalPredicate = optionalPredicate.nullable;
+
+			test('GIVEN s.union(s.string, s.number).optional.nullable THEN returns s.union(s.nullish, s.string, s.number)', () => {
+				expectClonedValidator(nullableOptionalPredicate, s.union(s.nullish, s.string, s.number));
+			});
+		});
+
 		describe('nullish', () => {
-			const nullishPredicate = optionalPredicate.nullish;
+			const nullishOptionalPredicate = optionalPredicate.nullish;
 
 			test('GIVEN s.union(s.string, s.number).nullable.nullish THEN returns s.union(s.nullish, s.string, s.number)', () => {
-				expectClonedValidator(nullishPredicate, s.union(s.nullish, s.string, s.number));
+				expectClonedValidator(nullishOptionalPredicate, s.union(s.nullish, s.string, s.number));
 			});
 		});
 	});
@@ -101,11 +117,27 @@ describe('UnionValidator', () => {
 			expectClonedValidator(nullablePredicate, s.union(s.null, s.string, s.number));
 		});
 
+		describe('optional', () => {
+			const optionalNullablePredicate = nullablePredicate.optional;
+
+			test('GIVEN s.union(s.string, s.number).nullable.optional THEN returns s.union(s.nullish, s.string, s.number)', () => {
+				expectClonedValidator(optionalNullablePredicate, s.union(s.nullish, s.string, s.number));
+			});
+		});
+
+		describe('nullable', () => {
+			const doubleNullablePredicate = nullablePredicate.nullable;
+
+			test('GIVEN s.union(s.string, s.number).nullable.nullable THEN returns s.union(s.null, s.string, s.number)', () => {
+				expectClonedValidator(doubleNullablePredicate, s.union(s.null, s.string, s.number));
+			});
+		});
+
 		describe('nullish', () => {
-			const nullishPredicate = nullablePredicate.nullish;
+			const nullishNullablePredicate = nullablePredicate.nullish;
 
 			test('GIVEN s.union(s.string, s.number).nullable.nullish THEN returns s.union(s.nullish, s.string, s.number)', () => {
-				expectClonedValidator(nullishPredicate, s.union(s.nullish, s.string, s.number));
+				expectClonedValidator(nullishNullablePredicate, s.union(s.nullish, s.string, s.number));
 			});
 		});
 	});
@@ -130,6 +162,30 @@ describe('UnionValidator', () => {
 
 		test('GIVEN s.union(s.string, s.number).nullable THEN returns s.union(s.null, s.string, s.number)', () => {
 			expectClonedValidator(nullishPredicate, s.union(s.null, s.string, s.number));
+		});
+
+		describe('optional', () => {
+			const optionalNullishPredicate = nullishPredicate.optional;
+
+			test('GIVEN s.union(s.string, s.number).nullish.optional THEN returns s.union(s.nullish, s.string, s.number)', () => {
+				expectClonedValidator(optionalNullishPredicate, s.union(s.nullish, s.string, s.number));
+			});
+		});
+
+		describe('nullable', () => {
+			const nullableNullishPredicate = nullishPredicate.nullable;
+
+			test('GIVEN s.union(s.string, s.number).nullish.nullable THEN returns s.union(s.nullish, s.string, s.number)', () => {
+				expectClonedValidator(nullableNullishPredicate, s.union(s.nullish, s.string, s.number));
+			});
+		});
+
+		describe('nullish', () => {
+			const doubleNullishPredicate = nullishPredicate.nullish;
+
+			test('GIVEN s.union(s.string, s.number).nullish.nullish THEN returns s.union(s.nullish, s.string, s.number)', () => {
+				expectClonedValidator(doubleNullishPredicate, s.union(s.nullish, s.string, s.number));
+			});
 		});
 	});
 

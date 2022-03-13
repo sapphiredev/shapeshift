@@ -107,4 +107,38 @@ describe('DateValidator', () => {
 			});
 		});
 	});
+
+	describe('valid', () => {
+		const validPredicate = s.date.valid;
+
+		test.each(['2022-03-13T11:19:13.698Z', 1647170353698])('GIVEN a valid date (%p) THEN returns the given value', (value) => {
+			const date = new Date(value);
+			expect(validPredicate.parse(date)).toBe(date);
+		});
+
+		test.each([NaN, Infinity, -Infinity])('GIVEN an invalid date (%p) THEN throws ValidationError', (value) => {
+			const date = new Date(value);
+			expectError(
+				() => validPredicate.parse(date),
+				new ExpectedConstraintError('s.date.valid', 'Invalid Date value', date, 'expected !== NaN')
+			);
+		});
+	});
+
+	describe('invalid', () => {
+		const invalidPredicate = s.date.invalid;
+
+		test.each([NaN, Infinity, -Infinity])('GIVEN an invalid date (%p) THEN returns the given value', (value) => {
+			const date = new Date(value);
+			expect(invalidPredicate.parse(date)).toBe(date);
+		});
+
+		test.each(['2022-03-13T11:19:13.698Z', 1647170353698])('GIVEN a valid date (%p) THEN throws ValidationError', (value) => {
+			const date = new Date(value);
+			expectError(
+				() => invalidPredicate.parse(date),
+				new ExpectedConstraintError('s.date.invalid', 'Invalid Date value', date, 'expected === NaN')
+			);
+		});
+	});
 });

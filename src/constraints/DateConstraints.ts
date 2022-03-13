@@ -3,7 +3,7 @@ import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
 
-export type DateConstraintName = `s.date.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'eq(NaN)' | 'ne' | 'ne(NaN)'}`;
+export type DateConstraintName = `s.date.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'ne' | 'valid' | 'invalid'}`;
 
 function dateComparator(comparator: Comparator, name: DateConstraintName, expected: string, number: number): IConstraint<Date> {
 	return {
@@ -49,14 +49,14 @@ export const dateInvalid: IConstraint<Date> = {
 	run(input: Date) {
 		return Number.isNaN(input.getTime()) //
 			? Result.ok(input)
-			: Result.err(new ExpectedConstraintError('s.date.eq(NaN)', 'Invalid Date value', input, 'expected === NaN'));
+			: Result.err(new ExpectedConstraintError('s.date.invalid', 'Invalid Date value', input, 'expected === NaN'));
 	}
 };
 
 export const dateValid: IConstraint<Date> = {
 	run(input: Date) {
 		return Number.isNaN(input.getTime()) //
-			? Result.err(new ExpectedConstraintError('s.date.ne(NaN)', 'Invalid Date value', input, 'expected !== NaN'))
+			? Result.err(new ExpectedConstraintError('s.date.valid', 'Invalid Date value', input, 'expected !== NaN'))
 			: Result.ok(input);
 	}
 };

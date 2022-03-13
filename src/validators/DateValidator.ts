@@ -23,15 +23,23 @@ export class DateValidator extends BaseValidator<Date> {
 	public eq(date: Date | number): this {
 		const resolved = new Date(date);
 		return Number.isNaN(resolved.getTime()) //
-			? this.addConstraint(dateInvalid)
+			? this.invalid
 			: this.addConstraint(dateEq(resolved));
 	}
 
 	public ne(date: Date | number): this {
 		const resolved = new Date(date);
 		return Number.isNaN(resolved.getTime()) //
-			? this.addConstraint(dateValid)
+			? this.valid
 			: this.addConstraint(dateNe(resolved));
+	}
+
+	public get valid(): this {
+		return this.addConstraint(dateValid);
+	}
+
+	public get invalid(): this {
+		return this.addConstraint(dateInvalid);
 	}
 
 	protected handle(value: unknown): Result<Date, ValidationError> {
