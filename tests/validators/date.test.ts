@@ -1,5 +1,5 @@
 import { ExpectedConstraintError, s, ValidationError } from '../../src';
-import { expectError } from '../common/macros/comparators';
+import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('DateValidator', () => {
 	const predicate = s.date;
@@ -85,16 +85,18 @@ describe('DateValidator', () => {
 				expect(eqPredicate.parse(date)).toBe(date);
 			});
 
-			test('GIVEN invalid date THEN returns throws ValidationError', () => {
-				// @ts-expect-error This test checks that values as not a date can be parsed
-				expectError(() => s.date.eq('not-a-date').parse(), new ValidationError('s.date', 'Expected a Date', undefined));
-			});
-
 			test.each([...datesInPast, ...datesInFuture])('GIVEN %s THEN throws ConstraintError', (value) => {
 				expectError(
 					() => eqPredicate.parse(value),
 					new ExpectedConstraintError('s.date.eq', 'Invalid Date value', value, 'expected === 2022-02-01T00:00:00.000Z')
 				);
+			});
+
+			describe('eq > NaN', () => {
+				test.each(['not-a-date', NaN])('GIVEN %p THEN returns s.date.invalid', (value) => {
+					// @ts-expect-error This sends invalid input to s.date.eq
+					expectClonedValidator(s.date.eq(value), s.date.invalid);
+				});
 			});
 		});
 
@@ -105,16 +107,18 @@ describe('DateValidator', () => {
 				expect(nePredicate.parse(value)).toBe(value);
 			});
 
-			test('GIVEN invalid date THEN returns throws ValidationError', () => {
-				// @ts-expect-error This test checks that values as not a date can be parsed
-				expectError(() => s.date.ne('not-a-date').parse(), new ValidationError('s.date', 'Expected a Date', undefined));
-			});
-
 			test('GIVEN date THEN throws ConstraintError', () => {
 				expectError(
 					() => nePredicate.parse(date),
 					new ExpectedConstraintError('s.date.ne', 'Invalid Date value', date, 'expected !== 2022-02-01T00:00:00.000Z')
 				);
+			});
+
+			describe('ne > NaN', () => {
+				test.each(['not-a-date', NaN])('GIVEN %p THEN returns s.date.invalid', (value) => {
+					// @ts-expect-error This sends invalid input to s.date.ne
+					expectClonedValidator(s.date.ne(value), s.date.invalid);
+				});
 			});
 		});
 	});
