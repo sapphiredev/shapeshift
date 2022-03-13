@@ -7,6 +7,7 @@ export type {
 	arrayLengthLt,
 	arrayLengthNe,
 	arrayLengthRange,
+	arrayLengthRangeExclusive,
 	arrayLengthRangeInclusive
 } from './ArrayLengthConstraints';
 export type { IConstraint } from './base/IConstraint';
@@ -42,5 +43,8 @@ export type {
 	StringProtocol,
 	stringRegex,
 	stringUrl,
-	UrlOptions
+	stringUuid,
+	StringUuidOptions,
+	UrlOptions,
+	UUIDVersion
 } from './StringConstraints';
