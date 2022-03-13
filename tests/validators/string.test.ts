@@ -8,8 +8,8 @@ describe('StringValidator', () => {
 		expect(predicate.parse('Hello There')).toBe('Hello There');
 	});
 
-	test('GIVEN a non-string THEN throws ValidationError', () => {
-		expectError(() => predicate.parse(42), new ValidationError('s.string', 'Expected a string primitive', 42));
+	test.each([undefined, null, 42])('GIVEN %p THEN throws a ValidationError', (input) => {
+		expectError(() => predicate.parse(input), new ValidationError('s.string', 'Expected a string primitive', input));
 	});
 
 	describe('Comparators', () => {
@@ -130,10 +130,6 @@ describe('StringValidator', () => {
 					() => emailPredicate.parse(input),
 					new ExpectedConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address')
 				);
-			});
-
-			test.each([undefined, null])('GIVEN %p THEN throws a ValidationError', (input) => {
-				expectError(() => emailPredicate.parse(input), new ValidationError('s.string', 'Expected a string primitive', input));
 			});
 		});
 
