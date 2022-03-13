@@ -1,5 +1,5 @@
 import { ExpectedConstraintError, s, ValidationError } from '../../src';
-import { expectError } from '../common/macros/comparators';
+import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('DateValidator', () => {
 	const predicate = s.date;
@@ -17,6 +17,7 @@ describe('DateValidator', () => {
 		const date = new Date('2022-02-01');
 		const datesInFuture = [new Date('2022-03-01'), new Date('2023-01-01')];
 		const datesInPast = [new Date('2022-01-01'), new Date('2020-01-01')];
+
 		describe('lt', () => {
 			const ltPredicate = s.date.lt(date);
 
@@ -90,6 +91,12 @@ describe('DateValidator', () => {
 					new ExpectedConstraintError('s.date.eq', 'Invalid Date value', value, 'expected === 2022-02-01T00:00:00.000Z')
 				);
 			});
+
+			describe('eq > NaN', () => {
+				test.each(['not-a-date', NaN])('GIVEN %p THEN returns s.date.invalid', (value) => {
+					expectClonedValidator(s.date.eq(value), s.date.invalid);
+				});
+			});
 		});
 
 		describe('ne', () => {
@@ -104,6 +111,12 @@ describe('DateValidator', () => {
 					() => nePredicate.parse(date),
 					new ExpectedConstraintError('s.date.ne', 'Invalid Date value', date, 'expected !== 2022-02-01T00:00:00.000Z')
 				);
+			});
+
+			describe('ne > NaN', () => {
+				test.each(['not-a-date', NaN])('GIVEN %p THEN returns s.date.invalid', (value) => {
+					expectClonedValidator(s.date.ne(value), s.date.invalid);
+				});
 			});
 		});
 	});

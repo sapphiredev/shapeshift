@@ -4,30 +4,30 @@ import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
 
 export class DateValidator extends BaseValidator<Date> {
-	public lt(date: Date | number): this {
+	public lt(date: Date | number | string): this {
 		return this.addConstraint(dateLt(new Date(date)));
 	}
 
-	public le(date: Date | number): this {
+	public le(date: Date | number | string): this {
 		return this.addConstraint(dateLe(new Date(date)));
 	}
 
-	public gt(date: Date | number): this {
+	public gt(date: Date | number | string): this {
 		return this.addConstraint(dateGt(new Date(date)));
 	}
 
-	public ge(date: Date | number): this {
+	public ge(date: Date | number | string): this {
 		return this.addConstraint(dateGe(new Date(date)));
 	}
 
-	public eq(date: Date | number): this {
+	public eq(date: Date | number | string): this {
 		const resolved = new Date(date);
 		return Number.isNaN(resolved.getTime()) //
 			? this.invalid
 			: this.addConstraint(dateEq(resolved));
 	}
 
-	public ne(date: Date | number): this {
+	public ne(date: Date | number | string): this {
 		const resolved = new Date(date);
 		return Number.isNaN(resolved.getTime()) //
 			? this.valid
