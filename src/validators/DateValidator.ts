@@ -34,14 +34,6 @@ export class DateValidator extends BaseValidator<Date> {
 			: this.addConstraint(dateNe(resolved));
 	}
 
-	public get valid(): this {
-		return this.addConstraint(dateValid);
-	}
-
-	public get invalid(): this {
-		return this.addConstraint(dateInvalid);
-	}
-
 	protected handle(value: unknown): Result<Date, ValidationError> {
 		return value instanceof Date //
 			? Result.ok(value)

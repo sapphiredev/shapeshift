@@ -109,7 +109,7 @@ describe('DateValidator', () => {
 	});
 
 	describe('valid', () => {
-		const validPredicate = s.date.valid;
+		const validPredicate = s.date.ne(NaN);
 
 		test.each(['2022-03-13T11:19:13.698Z', 1647170353698])('GIVEN a valid date (%p) THEN returns the given value', (value) => {
 			const date = new Date(value);
@@ -126,7 +126,7 @@ describe('DateValidator', () => {
 	});
 
 	describe('invalid', () => {
-		const invalidPredicate = s.date.invalid;
+		const invalidPredicate = s.date.eq(NaN);
 
 		test.each([NaN, Infinity, -Infinity])('GIVEN an invalid date (%p) THEN returns the given value', (value) => {
 			const date = new Date(value);
