@@ -97,7 +97,7 @@ describe('ObjectValidator', () => {
 	});
 
 	describe('Ignore', () => {
-		const ignorePredicate = predicate.strict.ignore;
+		const ignorePredicate = predicate.ignore;
 
 		test('GIVEN matching keys and values THEN returns no errors', () => {
 			expect(ignorePredicate.parse({ username: 'Sapphire', password: 'helloworld', email: 'foo@bar.com' })).toStrictEqual({
@@ -115,7 +115,7 @@ describe('ObjectValidator', () => {
 	});
 
 	describe('Passthrough', () => {
-		const passthroughPredicate = predicate.strict.passthrough;
+		const passthroughPredicate = predicate.passthrough;
 
 		test('GIVEN matching keys and values THEN returns no errors', () => {
 			expect(passthroughPredicate.parse({ username: 'Sapphire', password: 'helloworld', email: 'foo@bar.com' })).toStrictEqual({
