@@ -91,6 +91,10 @@ export function validateEmail(email: string): boolean {
 		lastDotIndex = dotIndex + 1;
 	} while ((dotIndex = email.indexOf('.', lastDotIndex)) !== -1);
 
+	// The loop iterates from the first to the n - 1 part, this line checks for
+	// the last (n) part:
+	if (email.length - lastDotIndex > 63) return false;
+
 	// 7.2. Character checks.
 	//
 	// From <account>@<domain>:
