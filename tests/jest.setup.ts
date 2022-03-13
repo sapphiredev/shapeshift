@@ -1,5 +1,5 @@
-function fail(reason = 'Expected to throw, but failed to do so') {
+function fail(reason = 'fail was called in a test.') {
 	throw new Error(reason);
 }
 
-global.fail = fail;
+global.fail ??= fail;
