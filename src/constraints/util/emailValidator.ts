@@ -26,41 +26,86 @@ const accountRegex =
  * - [StackOverflow answer by bortzmeyer](http://stackoverflow.com/questions/201323/what-is-the-best-regular-expression-for-validating-email-addresses/201378#201378)
  * - [The wikipedia page on Email addresses](https://en.wikipedia.org/wiki/Email_address)
  */
-
-// TODO: refactor email validator
 export function validateEmail(email: string): boolean {
+	// 1. Non-nullish and non-empty string check.
+	//
 	// If a nullish or empty email was provided then do an early exit
 	if (!email) return false;
 
-	// Split the email at the @ symbol
-	const emailParts = email.split('@');
+	// Find the location of the @ symbol:
+	const atIndex = email.indexOf('@');
 
-	// If the email didn't have at least an @ symbol then the email address is invalid
-	if (emailParts.length !== 2) return false;
+	// 2. @ presence check.
+	//
+	// If the email does not have the @ symbol, it's automatically invalid:
+	if (atIndex === -1) return false;
 
-	// Extract the account name of the email address
-	const account = emailParts[0];
+	// 3. <account> maximum length check.
+	//
+	// From <account>@<domain>, if <account> exceeds 64 characters, then the
+	// position of the @ symbol is 64 or greater. In this case, the email is
+	// invalid:
+	if (atIndex > 64) return false;
 
-	// If the account name exceeds 64 characters then the email address is invalid
-	if (account.length > 64) return false;
+	const domainIndex = atIndex + 1;
 
-	// Extract the domain name of the email address
-	const domain = emailParts[1];
+	// 7.1. Duplicated @ symbol check.
+	//
+	// If there's a second @ symbol, the email is automatically invalid:
+	if (email.includes('@', domainIndex)) return false;
 
-	// If the domain name exceeds 255 characters then the email address is invalid
-	if (domain.length > 255) return false;
+	// 4. <domain> maximum length check.
+	//
+	// From <account>@<domain>, if <domain> exceeds 255 characters, then it
+	// means that the amount of characters between the start of <domain> and the
+	// end of the string is separated by 255 or more characters.
+	if (email.length - domainIndex > 255) return false;
 
-	// Split the domain on a period
-	const domainParts = domain.split('.');
+	// Find the location of the . symbol in <domain>:
+	let dotIndex = email.indexOf('.', domainIndex);
 
-	// If the domain name doesn't have at least one period then the email address is invalid
-	if (domainParts.length < 2) return false;
+	// 5. <domain> dot (.) symbol check.
+	//
+	// From <account>@<domain>, if <domain> does not contain a dot (.) symbol,
+	// then it means the domain is invalid.
+	if (dotIndex === -1) return false;
 
-	// If any of the parts of the domain name exceed 63 characters then the email address is invalid
-	if (domainParts.some((part) => part.length > 63)) return false;
+	// 6. <domain> parts length.
+	//
+	// Assign a temporary variable to store the start of the last read domain
+	// part, this would be at the start of <domain>.
+	//
+	// For a <domain> part to be correct, it must have at most, 63 characters.
+	// We repeat this step for every sub-section of <domain> contained within
+	// dot (.) symbols.
+	//
+	// The following step is a more optimized version of the following code:
+	//
+	// ```javascript
+	// domain.split('.').some((part) => part.length > 63);
+	// ```
+	let lastDotIndex = domainIndex;
+	do {
+		if (dotIndex - lastDotIndex > 63) return false;
 
-	// If all the checks above have passed then validate the entire email address against the email regex
-	return accountRegex.test(account) && validateEmailDomain(domain);
+		lastDotIndex = dotIndex + 1;
+	} while ((dotIndex = email.indexOf('.', lastDotIndex)) !== -1);
+
+	// The loop iterates from the first to the n - 1 part, this line checks for
+	// the last (n) part:
+	if (email.length - lastDotIndex > 63) return false;
+
+	// 7.2. Character checks.
+	//
+	// From <account>@<domain>:
+	// - Extract the <account> part by slicing the input from start to the @
+	//   character. Validate afterwards.
+	// - Extract the <domain> part by slicing the input from the start of
+	//   <domain>. Validate afterwards.
+	//
+	// Note: we inline the variables so <domain> isn't created unless the
+	//       <account> check passes.
+	return accountRegex.test(email.slice(0, atIndex)) && validateEmailDomain(email.slice(domainIndex));
 }
 
 function validateEmailDomain(domain: string): boolean {
