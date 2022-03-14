@@ -287,7 +287,7 @@ const user = s
 		username: s.string,
 		password: s.string
 	})
-	.partial();
+	.partial;
 ```
 
 Which is the same as doing:
