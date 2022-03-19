@@ -400,6 +400,10 @@ schema.parse(new User('Sapphire')); // => User { name: 'Sapphire' }
 schema.parse('oops' as any); // => throws ValidatorError
 ```
 
+---
+
+_**Function validation is not yet implemented and will be made available starting v2.1.0**_
+
 #### Functions // TODO
 
 You can define function schemas. This checks for whether or not an input is a function:
@@ -416,6 +420,8 @@ s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => s
 ```
 
 > **Note**: ShapeShift will transform the given function into one with validation on arguments and output. You can access the `.raw` property of the function to get the unchecked function.
+
+---
 
 ### BaseValidator: methods and properties
 
