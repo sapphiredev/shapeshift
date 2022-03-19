@@ -400,6 +400,10 @@ schema.parse(new User('Sapphire')); // => User { name: 'Sapphire' }
 schema.parse('oops' as any); // => throws ValidatorError
 ```
 
+---
+
+_**Function validation is not yet implemented and will be made available starting v2.1.0**_
+
 #### Functions // TODO
 
 You can define function schemas. This checks for whether or not an input is a function:
@@ -416,6 +420,8 @@ s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => s
 ```
 
 > **Note**: ShapeShift will transform the given function into one with validation on arguments and output. You can access the `.raw` property of the function to get the unchecked function.
+
+---
 
 ### BaseValidator: methods and properties
 
@@ -434,6 +440,10 @@ const getLength = s.string.transform((value) => value.length);
 getLength.parse('Hello There'); // => 11
 ```
 
+---
+
+_**Reshape is not yet implemented and will be made available starting v2.1.0**_
+
 > :warning: `.transform`'s functions **must not throw**. If a validation error is desired to be thrown, `.reshape` instead.
 
 `.reshape<R>((value: T) => Result<R, Error> | IConstraint): NopValidator<R>`: adds a constraint able to both validate and modify the input:
@@ -446,6 +456,8 @@ getLength.parse('Hello There'); // => 11
 ```
 
 > :warning: `.reshape`'s functions **must not throw**. If a validation error is desired to be thrown, use `Result.err(error)` instead.
+
+---
 
 `.default(value: T | (() => T))`: transform `undefined` into the given value or the callback's returned value:
 
