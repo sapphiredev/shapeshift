@@ -9,6 +9,25 @@ export type {
 	arrayLengthRange,
 	arrayLengthRangeExclusive,
 	arrayLengthRangeInclusive,
+	TypedArrayConstraintName,
+	typedArrayByteLengthEq,
+	typedArrayByteLengthGe,
+	typedArrayByteLengthGt,
+	typedArrayByteLengthLe,
+	typedArrayByteLengthLt,
+	typedArrayByteLengthNe,
+	typedArrayByteLengthRange,
+	typedArrayByteLengthRangeExclusive,
+	typedArrayByteLengthRangeInclusive,
+	typedArrayLengthEq,
+	typedArrayLengthGe,
+	typedArrayLengthGt,
+	typedArrayLengthLe,
+	typedArrayLengthLt,
+	typedArrayLengthNe,
+	typedArrayLengthRange,
+	typedArrayLengthRangeExclusive,
+	typedArrayLengthRangeInclusive,
 	BigIntConstraintName,
 	bigintDivisibleBy,
 	bigintEq,
@@ -95,4 +114,5 @@ export type { RecordValidator } from './validators/RecordValidator';
 export type { SetValidator } from './validators/SetValidator';
 export type { StringValidator } from './validators/StringValidator';
 export type { TupleValidator } from './validators/TupleValidator';
+export type { TypedArrayValidator } from './validators/TypedArrayValidator';
 export type { UnionValidator } from './validators/UnionValidator';

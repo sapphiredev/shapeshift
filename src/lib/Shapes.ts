@@ -1,3 +1,4 @@
+import type { TypedArray } from '../constraints/util/typedArray';
 import {
 	ArrayValidator,
 	BaseValidator,
@@ -19,6 +20,7 @@ import {
 	UnionValidator
 } from '../validators/imports';
 import { NativeEnumLike, NativeEnumValidator } from '../validators/NativeEnumValidator';
+import { TypedArrayValidator } from '../validators/TypedArrayValidator';
 import type { Constructor, MappedObjectValidator } from './util-types';
 
 export class Shapes {
@@ -93,6 +95,54 @@ export class Shapes {
 
 	public array<T>(validator: BaseValidator<T>) {
 		return new ArrayValidator(validator);
+	}
+
+	public typedArray<T extends TypedArray = TypedArray>() {
+		return new TypedArrayValidator<T>();
+	}
+
+	public get int8Array() {
+		return this.typedArray<Int8Array>();
+	}
+
+	public get uint8Array() {
+		return this.typedArray<Uint8Array>();
+	}
+
+	public get uint8ClampedArray() {
+		return this.typedArray<Uint8ClampedArray>();
+	}
+
+	public get int16Array() {
+		return this.typedArray<Int16Array>();
+	}
+
+	public get uint16Array() {
+		return this.typedArray<Uint16Array>();
+	}
+
+	public get int32Array() {
+		return this.typedArray<Int32Array>();
+	}
+
+	public get uint32Array() {
+		return this.typedArray<Uint32Array>();
+	}
+
+	public get float32Array() {
+		return this.typedArray<Float32Array>();
+	}
+
+	public get float64Array() {
+		return this.typedArray<Float64Array>();
+	}
+
+	public get bigInt64Array() {
+		return this.typedArray<BigInt64Array>();
+	}
+
+	public get bigUint64Array() {
+		return this.typedArray<BigUint64Array>();
 	}
 
 	public tuple<T extends [...BaseValidator<any>[]]>(validators: [...T]): TupleValidator<UnwrapTuple<T>> {

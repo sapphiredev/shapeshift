@@ -4,11 +4,13 @@ import type {
 	BooleanConstraintName,
 	DateConstraintName,
 	NumberConstraintName,
-	StringConstraintName
+	StringConstraintName,
+	TypedArrayConstraintName
 } from '../../constraints/type-exports';
 import { BaseError } from './BaseError';
 
 export type ConstraintErrorNames =
+	| TypedArrayConstraintName
 	| ArrayConstraintName
 	| BigIntConstraintName
 	| BooleanConstraintName
