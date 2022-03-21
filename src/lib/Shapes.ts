@@ -1,4 +1,4 @@
-import type { TypedArrayName } from '../constraints/util/typedArray';
+import type { TypedArray, TypedArrayName } from '../constraints/util/typedArray';
 import {
 	ArrayValidator,
 	BaseValidator,
@@ -97,7 +97,7 @@ export class Shapes {
 		return new ArrayValidator(validator);
 	}
 
-	public typedArray<T extends NodeJS.TypedArray>(type: TypedArrayName = 'TypedArray') {
+	public typedArray<T extends TypedArray>(type: TypedArrayName = 'TypedArray') {
 		return new TypedArrayValidator<T>(type);
 	}
 
