@@ -1,4 +1,4 @@
-import type { TypedArray } from '../constraints/util/typedArray';
+import type { TypedArrayName } from '../constraints/util/typedArray';
 import {
 	ArrayValidator,
 	BaseValidator,
@@ -97,52 +97,52 @@ export class Shapes {
 		return new ArrayValidator(validator);
 	}
 
-	public typedArray<T extends TypedArray = TypedArray>() {
-		return new TypedArrayValidator<T>();
+	public typedArray<T extends NodeJS.TypedArray>(type: TypedArrayName = 'TypedArray') {
+		return new TypedArrayValidator<T>(type);
 	}
 
 	public get int8Array() {
-		return this.typedArray<Int8Array>();
+		return this.typedArray<Int8Array>('Int8Array');
 	}
 
 	public get uint8Array() {
-		return this.typedArray<Uint8Array>();
+		return this.typedArray<Uint8Array>('Uint8Array');
 	}
 
 	public get uint8ClampedArray() {
-		return this.typedArray<Uint8ClampedArray>();
+		return this.typedArray<Uint8ClampedArray>('Uint8ClampedArray');
 	}
 
 	public get int16Array() {
-		return this.typedArray<Int16Array>();
+		return this.typedArray<Int16Array>('Int16Array');
 	}
 
 	public get uint16Array() {
-		return this.typedArray<Uint16Array>();
+		return this.typedArray<Uint16Array>('Uint16Array');
 	}
 
 	public get int32Array() {
-		return this.typedArray<Int32Array>();
+		return this.typedArray<Int32Array>('Int32Array');
 	}
 
 	public get uint32Array() {
-		return this.typedArray<Uint32Array>();
+		return this.typedArray<Uint32Array>('Uint32Array');
 	}
 
 	public get float32Array() {
-		return this.typedArray<Float32Array>();
+		return this.typedArray<Float32Array>('Float32Array');
 	}
 
 	public get float64Array() {
-		return this.typedArray<Float64Array>();
+		return this.typedArray<Float64Array>('Float64Array');
 	}
 
 	public get bigInt64Array() {
-		return this.typedArray<BigInt64Array>();
+		return this.typedArray<BigInt64Array>('BigInt64Array');
 	}
 
 	public get bigUint64Array() {
-		return this.typedArray<BigUint64Array>();
+		return this.typedArray<BigUint64Array>('BigUint64Array');
 	}
 
 	public tuple<T extends [...BaseValidator<any>[]]>(validators: [...T]): TupleValidator<UnwrapTuple<T>> {

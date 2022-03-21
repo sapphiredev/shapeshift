@@ -22,12 +22,14 @@ import type { IConstraint } from '../constraints/base/IConstraint';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
-import type { TypedArray } from '../constraints/util/typedArray';
-import { isTypedArray } from 'node:util/types';
+import { TypedArray, TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
 
 export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> {
-	public constructor(constraints: readonly IConstraint<T>[] = []) {
+	private type: TypedArrayName = 'TypedArray';
+
+	public constructor(type: TypedArrayName, constraints: readonly IConstraint<T>[] = []) {
 		super(constraints);
+		this.type = type;
 	}
 
 	public byteLengthLt(length: number) {
@@ -102,9 +104,13 @@ export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> 
 		return this.addConstraint(typedArrayLengthRangeExclusive(startAfter, endBefore));
 	}
 
+	protected override clone(): this {
+		return Reflect.construct(this.constructor, [this.type, this.constraints]);
+	}
+
 	protected handle(value: unknown): Result<T, ValidationError> {
-		return isTypedArray(value) //
+		return TypedArrays[this.type](value)
 			? Result.ok(value as T)
-			: Result.err(new ValidationError('s.typedArray', 'Expected a typed array', value));
+			: Result.err(new ValidationError('s.typedArray', `Expected a ${this.type}`, value));
 	}
 }
