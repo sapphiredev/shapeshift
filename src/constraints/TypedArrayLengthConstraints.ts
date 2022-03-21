@@ -66,7 +66,7 @@ export function typedArrayByteLengthRange<T extends TypedArray>(start: number, e
 		run(input: T) {
 			return input.byteLength >= start && input.byteLength < endBefore //
 				? Result.ok(input)
-				: Result.err(new ExpectedConstraintError('s.typedArray(T).byteLengthRange', 'Invalid Array length', input, expected));
+				: Result.err(new ExpectedConstraintError('s.typedArray(T).byteLengthRange', 'Invalid Typed Array byte length', input, expected));
 		}
 	};
 }
@@ -77,7 +77,9 @@ export function typedArrayByteLengthRangeInclusive<T extends TypedArray>(start: 
 		run(input: T) {
 			return input.byteLength >= start && input.byteLength <= end //
 				? Result.ok(input)
-				: Result.err(new ExpectedConstraintError('s.typedArray(T).byteLengthRangeInclusive', 'Invalid Array length', input, expected));
+				: Result.err(
+						new ExpectedConstraintError('s.typedArray(T).byteLengthRangeInclusive', 'Invalid Typed Array byte length', input, expected)
+				  );
 		}
 	};
 }
@@ -146,7 +148,7 @@ export function typedArrayLengthRange<T extends TypedArray>(start: number, endBe
 		run(input: T) {
 			return input.length >= start && input.length < endBefore //
 				? Result.ok(input)
-				: Result.err(new ExpectedConstraintError('s.typedArray(T).lengthRange', 'Invalid Array length', input, expected));
+				: Result.err(new ExpectedConstraintError('s.typedArray(T).lengthRange', 'Invalid Typed Array length', input, expected));
 		}
 	};
 }
@@ -157,7 +159,7 @@ export function typedArrayLengthRangeInclusive<T extends TypedArray>(start: numb
 		run(input: T) {
 			return input.length >= start && input.length <= end //
 				? Result.ok(input)
-				: Result.err(new ExpectedConstraintError('s.typedArray(T).lengthRangeInclusive', 'Invalid Array length', input, expected));
+				: Result.err(new ExpectedConstraintError('s.typedArray(T).lengthRangeInclusive', 'Invalid Typed Array length', input, expected));
 		}
 	};
 }
@@ -168,7 +170,7 @@ export function typedArrayLengthRangeExclusive<T extends TypedArray>(startAfter:
 		run(input: T) {
 			return input.length > startAfter && input.length < endBefore //
 				? Result.ok(input)
-				: Result.err(new ExpectedConstraintError('s.typedArray(T).lengthRangeExclusive', 'Invalid Array length', input, expected));
+				: Result.err(new ExpectedConstraintError('s.typedArray(T).lengthRangeExclusive', 'Invalid Typed Array length', input, expected));
 		}
 	};
 }
