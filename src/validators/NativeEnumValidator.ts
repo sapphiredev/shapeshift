@@ -33,13 +33,12 @@ export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator
 	protected override handle(value: unknown): Result<T[keyof T], ValidationError | UnknownEnumValueError> {
 		const typeOfValue = typeof value;
 
-		// Step 1. Possible numeric enum
-		if (typeOfValue === 'number' && !this.hasNumericElements) {
-			return Result.err(new ValidationError('s.nativeEnum(T)', 'Expected the value to be a string', value));
-		}
-
-		// Ensure type is string or number
-		if (typeOfValue !== 'string' && typeOfValue !== 'number') {
+		if (typeOfValue === 'number') {
+			if (!this.hasNumericElements) {
+				return Result.err(new ValidationError('s.nativeEnum(T)', 'Expected the value to be a string', value));
+			}
+		} else if (typeOfValue !== 'string') {
+			// typeOfValue !== 'number' is implied here
 			return Result.err(new ValidationError('s.nativeEnum(T)', 'Expected the value to be a string or number', value));
 		}
 
