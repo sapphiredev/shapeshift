@@ -1,18 +1,3 @@
-import {
-	isBigInt64Array,
-	isBigUint64Array,
-	isFloat32Array,
-	isFloat64Array,
-	isInt16Array,
-	isInt32Array,
-	isInt8Array,
-	isTypedArray,
-	isUint16Array,
-	isUint32Array,
-	isUint8Array,
-	isUint8ClampedArray
-} from 'node:util/types';
-
 export type TypedArray =
 	| Int8Array
 	| Uint8Array
@@ -27,18 +12,18 @@ export type TypedArray =
 	| BigUint64Array;
 
 export const TypedArrays = {
-	Int8Array: isInt8Array,
-	Uint8Array: isUint8Array,
-	Uint8ClampedArray: isUint8ClampedArray,
-	Int16Array: isInt16Array,
-	Uint16Array: isUint16Array,
-	Int32Array: isInt32Array,
-	Uint32Array: isUint32Array,
-	Float32Array: isFloat32Array,
-	Float64Array: isFloat64Array,
-	BigInt64Array: isBigInt64Array,
-	BigUint64Array: isBigUint64Array,
-	TypedArray: isTypedArray
+	Int8Array: (x: unknown): x is Int8Array => x instanceof Int8Array,
+	Uint8Array: (x: unknown): x is Uint8Array => x instanceof Uint8Array,
+	Uint8ClampedArray: (x: unknown): x is Uint8ClampedArray => x instanceof Uint8ClampedArray,
+	Int16Array: (x: unknown): x is Int16Array => x instanceof Int16Array,
+	Uint16Array: (x: unknown): x is Uint16Array => x instanceof Uint16Array,
+	Int32Array: (x: unknown): x is Int32Array => x instanceof Int32Array,
+	Uint32Array: (x: unknown): x is Uint32Array => x instanceof Uint32Array,
+	Float32Array: (x: unknown): x is Float32Array => x instanceof Float32Array,
+	Float64Array: (x: unknown): x is Float64Array => x instanceof Float64Array,
+	BigInt64Array: (x: unknown): x is BigInt64Array => x instanceof BigInt64Array,
+	BigUint64Array: (x: unknown): x is BigUint64Array => x instanceof BigUint64Array,
+	TypedArray: (x: unknown): x is TypedArray => ArrayBuffer.isView(x) && !(x instanceof DataView)
 } as const;
 
 export type TypedArrayName = keyof typeof TypedArrays;
