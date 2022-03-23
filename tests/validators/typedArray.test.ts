@@ -17,7 +17,7 @@ describe('TypedArray', () => {
 			new Float64Array(),
 			new BigInt64Array(),
 			new BigUint64Array()
-		])('GIVEN typed array THEN return the input', (input) => {
+		])('GIVEN %p THEN return the input', (input) => {
 			expect(predicate.parse(input)).toBe(input);
 		});
 
