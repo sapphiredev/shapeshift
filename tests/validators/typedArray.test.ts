@@ -5,9 +5,20 @@ describe('TypedArray', () => {
 	describe('Any type of typed array', () => {
 		const predicate = s.typedArray();
 
-		test('GIVEN typed array THEN return the input', () => {
-			const typedArray = new Int8Array();
-			expect(predicate.parse(typedArray)).toBe(typedArray);
+		test.each([
+			new Int8Array(),
+			new Uint8Array(),
+			new Uint8ClampedArray(),
+			new Int16Array(),
+			new Uint16Array(),
+			new Int32Array(),
+			new Uint32Array(),
+			new Float32Array(),
+			new Float64Array(),
+			new BigInt64Array(),
+			new BigUint64Array()
+		])('GIVEN typed array THEN return the input', (input) => {
+			expect(predicate.parse(input)).toBe(input);
 		});
 
 		test.each([1, true, 'sapphire'])('GIVEN %p THEN throw', (input) => {
