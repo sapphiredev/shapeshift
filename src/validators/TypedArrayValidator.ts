@@ -25,7 +25,7 @@ import { BaseValidator } from './imports';
 import { TypedArray, TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
 
 export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> {
-	private type: TypedArrayName = 'TypedArray';
+	private readonly type: TypedArrayName = 'TypedArray';
 
 	public constructor(type: TypedArrayName, constraints: readonly IConstraint<T>[] = []) {
 		super(constraints);
