@@ -438,29 +438,21 @@ const bigInt64Array = s.bigInt64Array;
 const bigUint64Array = s.bigUint64Array;
 ```
 
-ShapeShift includes a handful of typed array specific validations:
+ShapeShift includes a handful of validations specific to typed arrays.
 
-```typescript
+\```
 s.typedArray().lengthLt(5); // Length must be less than 5
 s.typedArray().lengthLe(5); // Length must be 5 or less
 s.typedArray().lengthGt(5); // Length must be more than 5
 s.typedArray().lengthGe(5); // Length must be 5 or more
 s.typedArray().lengthEq(5); // Length must be exactly 5
-s.typedArray().lengthNe(5); // Length must not be exactly 5
-s.typedArray().lengthRange(0, 4); // Length must be at least 0  and less than 4  (in math, that is [0, 4))
-s.typedArray().lengthRangeInclusive(0, 4); // Length must be at least 0  and at most 4  (in math, that is [0, 4])
-s.typedArray().lengthRangeExclusive(0, 4); // Length must be more than 0 element and less than 4  (in math, that is (0, 4))
+s.typedArray().lengthNe(5); // Length must not be 5
+s.typedArray().lengthRange(0, 4); // Length L must satisfy 0 <= L < 4
+s.typedArray().lengthRangeInclusive(0, 4); // Length L must satisfy 0 <= L <= 4
+s.typedArray().lengthRangeExclusive(0, 4); // Length L must satisfy 0 < L < 4
+\```
 
-s.typedArray().byteLengthLt(5); // Byte length must be less than 5
-s.typedArray().byteLengthLe(5); // Byte length must be 5 or less
-s.typedArray().byteLengthGt(5); // Byte length must be more than 5
-s.typedArray().byteLengthGe(5); // Byte length must be 5 or more
-s.typedArray().byteLengthEq(5); // Byte length must be exactly 5
-s.typedArray().byteLengthNe(5); // Byte length must not be exactly 5
-s.typedArray().byteLengthRange(0, 4); // Byte length must be at least 0  and less than 4  (in math, that is [0, 4))
-s.typedArray().byteLengthRangeInclusive(0, 4); // Byte length must be at least 0  and at most 4  (in math, that is [0, 4])
-s.typedArray().byteLengthRangeExclusive(0, 4); // Byte length must be more than 0 element and less than 4  (in math, that is (0, 4))
-```
+Note that all of these methods have analogous methods for working with the typed array's byte length, `s.typedArray().byteLengthX()` - for instance, `s.typedArray().byteLengthLt(5)` is the same as `s.typedArray().lengthLt(5)` but for the array's byte length.
 
 ### BaseValidator: methods and properties
 
