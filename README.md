@@ -440,7 +440,7 @@ const bigUint64Array = s.bigUint64Array;
 
 ShapeShift includes a handful of validations specific to typed arrays.
 
-\```
+```typescript
 s.typedArray().lengthLt(5); // Length must be less than 5
 s.typedArray().lengthLe(5); // Length must be 5 or less
 s.typedArray().lengthGt(5); // Length must be more than 5
@@ -450,7 +450,7 @@ s.typedArray().lengthNe(5); // Length must not be 5
 s.typedArray().lengthRange(0, 4); // Length L must satisfy 0 <= L < 4
 s.typedArray().lengthRangeInclusive(0, 4); // Length L must satisfy 0 <= L <= 4
 s.typedArray().lengthRangeExclusive(0, 4); // Length L must satisfy 0 < L < 4
-\```
+```
 
 Note that all of these methods have analogous methods for working with the typed array's byte length, `s.typedArray().byteLengthX()` - for instance, `s.typedArray().byteLengthLt(5)` is the same as `s.typedArray().lengthLt(5)` but for the array's byte length.
 
