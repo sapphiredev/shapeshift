@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@sapphire/shapeshift@2.1.0](https://github.com/sapphiredev/shapeshift/compare/v2.0.0...@sapphire/shapeshift@2.1.0) - (2022-04-24)
+
+## Documentation
+
+- **readme:** Add todo notice for `reshape` and `function` validations (#75) ([d5f16f6](https://github.com/sapphiredev/shapeshift/commit/d5f16f615de83503187dc834c6245fafbf138f5e))
+
+## Performance
+
+- Optimize `NativeEnum` (#79) ([e9ae280](https://github.com/sapphiredev/shapeshift/commit/e9ae280f73e9ea08239bd8bd22165fe0b2178f82))
+
 ## [2.0.0](https://github.com/sapphiredev/shapeshift/compare/v1.0.0...v2.0.0) (2022-03-13)
 
 ### Features
