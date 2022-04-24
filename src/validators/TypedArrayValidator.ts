@@ -22,9 +22,9 @@ import type { IConstraint } from '../constraints/base/IConstraint';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
-import { TypedArray, TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
+import { TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
 
-export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> {
+export class TypedArrayValidator<T extends NodeJS.TypedArray> extends BaseValidator<T> {
 	private readonly type: TypedArrayName;
 
 	public constructor(type: TypedArrayName, constraints: readonly IConstraint<T>[] = []) {
