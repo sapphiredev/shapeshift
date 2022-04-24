@@ -27,7 +27,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Int8Array', () => {
-		const predicate = s.int8Array;
+		const predicate = s.i8;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Int8Array();
@@ -40,7 +40,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Uint8Array', () => {
-		const predicate = s.uint8Array;
+		const predicate = s.u8;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Uint8Array();
@@ -53,7 +53,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Uint8ClampedArray', () => {
-		const predicate = s.uint8ClampedArray;
+		const predicate = s.u8clamped;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Uint8ClampedArray();
@@ -66,7 +66,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Int16Array', () => {
-		const predicate = s.int16Array;
+		const predicate = s.i16;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Int16Array();
@@ -79,7 +79,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Uint16Array', () => {
-		const predicate = s.uint16Array;
+		const predicate = s.u16;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Uint16Array();
@@ -92,7 +92,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Int32Array', () => {
-		const predicate = s.int32Array;
+		const predicate = s.i32;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Int32Array();
@@ -105,7 +105,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Uint32Array', () => {
-		const predicate = s.uint32Array;
+		const predicate = s.u32;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Uint32Array();
@@ -118,7 +118,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Float32Array', () => {
-		const predicate = s.float32Array;
+		const predicate = s.f32;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Float32Array();
@@ -131,7 +131,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Float64Array', () => {
-		const predicate = s.float64Array;
+		const predicate = s.f64;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Float64Array();
@@ -144,7 +144,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('BigInt64Array', () => {
-		const predicate = s.bigInt64Array;
+		const predicate = s.bi64;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new BigInt64Array();
@@ -157,7 +157,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('BigUint64Array', () => {
-		const predicate = s.bigUint64Array;
+		const predicate = s.bu64;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new BigUint64Array();
