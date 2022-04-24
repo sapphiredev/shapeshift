@@ -35,7 +35,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Int16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a i8`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a i8 array`, input));
 		});
 	});
 
@@ -48,7 +48,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u8`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u8 array`, input));
 		});
 	});
 
@@ -61,7 +61,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u8clamped`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u8clamped array`, input));
 		});
 	});
 
@@ -74,7 +74,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Int32Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a i16`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a i16 array`, input));
 		});
 	});
 
@@ -87,7 +87,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Uint32Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u16`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u16 array`, input));
 		});
 	});
 
@@ -100,7 +100,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Int16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a i32`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a i32 array`, input));
 		});
 	});
 
@@ -113,7 +113,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u32`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u32 array`, input));
 		});
 	});
 
@@ -126,7 +126,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Float64Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a f32`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a f32 array`, input));
 		});
 	});
 
@@ -139,7 +139,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire'])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a f64`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a f64 array`, input));
 		});
 	});
 
@@ -152,7 +152,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new BigUint64Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a bi64`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a bi64 array`, input));
 		});
 	});
 
@@ -165,7 +165,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire'])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a bu64`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a bu64 array`, input));
 		});
 	});
 

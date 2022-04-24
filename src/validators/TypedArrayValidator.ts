@@ -22,9 +22,9 @@ import type { IConstraint } from '../constraints/base/IConstraint';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
-import { TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
+import { TypedArray, TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
 
-export class TypedArrayValidator<T extends NodeJS.TypedArray> extends BaseValidator<T> {
+export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> {
 	private readonly type: TypedArrayName;
 
 	public constructor(type: TypedArrayName, constraints: readonly IConstraint<T>[] = []) {
@@ -111,6 +111,8 @@ export class TypedArrayValidator<T extends NodeJS.TypedArray> extends BaseValida
 	protected handle(value: unknown): Result<T, ValidationError> {
 		return TypedArrays[this.type](value)
 			? Result.ok(value as T)
-			: Result.err(new ValidationError('s.typedArray', `Expected a ${this.type}`, value));
+			: Result.err(
+					new ValidationError('s.typedArray', `Expected a ${this.type === 'TypedArray' ? 'TypedArray' : `${this.type} array`}`, value)
+			  );
 	}
 }
