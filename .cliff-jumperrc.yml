@@ -1,0 +1,4 @@
+name: shapeshift
+packagePath: .
+org: sapphire
+commitMessageTemplate: 'chore(release): release {{new-version}}'
