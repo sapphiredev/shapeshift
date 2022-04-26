@@ -425,17 +425,17 @@ s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => s
 
 ```ts
 const typedArray = s.typedArray();
-const i8 = s.i8;
-const u8 = s.u8;
-const u8clamped = s.u8clamped;
-const i16 = s.i16;
-const u16 = s.u16;
-const i32 = s.i32;
-const u32 = s.u32;
-const f32 = s.f32;
-const f64 = s.f64;
-const bi64 = s.bi64;
-const bu64 = s.bu64;
+const i8Array = s.i8Array;
+const u8Array = s.u8Array;
+const u8clampedArray = s.u8clampedArray;
+const i16Array = s.i16Array;
+const u16Array = s.u16Array;
+const i32Array = s.i32Array;
+const u32Array = s.u32Array;
+const f32Array = s.f32Array;
+const f64Array = s.f64Array;
+const i64Array = s.i64Array;
+const u64Array = s.u64Array;
 ```
 
 ShapeShift includes a handful of validations specific to typed arrays.
