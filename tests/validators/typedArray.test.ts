@@ -22,12 +22,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire'])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a TypedArray`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected TypedArray`, input));
 		});
 	});
 
 	describe('i8', () => {
-		const predicate = s.i8;
+		const predicate = s.i8Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Int8Array();
@@ -35,12 +35,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Int16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a i8 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected i8Array`, input));
 		});
 	});
 
 	describe('u8', () => {
-		const predicate = s.u8;
+		const predicate = s.u8Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Uint8Array();
@@ -48,12 +48,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u8 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected u8Array`, input));
 		});
 	});
 
 	describe('u8clamped', () => {
-		const predicate = s.u8clamped;
+		const predicate = s.u8clampedArray;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Uint8ClampedArray();
@@ -61,12 +61,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u8clamped array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected u8clampedArray`, input));
 		});
 	});
 
 	describe('i16', () => {
-		const predicate = s.i16;
+		const predicate = s.i16Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Int16Array();
@@ -74,12 +74,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Int32Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a i16 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected i16Array`, input));
 		});
 	});
 
 	describe('u16', () => {
-		const predicate = s.u16;
+		const predicate = s.u16Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Uint16Array();
@@ -87,12 +87,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Uint32Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u16 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected u16Array`, input));
 		});
 	});
 
 	describe('i32', () => {
-		const predicate = s.i32;
+		const predicate = s.i32Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Int32Array();
@@ -100,12 +100,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Int16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a i32 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected i32Array`, input));
 		});
 	});
 
 	describe('u32', () => {
-		const predicate = s.u32;
+		const predicate = s.u32Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Uint32Array();
@@ -113,12 +113,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a u32 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected u32Array`, input));
 		});
 	});
 
 	describe('f32', () => {
-		const predicate = s.f32;
+		const predicate = s.f32Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Float32Array();
@@ -126,12 +126,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new Float64Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a f32 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected f32Array`, input));
 		});
 	});
 
 	describe('f64', () => {
-		const predicate = s.f64;
+		const predicate = s.f64Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new Float64Array();
@@ -139,12 +139,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire'])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a f64 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected f64Array`, input));
 		});
 	});
 
 	describe('bi64', () => {
-		const predicate = s.bi64;
+		const predicate = s.i64Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new BigInt64Array();
@@ -152,12 +152,12 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire', new BigUint64Array()])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a bi64 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected i64Array`, input));
 		});
 	});
 
 	describe('bu64', () => {
-		const predicate = s.bu64;
+		const predicate = s.u64Array;
 
 		test('GIVEN typed array THEN return the input', () => {
 			const typedArray = new BigUint64Array();
@@ -165,7 +165,7 @@ describe('TypedArray', () => {
 		});
 
 		test.each([1, true, 'sapphire'])('GIVEN %p THEN throw', (input) => {
-			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a bu64 array`, input));
+			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected u64Array`, input));
 		});
 	});
 

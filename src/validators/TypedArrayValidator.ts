@@ -111,8 +111,6 @@ export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> 
 	protected handle(value: unknown): Result<T, ValidationError> {
 		return TypedArrays[this.type](value)
 			? Result.ok(value as T)
-			: Result.err(
-					new ValidationError('s.typedArray', `Expected a ${this.type === 'TypedArray' ? 'TypedArray' : `${this.type} array`}`, value)
-			  );
+			: Result.err(new ValidationError('s.typedArray', `Expected ${this.type}`, value));
 	}
 }
