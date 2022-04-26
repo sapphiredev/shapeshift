@@ -101,48 +101,48 @@ export class Shapes {
 		return new TypedArrayValidator<T>(type);
 	}
 
-	public get i8() {
-		return this.typedArray<Int8Array>('i8');
+	public get i8Array() {
+		return this.typedArray<Int8Array>('i8Array');
 	}
 
-	public get u8() {
-		return this.typedArray<Uint8Array>('u8');
+	public get u8Array() {
+		return this.typedArray<Uint8Array>('u8Array');
 	}
 
-	public get u8clamped() {
-		return this.typedArray<Uint8ClampedArray>('u8clamped');
+	public get u8clampedArray() {
+		return this.typedArray<Uint8ClampedArray>('u8clampedArray');
 	}
 
-	public get i16() {
-		return this.typedArray<Int16Array>('i16');
+	public get i16Array() {
+		return this.typedArray<Int16Array>('i16Array');
 	}
 
-	public get u16() {
-		return this.typedArray<Uint16Array>('u16');
+	public get u16Array() {
+		return this.typedArray<Uint16Array>('u16Array');
 	}
 
-	public get i32() {
-		return this.typedArray<Int32Array>('i32');
+	public get i32Array() {
+		return this.typedArray<Int32Array>('i32Array');
 	}
 
-	public get u32() {
-		return this.typedArray<Uint32Array>('u32');
+	public get u32Array() {
+		return this.typedArray<Uint32Array>('u32Array');
 	}
 
-	public get f32() {
-		return this.typedArray<Float32Array>('f32');
+	public get f32Array() {
+		return this.typedArray<Float32Array>('f32Array');
 	}
 
-	public get f64() {
-		return this.typedArray<Float64Array>('f64');
+	public get f64Array() {
+		return this.typedArray<Float64Array>('f64Array');
 	}
 
-	public get bi64() {
-		return this.typedArray<BigInt64Array>('bi64');
+	public get i64Array() {
+		return this.typedArray<BigInt64Array>('i64Array');
 	}
 
-	public get bu64() {
-		return this.typedArray<BigUint64Array>('bu64');
+	public get u64Array() {
+		return this.typedArray<BigUint64Array>('u64Array');
 	}
 
 	public tuple<T extends [...BaseValidator<any>[]]>(validators: [...T]): TupleValidator<UnwrapTuple<T>> {
