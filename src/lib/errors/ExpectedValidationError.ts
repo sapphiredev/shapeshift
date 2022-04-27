@@ -10,7 +10,7 @@ export class ExpectedValidationError<T> extends ValidationError {
 		this.expected = expected;
 	}
 
-	public toJSON() {
+	public override toJSON() {
 		return {
 			name: this.name,
 			validator: this.validator,

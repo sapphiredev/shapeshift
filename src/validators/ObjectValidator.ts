@@ -83,7 +83,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		return this.handleStrategy(value as NonNullObject);
 	}
 
-	protected clone(): this {
+	protected override clone(): this {
 		return Reflect.construct(this.constructor, [this.shape, this.strategy, this.constraints]);
 	}
 
