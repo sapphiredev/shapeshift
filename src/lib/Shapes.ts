@@ -101,48 +101,48 @@ export class Shapes {
 		return new TypedArrayValidator<T>(type);
 	}
 
-	public get i8Array() {
-		return this.typedArray<Int8Array>('i8Array');
+	public get int8Array() {
+		return this.typedArray<Int8Array>('Int8Array');
 	}
 
-	public get u8Array() {
-		return this.typedArray<Uint8Array>('u8Array');
+	public get uint8Array() {
+		return this.typedArray<Uint8Array>('Uint8Array');
 	}
 
-	public get u8clampedArray() {
-		return this.typedArray<Uint8ClampedArray>('u8clampedArray');
+	public get uint8ClampedArray() {
+		return this.typedArray<Uint8ClampedArray>('Uint8ClampedArray');
 	}
 
-	public get i16Array() {
-		return this.typedArray<Int16Array>('i16Array');
+	public get int16Array() {
+		return this.typedArray<Int16Array>('Int16Array');
 	}
 
-	public get u16Array() {
-		return this.typedArray<Uint16Array>('u16Array');
+	public get uint16Array() {
+		return this.typedArray<Uint16Array>('Uint16Array');
 	}
 
-	public get i32Array() {
-		return this.typedArray<Int32Array>('i32Array');
+	public get int32Array() {
+		return this.typedArray<Int32Array>('Int32Array');
 	}
 
-	public get u32Array() {
-		return this.typedArray<Uint32Array>('u32Array');
+	public get uint32Array() {
+		return this.typedArray<Uint32Array>('Uint32Array');
 	}
 
-	public get f32Array() {
-		return this.typedArray<Float32Array>('f32Array');
+	public get float32Array() {
+		return this.typedArray<Float32Array>('Float32Array');
 	}
 
-	public get f64Array() {
-		return this.typedArray<Float64Array>('f64Array');
+	public get float64Array() {
+		return this.typedArray<Float64Array>('Float64Array');
 	}
 
-	public get i64Array() {
-		return this.typedArray<BigInt64Array>('i64Array');
+	public get bigInt64Array() {
+		return this.typedArray<BigInt64Array>('BigInt64Array');
 	}
 
-	public get u64Array() {
-		return this.typedArray<BigUint64Array>('u64Array');
+	public get bigUint64Array() {
+		return this.typedArray<BigUint64Array>('BigUint64Array');
 	}
 
 	public tuple<T extends [...BaseValidator<any>[]]>(validators: [...T]): TupleValidator<UnwrapTuple<T>> {

@@ -23,6 +23,7 @@ import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
 import { TypedArray, TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
+import { aOrAn } from '../constraints/util/common/vowels';
 
 export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> {
 	private readonly type: TypedArrayName;
@@ -111,6 +112,6 @@ export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> 
 	protected handle(value: unknown): Result<T, ValidationError> {
 		return TypedArrays[this.type](value)
 			? Result.ok(value as T)
-			: Result.err(new ValidationError('s.typedArray', `Expected an ${this.type}`, value));
+			: Result.err(new ValidationError('s.typedArray', `Expected ${aOrAn(this.type)}`, value));
 	}
 }
