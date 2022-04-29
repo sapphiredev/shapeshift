@@ -51,7 +51,7 @@ export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator
 			: Result.ok(possibleEnumValue);
 	}
 
-	protected clone(): this {
+	protected override clone(): this {
 		return Reflect.construct(this.constructor, [this.enumShape]);
 	}
 }

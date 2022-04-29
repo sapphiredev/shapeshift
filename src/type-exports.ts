@@ -82,7 +82,6 @@ export type {
 } from './constraints/type-exports';
 export type { BaseConstraintError, ConstraintErrorNames } from './lib/errors/BaseConstraintError';
 //
-export type { BaseError, customInspectSymbol, customInspectSymbolStackLess } from './lib/errors/BaseError';
 export type { CombinedError } from './lib/errors/CombinedError';
 export type { ExpectedValidationError } from './lib/errors/ExpectedValidationError';
 export type { MissingPropertyError } from './lib/errors/MissingPropertyError';
