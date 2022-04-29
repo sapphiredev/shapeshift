@@ -428,14 +428,14 @@ const typedArray = s.typedArray();
 const int16Array = s.int16Array;
 const uint16Array = s.uint16Array;
 const uint8ClampedArray = s.uint8ClampedArray;
-const int16ArrayArray = s.int16ArrayArray;
-const uint16ArrayArray = s.uint16ArrayArray;
-const int32ArrayArray = s.int32ArrayArray;
-const uint32ArrayArray = s.uint32ArrayArray;
-const float32ArrayArray = s.float32ArrayArray;
-const float64ArrayArray = s.float64ArrayArray;
-const bigInt64ArrayArray = s.bigInt64ArrayArray;
-const bigUint64ArrayArray = s.bigUint64ArrayArray;
+const int16Array = s.int16Array;
+const uint16Array = s.uint16Array;
+const int32Array = s.int32Array;
+const uint32Array = s.uint32Array;
+const float32Array = s.float32Array;
+const float64Array = s.float64Array;
+const bigInt64Array = s.bigInt64Array;
+const bigUint64Array = s.bigUint64Array;
 ```
 
 ShapeShift includes a handful of validations specific to typed arrays.
