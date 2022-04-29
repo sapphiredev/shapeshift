@@ -282,12 +282,10 @@ const noDependencies = pkg.omit(['dependencies']);
 Inspired by TypeScript's built-in `Partial` utility type, all object schemas have the aforementioned method that makes all properties optional:
 
 ```typescript
-const user = s
-	.object({
-		username: s.string,
-		password: s.string
-	})
-	.partial;
+const user = s.object({
+	username: s.string,
+	password: s.string
+}).partial;
 ```
 
 Which is the same as doing:
@@ -422,6 +420,39 @@ s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => s
 > **Note**: ShapeShift will transform the given function into one with validation on arguments and output. You can access the `.raw` property of the function to get the unchecked function.
 
 ---
+
+#### TypedArray
+
+```ts
+const typedArray = s.typedArray();
+const int16Array = s.int16Array;
+const uint16Array = s.uint16Array;
+const uint8ClampedArray = s.uint8ClampedArray;
+const int16Array = s.int16Array;
+const uint16Array = s.uint16Array;
+const int32Array = s.int32Array;
+const uint32Array = s.uint32Array;
+const float32Array = s.float32Array;
+const float64Array = s.float64Array;
+const bigInt64Array = s.bigInt64Array;
+const bigUint64Array = s.bigUint64Array;
+```
+
+ShapeShift includes a handful of validations specific to typed arrays.
+
+```typescript
+s.typedArray().lengthLt(5); // Length must be less than 5
+s.typedArray().lengthLe(5); // Length must be 5 or less
+s.typedArray().lengthGt(5); // Length must be more than 5
+s.typedArray().lengthGe(5); // Length must be 5 or more
+s.typedArray().lengthEq(5); // Length must be exactly 5
+s.typedArray().lengthNe(5); // Length must not be 5
+s.typedArray().lengthRange(0, 4); // Length L must satisfy 0 <= L < 4
+s.typedArray().lengthRangeInclusive(0, 4); // Length L must satisfy 0 <= L <= 4
+s.typedArray().lengthRangeExclusive(0, 4); // Length L must satisfy 0 < L < 4
+```
+
+Note that all of these methods have analogous methods for working with the typed array's byte length, `s.typedArray().byteLengthX()` - for instance, `s.typedArray().byteLengthLt(5)` is the same as `s.typedArray().lengthLt(5)` but for the array's byte length.
 
 ### BaseValidator: methods and properties
 
