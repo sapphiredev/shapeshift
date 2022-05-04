@@ -80,6 +80,10 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			return Result.err(new ValidationError('s.object(T)', 'Expected the value to not be null', value));
 		}
 
+		if (Array.isArray(value)) {
+			return Result.err(new ValidationError('s.object(T)', 'Expected the value to not be an array', value));
+		}
+
 		return this.handleStrategy(value as NonNullObject);
 	}
 

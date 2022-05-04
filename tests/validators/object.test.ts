@@ -18,6 +18,10 @@ describe('ObjectValidator', () => {
 		expectError(() => predicate.parse(null), new ValidationError('s.object(T)', 'Expected the value to not be null', null));
 	});
 
+	test('GIVEN an array value THEN throws ValidationError', () => {
+		expectError(() => predicate.parse([]), new ValidationError('s.object(T)', 'Expected the value to not be an array', []));
+	});
+
 	test('GIVEN a valid object THEN returns processed object', () => {
 		expect(predicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({ username: 'Sapphire', password: 'helloworld' });
 	});
