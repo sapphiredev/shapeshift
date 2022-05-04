@@ -1,16 +1,16 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import {
 	numberDivisibleBy,
-	numberEq,
+	numberEqual,
 	numberFinite,
-	numberGe,
-	numberGt,
+	numberGreaterThan,
+	numberGreaterThanOrEqual,
 	numberInt,
-	numberLe,
-	numberLt,
+	numberLessThan,
+	numberLessThanOrEqual,
 	numberNaN,
-	numberNe,
-	numberNeNaN,
+	numberNotEqual,
+	numberNotNaN,
 	numberSafeInt
 } from '../constraints/NumberConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';
@@ -18,32 +18,32 @@ import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
 
 export class NumberValidator<T extends number> extends BaseValidator<T> {
-	public lt(number: number): this {
-		return this.addConstraint(numberLt(number) as IConstraint<T>);
+	public lessThan(number: number): this {
+		return this.addConstraint(numberLessThan(number) as IConstraint<T>);
 	}
 
-	public le(number: number): this {
-		return this.addConstraint(numberLe(number) as IConstraint<T>);
+	public lessThanOrEqual(number: number): this {
+		return this.addConstraint(numberLessThanOrEqual(number) as IConstraint<T>);
 	}
 
-	public gt(number: number): this {
-		return this.addConstraint(numberGt(number) as IConstraint<T>);
+	public greaterThan(number: number): this {
+		return this.addConstraint(numberGreaterThan(number) as IConstraint<T>);
 	}
 
-	public ge(number: number): this {
-		return this.addConstraint(numberGe(number) as IConstraint<T>);
+	public greaterThanOrEqual(number: number): this {
+		return this.addConstraint(numberGreaterThanOrEqual(number) as IConstraint<T>);
 	}
 
-	public eq<N extends number>(number: N): NumberValidator<N> {
+	public equal<N extends number>(number: N): NumberValidator<N> {
 		return Number.isNaN(number) //
 			? (this.addConstraint(numberNaN as IConstraint<T>) as unknown as NumberValidator<N>)
-			: (this.addConstraint(numberEq(number) as IConstraint<T>) as unknown as NumberValidator<N>);
+			: (this.addConstraint(numberEqual(number) as IConstraint<T>) as unknown as NumberValidator<N>);
 	}
 
-	public ne(number: number): this {
+	public notEqual(number: number): this {
 		return Number.isNaN(number) //
-			? this.addConstraint(numberNeNaN as IConstraint<T>)
-			: this.addConstraint(numberNe(number) as IConstraint<T>);
+			? this.addConstraint(numberNotNaN as IConstraint<T>)
+			: this.addConstraint(numberNotEqual(number) as IConstraint<T>);
 	}
 
 	public get int(): this {
@@ -59,11 +59,11 @@ export class NumberValidator<T extends number> extends BaseValidator<T> {
 	}
 
 	public get positive(): this {
-		return this.ge(0);
+		return this.greaterThanOrEqual(0);
 	}
 
 	public get negative(): this {
-		return this.lt(0);
+		return this.lessThan(0);
 	}
 
 	public divisibleBy(divider: number): this {

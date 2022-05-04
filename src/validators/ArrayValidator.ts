@@ -1,10 +1,10 @@
 import {
-	arrayLengthEq,
-	arrayLengthGe,
-	arrayLengthGt,
-	arrayLengthLe,
-	arrayLengthLt,
-	arrayLengthNe,
+	arrayLengthEqual,
+	arrayLengthGreaterThan,
+	arrayLengthGreaterThanOrEqual,
+	arrayLengthLessThan,
+	arrayLengthLessThanOrEqual,
+	arrayLengthNotEqual,
 	arrayLengthRange,
 	arrayLengthRangeExclusive,
 	arrayLengthRangeInclusive
@@ -24,28 +24,28 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 		this.validator = validator;
 	}
 
-	public lengthLt<N extends number>(length: N): BaseValidator<ExpandSmallerTuples<UnshiftTuple<[...Tuple<T, N>]>>> {
-		return this.addConstraint(arrayLengthLt(length) as IConstraint<T[]>) as any;
+	public lengthLessThan<N extends number>(length: N): BaseValidator<ExpandSmallerTuples<UnshiftTuple<[...Tuple<T, N>]>>> {
+		return this.addConstraint(arrayLengthLessThan(length) as IConstraint<T[]>) as any;
 	}
 
-	public lengthLe<N extends number>(length: N): BaseValidator<ExpandSmallerTuples<[...Tuple<T, N>]>> {
-		return this.addConstraint(arrayLengthLe(length)) as any;
+	public lengthLessThanOrEqual<N extends number>(length: N): BaseValidator<ExpandSmallerTuples<[...Tuple<T, N>]>> {
+		return this.addConstraint(arrayLengthLessThanOrEqual(length)) as any;
 	}
 
-	public lengthGt<N extends number>(length: N): BaseValidator<[...Tuple<T, N>, T, ...T[]]> {
-		return this.addConstraint(arrayLengthGt(length)) as any;
+	public lengthGreaterThan<N extends number>(length: N): BaseValidator<[...Tuple<T, N>, T, ...T[]]> {
+		return this.addConstraint(arrayLengthGreaterThan(length)) as any;
 	}
 
-	public lengthGe<N extends number>(length: N): BaseValidator<[...Tuple<T, N>, ...T[]]> {
-		return this.addConstraint(arrayLengthGe(length)) as any;
+	public lengthGreaterThanOrEqual<N extends number>(length: N): BaseValidator<[...Tuple<T, N>, ...T[]]> {
+		return this.addConstraint(arrayLengthGreaterThanOrEqual(length)) as any;
 	}
 
-	public lengthEq<N extends number>(length: N): BaseValidator<[...Tuple<T, N>]> {
-		return this.addConstraint(arrayLengthEq(length)) as any;
+	public lengthEqual<N extends number>(length: N): BaseValidator<[...Tuple<T, N>]> {
+		return this.addConstraint(arrayLengthEqual(length)) as any;
 	}
 
-	public lengthNe(length: number): BaseValidator<[...T[]]> {
-		return this.addConstraint(arrayLengthNe(length)) as any;
+	public lengthNotEqual(length: number): BaseValidator<[...T[]]> {
+		return this.addConstraint(arrayLengthNotEqual(length)) as any;
 	}
 
 	public lengthRange<S extends number, E extends number>(

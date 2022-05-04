@@ -13,9 +13,9 @@ describe('BooleanValidator', () => {
 	});
 
 	describe('Comparators', () => {
-		// eq, ne
-		describe('eq', () => {
-			const eqPredicate = s.boolean.eq(true);
+		// equal, notEqual
+		describe('equal', () => {
+			const eqPredicate = s.boolean.equal(true);
 
 			test('GIVEN true THEN returns given value', () => {
 				expect(eqPredicate.parse(true)).toBe(true);
@@ -26,8 +26,8 @@ describe('BooleanValidator', () => {
 			});
 		});
 
-		describe('ne', () => {
-			const nePredicate = s.boolean.ne(true);
+		describe('notEqual', () => {
+			const nePredicate = s.boolean.notEqual(true);
 
 			test('GIVEN false THEN returns given value', () => {
 				expect(nePredicate.parse(false)).toBe(false);

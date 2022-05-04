@@ -16,8 +16,8 @@ describe('BigIntValidator', () => {
 	});
 
 	describe('Comparators', () => {
-		describe('lt', () => {
-			const ltPredicate = s.bigint.lt(42n);
+		describe('lessThan', () => {
+			const ltPredicate = s.bigint.lessThan(42n);
 
 			test.each([10n])('GIVEN %d THEN returns given value', (value) => {
 				expect(ltPredicate.parse(value)).toBe(value);
@@ -26,13 +26,13 @@ describe('BigIntValidator', () => {
 			test.each([42n, 100n])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => ltPredicate.parse(value),
-					new ExpectedConstraintError('s.bigint.lt', 'Invalid bigint value', value, 'expected < 42n')
+					new ExpectedConstraintError('s.bigint.lessThan', 'Invalid bigint value', value, 'expected < 42n')
 				);
 			});
 		});
 
-		describe('le', () => {
-			const lePredicate = s.bigint.le(42n);
+		describe('lessThanOrEqual', () => {
+			const lePredicate = s.bigint.lessThanOrEqual(42n);
 
 			test.each([10n, 42n])('GIVEN %d THEN returns given value', (input) => {
 				expect(lePredicate.parse(input)).toBe(input);
@@ -41,13 +41,13 @@ describe('BigIntValidator', () => {
 			test.each([100n])('GIVEN %d THEN throws ConstraintError', (input) => {
 				expectError(
 					() => lePredicate.parse(input),
-					new ExpectedConstraintError('s.bigint.le', 'Invalid bigint value', input, 'expected <= 42n')
+					new ExpectedConstraintError('s.bigint.lessThanOrEqual', 'Invalid bigint value', input, 'expected <= 42n')
 				);
 			});
 		});
 
-		describe('gt', () => {
-			const gtPredicate = s.bigint.gt(42n);
+		describe('greaterThan', () => {
+			const gtPredicate = s.bigint.greaterThan(42n);
 
 			test.each([100n])('GIVEN %d THEN returns given value', (value) => {
 				expect(gtPredicate.parse(value)).toBe(value);
@@ -56,13 +56,13 @@ describe('BigIntValidator', () => {
 			test.each([10n, 42n])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => gtPredicate.parse(value),
-					new ExpectedConstraintError('s.bigint.gt', 'Invalid bigint value', value, 'expected > 42n')
+					new ExpectedConstraintError('s.bigint.greaterThan', 'Invalid bigint value', value, 'expected > 42n')
 				);
 			});
 		});
 
-		describe('ge', () => {
-			const gePredicate = s.bigint.ge(42n);
+		describe('greaterThanOrEqual', () => {
+			const gePredicate = s.bigint.greaterThanOrEqual(42n);
 
 			test.each([42n, 100n])('GIVEN %d THEN returns given value', (value) => {
 				expect(gePredicate.parse(value)).toBe(value);
@@ -71,13 +71,13 @@ describe('BigIntValidator', () => {
 			test.each([10n])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => gePredicate.parse(value),
-					new ExpectedConstraintError('s.bigint.ge', 'Invalid bigint value', value, 'expected >= 42n')
+					new ExpectedConstraintError('s.bigint.greaterThanOrEqual', 'Invalid bigint value', value, 'expected >= 42n')
 				);
 			});
 		});
 
-		describe('eq', () => {
-			const eqPredicate = s.bigint.eq(42n);
+		describe('equal', () => {
+			const eqPredicate = s.bigint.equal(42n);
 
 			test.each([42n])('GIVEN %d THEN returns given value', (value) => {
 				expect(eqPredicate.parse(value)).toBe(value);
@@ -86,13 +86,13 @@ describe('BigIntValidator', () => {
 			test.each([10n, 100n])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => eqPredicate.parse(value),
-					new ExpectedConstraintError('s.bigint.eq', 'Invalid bigint value', value, 'expected === 42n')
+					new ExpectedConstraintError('s.bigint.equal', 'Invalid bigint value', value, 'expected === 42n')
 				);
 			});
 		});
 
-		describe('ne', () => {
-			const nePredicate = s.bigint.ne(42n);
+		describe('notEqual', () => {
+			const nePredicate = s.bigint.notEqual(42n);
 
 			test.each([10n, 100n])('GIVEN %d THEN returns given value', (value) => {
 				expect(nePredicate.parse(value)).toBe(value);
@@ -101,7 +101,7 @@ describe('BigIntValidator', () => {
 			test.each([42n])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => nePredicate.parse(value),
-					new ExpectedConstraintError('s.bigint.ne', 'Invalid bigint value', value, 'expected !== 42n')
+					new ExpectedConstraintError('s.bigint.notEqual', 'Invalid bigint value', value, 'expected !== 42n')
 				);
 			});
 		});
@@ -118,7 +118,7 @@ describe('BigIntValidator', () => {
 			test.each([-smallInteger, -largeInteger])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => positivePredicate.parse(input),
-					new ExpectedConstraintError('s.bigint.ge', 'Invalid bigint value', input, 'expected >= 0n')
+					new ExpectedConstraintError('s.bigint.greaterThanOrEqual', 'Invalid bigint value', input, 'expected >= 0n')
 				);
 			});
 		});
@@ -133,7 +133,7 @@ describe('BigIntValidator', () => {
 			test.each([smallInteger, largeInteger])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => positivePredicate.parse(input),
-					new ExpectedConstraintError('s.bigint.lt', 'Invalid bigint value', input, 'expected < 0n')
+					new ExpectedConstraintError('s.bigint.lessThan', 'Invalid bigint value', input, 'expected < 0n')
 				);
 			});
 		});

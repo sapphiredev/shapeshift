@@ -1,29 +1,29 @@
+import type { IConstraint } from '../constraints/base/IConstraint';
 import {
-	typedArrayByteLengthEq,
-	typedArrayByteLengthGe,
-	typedArrayByteLengthGt,
-	typedArrayByteLengthLe,
-	typedArrayByteLengthLt,
-	typedArrayByteLengthNe,
+	typedArrayByteLengthEqual,
+	typedArrayByteLengthGreaterThan,
+	typedArrayByteLengthGreaterThanOrEqual,
+	typedArrayByteLengthLessThan,
+	typedArrayByteLengthLessThanOrEqual,
+	typedArrayByteLengthNotEqual,
 	typedArrayByteLengthRange,
 	typedArrayByteLengthRangeExclusive,
 	typedArrayByteLengthRangeInclusive,
-	typedArrayLengthEq,
-	typedArrayLengthGe,
-	typedArrayLengthGt,
-	typedArrayLengthLe,
-	typedArrayLengthLt,
-	typedArrayLengthNe,
+	typedArrayLengthEqual,
+	typedArrayLengthGreaterThan,
+	typedArrayLengthGreaterThanOrEqual,
+	typedArrayLengthLessThan,
+	typedArrayLengthLessThanOrEqual,
+	typedArrayLengthNotEqual,
 	typedArrayLengthRange,
 	typedArrayLengthRangeExclusive,
 	typedArrayLengthRangeInclusive
 } from '../constraints/TypedArrayLengthConstraints';
-import type { IConstraint } from '../constraints/base/IConstraint';
+import { aOrAn } from '../constraints/util/common/vowels';
+import { TypedArray, TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
-import { TypedArray, TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
-import { aOrAn } from '../constraints/util/common/vowels';
 
 export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> {
 	private readonly type: TypedArrayName;
@@ -33,28 +33,28 @@ export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> 
 		this.type = type;
 	}
 
-	public byteLengthLt(length: number) {
-		return this.addConstraint(typedArrayByteLengthLt(length));
+	public byteLengthLessThan(length: number) {
+		return this.addConstraint(typedArrayByteLengthLessThan(length));
 	}
 
-	public byteLengthLe(length: number) {
-		return this.addConstraint(typedArrayByteLengthLe(length));
+	public byteLengthLessThanOrEqual(length: number) {
+		return this.addConstraint(typedArrayByteLengthLessThanOrEqual(length));
 	}
 
-	public byteLengthGt(length: number) {
-		return this.addConstraint(typedArrayByteLengthGt(length));
+	public byteLengthGreaterThan(length: number) {
+		return this.addConstraint(typedArrayByteLengthGreaterThan(length));
 	}
 
-	public byteLengthGe(length: number) {
-		return this.addConstraint(typedArrayByteLengthGe(length));
+	public byteLengthGreaterThanOrEqual(length: number) {
+		return this.addConstraint(typedArrayByteLengthGreaterThanOrEqual(length));
 	}
 
-	public byteLengthEq(length: number) {
-		return this.addConstraint(typedArrayByteLengthEq(length));
+	public byteLengthEqual(length: number) {
+		return this.addConstraint(typedArrayByteLengthEqual(length));
 	}
 
-	public byteLengthNe(length: number) {
-		return this.addConstraint(typedArrayByteLengthNe(length));
+	public byteLengthNotEqual(length: number) {
+		return this.addConstraint(typedArrayByteLengthNotEqual(length));
 	}
 
 	public byteLengthRange(start: number, endBefore: number) {
@@ -69,28 +69,28 @@ export class TypedArrayValidator<T extends TypedArray> extends BaseValidator<T> 
 		return this.addConstraint(typedArrayByteLengthRangeExclusive(startAfter, endBefore));
 	}
 
-	public lengthLt(length: number) {
-		return this.addConstraint(typedArrayLengthLt(length));
+	public lengthLessThan(length: number) {
+		return this.addConstraint(typedArrayLengthLessThan(length));
 	}
 
-	public lengthLe(length: number) {
-		return this.addConstraint(typedArrayLengthLe(length));
+	public lengthLessThanOrEqual(length: number) {
+		return this.addConstraint(typedArrayLengthLessThanOrEqual(length));
 	}
 
-	public lengthGt(length: number) {
-		return this.addConstraint(typedArrayLengthGt(length));
+	public lengthGreaterThan(length: number) {
+		return this.addConstraint(typedArrayLengthGreaterThan(length));
 	}
 
-	public lengthGe(length: number) {
-		return this.addConstraint(typedArrayLengthGe(length));
+	public lengthGreaterThanOrEqual(length: number) {
+		return this.addConstraint(typedArrayLengthGreaterThanOrEqual(length));
 	}
 
-	public lengthEq(length: number) {
-		return this.addConstraint(typedArrayLengthEq(length));
+	public lengthEqual(length: number) {
+		return this.addConstraint(typedArrayLengthEqual(length));
 	}
 
-	public lengthNe(length: number) {
-		return this.addConstraint(typedArrayLengthNe(length));
+	public lengthNotEqual(length: number) {
+		return this.addConstraint(typedArrayLengthNotEqual(length));
 	}
 
 	public lengthRange(start: number, endBefore: number) {

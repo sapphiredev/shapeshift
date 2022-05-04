@@ -81,7 +81,7 @@ export class Shapes {
 	}
 
 	public literal<T>(value: T): BaseValidator<T> {
-		if (value instanceof Date) return this.date.eq(value) as unknown as BaseValidator<T>;
+		if (value instanceof Date) return this.date.equal(value) as unknown as BaseValidator<T>;
 		return new LiteralValidator(value);
 	}
 

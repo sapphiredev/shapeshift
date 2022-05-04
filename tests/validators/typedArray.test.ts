@@ -169,8 +169,8 @@ describe('TypedArray', () => {
 		});
 	});
 
-	describe('lengthEq', () => {
-		const bytePredicate = s.typedArray().byteLengthEq(10);
+	describe('lengthEqual', () => {
+		const bytePredicate = s.typedArray().byteLengthEqual(10);
 
 		test('GIVEN typed array with byte length 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(10);
@@ -179,11 +179,11 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).byteLengthEq', 'Invalid Typed Array byte length', input, 'expected.byteLength === 10')
+				new ExpectedConstraintError('s.typedArray(T).byteLengthEqual', 'Invalid Typed Array byte length', input, 'expected.byteLength === 10')
 			);
 		});
 
-		const lengthPredicate = s.typedArray().lengthEq(10);
+		const lengthPredicate = s.typedArray().lengthEqual(10);
 
 		test('GIVEN typed array with length 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(10);
@@ -192,13 +192,13 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).lengthEq', 'Invalid Typed Array length', input, 'expected.length === 10')
+				new ExpectedConstraintError('s.typedArray(T).lengthEqual', 'Invalid Typed Array length', input, 'expected.length === 10')
 			);
 		});
 	});
 
-	describe('lengthNe', () => {
-		const bytePredicate = s.typedArray().byteLengthNe(10);
+	describe('lengthNotEqual', () => {
+		const bytePredicate = s.typedArray().byteLengthNotEqual(10);
 
 		test.each([new Uint8Array(5), new Uint8Array(15)])('GIVEN typed array with byte length 5 THEN return the input', (input) => {
 			expect(bytePredicate.parse(input)).toBe(input);
@@ -207,7 +207,7 @@ describe('TypedArray', () => {
 		test('GIVEN a typed array of byte length 10 THEN throw', () => {
 			expect(() => bytePredicate.parse(new Uint8Array(10))).toThrow(
 				new ExpectedConstraintError(
-					's.typedArray(T).byteLengthNe',
+					's.typedArray(T).byteLengthNotEqual',
 					'Invalid Typed Array byte length',
 					new Uint8Array(10),
 					'expected.byteLength !== 10'
@@ -215,20 +215,25 @@ describe('TypedArray', () => {
 			);
 		});
 
-		const lengthPredicate = s.typedArray().lengthNe(10);
+		const lengthPredicate = s.typedArray().lengthNotEqual(10);
 		test.each([new Uint8Array(5), new Uint8Array(15)])('GIVEN typed array with length 5 THEN return the input', (input) => {
 			expect(lengthPredicate.parse(input)).toBe(input);
 		});
 
 		test('GIVEN a typed array of length 10 THEN throw', () => {
 			expect(() => lengthPredicate.parse(new Uint8Array(10))).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).lengthNe', 'Invalid Typed Array length', new Uint8Array(10), 'expected.length !== 10')
+				new ExpectedConstraintError(
+					's.typedArray(T).lengthNotEqual',
+					'Invalid Typed Array length',
+					new Uint8Array(10),
+					'expected.length !== 10'
+				)
 			);
 		});
 	});
 
-	describe('lengthLt', () => {
-		const bytePredicate = s.typedArray().byteLengthLt(10);
+	describe('lengthLessThan', () => {
+		const bytePredicate = s.typedArray().byteLengthLessThan(10);
 
 		test('GIVEN typed array with byte length < 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(5);
@@ -237,11 +242,16 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(10)])('GIVEN %p THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).byteLengthLt', 'Invalid Typed Array byte length', input, 'expected.byteLength < 10')
+				new ExpectedConstraintError(
+					's.typedArray(T).byteLengthLessThan',
+					'Invalid Typed Array byte length',
+					input,
+					'expected.byteLength < 10'
+				)
 			);
 		});
 
-		const lengthPredicate = s.typedArray().lengthLt(10);
+		const lengthPredicate = s.typedArray().lengthLessThan(10);
 
 		test('GIVEN typed array with length < 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(5);
@@ -250,13 +260,13 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(10)])('GIVEN %p THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).lengthLt', 'Invalid Typed Array length', input, 'expected.length < 10')
+				new ExpectedConstraintError('s.typedArray(T).lengthLessThan', 'Invalid Typed Array length', input, 'expected.length < 10')
 			);
 		});
 	});
 
-	describe('lengthLe', () => {
-		const bytePredicate = s.typedArray().byteLengthLe(10);
+	describe('lengthLessThanOrEqual', () => {
+		const bytePredicate = s.typedArray().byteLengthLessThanOrEqual(10);
 
 		test('GIVEN typed array with byte length <= 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(5);
@@ -265,11 +275,16 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(11)])('GIVEN %p THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).byteLengthLe', 'Invalid Typed Array byte length', input, 'expected.byteLength <= 10')
+				new ExpectedConstraintError(
+					's.typedArray(T).byteLengthLessThanOrEqual',
+					'Invalid Typed Array byte length',
+					input,
+					'expected.byteLength <= 10'
+				)
 			);
 		});
 
-		const lengthPredicate = s.typedArray().lengthLe(10);
+		const lengthPredicate = s.typedArray().lengthLessThanOrEqual(10);
 
 		test('GIVEN typed array with length <= 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(5);
@@ -278,13 +293,13 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(11)])('GIVEN %p THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).lengthLe', 'Invalid Typed Array length', input, 'expected.length <= 10')
+				new ExpectedConstraintError('s.typedArray(T).lengthLessThanOrEqual', 'Invalid Typed Array length', input, 'expected.length <= 10')
 			);
 		});
 	});
 
-	describe('lengthGt', () => {
-		const bytePredicate = s.typedArray().byteLengthGt(10);
+	describe('lengthGreaterThan', () => {
+		const bytePredicate = s.typedArray().byteLengthGreaterThan(10);
 
 		test('GIVEN typed array with byte length > 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(15);
@@ -293,11 +308,16 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).byteLengthGt', 'Invalid Typed Array byte length', input, 'expected.byteLength > 10')
+				new ExpectedConstraintError(
+					's.typedArray(T).byteLengthGreaterThan',
+					'Invalid Typed Array byte length',
+					input,
+					'expected.byteLength > 10'
+				)
 			);
 		});
 
-		const lengthPredicate = s.typedArray().lengthGt(10);
+		const lengthPredicate = s.typedArray().lengthGreaterThan(10);
 
 		test('GIVEN typed array with length > 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(15);
@@ -306,13 +326,13 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).lengthGt', 'Invalid Typed Array length', input, 'expected.length > 10')
+				new ExpectedConstraintError('s.typedArray(T).lengthGreaterThan', 'Invalid Typed Array length', input, 'expected.length > 10')
 			);
 		});
 	});
 
-	describe('lengthGe', () => {
-		const bytePredicate = s.typedArray().byteLengthGe(10);
+	describe('lengthGreaterThanOrEqual', () => {
+		const bytePredicate = s.typedArray().byteLengthGreaterThanOrEqual(10);
 
 		test('GIVEN typed array with byte length >= 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(15);
@@ -321,11 +341,16 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).byteLengthGe', 'Invalid Typed Array byte length', input, 'expected.byteLength >= 10')
+				new ExpectedConstraintError(
+					's.typedArray(T).byteLengthGreaterThanOrEqual',
+					'Invalid Typed Array byte length',
+					input,
+					'expected.byteLength >= 10'
+				)
 			);
 		});
 
-		const lengthPredicate = s.typedArray().lengthGe(10);
+		const lengthPredicate = s.typedArray().lengthGreaterThanOrEqual(10);
 
 		test('GIVEN typed array with length >= 10 THEN return the input', () => {
 			const typedArray = new Uint8Array(15);
@@ -334,7 +359,7 @@ describe('TypedArray', () => {
 
 		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
-				new ExpectedConstraintError('s.typedArray(T).lengthGe', 'Invalid Typed Array length', input, 'expected.length >= 10')
+				new ExpectedConstraintError('s.typedArray(T).lengthGreaterThanOrEqual', 'Invalid Typed Array length', input, 'expected.length >= 10')
 			);
 		});
 	});
@@ -449,7 +474,7 @@ describe('TypedArray', () => {
 	});
 
 	describe('Clone', () => {
-		const predicate = s.typedArray().byteLengthEq(20);
+		const predicate = s.typedArray().byteLengthEqual(20);
 
 		test('GIVEN clone THEN returns similar instance', () => {
 			// eslint-disable-next-line @typescript-eslint/dot-notation

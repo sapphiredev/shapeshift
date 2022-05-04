@@ -1,53 +1,51 @@
 export type {
 	ArrayConstraintName,
-	arrayLengthEq,
-	arrayLengthGe,
-	arrayLengthGt,
-	arrayLengthLe,
-	arrayLengthLt,
-	arrayLengthNe,
+	arrayLengthEqual,
+	arrayLengthGreaterThan,
+	arrayLengthGreaterThanOrEqual,
+	arrayLengthLessThan,
+	arrayLengthLessThanOrEqual,
+	arrayLengthNotEqual,
 	arrayLengthRange,
 	arrayLengthRangeExclusive,
 	arrayLengthRangeInclusive
 } from './ArrayLengthConstraints';
-export type {
-	TypedArrayConstraintName,
-	typedArrayByteLengthEq,
-	typedArrayByteLengthGe,
-	typedArrayByteLengthGt,
-	typedArrayByteLengthLe,
-	typedArrayByteLengthLt,
-	typedArrayByteLengthNe,
-	typedArrayByteLengthRange,
-	typedArrayByteLengthRangeExclusive,
-	typedArrayByteLengthRangeInclusive,
-	typedArrayLengthEq,
-	typedArrayLengthGe,
-	typedArrayLengthGt,
-	typedArrayLengthLe,
-	typedArrayLengthLt,
-	typedArrayLengthNe,
-	typedArrayLengthRange,
-	typedArrayLengthRangeExclusive,
-	typedArrayLengthRangeInclusive
-} from './TypedArrayLengthConstraints';
 export type { IConstraint } from './base/IConstraint';
-export type { BigIntConstraintName, bigintDivisibleBy, bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe } from './BigIntConstraints';
+export type {
+	BigIntConstraintName,
+	bigintDivisibleBy,
+	bigintEqual,
+	bigintGreaterThan,
+	bigintGreaterThanOrEqual,
+	bigintLessThan,
+	bigintLessThanOrEqual,
+	bigintNotEqual
+} from './BigIntConstraints';
 export type { BooleanConstraintName, booleanFalse, booleanTrue } from './BooleanConstraints';
-export type { DateConstraintName, dateEq, dateGe, dateGt, dateInvalid, dateLe, dateLt, dateNe, dateValid } from './DateConstraints';
+export type {
+	DateConstraintName,
+	dateEqual,
+	dateGreaterThan,
+	dateGreaterThanOrEqual,
+	dateInvalid,
+	dateLessThan,
+	dateLessThanOrEqual,
+	dateNotEqual,
+	dateValid
+} from './DateConstraints';
 export type {
 	NumberConstraintName,
 	numberDivisibleBy,
-	numberEq,
+	numberEqual,
 	numberFinite,
-	numberGe,
-	numberGt,
+	numberGreaterThan,
+	numberGreaterThanOrEqual,
 	numberInt,
-	numberLe,
-	numberLt,
+	numberLessThan,
+	numberLessThanOrEqual,
 	numberNaN,
-	numberNe,
-	numberNeNaN,
+	numberNotEqual,
+	numberNotNaN,
 	numberSafeInt
 } from './NumberConstraints';
 export type {
@@ -55,12 +53,12 @@ export type {
 	StringDomain,
 	stringEmail,
 	stringIp,
-	stringLengthEq,
-	stringLengthGe,
-	stringLengthGt,
-	stringLengthLe,
-	stringLengthLt,
-	stringLengthNe,
+	stringLengthEqual,
+	stringLengthGreaterThan,
+	stringLengthGreaterThanOrEqual,
+	stringLengthLessThan,
+	stringLengthLessThanOrEqual,
+	stringLengthNotEqual,
 	StringProtocol,
 	stringRegex,
 	stringUrl,
@@ -69,3 +67,24 @@ export type {
 	UrlOptions,
 	UUIDVersion
 } from './StringConstraints';
+export type {
+	typedArrayByteLengthEqual,
+	typedArrayByteLengthGreaterThan,
+	typedArrayByteLengthGreaterThanOrEqual,
+	typedArrayByteLengthLessThan,
+	typedArrayByteLengthLessThanOrEqual,
+	typedArrayByteLengthNotEqual,
+	typedArrayByteLengthRange,
+	typedArrayByteLengthRangeExclusive,
+	typedArrayByteLengthRangeInclusive,
+	TypedArrayConstraintName,
+	typedArrayLengthEqual,
+	typedArrayLengthGreaterThan,
+	typedArrayLengthGreaterThanOrEqual,
+	typedArrayLengthLessThan,
+	typedArrayLengthLessThanOrEqual,
+	typedArrayLengthNotEqual,
+	typedArrayLengthRange,
+	typedArrayLengthRangeExclusive,
+	typedArrayLengthRangeInclusive
+} from './TypedArrayLengthConstraints';

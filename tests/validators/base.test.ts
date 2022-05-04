@@ -193,34 +193,34 @@ describe('BaseValidator', () => {
 		test('GIVEN string.length constraint THEN returns modified clone of the validator', () => {
 			const stringPredicate = s.string;
 
-			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthEq(1));
-			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthGe(1));
-			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthGt(1));
-			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthLe(1));
-			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthLt(1));
-			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthNe(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthEqual(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthGreaterThanOrEqual(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthGreaterThan(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthLessThanOrEqual(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthLessThan(1));
+			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthNotEqual(1));
 		});
 
 		test('GIVEN number.comparator constraint THEN returns modified clone of the validator', () => {
 			const numberPredicate = s.number;
 
-			expectModifiedClonedValidator(numberPredicate, numberPredicate.eq(1));
-			expectModifiedClonedValidator(numberPredicate, numberPredicate.ge(1));
-			expectModifiedClonedValidator(numberPredicate, numberPredicate.gt(1));
-			expectModifiedClonedValidator(numberPredicate, numberPredicate.le(1));
-			expectModifiedClonedValidator(numberPredicate, numberPredicate.lt(1));
-			expectModifiedClonedValidator(numberPredicate, numberPredicate.ne(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.equal(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.greaterThanOrEqual(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.greaterThan(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.lessThanOrEqual(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.lessThan(1));
+			expectModifiedClonedValidator(numberPredicate, numberPredicate.notEqual(1));
 		});
 
 		test('GIVEN bigint.comparator constraint THEN returns modified clone of the validator', () => {
 			const bigintPredicate = s.bigint;
 
-			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.eq(1n));
-			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.ge(1n));
-			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.gt(1n));
-			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.le(1n));
-			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.lt(1n));
-			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.ne(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.equal(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.greaterThanOrEqual(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.greaterThan(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.lessThanOrEqual(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.lessThan(1n));
+			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.notEqual(1n));
 		});
 	});
 });
