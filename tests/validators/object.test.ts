@@ -1,4 +1,12 @@
-import { CombinedPropertyError, MissingPropertyError, s, UnknownPropertyError, ValidationError } from '../../src';
+import {
+	CombinedError,
+	CombinedPropertyError,
+	ExpectedValidationError,
+	MissingPropertyError,
+	s,
+	UnknownPropertyError,
+	ValidationError
+} from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('ObjectValidator', () => {
@@ -44,6 +52,68 @@ describe('ObjectValidator', () => {
 				['password', new ValidationError('s.string', 'Expected a string primitive', true)]
 			])
 		);
+	});
+
+	test('GIVEN LiteralValidator with undefined THEN it should be counted as a possibly undefined key', () => {
+		const predicate = s.object({
+			owo: s.undefined
+		});
+
+		expect(predicate['possiblyUndefinedKeys'].size).toEqual(1);
+	});
+
+	test('GIVEN LiteralValidator with null THEN it should be counted as a required key', () => {
+		const predicate = s.object({
+			owo: s.null
+		});
+
+		expect(predicate['requiredKeys'].size).toEqual(1);
+	});
+
+	test('GIVEN NullishValidator then it should count as a possibly undefined key', () => {
+		const predicate = s.object({
+			owo: s.nullish
+		});
+
+		expect(predicate['possiblyUndefinedKeys'].size).toEqual(1);
+	});
+
+	test('GIVEN UnionValidator with NullishValidator inside THEN it should be counted as a possibly undefined key', () => {
+		const predicate = s.object({
+			owo: s.string.nullish
+		});
+
+		expect(predicate['possiblyUndefinedKeys'].size).toEqual(1);
+	});
+
+	test("GIVEN UnionValidator with LiteralValidator with 'owo' THEN it should be counted as a required key", () => {
+		const predicate = s.object({
+			owo: s.union(s.literal('owo'), s.number)
+		});
+
+		expect(predicate['requiredKeys'].size).toEqual(1);
+	});
+
+	test('GIVEN UnionValidator with LiteralValidator with null THEN it should be counted as a required key', () => {
+		const predicate = s.object({
+			owo: s.union(s.string, s.literal(null))
+		});
+
+		expect(predicate['requiredKeys'].size).toEqual(1);
+	});
+
+	// Unit test for lines 167-190 of ObjectValidator.ts
+	test('GIVEN a big schema THEN it should validate using the shortest possible solution', () => {
+		const predicate = s.object({
+			a: s.string,
+			b: s.string,
+			c: s.string.optional,
+			d: s.string.optional,
+			e: s.string.optional
+		});
+
+		expect(predicate.parse({ a: 'a', b: 'b', c: 'c', d: 'd' })).toStrictEqual({ a: 'a', b: 'b', c: 'c', d: 'd' });
+		expect(predicate.parse({ a: 'a', b: 'b', c: 'c', d: 'd', e: 'e', f: 'f', g: 'g' })).toStrictEqual({ a: 'a', b: 'b', c: 'c', d: 'd', e: 'e' });
 	});
 
 	describe('Strict', () => {
@@ -96,6 +166,12 @@ describe('ObjectValidator', () => {
 				username: 'Sapphire',
 				password: 'helloworld'
 			});
+
+			expect(optionalStrict.parse({ username: 'Sapphire', password: 'helloworld', optionalKey: 'pog' })).toStrictEqual({
+				username: 'Sapphire',
+				password: 'helloworld',
+				optionalKey: 'pog'
+			});
 		});
 	});
 
@@ -113,6 +189,25 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => ignorePredicate.parse({ username: 'Sapphire' }),
 				new CombinedPropertyError([['password', new MissingPropertyError('password')]])
+			);
+		});
+
+		test('GIVEN matching keys with an optional key that fails validation, THEN throws CombinedPropertyError with ValidationError', () => {
+			const predicate = ignorePredicate.extend({
+				owo: s.boolean.optional
+			});
+
+			expectError(
+				() => predicate.parse({ username: 'Sapphire', password: 'helloworld', owo: 'owo' }),
+				new CombinedPropertyError([
+					[
+						'owo',
+						new CombinedError([
+							new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', 'owo', undefined),
+							new ValidationError('s.boolean', 'Expected a boolean primitive', 'owo')
+						])
+					]
+				])
 			);
 		});
 	});

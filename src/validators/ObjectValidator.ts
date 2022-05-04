@@ -17,7 +17,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	private readonly keys: readonly (keyof T)[] = [];
 	private readonly handleStrategy: (value: NonNullObject) => Result<T, CombinedPropertyError>;
 
-	private readonly requiredValues = new Map<keyof T, BaseValidator<unknown>>();
+	private readonly requiredKeys = new Map<keyof T, BaseValidator<unknown>>();
 	private readonly possiblyUndefinedKeys = new Map<keyof T, BaseValidator<unknown>>();
 
 	public constructor(
@@ -55,10 +55,10 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 					if (possiblyLiteralOrNullishPredicate.expected === undefined) {
 						this.possiblyUndefinedKeys.set(key, validator);
 					} else {
-						this.requiredValues.set(key, validator);
+						this.requiredKeys.set(key, validator);
 					}
 				} else {
-					this.requiredValues.set(key, validator);
+					this.requiredKeys.set(key, validator);
 				}
 			} else if (validator instanceof NullishValidator) {
 				this.possiblyUndefinedKeys.set(key, validator);
@@ -66,10 +66,10 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 				if (validator.expected === undefined) {
 					this.possiblyUndefinedKeys.set(key, validator);
 				} else {
-					this.requiredValues.set(key, validator);
+					this.requiredKeys.set(key, validator);
 				}
 			} else {
-				this.requiredValues.set(key, validator);
+				this.requiredKeys.set(key, validator);
 			}
 		}
 	}
@@ -139,15 +139,11 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 				finalObject[key] = result.value as T[keyof T];
 			} else {
 				const error = result.error!;
-				if (error instanceof ValidationError && error.given === undefined) {
-					errors.push([key, new MissingPropertyError(key)]);
-				} else {
-					errors.push([key, error]);
-				}
+				errors.push([key, error]);
 			}
 		};
 
-		for (const [key, predicate] of this.requiredValues) {
+		for (const [key, predicate] of this.requiredKeys) {
 			if (inputEntries.delete(key)) {
 				runPredicate(key, predicate);
 			} else {
@@ -176,12 +172,6 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			}
 		} else {
 			for (const [key, predicate] of this.possiblyUndefinedKeys) {
-				// All of these validators are assumed to be possibly undefined, so if we have gone through the entire object and there's still validators,
-				// safe to assume we're done here
-				if (inputEntries.size === 0) {
-					break;
-				}
-
 				if (inputEntries.delete(key)) {
 					runPredicate(key, predicate);
 				}
@@ -190,7 +180,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 
 		return errors.length === 0 //
 			? Result.ok(finalObject)
-			: Result.err(new CombinedPropertyError([]));
+			: Result.err(new CombinedPropertyError(errors));
 	}
 
 	private handleStrictStrategy(value: NonNullObject): Result<T, CombinedPropertyError> {
@@ -205,15 +195,11 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 				finalResult[key] = result.value as T[keyof T];
 			} else {
 				const error = result.error!;
-				if (error instanceof ValidationError && error.given === undefined) {
-					errors.push([key, new MissingPropertyError(key)]);
-				} else {
-					errors.push([key, error]);
-				}
+				errors.push([key, error]);
 			}
 		};
 
-		for (const [key, predicate] of this.requiredValues) {
+		for (const [key, predicate] of this.requiredKeys) {
 			if (inputEntries.delete(key)) {
 				runPredicate(key, predicate);
 			} else {
