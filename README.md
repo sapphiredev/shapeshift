@@ -241,6 +241,90 @@ const animal = s.object({
 });
 ```
 
+##### Utility types for TypeScript
+
+For object validation Shapeshift exports 2 utility types that can be used to extract interfaces from schemas and define the structure of a schema as an interface beforehand respectively.
+
+###### Extracting an interface from a schema
+
+You can use the `InferType` type to extract the interface from a schema, for example:
+
+```typescript
+import { InferType, s } from '@sapphire/shapeshift';
+
+const schema = s.object({
+	foo: s.string,
+	bar: s.number,
+	baz: s.boolean,
+	qux: s.bigint,
+	quux: s.date
+});
+
+type Inferredtype = InferType<typeof schema>;
+
+// Expected type:
+type Inferredtype = {
+	foo: string;
+	bar: number;
+	baz: boolean;
+	qux: bigint;
+	quux: Date;
+};
+```
+
+###### Defining the structure of a schema through an interface
+
+You can use the `SchemaOf` type to define the structure of a schema before defining the actual schema, for example:
+
+```typescript
+import { s, SchemaOf } from '@sapphire/shapeshift';
+
+interface IIngredient {
+	ingredientId: string | undefined;
+	name: string | undefined;
+}
+
+interface IInstruction {
+	instructionId: string | undefined;
+	message: string | undefined;
+}
+
+interface IRecipe {
+	recipeId: string | undefined;
+	title: string;
+	description: string;
+	instructions: IInstruction[];
+	ingredients: IIngredient[];
+}
+
+type InstructionSchemaType = SchemaOf<IInstruction>;
+// Expected Type: ObjectValidator<IInstruction>
+
+type IngredientSchemaType = SchemaOf<IIngredient>;
+// Expected Type: ObjectValidator<IIngredient>
+
+type RecipeSchemaType = SchemaOf<IRecipe>;
+// Expected Type: ObjectValidator<IRecipe>
+
+const instructionSchema: InstructionSchemaType = s.object({
+	instructionId: s.string.optional,
+	message: s.string
+});
+
+const ingredientSchema: IngredientSchemaType = s.object({
+	ingredientId: s.string.optional,
+	name: s.string
+});
+
+const recipeSchema: RecipeSchemaType = s.object({
+	recipeId: s.string.optional,
+	title: s.string,
+	description: s.string,
+	instructions: s.array(instructionSchema),
+	ingredients: s.array(ingredientSchema)
+});
+```
+
 ##### `.extend`:
 
 You can add additional fields using either an object or an ObjectValidator, in this case, you will get a new object validator with the merged properties:

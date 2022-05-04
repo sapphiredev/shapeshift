@@ -4,7 +4,7 @@ import type { ObjectValidator } from './validators/ObjectValidator';
  * An alias of {@link ObjectValidator} with a name more common among object validation libraries.
  * This is the type of a schema after using `s.object({ ... })`
  * @example
- * ```ts
+ * ```typescript
  * import { s, SchemaOf } from '@sapphire/shapeshift';
  *
  * interface IIngredient {
@@ -59,7 +59,7 @@ export type SchemaOf<T> = ObjectValidator<T>;
  * Infers the type of a schema object given `typeof schema`.
  * The schema has to extend {@link ObjectValidator}.
  * @example
- * ```ts
+ * ```typescript
  * import { InferType, s } from '@sapphire/shapeshift';
  *
  * const schema = s.object({
