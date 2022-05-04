@@ -1,53 +1,51 @@
 export type {
 	ArrayConstraintName,
-	arrayLengthEq,
-	arrayLengthGe,
-	arrayLengthGt,
-	arrayLengthLe,
-	arrayLengthLt,
-	arrayLengthNe,
+	arrayLengthEqual as arrayLengthEq,
+	arrayLengthGreaterThan as arrayLengthGt,
+	arrayLengthGreaterThanOrEqual as arrayLengthGe,
+	arrayLengthLessThan as arrayLengthLt,
+	arrayLengthLessThanOrEqual as arrayLengthLe,
+	arrayLengthNotEqual as arrayLengthNe,
 	arrayLengthRange,
 	arrayLengthRangeExclusive,
 	arrayLengthRangeInclusive
 } from './ArrayLengthConstraints';
-export type {
-	TypedArrayConstraintName,
-	typedArrayByteLengthEq,
-	typedArrayByteLengthGe,
-	typedArrayByteLengthGt,
-	typedArrayByteLengthLe,
-	typedArrayByteLengthLt,
-	typedArrayByteLengthNe,
-	typedArrayByteLengthRange,
-	typedArrayByteLengthRangeExclusive,
-	typedArrayByteLengthRangeInclusive,
-	typedArrayLengthEq,
-	typedArrayLengthGe,
-	typedArrayLengthGt,
-	typedArrayLengthLe,
-	typedArrayLengthLt,
-	typedArrayLengthNe,
-	typedArrayLengthRange,
-	typedArrayLengthRangeExclusive,
-	typedArrayLengthRangeInclusive
-} from './TypedArrayLengthConstraints';
 export type { IConstraint } from './base/IConstraint';
-export type { BigIntConstraintName, bigintDivisibleBy, bigintEq, bigintGe, bigintGt, bigintLe, bigintLt, bigintNe } from './BigIntConstraints';
+export type {
+	BigIntConstraintName,
+	bigintDivisibleBy,
+	bigintEqual as bigintEq,
+	bigintGreaterThan as bigintGt,
+	bigintGreaterThanOrEqual as bigintGe,
+	bigintLessThan as bigintLt,
+	bigintLessThanOrEqual as bigintLe,
+	bigintNotEqual as bigintNe
+} from './BigIntConstraints';
 export type { BooleanConstraintName, booleanFalse, booleanTrue } from './BooleanConstraints';
-export type { DateConstraintName, dateEq, dateGe, dateGt, dateInvalid, dateLe, dateLt, dateNe, dateValid } from './DateConstraints';
+export type {
+	DateConstraintName,
+	dateEqual as dateEq,
+	dateGreaterThan as dateGt,
+	dateGreaterThanOrEqual as dateGe,
+	dateInvalid,
+	dateLessThan as dateLt,
+	dateLessThanOrEqual as dateLe,
+	dateNotEqual as dateNe,
+	dateValid
+} from './DateConstraints';
 export type {
 	NumberConstraintName,
 	numberDivisibleBy,
-	numberEq,
+	numberEqual as numberEq,
 	numberFinite,
-	numberGe,
-	numberGt,
+	numberGreaterThan as numberGt,
+	numberGreaterThanOrEqual as numberGe,
 	numberInt,
-	numberLe,
-	numberLt,
+	numberLessThan as numberLt,
+	numberLessThanOrEqual as numberLe,
 	numberNaN,
-	numberNe,
-	numberNeNaN,
+	numberNotEqual as numberNe,
+	numberNotNaN as numberNeNaN,
 	numberSafeInt
 } from './NumberConstraints';
 export type {
@@ -55,12 +53,12 @@ export type {
 	StringDomain,
 	stringEmail,
 	stringIp,
-	stringLengthEq,
-	stringLengthGe,
-	stringLengthGt,
-	stringLengthLe,
-	stringLengthLt,
-	stringLengthNe,
+	stringLengthEqual as stringLengthEq,
+	stringLengthGreaterThan as stringLengthGt,
+	stringLengthGreaterThanOrEqual as stringLengthGe,
+	stringLengthLessThan as stringLengthLt,
+	stringLengthLessThanOrEqual as stringLengthLe,
+	stringLengthNotEqual as stringLengthNe,
 	StringProtocol,
 	stringRegex,
 	stringUrl,
@@ -69,3 +67,24 @@ export type {
 	UrlOptions,
 	UUIDVersion
 } from './StringConstraints';
+export type {
+	typedArrayByteLengthEqual as typedArrayByteLengthEq,
+	typedArrayByteLengthGreaterThan as typedArrayByteLengthGt,
+	typedArrayByteLengthGreaterThanOrEqual as typedArrayByteLengthGe,
+	typedArrayByteLengthLessThan as typedArrayByteLengthLt,
+	typedArrayByteLengthLessThanOrEqual as typedArrayByteLengthLe,
+	typedArrayByteLengthNotEqual as typedArrayByteLengthNe,
+	typedArrayByteLengthRange,
+	typedArrayByteLengthRangeExclusive,
+	typedArrayByteLengthRangeInclusive,
+	TypedArrayConstraintName,
+	typedArrayLengthEqual as typedArrayLengthEq,
+	typedArrayLengthGreaterThan as typedArrayLengthGt,
+	typedArrayLengthGreaterThanOrEqual as typedArrayLengthGe,
+	typedArrayLengthLessThan as typedArrayLengthLt,
+	typedArrayLengthLessThanOrEqual as typedArrayLengthLe,
+	typedArrayLengthNotEqual as typedArrayLengthNe,
+	typedArrayLengthRange,
+	typedArrayLengthRangeExclusive,
+	typedArrayLengthRangeInclusive
+} from './TypedArrayLengthConstraints';

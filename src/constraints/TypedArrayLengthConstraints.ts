@@ -1,16 +1,16 @@
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
-import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
+import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
 import type { TypedArray } from './util/typedArray';
 
 export type TypedArrayConstraintName = `s.typedArray(T).${'byteLength' | 'length'}${
-	| 'Lt'
-	| 'Le'
-	| 'Gt'
-	| 'Ge'
-	| 'Eq'
-	| 'Ne'
+	| 'LessThan'
+	| 'LessThanOrEqual'
+	| 'GreaterThan'
+	| 'GreaterThanOrEqual'
+	| 'Equal'
+	| 'NotEqual'
 	| 'Range'
 	| 'RangeInclusive'
 	| 'RangeExclusive'}`;
@@ -30,34 +30,34 @@ function typedArrayByteLengthComparator<T extends TypedArray>(
 	};
 }
 
-export function typedArrayByteLengthLt<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayByteLengthLessThan<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.byteLength < ${value}`;
-	return typedArrayByteLengthComparator(lt, 's.typedArray(T).byteLengthLt', expected, value);
+	return typedArrayByteLengthComparator(lessThan, 's.typedArray(T).byteLengthLessThan', expected, value);
 }
 
-export function typedArrayByteLengthLe<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayByteLengthLessThanOrEqual<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.byteLength <= ${value}`;
-	return typedArrayByteLengthComparator(le, 's.typedArray(T).byteLengthLe', expected, value);
+	return typedArrayByteLengthComparator(lessThanOrEqual, 's.typedArray(T).byteLengthLessThanOrEqual', expected, value);
 }
 
-export function typedArrayByteLengthGt<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayByteLengthGreaterThan<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.byteLength > ${value}`;
-	return typedArrayByteLengthComparator(gt, 's.typedArray(T).byteLengthGt', expected, value);
+	return typedArrayByteLengthComparator(greaterThan, 's.typedArray(T).byteLengthGreaterThan', expected, value);
 }
 
-export function typedArrayByteLengthGe<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayByteLengthGreaterThanOrEqual<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.byteLength >= ${value}`;
-	return typedArrayByteLengthComparator(ge, 's.typedArray(T).byteLengthGe', expected, value);
+	return typedArrayByteLengthComparator(greaterThanOrEqual, 's.typedArray(T).byteLengthGreaterThanOrEqual', expected, value);
 }
 
-export function typedArrayByteLengthEq<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayByteLengthEqual<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.byteLength === ${value}`;
-	return typedArrayByteLengthComparator(eq, 's.typedArray(T).byteLengthEq', expected, value);
+	return typedArrayByteLengthComparator(equal, 's.typedArray(T).byteLengthEqual', expected, value);
 }
 
-export function typedArrayByteLengthNe<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayByteLengthNotEqual<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.byteLength !== ${value}`;
-	return typedArrayByteLengthComparator(ne, 's.typedArray(T).byteLengthNe', expected, value);
+	return typedArrayByteLengthComparator(notEqual, 's.typedArray(T).byteLengthNotEqual', expected, value);
 }
 
 export function typedArrayByteLengthRange<T extends TypedArray>(start: number, endBefore: number): IConstraint<T> {
@@ -112,34 +112,34 @@ function typedArrayLengthComparator<T extends TypedArray>(
 	};
 }
 
-export function typedArrayLengthLt<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayLengthLessThan<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.length < ${value}`;
-	return typedArrayLengthComparator(lt, 's.typedArray(T).lengthLt', expected, value);
+	return typedArrayLengthComparator(lessThan, 's.typedArray(T).lengthLessThan', expected, value);
 }
 
-export function typedArrayLengthLe<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayLengthLessThanOrEqual<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.length <= ${value}`;
-	return typedArrayLengthComparator(le, 's.typedArray(T).lengthLe', expected, value);
+	return typedArrayLengthComparator(lessThanOrEqual, 's.typedArray(T).lengthLessThanOrEqual', expected, value);
 }
 
-export function typedArrayLengthGt<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayLengthGreaterThan<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.length > ${value}`;
-	return typedArrayLengthComparator(gt, 's.typedArray(T).lengthGt', expected, value);
+	return typedArrayLengthComparator(greaterThan, 's.typedArray(T).lengthGreaterThan', expected, value);
 }
 
-export function typedArrayLengthGe<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayLengthGreaterThanOrEqual<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.length >= ${value}`;
-	return typedArrayLengthComparator(ge, 's.typedArray(T).lengthGe', expected, value);
+	return typedArrayLengthComparator(greaterThanOrEqual, 's.typedArray(T).lengthGreaterThanOrEqual', expected, value);
 }
 
-export function typedArrayLengthEq<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayLengthEqual<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.length === ${value}`;
-	return typedArrayLengthComparator(eq, 's.typedArray(T).lengthEq', expected, value);
+	return typedArrayLengthComparator(equal, 's.typedArray(T).lengthEqual', expected, value);
 }
 
-export function typedArrayLengthNe<T extends TypedArray>(value: number): IConstraint<T> {
+export function typedArrayLengthNotEqual<T extends TypedArray>(value: number): IConstraint<T> {
 	const expected = `expected.length !== ${value}`;
-	return typedArrayLengthComparator(ne, 's.typedArray(T).lengthNe', expected, value);
+	return typedArrayLengthComparator(notEqual, 's.typedArray(T).lengthNotEqual', expected, value);
 }
 
 export function typedArrayLengthRange<T extends TypedArray>(start: number, endBefore: number): IConstraint<T> {

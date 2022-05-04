@@ -1,9 +1,17 @@
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
-import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
+import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
 
-export type DateConstraintName = `s.date.${'lt' | 'le' | 'gt' | 'ge' | 'eq' | 'ne' | 'valid' | 'invalid'}`;
+export type DateConstraintName = `s.date.${
+	| 'lessThan'
+	| 'lessThanOrEqual'
+	| 'greaterThan'
+	| 'greaterThanOrEqual'
+	| 'equal'
+	| 'notEqual'
+	| 'valid'
+	| 'invalid'}`;
 
 function dateComparator(comparator: Comparator, name: DateConstraintName, expected: string, number: number): IConstraint<Date> {
 	return {
@@ -15,34 +23,34 @@ function dateComparator(comparator: Comparator, name: DateConstraintName, expect
 	};
 }
 
-export function dateLt(value: Date): IConstraint<Date> {
+export function dateLessThan(value: Date): IConstraint<Date> {
 	const expected = `expected < ${value.toISOString()}`;
-	return dateComparator(lt, 's.date.lt', expected, value.getTime());
+	return dateComparator(lessThan, 's.date.lessThan', expected, value.getTime());
 }
 
-export function dateLe(value: Date): IConstraint<Date> {
+export function dateLessThanOrEqual(value: Date): IConstraint<Date> {
 	const expected = `expected <= ${value.toISOString()}`;
-	return dateComparator(le, 's.date.le', expected, value.getTime());
+	return dateComparator(lessThanOrEqual, 's.date.lessThanOrEqual', expected, value.getTime());
 }
 
-export function dateGt(value: Date): IConstraint<Date> {
+export function dateGreaterThan(value: Date): IConstraint<Date> {
 	const expected = `expected > ${value.toISOString()}`;
-	return dateComparator(gt, 's.date.gt', expected, value.getTime());
+	return dateComparator(greaterThan, 's.date.greaterThan', expected, value.getTime());
 }
 
-export function dateGe(value: Date): IConstraint<Date> {
+export function dateGreaterThanOrEqual(value: Date): IConstraint<Date> {
 	const expected = `expected >= ${value.toISOString()}`;
-	return dateComparator(ge, 's.date.ge', expected, value.getTime());
+	return dateComparator(greaterThanOrEqual, 's.date.greaterThanOrEqual', expected, value.getTime());
 }
 
-export function dateEq(value: Date): IConstraint<Date> {
+export function dateEqual(value: Date): IConstraint<Date> {
 	const expected = `expected === ${value.toISOString()}`;
-	return dateComparator(eq, 's.date.eq', expected, value.getTime());
+	return dateComparator(equal, 's.date.equal', expected, value.getTime());
 }
 
-export function dateNe(value: Date): IConstraint<Date> {
+export function dateNotEqual(value: Date): IConstraint<Date> {
 	const expected = `expected !== ${value.toISOString()}`;
-	return dateComparator(ne, 's.date.ne', expected, value.getTime());
+	return dateComparator(notEqual, 's.date.notEqual', expected, value.getTime());
 }
 
 export const dateInvalid: IConstraint<Date> = {

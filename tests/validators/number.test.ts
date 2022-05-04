@@ -17,8 +17,8 @@ describe('NumberValidator', () => {
 	});
 
 	describe('Comparators', () => {
-		describe('lt', () => {
-			const ltPredicate = s.number.lt(42);
+		describe('lessThan', () => {
+			const ltPredicate = s.number.lessThan(42);
 
 			test.each([10])('GIVEN %d THEN returns given value', (value) => {
 				expect(ltPredicate.parse(value)).toBe(value);
@@ -27,13 +27,13 @@ describe('NumberValidator', () => {
 			test.each([42, 100])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => ltPredicate.parse(value),
-					new ExpectedConstraintError('s.number.lt', 'Invalid number value', value, 'expected < 42')
+					new ExpectedConstraintError('s.number.lessThan', 'Invalid number value', value, 'expected < 42')
 				);
 			});
 		});
 
-		describe('le', () => {
-			const lePredicate = s.number.le(42);
+		describe('lessThanOrEqual', () => {
+			const lePredicate = s.number.lessThanOrEqual(42);
 
 			test.each([10, 42])('GIVEN %d THEN returns given value', (input) => {
 				expect(lePredicate.parse(input)).toBe(input);
@@ -42,13 +42,13 @@ describe('NumberValidator', () => {
 			test.each([100])('GIVEN %d THEN throws ConstraintError', (input) => {
 				expectError(
 					() => lePredicate.parse(input),
-					new ExpectedConstraintError('s.number.le', 'Invalid number value', input, 'expected <= 42')
+					new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', input, 'expected <= 42')
 				);
 			});
 		});
 
-		describe('gt', () => {
-			const gtPredicate = s.number.gt(42);
+		describe('greaterThan', () => {
+			const gtPredicate = s.number.greaterThan(42);
 
 			test.each([100])('GIVEN %d THEN returns given value', (value) => {
 				expect(gtPredicate.parse(value)).toBe(value);
@@ -57,13 +57,13 @@ describe('NumberValidator', () => {
 			test.each([10, 42])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => gtPredicate.parse(value),
-					new ExpectedConstraintError('s.number.gt', 'Invalid number value', value, 'expected > 42')
+					new ExpectedConstraintError('s.number.greaterThan', 'Invalid number value', value, 'expected > 42')
 				);
 			});
 		});
 
-		describe('ge', () => {
-			const gePredicate = s.number.ge(42);
+		describe('greaterThanOrEqual', () => {
+			const gePredicate = s.number.greaterThanOrEqual(42);
 
 			test.each([42, 100])('GIVEN %d THEN returns given value', (value) => {
 				expect(gePredicate.parse(value)).toBe(value);
@@ -72,13 +72,13 @@ describe('NumberValidator', () => {
 			test.each([10])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => gePredicate.parse(value),
-					new ExpectedConstraintError('s.number.ge', 'Invalid number value', value, 'expected >= 42')
+					new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', value, 'expected >= 42')
 				);
 			});
 		});
 
-		describe('eq', () => {
-			const eqPredicate = s.number.eq(42);
+		describe('equal', () => {
+			const eqPredicate = s.number.equal(42);
 
 			test.each([42])('GIVEN %d THEN returns given value', (value) => {
 				expect(eqPredicate.parse(value)).toBe(value);
@@ -87,13 +87,13 @@ describe('NumberValidator', () => {
 			test.each([10, 100])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => eqPredicate.parse(value),
-					new ExpectedConstraintError('s.number.eq', 'Invalid number value', value, 'expected === 42')
+					new ExpectedConstraintError('s.number.equal', 'Invalid number value', value, 'expected === 42')
 				);
 			});
 		});
 
-		describe('eq(NaN)', () => {
-			const eqNanPredicate = s.number.eq(NaN);
+		describe('equal(NaN)', () => {
+			const eqNanPredicate = s.number.equal(NaN);
 
 			test.each([NaN])('GIVEN %d THEN returns given value', (input) => {
 				expect(eqNanPredicate.parse(input)).toBe(input);
@@ -102,13 +102,13 @@ describe('NumberValidator', () => {
 			test.each([safeInteger, unsafeInteger, 42.1, Infinity, -Infinity])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => eqNanPredicate.parse(input),
-					new ExpectedConstraintError('s.number.eq(NaN)', 'Invalid number value', input, 'expected === NaN')
+					new ExpectedConstraintError('s.number.equal(NaN)', 'Invalid number value', input, 'expected === NaN')
 				);
 			});
 		});
 
-		describe('ne', () => {
-			const nePredicate = s.number.ne(42);
+		describe('notEqual', () => {
+			const nePredicate = s.number.notEqual(42);
 
 			test.each([10, 100])('GIVEN %d THEN returns given value', (value) => {
 				expect(nePredicate.parse(value)).toBe(value);
@@ -117,13 +117,13 @@ describe('NumberValidator', () => {
 			test.each([42])('GIVEN %d THEN throws ConstraintError', (value) => {
 				expectError(
 					() => nePredicate.parse(value),
-					new ExpectedConstraintError('s.number.ne', 'Invalid number value', value, 'expected !== 42')
+					new ExpectedConstraintError('s.number.notEqual', 'Invalid number value', value, 'expected !== 42')
 				);
 			});
 		});
 
-		describe('ne(NaN)', () => {
-			const neNanPredicate = s.number.ne(NaN);
+		describe('notEqual(NaN)', () => {
+			const neNanPredicate = s.number.notEqual(NaN);
 
 			test.each([safeInteger, unsafeInteger, 42.1, Infinity, -Infinity])('GIVEN %d THEN returns given value', (input) => {
 				expect(neNanPredicate.parse(input)).toBe(input);
@@ -132,7 +132,7 @@ describe('NumberValidator', () => {
 			test.each([NaN])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => neNanPredicate.parse(input),
-					new ExpectedConstraintError('s.number.ne(NaN)', 'Invalid number value', input, 'expected !== NaN')
+					new ExpectedConstraintError('s.number.notEqual(NaN)', 'Invalid number value', input, 'expected !== NaN')
 				);
 			});
 		});
@@ -184,7 +184,7 @@ describe('NumberValidator', () => {
 			test.each([-safeInteger, -unsafeInteger, -42.1, -Infinity])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => positivePredicate.parse(input),
-					new ExpectedConstraintError('s.number.ge', 'Invalid number value', input, 'expected >= 0')
+					new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', input, 'expected >= 0')
 				);
 			});
 		});
@@ -199,7 +199,7 @@ describe('NumberValidator', () => {
 			test.each([safeInteger, unsafeInteger, 42.1, Infinity])('GIVEN %d THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => positivePredicate.parse(input),
-					new ExpectedConstraintError('s.number.lt', 'Invalid number value', input, 'expected < 0')
+					new ExpectedConstraintError('s.number.lessThan', 'Invalid number value', input, 'expected < 0')
 				);
 			});
 		});

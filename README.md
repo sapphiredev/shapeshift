@@ -91,7 +91,7 @@ s.literal('sapphire');
 s.literal(12);
 s.literal(420n);
 s.literal(true);
-s.literal(new Date(1639278160000)); // s.date.eq(1639278160000);
+s.literal(new Date(1639278160000)); // s.date.equal(1639278160000);
 ```
 
 #### Strings
@@ -99,12 +99,12 @@ s.literal(new Date(1639278160000)); // s.date.eq(1639278160000);
 ShapeShift includes a handful of string-specific validations:
 
 ```typescript
-s.string.lengthLt(5);
-s.string.lengthLe(5);
-s.string.lengthGt(5);
-s.string.lengthGe(5);
-s.string.lengthEq(5);
-s.string.lengthNe(5);
+s.string.lengthLessThan(5);
+s.string.lengthLessThanOrEqual(5);
+s.string.lengthGreaterThan(5);
+s.string.lengthGreaterThanOrEqual(5);
+s.string.lengthEqual(5);
+s.string.lengthNotEqual(5);
 s.string.email;
 s.string.url();
 s.string.uuid();
@@ -119,22 +119,22 @@ s.string.ipv6;
 ShapeShift includes a handful of number-specific validations:
 
 ```typescript
-s.number.gt(5); // > 5
-s.number.ge(5); // >= 5
-s.number.lt(5); // < 5
-s.number.le(5); // <= 5
-s.number.eq(5); // === 5
-s.number.ne(5); // !== 5
+s.number.greaterThan(5); // > 5
+s.number.greaterThanOrEqual(5); // >= 5
+s.number.lessThan(5); // < 5
+s.number.lessThanOrEqual(5); // <= 5
+s.number.equal(5); // === 5
+s.number.notEqual(5); // !== 5
 
-s.number.eq(NaN); // special case: Number.isNaN
-s.number.ne(NaN); // special case: !Number.isNaN
+s.number.equal(NaN); // special case: Number.isNaN
+s.number.notEqual(NaN); // special case: !Number.isNaN
 
 s.number.int; // value must be an integer
 s.number.safeInt; // value must be a safe integer
 s.number.finite; // value must be finite
 
-s.number.positive; // .ge(0)
-s.number.negative; // .lt(0)
+s.number.positive; // .greaterThanOrEqual(0)
+s.number.negative; // .lessThan(0)
 
 s.number.divisibleBy(5); // Divisible by 5
 ```
@@ -157,15 +157,15 @@ s.number.ceil; // Transforms the number to the result of `Math.ceil`
 ShapeShift includes a handful of number-specific validations:
 
 ```typescript
-s.bigint.gt(5n); // > 5n
-s.bigint.ge(5n); // >= 5n
-s.bigint.lt(5n); // < 5n
-s.bigint.le(5n); // <= 5n
-s.bigint.eq(5n); // === 5n
-s.bigint.ne(5n); // !== 5n
+s.bigint.greaterThan(5n); // > 5n
+s.bigint.greaterThanOrEqual(5n); // >= 5n
+s.bigint.lessThan(5n); // < 5n
+s.bigint.lessThanOrEqual(5n); // <= 5n
+s.bigint.equal(5n); // === 5n
+s.bigint.notEqual(5n); // !== 5n
 
-s.bigint.positive; // .ge(0n)
-s.bigint.negative; // .lt(0n)
+s.bigint.positive; // .greaterThanOrEqual(0n)
+s.bigint.negative; // .lessThan(0n)
 
 s.bigint.divisibleBy(5n); // Divisible by 5n
 ```
@@ -187,11 +187,11 @@ ShapeShift includes a few boolean-specific validations:
 s.boolean.true; // value must be true
 s.boolean.false; // value must be false
 
-s.boolean.eq(true); // s.boolean.true
-s.boolean.eq(false); // s.boolean.false
+s.boolean.equal(true); // s.boolean.true
+s.boolean.equal(false); // s.boolean.false
 
-s.boolean.ne(true); // s.boolean.false
-s.boolean.ne(false); // s.boolean.true
+s.boolean.notEqual(true); // s.boolean.false
+s.boolean.notEqual(false); // s.boolean.true
 ```
 
 #### Arrays
@@ -204,18 +204,18 @@ const stringArray = s.string.array;
 ShapeShift includes a handful of array-specific validations:
 
 ```typescript
-s.string.array.lengthLt(5); // Must have less than 5 elements
-s.string.array.lengthLe(5); // Must have 5 or less elements
-s.string.array.lengthGt(5); // Must have more than 5 elements
-s.string.array.lengthGe(5); // Must have 5 or more elements
-s.string.array.lengthEq(5); // Must have exactly 5 elements
-s.string.array.lengthNe(5); // Must not have exactly 5 elements
+s.string.array.lengthLessThan(5); // Must have less than 5 elements
+s.string.array.lengthLessThanOrEqual(5); // Must have 5 or less elements
+s.string.array.lengthGreaterThan(5); // Must have more than 5 elements
+s.string.array.lengthGreaterThanOrEqual(5); // Must have 5 or more elements
+s.string.array.lengthEqual(5); // Must have exactly 5 elements
+s.string.array.lengthNotEqual(5); // Must not have exactly 5 elements
 s.string.array.lengthRange(0, 4); // Must have at least 0 elements and less than 4 elements (in math, that is [0, 4))
 s.string.array.lengthRangeInclusive(0, 4); // Must have at least 0 elements and at most 4 elements (in math, that is [0, 4])
 s.string.array.lengthRangeExclusive(0, 4); // Must have more than 0 element and less than 4 elements (in math, that is (0, 4))
 ```
 
-> **Note**: All `.length` methods define tuple types with the given amount of elements. For example, `s.string.array.lengthGe(2)`'s inferred type is `[string, string, ...string[]]`
+> **Note**: All `.length` methods define tuple types with the given amount of elements. For example, `s.string.array.lengthGreaterThanOrEqual(2)`'s inferred type is `[string, string, ...string[]]`
 
 #### Tuples
 
@@ -441,18 +441,18 @@ const bigUint64Array = s.bigUint64Array;
 ShapeShift includes a handful of validations specific to typed arrays.
 
 ```typescript
-s.typedArray().lengthLt(5); // Length must be less than 5
-s.typedArray().lengthLe(5); // Length must be 5 or less
-s.typedArray().lengthGt(5); // Length must be more than 5
-s.typedArray().lengthGe(5); // Length must be 5 or more
-s.typedArray().lengthEq(5); // Length must be exactly 5
-s.typedArray().lengthNe(5); // Length must not be 5
+s.typedArray().lengthLessThan(5); // Length must be less than 5
+s.typedArray().lengthLessThanOrEqual(5); // Length must be 5 or less
+s.typedArray().lengthGreaterThan(5); // Length must be more than 5
+s.typedArray().lengthGreaterThanOrEqual(5); // Length must be 5 or more
+s.typedArray().lengthEqual(5); // Length must be exactly 5
+s.typedArray().lengthNotEqual(5); // Length must not be 5
 s.typedArray().lengthRange(0, 4); // Length L must satisfy 0 <= L < 4
 s.typedArray().lengthRangeInclusive(0, 4); // Length L must satisfy 0 <= L <= 4
 s.typedArray().lengthRangeExclusive(0, 4); // Length L must satisfy 0 < L < 4
 ```
 
-Note that all of these methods have analogous methods for working with the typed array's byte length, `s.typedArray().byteLengthX()` - for instance, `s.typedArray().byteLengthLt(5)` is the same as `s.typedArray().lengthLt(5)` but for the array's byte length.
+Note that all of these methods have analogous methods for working with the typed array's byte length, `s.typedArray().byteLengthX()` - for instance, `s.typedArray().byteLengthLessThan(5)` is the same as `s.typedArray().lengthLessThan(5)` but for the array's byte length.
 
 ### BaseValidator: methods and properties
 

@@ -1,9 +1,18 @@
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
-import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
+import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
 
-export type ArrayConstraintName = `s.array(T).length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne' | 'Range' | 'RangeInclusive' | 'RangeExclusive'}`;
+export type ArrayConstraintName = `s.array(T).length${
+	| 'LessThan'
+	| 'LessThanOrEqual'
+	| 'GreaterThan'
+	| 'GreaterThanOrEqual'
+	| 'Equal'
+	| 'NotEqual'
+	| 'Range'
+	| 'RangeInclusive'
+	| 'RangeExclusive'}`;
 
 function arrayLengthComparator<T>(comparator: Comparator, name: ArrayConstraintName, expected: string, length: number): IConstraint<T[]> {
 	return {
@@ -15,34 +24,34 @@ function arrayLengthComparator<T>(comparator: Comparator, name: ArrayConstraintN
 	};
 }
 
-export function arrayLengthLt<T>(value: number): IConstraint<T[]> {
+export function arrayLengthLessThan<T>(value: number): IConstraint<T[]> {
 	const expected = `expected.length < ${value}`;
-	return arrayLengthComparator(lt, 's.array(T).lengthLt', expected, value);
+	return arrayLengthComparator(lessThan, 's.array(T).lengthLessThan', expected, value);
 }
 
-export function arrayLengthLe<T>(value: number): IConstraint<T[]> {
+export function arrayLengthLessThanOrEqual<T>(value: number): IConstraint<T[]> {
 	const expected = `expected.length <= ${value}`;
-	return arrayLengthComparator(le, 's.array(T).lengthLe', expected, value);
+	return arrayLengthComparator(lessThanOrEqual, 's.array(T).lengthLessThanOrEqual', expected, value);
 }
 
-export function arrayLengthGt<T>(value: number): IConstraint<T[]> {
+export function arrayLengthGreaterThan<T>(value: number): IConstraint<T[]> {
 	const expected = `expected.length > ${value}`;
-	return arrayLengthComparator(gt, 's.array(T).lengthGt', expected, value);
+	return arrayLengthComparator(greaterThan, 's.array(T).lengthGreaterThan', expected, value);
 }
 
-export function arrayLengthGe<T>(value: number): IConstraint<T[]> {
+export function arrayLengthGreaterThanOrEqual<T>(value: number): IConstraint<T[]> {
 	const expected = `expected.length >= ${value}`;
-	return arrayLengthComparator(ge, 's.array(T).lengthGe', expected, value);
+	return arrayLengthComparator(greaterThanOrEqual, 's.array(T).lengthGreaterThanOrEqual', expected, value);
 }
 
-export function arrayLengthEq<T>(value: number): IConstraint<T[]> {
+export function arrayLengthEqual<T>(value: number): IConstraint<T[]> {
 	const expected = `expected.length === ${value}`;
-	return arrayLengthComparator(eq, 's.array(T).lengthEq', expected, value);
+	return arrayLengthComparator(equal, 's.array(T).lengthEqual', expected, value);
 }
 
-export function arrayLengthNe<T>(value: number): IConstraint<T[]> {
+export function arrayLengthNotEqual<T>(value: number): IConstraint<T[]> {
 	const expected = `expected.length !== ${value}`;
-	return arrayLengthComparator(ne, 's.array(T).lengthNe', expected, value);
+	return arrayLengthComparator(notEqual, 's.array(T).lengthNotEqual', expected, value);
 }
 
 export function arrayLengthRange<T>(start: number, endBefore: number): IConstraint<T[]> {
