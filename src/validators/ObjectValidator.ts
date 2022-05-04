@@ -156,19 +156,35 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		}
 
 		// Early exit if there are no more properties to validate in the object and there are errors to report
-		if (inputEntries.size === 0 && errors.length !== 0) {
-			return Result.err(new CombinedPropertyError(errors));
+		if (inputEntries.size === 0) {
+			return errors.length === 0 //
+				? Result.ok(finalObject)
+				: Result.err(new CombinedPropertyError(errors));
 		}
 
-		for (const [key, predicate] of this.possiblyUndefinedKeys) {
-			// All of these validators are assumed to be possibly undefined, so if we have gone through the entire object and there's still validators,
-			// safe to assume we're done here
-			if (inputEntries.size === 0) {
-				break;
-			}
+		// In the event the remaining keys to check are less than the number of possible undefined keys, we check those
+		// as it could yield a faster execution
+		const checkInputEntriesInsteadOfSchemaKeys = this.possiblyUndefinedKeys.size > inputEntries.size;
 
-			if (inputEntries.delete(key)) {
-				runPredicate(key, predicate);
+		if (checkInputEntriesInsteadOfSchemaKeys) {
+			for (const [key] of inputEntries) {
+				const predicate = this.possiblyUndefinedKeys.get(key);
+
+				if (predicate) {
+					runPredicate(key, predicate);
+				}
+			}
+		} else {
+			for (const [key, predicate] of this.possiblyUndefinedKeys) {
+				// All of these validators are assumed to be possibly undefined, so if we have gone through the entire object and there's still validators,
+				// safe to assume we're done here
+				if (inputEntries.size === 0) {
+					break;
+				}
+
+				if (inputEntries.delete(key)) {
+					runPredicate(key, predicate);
+				}
 			}
 		}
 
