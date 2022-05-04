@@ -40,8 +40,8 @@ describe('ObjectValidator', () => {
 		expectError(
 			() => predicate.parse({ username: 42, password: true }),
 			new CombinedPropertyError([
-				['password', new ValidationError('s.string', 'Expected a string primitive', true)],
-				['username', new ValidationError('s.string', 'Expected a string primitive', 42)]
+				['username', new ValidationError('s.string', 'Expected a string primitive', 42)],
+				['password', new ValidationError('s.string', 'Expected a string primitive', true)]
 			])
 		);
 	});
@@ -81,8 +81,8 @@ describe('ObjectValidator', () => {
 				() => strictPredicate.parse({ username: 42, foo: 'owo' }),
 				new CombinedPropertyError([
 					['username', new ValidationError('s.string', 'Expected a string primitive', 42)],
-					['foo', new UnknownPropertyError('foo', 'owo')],
-					['password', new MissingPropertyError('password')]
+					['password', new MissingPropertyError('password')],
+					['foo', new UnknownPropertyError('foo', 'owo')]
 				])
 			);
 		});
@@ -94,8 +94,7 @@ describe('ObjectValidator', () => {
 		test('GIVEN matching keys and values without optional keys THEN returns no errors', () => {
 			expect(optionalStrict.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({
 				username: 'Sapphire',
-				password: 'helloworld',
-				optionalKey: undefined
+				password: 'helloworld'
 			});
 		});
 	});
@@ -140,8 +139,8 @@ describe('ObjectValidator', () => {
 	describe('Partial', () => {
 		const partialPredicate = predicate.partial;
 
-		test('GIVEN empty object THEN returns an object with undefined values', () => {
-			expect(partialPredicate.parse({})).toStrictEqual({ username: undefined, password: undefined });
+		test('GIVEN empty object THEN returns an empty object', () => {
+			expect(partialPredicate.parse({})).toStrictEqual({});
 		});
 	});
 
