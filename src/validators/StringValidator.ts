@@ -1,5 +1,6 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
 import {
+	stringDate,
 	stringEmail,
 	stringIp,
 	stringLengthEqual,
@@ -57,6 +58,10 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 
 	public regex(regex: RegExp): this {
 		return this.addConstraint(stringRegex(regex) as IConstraint<T>);
+	}
+
+	public get date() {
+		return this.addConstraint(stringDate() as IConstraint<T>);
 	}
 
 	public get ipv4(): this {

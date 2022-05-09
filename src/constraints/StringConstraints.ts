@@ -13,7 +13,8 @@ export type StringConstraintName =
 			| 'url'
 			| 'uuid'
 			| 'email'
-			| `ip${'v4' | 'v6' | ''}`}`;
+			| `ip${'v4' | 'v6' | ''}`
+			| 'date'}`;
 
 export type StringProtocol = `${string}:`;
 
@@ -137,4 +138,24 @@ export function stringUuid({ version = 4, nullable = false }: StringUuidOptions 
 	);
 	const expected = `expected to match UUID${typeof version === 'number' ? `v${version}` : ` in range of ${version}`}`;
 	return stringRegexValidator('s.string.uuid', expected, regex);
+}
+
+export function stringDate(): IConstraint<string> {
+	return {
+		run(input: string) {
+			const date = new Date(input);
+			const time = date.getTime();
+
+			return Number.isNaN(time)
+				? Result.err(
+						new ExpectedConstraintError(
+							's.string.date',
+							'Invalid date string',
+							input,
+							'expected to be a valid date string (in the ISO 8601 or ECMA-262 format)'
+						)
+				  )
+				: Result.ok(input);
+		}
+	};
 }

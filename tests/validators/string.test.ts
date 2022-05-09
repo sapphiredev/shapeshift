@@ -365,6 +365,31 @@ describe('StringValidator', () => {
 					);
 				});
 			});
+
+			describe('date', () => {
+				const stringDatePredicate = s.string.date;
+
+				test.each([
+					'6969-01-01T02:20:00.000Z',
+					'1/1/6969, 4:20:00 AM',
+					'Sun, 01 Jan 6969 02:20:00 GMT',
+					'Sun Jan 01 6969 04:20:00 GMT+0200 (Eastern European Standard Time)'
+				])('GIVEN %p THEN returns given value', (input) => {
+					expect(stringDatePredicate.parse(input)).toBe(input);
+				});
+
+				test('GIVEN invalid date string THEN throws a ConstraintError', () => {
+					expectError(
+						() => stringDatePredicate.parse('owo'),
+						new ExpectedConstraintError(
+							's.string.date',
+							'Invalid date string',
+							'owo',
+							'expected to be a valid date string (in the ISO 8601 or ECMA-262 format)'
+						)
+					);
+				});
+			});
 		});
 	});
 });
