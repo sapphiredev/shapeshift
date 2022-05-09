@@ -143,8 +143,7 @@ export function stringUuid({ version = 4, nullable = false }: StringUuidOptions 
 export function stringDate(): IConstraint<string> {
 	return {
 		run(input: string) {
-			const date = new Date(input);
-			const time = date.getTime();
+			const time = Date.parse(input);
 
 			return Number.isNaN(time)
 				? Result.err(
