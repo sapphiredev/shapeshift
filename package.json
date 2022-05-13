@@ -28,8 +28,9 @@
 		"typecheck": "tsc -p tsconfig.typecheck.json",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
-		"prepack": "rollup-type-bundler -e node:util",
-		"prepare": "husky install .github/husky"
+		"postinstall": "husky install .github/husky",
+		"prepack": "rollup-type-bundler -e node:util && pinst --disable",
+		"postpack": "pinst --enable"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^16.2.4",
@@ -51,6 +52,7 @@
 		"husky": "^8.0.1",
 		"jest": "^28.1.0",
 		"lint-staged": "^12.4.1",
+		"pinst": "^3.0.0",
 		"prettier": "^2.6.2",
 		"pretty-quick": "^3.1.3",
 		"ts-jest": "^28.0.2",
