@@ -7,12 +7,18 @@ import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import type { MappedObjectValidator, NonNullObject } from '../lib/util-types';
 import { BaseValidator } from './BaseValidator';
+import { LiteralValidator } from './LiteralValidator';
+import { NullishValidator } from './NullishValidator';
+import { UnionValidator } from './UnionValidator';
 
 export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	public readonly shape: MappedObjectValidator<T>;
 	public readonly strategy: ObjectValidatorStrategy;
-	private readonly keys: readonly (keyof T)[];
+	private readonly keys: readonly (keyof T)[] = [];
 	private readonly handleStrategy: (value: NonNullObject) => Result<T, CombinedPropertyError>;
+
+	private readonly requiredKeys = new Map<keyof T, BaseValidator<unknown>>();
+	private readonly possiblyUndefinedKeys = new Map<keyof T, BaseValidator<unknown>>();
 
 	public constructor(
 		shape: MappedObjectValidator<T>,
@@ -21,7 +27,6 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 	) {
 		super(constraints);
 		this.shape = shape;
-		this.keys = Object.keys(shape) as (keyof T)[];
 		this.strategy = strategy;
 
 		switch (this.strategy) {
@@ -35,6 +40,37 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			case ObjectValidatorStrategy.Passthrough:
 				this.handleStrategy = (value) => this.handlePassthroughStrategy(value);
 				break;
+		}
+
+		const shapeEntries = Object.entries(shape) as [keyof T, BaseValidator<T>][];
+		this.keys = shapeEntries.map(([key]) => key);
+
+		for (const [key, validator] of shapeEntries) {
+			if (validator instanceof UnionValidator) {
+				const [possiblyLiteralOrNullishPredicate] = validator['validators'];
+
+				if (possiblyLiteralOrNullishPredicate instanceof NullishValidator) {
+					this.possiblyUndefinedKeys.set(key, validator);
+				} else if (possiblyLiteralOrNullishPredicate instanceof LiteralValidator) {
+					if (possiblyLiteralOrNullishPredicate.expected === undefined) {
+						this.possiblyUndefinedKeys.set(key, validator);
+					} else {
+						this.requiredKeys.set(key, validator);
+					}
+				} else {
+					this.requiredKeys.set(key, validator);
+				}
+			} else if (validator instanceof NullishValidator) {
+				this.possiblyUndefinedKeys.set(key, validator);
+			} else if (validator instanceof LiteralValidator) {
+				if (validator.expected === undefined) {
+					this.possiblyUndefinedKeys.set(key, validator);
+				} else {
+					this.requiredKeys.set(key, validator);
+				}
+			} else {
+				this.requiredKeys.set(key, validator);
+			}
 		}
 	}
 
@@ -80,65 +116,113 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			return Result.err(new ValidationError('s.object(T)', 'Expected the value to not be null', value));
 		}
 
+		if (Array.isArray(value)) {
+			return Result.err(new ValidationError('s.object(T)', 'Expected the value to not be an array', value));
+		}
+
 		return this.handleStrategy(value as NonNullObject);
 	}
 
-	protected clone(): this {
+	protected override clone(): this {
 		return Reflect.construct(this.constructor, [this.shape, this.strategy, this.constraints]);
 	}
 
-	private handleIgnoreStrategy(value: NonNullObject, errors: [PropertyKey, BaseError][] = []): Result<T, CombinedPropertyError> {
-		const entries = {} as T;
-		let i = this.keys.length;
+	private handleIgnoreStrategy(value: NonNullObject): Result<T, CombinedPropertyError> {
+		const errors: [PropertyKey, BaseError][] = [];
+		const finalObject = {} as T;
+		const inputEntries = new Map(Object.entries(value) as [keyof T, unknown][]);
 
-		while (i--) {
-			const key = this.keys[i];
-			const result = this.shape[key].run(value[key as keyof NonNullObject]);
+		const runPredicate = (key: keyof T, predicate: BaseValidator<unknown>) => {
+			const result = predicate.run(value[key as keyof NonNullObject]);
 
 			if (result.isOk()) {
-				entries[key] = result.value;
+				finalObject[key] = result.value as T[keyof T];
 			} else {
 				const error = result.error!;
-				if (error instanceof ValidationError && error.given === undefined) {
-					errors.push([key, new MissingPropertyError(key)]);
-				} else {
-					errors.push([key, error]);
+				errors.push([key, error]);
+			}
+		};
+
+		for (const [key, predicate] of this.requiredKeys) {
+			if (inputEntries.delete(key)) {
+				runPredicate(key, predicate);
+			} else {
+				errors.push([key, new MissingPropertyError(key)]);
+			}
+		}
+
+		// Early exit if there are no more properties to validate in the object and there are errors to report
+		if (inputEntries.size === 0) {
+			return errors.length === 0 //
+				? Result.ok(finalObject)
+				: Result.err(new CombinedPropertyError(errors));
+		}
+
+		// In the event the remaining keys to check are less than the number of possible undefined keys, we check those
+		// as it could yield a faster execution
+		const checkInputEntriesInsteadOfSchemaKeys = this.possiblyUndefinedKeys.size > inputEntries.size;
+
+		if (checkInputEntriesInsteadOfSchemaKeys) {
+			for (const [key] of inputEntries) {
+				const predicate = this.possiblyUndefinedKeys.get(key);
+
+				if (predicate) {
+					runPredicate(key, predicate);
+				}
+			}
+		} else {
+			for (const [key, predicate] of this.possiblyUndefinedKeys) {
+				if (inputEntries.delete(key)) {
+					runPredicate(key, predicate);
 				}
 			}
 		}
 
 		return errors.length === 0 //
-			? Result.ok(entries)
+			? Result.ok(finalObject)
 			: Result.err(new CombinedPropertyError(errors));
 	}
 
 	private handleStrictStrategy(value: NonNullObject): Result<T, CombinedPropertyError> {
 		const errors: [PropertyKey, BaseError][] = [];
 		const finalResult = {} as T;
-		const keysToIterateOver = [...new Set([...Object.keys(value), ...this.keys])].reverse();
-		let i = keysToIterateOver.length;
+		const inputEntries = new Map(Object.entries(value) as [keyof T, unknown][]);
 
-		while (i--) {
-			const key = keysToIterateOver[i] as string;
+		const runPredicate = (key: keyof T, predicate: BaseValidator<unknown>) => {
+			const result = predicate.run(value[key as keyof NonNullObject]);
 
-			if (Object.prototype.hasOwnProperty.call(this.shape, key)) {
-				const result = this.shape[key as keyof MappedObjectValidator<T>].run(value[key as keyof NonNullObject]);
+			if (result.isOk()) {
+				finalResult[key] = result.value as T[keyof T];
+			} else {
+				const error = result.error!;
+				errors.push([key, error]);
+			}
+		};
 
-				if (result.isOk()) {
-					finalResult[key as keyof T] = result.value;
-				} else {
-					const error = result.error!;
-					if (error instanceof ValidationError && error.given === undefined) {
-						errors.push([key, new MissingPropertyError(key)]);
-					} else {
-						errors.push([key, error]);
-					}
-				}
+		for (const [key, predicate] of this.requiredKeys) {
+			if (inputEntries.delete(key)) {
+				runPredicate(key, predicate);
+			} else {
+				errors.push([key, new MissingPropertyError(key)]);
+			}
+		}
 
-				continue;
+		for (const [key, predicate] of this.possiblyUndefinedKeys) {
+			// All of these validators are assumed to be possibly undefined, so if we have gone through the entire object and there's still validators,
+			// safe to assume we're done here
+			if (inputEntries.size === 0) {
+				break;
 			}
 
-			errors.push([key, new UnknownPropertyError(key, value[key as keyof NonNullObject])]);
+			if (inputEntries.delete(key)) {
+				runPredicate(key, predicate);
+			}
+		}
+
+		if (inputEntries.size !== 0) {
+			for (const [key, value] of inputEntries.entries()) {
+				errors.push([key, new UnknownPropertyError(key, value)]);
+			}
 		}
 
 		return errors.length === 0 //

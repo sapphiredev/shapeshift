@@ -1,17 +1,17 @@
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
-import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
+import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
 
 export type NumberConstraintName = `s.number.${
-	| 'lt'
-	| 'le'
-	| 'gt'
-	| 'ge'
-	| 'eq'
-	| 'eq(NaN)'
-	| 'ne'
-	| 'ne(NaN)'
+	| 'lessThan'
+	| 'lessThanOrEqual'
+	| 'greaterThan'
+	| 'greaterThanOrEqual'
+	| 'equal'
+	| 'equal(NaN)'
+	| 'notEqual'
+	| 'notEqual(NaN)'
 	| 'int'
 	| 'safeInt'
 	| 'finite'
@@ -27,34 +27,34 @@ function numberComparator(comparator: Comparator, name: NumberConstraintName, ex
 	};
 }
 
-export function numberLt(value: number): IConstraint<number> {
+export function numberLessThan(value: number): IConstraint<number> {
 	const expected = `expected < ${value}`;
-	return numberComparator(lt, 's.number.lt', expected, value);
+	return numberComparator(lessThan, 's.number.lessThan', expected, value);
 }
 
-export function numberLe(value: number): IConstraint<number> {
+export function numberLessThanOrEqual(value: number): IConstraint<number> {
 	const expected = `expected <= ${value}`;
-	return numberComparator(le, 's.number.le', expected, value);
+	return numberComparator(lessThanOrEqual, 's.number.lessThanOrEqual', expected, value);
 }
 
-export function numberGt(value: number): IConstraint<number> {
+export function numberGreaterThan(value: number): IConstraint<number> {
 	const expected = `expected > ${value}`;
-	return numberComparator(gt, 's.number.gt', expected, value);
+	return numberComparator(greaterThan, 's.number.greaterThan', expected, value);
 }
 
-export function numberGe(value: number): IConstraint<number> {
+export function numberGreaterThanOrEqual(value: number): IConstraint<number> {
 	const expected = `expected >= ${value}`;
-	return numberComparator(ge, 's.number.ge', expected, value);
+	return numberComparator(greaterThanOrEqual, 's.number.greaterThanOrEqual', expected, value);
 }
 
-export function numberEq(value: number): IConstraint<number> {
+export function numberEqual(value: number): IConstraint<number> {
 	const expected = `expected === ${value}`;
-	return numberComparator(eq, 's.number.eq', expected, value);
+	return numberComparator(equal, 's.number.equal', expected, value);
 }
 
-export function numberNe(value: number): IConstraint<number> {
+export function numberNotEqual(value: number): IConstraint<number> {
 	const expected = `expected !== ${value}`;
-	return numberComparator(ne, 's.number.ne', expected, value);
+	return numberComparator(notEqual, 's.number.notEqual', expected, value);
 }
 
 export const numberInt: IConstraint<number> = {
@@ -94,14 +94,14 @@ export const numberNaN: IConstraint<number> = {
 	run(input: number) {
 		return Number.isNaN(input) //
 			? Result.ok(input)
-			: Result.err(new ExpectedConstraintError('s.number.eq(NaN)', 'Invalid number value', input, 'expected === NaN'));
+			: Result.err(new ExpectedConstraintError('s.number.equal(NaN)', 'Invalid number value', input, 'expected === NaN'));
 	}
 };
 
-export const numberNeNaN: IConstraint<number> = {
+export const numberNotNaN: IConstraint<number> = {
 	run(input: number) {
 		return Number.isNaN(input) //
-			? Result.err(new ExpectedConstraintError('s.number.ne(NaN)', 'Invalid number value', input, 'expected !== NaN'))
+			? Result.err(new ExpectedConstraintError('s.number.notEqual(NaN)', 'Invalid number value', input, 'expected !== NaN'))
 			: Result.ok(input);
 	}
 };

@@ -1,6 +1,6 @@
 {
 	"name": "@sapphire/shapeshift",
-	"version": "2.1.0",
+	"version": "3.0.0",
 	"description": "Blazing fast input validation and transformation ⚡",
 	"author": "@sapphire",
 	"license": "MIT",
@@ -33,34 +33,33 @@
 		"postpack": "pinst --enable"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^16.2.3",
-		"@commitlint/config-conventional": "^16.2.1",
-		"@favware/cliff-jumper": "^1.2.0",
+		"@commitlint/cli": "^16.2.4",
+		"@commitlint/config-conventional": "^16.2.4",
+		"@favware/cliff-jumper": "^1.7.0",
 		"@favware/npm-deprecate": "^1.0.4",
 		"@favware/rollup-type-bundler": "^1.0.7",
 		"@sapphire/eslint-config": "^4.3.4",
 		"@sapphire/prettier-config": "^1.4.3",
 		"@sapphire/ts-config": "^3.3.4",
-		"@types/jest": "^27.4.1",
-		"@types/node": "^17.0.25",
-		"@typescript-eslint/eslint-plugin": "^5.20.0",
-		"@typescript-eslint/parser": "^5.20.0",
+		"@types/jest": "^27.5.0",
+		"@types/node": "^17.0.31",
+		"@typescript-eslint/eslint-plugin": "^5.23.0",
+		"@typescript-eslint/parser": "^5.23.0",
 		"cz-conventional-changelog": "^3.3.0",
-		"eslint": "^8.14.0",
+		"eslint": "^8.15.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.0.0",
-		"husky": "^7.0.4",
-		"jest": "^27.5.1",
-		"jest-circus": "^27.5.1",
-		"lint-staged": "^12.4.0",
+		"husky": "^8.0.1",
+		"jest": "^28.1.0",
+		"lint-staged": "^12.4.1",
 		"pinst": "^3.0.0",
 		"prettier": "^2.6.2",
 		"pretty-quick": "^3.1.3",
-		"ts-jest": "^27.1.4",
-		"tsup": "^5.12.6",
+		"ts-jest": "^28.0.2",
+		"tsup": "^5.12.7",
 		"typedoc": "^0.22.15",
 		"typedoc-plugin-mdn-links": "^1.0.6",
-		"typescript": "^4.6.3"
+		"typescript": "^4.6.4"
 	},
 	"repository": {
 		"type": "git",
@@ -114,8 +113,7 @@
 	},
 	"resolutions": {
 		"ansi-regex": "^5.0.1",
-		"minimist": "^1.2.6",
-		"jest-environment-jsdom": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.3.tgz"
+		"minimist": "^1.2.6"
 	},
 	"prettier": "@sapphire/prettier-config",
 	"packageManager": "yarn@3.2.0"

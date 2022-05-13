@@ -23,23 +23,23 @@ describe('ArrayValidator', () => {
 	});
 
 	describe('Comparators', () => {
-		describe('lengthLt', () => {
-			const lengthLtPredicate = s.string.array.lengthLt(2);
+		describe('lengthLessThan', () => {
+			const lengthLessThanPredicate = s.string.array.lengthLessThan(2);
 
 			test.each([[['Hello']]])('GIVEN %p THEN returns given value', (value) => {
-				expect<[string] | []>(lengthLtPredicate.parse(value)).toEqual(value);
+				expect<[string] | []>(lengthLessThanPredicate.parse(value)).toEqual(value);
 			});
 
 			test.each([[['Hello', 'there']], [['foo', 'bar', 'baaz']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
-					() => lengthLtPredicate.parse(value),
-					new ExpectedConstraintError('s.array(T).lengthLt', 'Invalid Array length', value, 'expected.length < 2')
+					() => lengthLessThanPredicate.parse(value),
+					new ExpectedConstraintError('s.array(T).lengthLessThan', 'Invalid Array length', value, 'expected.length < 2')
 				);
 			});
 		});
 
-		describe('lengthLe', () => {
-			const lengthLePredicate = s.string.array.lengthLe(2);
+		describe('lengthLessThanOrEqual', () => {
+			const lengthLePredicate = s.string.array.lengthLessThanOrEqual(2);
 
 			test.each([[['Hello']], [['Hello', 'there']]])('GIVEN %p THEN returns given value', (value) => {
 				expect<[string, string] | [string] | []>(lengthLePredicate.parse(value)).toEqual(value);
@@ -48,13 +48,13 @@ describe('ArrayValidator', () => {
 			test.each([[['foo', 'bar', 'baaz']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthLePredicate.parse(value),
-					new ExpectedConstraintError('s.array(T).lengthLe', 'Invalid Array length', value, 'expected.length <= 2')
+					new ExpectedConstraintError('s.array(T).lengthLessThanOrEqual', 'Invalid Array length', value, 'expected.length <= 2')
 				);
 			});
 		});
 
-		describe('lengthGt', () => {
-			const lengthGtPredicate = s.string.array.lengthGt(2);
+		describe('lengthGreaterThan', () => {
+			const lengthGtPredicate = s.string.array.lengthGreaterThan(2);
 
 			test.each([[['foo', 'bar', 'baaz']]])('GIVEN %p THEN returns given value', (value) => {
 				expect<[string, string, string, ...string[]]>(lengthGtPredicate.parse(value)).toEqual(value);
@@ -63,13 +63,13 @@ describe('ArrayValidator', () => {
 			test.each([[['Hello']], [[]]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthGtPredicate.parse(value),
-					new ExpectedConstraintError('s.array(T).lengthGt', 'Invalid Array length', value, 'expected.length > 2')
+					new ExpectedConstraintError('s.array(T).lengthGreaterThan', 'Invalid Array length', value, 'expected.length > 2')
 				);
 			});
 		});
 
-		describe('lengthGe', () => {
-			const lengthGePredicate = s.string.array.lengthGe(2);
+		describe('lengthGreaterThanOrEqual', () => {
+			const lengthGePredicate = s.string.array.lengthGreaterThanOrEqual(2);
 
 			test.each([[['Hello', 'there']], [['foo', 'bar', 'baaz']]])('GIVEN %p THEN returns given value', (value) => {
 				expect<[string, string, ...string[]]>(lengthGePredicate.parse(value)).toEqual(value);
@@ -78,13 +78,13 @@ describe('ArrayValidator', () => {
 			test.each([[[]], [['foo']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthGePredicate.parse(value),
-					new ExpectedConstraintError('s.array(T).lengthGe', 'Invalid Array length', value, 'expected.length >= 2')
+					new ExpectedConstraintError('s.array(T).lengthGreaterThanOrEqual', 'Invalid Array length', value, 'expected.length >= 2')
 				);
 			});
 		});
 
-		describe('lengthEq', () => {
-			const lengthPredicate = s.string.array.lengthEq(2);
+		describe('lengthEqual', () => {
+			const lengthPredicate = s.string.array.lengthEqual(2);
 
 			test.each([[['Hello', 'there']]])('GIVEN %p THEN returns given value', (value) => {
 				expect<[string, string]>(lengthPredicate.parse(value)).toEqual(value);
@@ -93,13 +93,13 @@ describe('ArrayValidator', () => {
 			test.each([[[]], [['Hello']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthPredicate.parse(value),
-					new ExpectedConstraintError('s.array(T).lengthEq', 'Invalid Array length', value, 'expected.length === 2')
+					new ExpectedConstraintError('s.array(T).lengthEqual', 'Invalid Array length', value, 'expected.length === 2')
 				);
 			});
 		});
 
-		describe('lengthNe', () => {
-			const lengthNotEqPredicate = s.string.array.lengthNe(2);
+		describe('lengthNotEqual', () => {
+			const lengthNotEqPredicate = s.string.array.lengthNotEqual(2);
 
 			test.each([[['foo', 'bar', 'baaz']], [['foo']]])('GIVEN %p THEN returns given value', (value) => {
 				expect<string[]>(lengthNotEqPredicate.parse(value)).toEqual(value);
@@ -108,7 +108,7 @@ describe('ArrayValidator', () => {
 			test.each([[['Hello', 'there']], [['foo', 'bar']]])('GIVEN %p THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lengthNotEqPredicate.parse(value),
-					new ExpectedConstraintError('s.array(T).lengthNe', 'Invalid Array length', value, 'expected.length !== 2')
+					new ExpectedConstraintError('s.array(T).lengthNotEqual', 'Invalid Array length', value, 'expected.length !== 2')
 				);
 			});
 		});

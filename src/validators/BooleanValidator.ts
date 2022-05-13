@@ -13,11 +13,11 @@ export class BooleanValidator<T extends boolean = boolean> extends BaseValidator
 		return this.addConstraint(booleanFalse as IConstraint<T>) as BooleanValidator<false>;
 	}
 
-	public eq<R extends true | false>(value: R): BooleanValidator<R> {
+	public equal<R extends true | false>(value: R): BooleanValidator<R> {
 		return (value ? this.true : this.false) as BooleanValidator<R>;
 	}
 
-	public ne<R extends true | false>(value: R): BooleanValidator<R> {
+	public notEqual<R extends true | false>(value: R): BooleanValidator<R> {
 		return (value ? this.false : this.true) as BooleanValidator<R>;
 	}
 

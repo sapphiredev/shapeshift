@@ -13,23 +13,23 @@ describe('StringValidator', () => {
 	});
 
 	describe('Comparators', () => {
-		describe('lengthLt', () => {
-			const lengthLtPredicate = s.string.lengthLt(5);
+		describe('lengthLessThan', () => {
+			const lengthLessThanPredicate = s.string.lengthLessThan(5);
 
 			test.each(['Hi'])('GIVEN %p THEN returns given value', (input) => {
-				expect(lengthLtPredicate.parse(input)).toBe(input);
+				expect(lengthLessThanPredicate.parse(input)).toBe(input);
 			});
 
 			test.each(['Hello', 'Foo Bar'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
-					() => lengthLtPredicate.parse(input),
-					new ExpectedConstraintError('s.string.lengthLt', 'Invalid string length', input, 'expected.length < 5')
+					() => lengthLessThanPredicate.parse(input),
+					new ExpectedConstraintError('s.string.lengthLessThan', 'Invalid string length', input, 'expected.length < 5')
 				);
 			});
 		});
 
-		describe('lengthLe', () => {
-			const lengthLePredicate = s.string.lengthLe(5);
+		describe('lengthLessThanOrEqual', () => {
+			const lengthLePredicate = s.string.lengthLessThanOrEqual(5);
 
 			test.each(['Hi', 'Hello'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthLePredicate.parse(input)).toBe(input);
@@ -38,13 +38,13 @@ describe('StringValidator', () => {
 			test.each(['Foo Bar'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthLePredicate.parse(input),
-					new ExpectedConstraintError('s.string.lengthLe', 'Invalid string length', input, 'expected.length <= 5')
+					new ExpectedConstraintError('s.string.lengthLessThanOrEqual', 'Invalid string length', input, 'expected.length <= 5')
 				);
 			});
 		});
 
-		describe('lengthGt', () => {
-			const lengthGtPredicate = s.string.lengthGt(5);
+		describe('lengthGreaterThan', () => {
+			const lengthGtPredicate = s.string.lengthGreaterThan(5);
 
 			test.each(['Foo Bar'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthGtPredicate.parse(input)).toBe(input);
@@ -53,13 +53,13 @@ describe('StringValidator', () => {
 			test.each(['Hi', 'Hello'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthGtPredicate.parse(input),
-					new ExpectedConstraintError('s.string.lengthGt', 'Invalid string length', input, 'expected.length > 5')
+					new ExpectedConstraintError('s.string.lengthGreaterThan', 'Invalid string length', input, 'expected.length > 5')
 				);
 			});
 		});
 
-		describe('lengthGe', () => {
-			const lengthGePredicate = s.string.lengthGe(5);
+		describe('lengthGreaterThanOrEqual', () => {
+			const lengthGePredicate = s.string.lengthGreaterThanOrEqual(5);
 
 			test.each(['Hello', 'Foo Bar'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthGePredicate.parse(input)).toBe(input);
@@ -68,13 +68,13 @@ describe('StringValidator', () => {
 			test.each(['Hi'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthGePredicate.parse(input),
-					new ExpectedConstraintError('s.string.lengthGe', 'Invalid string length', input, 'expected.length >= 5')
+					new ExpectedConstraintError('s.string.lengthGreaterThanOrEqual', 'Invalid string length', input, 'expected.length >= 5')
 				);
 			});
 		});
 
-		describe('lengthEq', () => {
-			const lengthEqPredicate = s.string.lengthEq(5);
+		describe('lengthEqual', () => {
+			const lengthEqPredicate = s.string.lengthEqual(5);
 
 			test.each(['Hello'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthEqPredicate.parse(input)).toBe(input);
@@ -83,13 +83,13 @@ describe('StringValidator', () => {
 			test.each(['Hi', 'Foo Bar'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthEqPredicate.parse(input),
-					new ExpectedConstraintError('s.string.lengthEq', 'Invalid string length', input, 'expected.length === 5')
+					new ExpectedConstraintError('s.string.lengthEqual', 'Invalid string length', input, 'expected.length === 5')
 				);
 			});
 		});
 
-		describe('lengthNe', () => {
-			const lengthNePredicate = s.string.lengthNe(5);
+		describe('lengthNotEqual', () => {
+			const lengthNePredicate = s.string.lengthNotEqual(5);
 
 			test.each(['Hi', 'Foo Bar'])('GIVEN %p THEN returns given value', (input) => {
 				expect(lengthNePredicate.parse(input)).toBe(input);
@@ -98,7 +98,7 @@ describe('StringValidator', () => {
 			test.each(['Hello'])('GIVEN %p THEN throws a ConstraintError', (input) => {
 				expectError(
 					() => lengthNePredicate.parse(input),
-					new ExpectedConstraintError('s.string.lengthNe', 'Invalid string length', input, 'expected.length !== 5')
+					new ExpectedConstraintError('s.string.lengthNotEqual', 'Invalid string length', input, 'expected.length !== 5')
 				);
 			});
 		});
@@ -362,6 +362,31 @@ describe('StringValidator', () => {
 					expectError(
 						() => ipv6Predicate.parse(input),
 						new ExpectedConstraintError('s.string.ipv6', 'Invalid IPv6 address', input, 'expected to be an IPv6 address')
+					);
+				});
+			});
+
+			describe('date', () => {
+				const stringDatePredicate = s.string.date;
+
+				test.each([
+					'6969-01-01T02:20:00.000Z',
+					'1/1/6969, 4:20:00 AM',
+					'Sun, 01 Jan 6969 02:20:00 GMT',
+					'Sun Jan 01 6969 04:20:00 GMT+0200 (Eastern European Standard Time)'
+				])('GIVEN %p THEN returns given value', (input) => {
+					expect(stringDatePredicate.parse(input)).toBe(input);
+				});
+
+				test('GIVEN invalid date string THEN throws a ConstraintError', () => {
+					expectError(
+						() => stringDatePredicate.parse('owo'),
+						new ExpectedConstraintError(
+							's.string.date',
+							'Invalid date string',
+							'owo',
+							'expected to be a valid date string (in the ISO 8601 or ECMA-262 format)'
+						)
 					);
 				});
 			});

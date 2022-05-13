@@ -1,3 +1,4 @@
+import type { TypedArray, TypedArrayName } from '../constraints/util/typedArray';
 import {
 	ArrayValidator,
 	BaseValidator,
@@ -19,6 +20,7 @@ import {
 	UnionValidator
 } from '../validators/imports';
 import { NativeEnumLike, NativeEnumValidator } from '../validators/NativeEnumValidator';
+import { TypedArrayValidator } from '../validators/TypedArrayValidator';
 import type { Constructor, MappedObjectValidator } from './util-types';
 
 export class Shapes {
@@ -79,7 +81,7 @@ export class Shapes {
 	}
 
 	public literal<T>(value: T): BaseValidator<T> {
-		if (value instanceof Date) return this.date.eq(value) as unknown as BaseValidator<T>;
+		if (value instanceof Date) return this.date.equal(value) as unknown as BaseValidator<T>;
 		return new LiteralValidator(value);
 	}
 
@@ -93,6 +95,54 @@ export class Shapes {
 
 	public array<T>(validator: BaseValidator<T>) {
 		return new ArrayValidator(validator);
+	}
+
+	public typedArray<T extends TypedArray>(type: TypedArrayName = 'TypedArray') {
+		return new TypedArrayValidator<T>(type);
+	}
+
+	public get int8Array() {
+		return this.typedArray<Int8Array>('Int8Array');
+	}
+
+	public get uint8Array() {
+		return this.typedArray<Uint8Array>('Uint8Array');
+	}
+
+	public get uint8ClampedArray() {
+		return this.typedArray<Uint8ClampedArray>('Uint8ClampedArray');
+	}
+
+	public get int16Array() {
+		return this.typedArray<Int16Array>('Int16Array');
+	}
+
+	public get uint16Array() {
+		return this.typedArray<Uint16Array>('Uint16Array');
+	}
+
+	public get int32Array() {
+		return this.typedArray<Int32Array>('Int32Array');
+	}
+
+	public get uint32Array() {
+		return this.typedArray<Uint32Array>('Uint32Array');
+	}
+
+	public get float32Array() {
+		return this.typedArray<Float32Array>('Float32Array');
+	}
+
+	public get float64Array() {
+		return this.typedArray<Float64Array>('Float64Array');
+	}
+
+	public get bigInt64Array() {
+		return this.typedArray<BigInt64Array>('BigInt64Array');
+	}
+
+	public get bigUint64Array() {
+		return this.typedArray<BigUint64Array>('BigUint64Array');
 	}
 
 	public tuple<T extends [...BaseValidator<any>[]]>(validators: [...T]): TupleValidator<UnwrapTuple<T>> {

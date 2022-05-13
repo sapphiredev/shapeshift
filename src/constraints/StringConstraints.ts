@@ -3,11 +3,18 @@ import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { validateEmail } from './util/emailValidator';
-import { Comparator, eq, ge, gt, le, lt, ne } from './util/operators';
+import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
 import { createUrlValidators } from './util/urlValidators';
 
 export type StringConstraintName =
-	| `s.string.${`length${'Lt' | 'Le' | 'Gt' | 'Ge' | 'Eq' | 'Ne'}` | 'regex' | 'url' | 'uuid' | 'email' | `ip${'v4' | 'v6' | ''}`}`;
+	| `s.string.${
+			| `length${'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual' | 'Equal' | 'NotEqual'}`
+			| 'regex'
+			| 'url'
+			| 'uuid'
+			| 'email'
+			| `ip${'v4' | 'v6' | ''}`
+			| 'date'}`;
 
 export type StringProtocol = `${string}:`;
 
@@ -35,34 +42,34 @@ function stringLengthComparator(comparator: Comparator, name: StringConstraintNa
 	};
 }
 
-export function stringLengthLt(length: number): IConstraint<string> {
+export function stringLengthLessThan(length: number): IConstraint<string> {
 	const expected = `expected.length < ${length}`;
-	return stringLengthComparator(lt, 's.string.lengthLt', expected, length);
+	return stringLengthComparator(lessThan, 's.string.lengthLessThan', expected, length);
 }
 
-export function stringLengthLe(length: number): IConstraint<string> {
+export function stringLengthLessThanOrEqual(length: number): IConstraint<string> {
 	const expected = `expected.length <= ${length}`;
-	return stringLengthComparator(le, 's.string.lengthLe', expected, length);
+	return stringLengthComparator(lessThanOrEqual, 's.string.lengthLessThanOrEqual', expected, length);
 }
 
-export function stringLengthGt(length: number): IConstraint<string> {
+export function stringLengthGreaterThan(length: number): IConstraint<string> {
 	const expected = `expected.length > ${length}`;
-	return stringLengthComparator(gt, 's.string.lengthGt', expected, length);
+	return stringLengthComparator(greaterThan, 's.string.lengthGreaterThan', expected, length);
 }
 
-export function stringLengthGe(length: number): IConstraint<string> {
+export function stringLengthGreaterThanOrEqual(length: number): IConstraint<string> {
 	const expected = `expected.length >= ${length}`;
-	return stringLengthComparator(ge, 's.string.lengthGe', expected, length);
+	return stringLengthComparator(greaterThanOrEqual, 's.string.lengthGreaterThanOrEqual', expected, length);
 }
 
-export function stringLengthEq(length: number): IConstraint<string> {
+export function stringLengthEqual(length: number): IConstraint<string> {
 	const expected = `expected.length === ${length}`;
-	return stringLengthComparator(eq, 's.string.lengthEq', expected, length);
+	return stringLengthComparator(equal, 's.string.lengthEqual', expected, length);
 }
 
-export function stringLengthNe(length: number): IConstraint<string> {
+export function stringLengthNotEqual(length: number): IConstraint<string> {
 	const expected = `expected.length !== ${length}`;
-	return stringLengthComparator(ne, 's.string.lengthNe', expected, length);
+	return stringLengthComparator(notEqual, 's.string.lengthNotEqual', expected, length);
 }
 
 export function stringEmail(): IConstraint<string> {
@@ -131,4 +138,23 @@ export function stringUuid({ version = 4, nullable = false }: StringUuidOptions 
 	);
 	const expected = `expected to match UUID${typeof version === 'number' ? `v${version}` : ` in range of ${version}`}`;
 	return stringRegexValidator('s.string.uuid', expected, regex);
+}
+
+export function stringDate(): IConstraint<string> {
+	return {
+		run(input: string) {
+			const time = Date.parse(input);
+
+			return Number.isNaN(time)
+				? Result.err(
+						new ExpectedConstraintError(
+							's.string.date',
+							'Invalid date string',
+							input,
+							'expected to be a valid date string (in the ISO 8601 or ECMA-262 format)'
+						)
+				  )
+				: Result.ok(input);
+		}
+	};
 }

@@ -2,6 +2,81 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.0.0](https://github.com/sapphiredev/shapeshift/compare/v2.2.0...v3.0.0) - (2022-05-06)
+
+## 🏃 Performance
+
+- Speed up object validation a LOT (#101) ([817278e](https://github.com/sapphiredev/shapeshift/commit/817278e6a3ac128ca342e5ae1737f40b98788c37))
+
+## 🐛 Bug Fixes
+
+- Expand method names (#100) ([741490f](https://github.com/sapphiredev/shapeshift/commit/741490fb6907f618fa25fe53808f7dcb5a59a96c))}
+
+   ### 💥 Breaking Changes:
+   - `date.eq` has been renamed to `date.equal`
+   - `string.lengthLt` has been renamed to `string.lengthLessThan`
+   - `string.lengthLe` has been renamed to `string.lengthLessThanOrEqual`
+   - `string.lengthGt` has been renamed to `string.lengthGreaterThan`
+   - `string.lengthGe` has been renamed to `string.lengthGreaterThanOrEqual`
+   - `string.lengthEq` has been renamed to `string.lengthEqual`
+   - `string.lengthNe` has been renamed to `string.lengthNotEqual`
+   - `number.gt` has been renamed to `number.greaterThan`
+   - `number.ge` has been renamed to `number.greaterThanOrEqual`
+   - `number.lt` has been renamed to `number.lessThan`
+   - `number.le` has been renamed to `number.lessThanOrEqual`
+   - `number.eq` has been renamed to `number.equal`
+   - `number.ne` has been renamed to `number.notEqual`
+   - `bigint.gt` has been renamed to `bigint.greaterThan`
+   - `bigint.ge` has been renamed to `bigint.greaterThanOrEqual`
+   - `bigint.lt` has been renamed to `bigint.lessThan`
+   - `bigint.le` has been renamed to `bigint.lessThanOrEqual`
+   - `bigint.eq` has been renamed to `bigint.equal`
+   - `bigint.ne` has been renamed to `bigint.notEqual`
+   - `boolean.eq` has been renamed to `boolean.equal`
+   - `boolean.ne` has been renamed to `boolean.notEqual`
+   - `array.lengthLt` has been renamed to `array.lengthLessThan`
+   - `array.lengthLe` has been renamed to `array.lengthLessThanOrEqual`
+   - `array.lengthGt` has been renamed to `array.lengthGreaterThan`
+   - `array.lengthGe` has been renamed to `array.lengthGreaterThanOrEqual`
+   - `array.lengthEq` has been renamed to `array.lengthEqual`
+   - `array.lengthNe` has been renamed to `array.lengthNotEqual`
+   - `typedArray.lengthLt` has been renamed to `typedArray.lengthLessThan`
+   - `typedArray.lengthLe` has been renamed to `typedArray.lengthLessThanOrEqual`
+   - `typedArray.lengthGt` has been renamed to `typedArray.lengthGreaterThan`
+   - `typedArray.lengthGe` has been renamed to `typedArray.lengthGreaterThanOrEqual`
+   - `typedArray.lengthEq` has been renamed to `typedArray.lengthEqual`
+   - `typedArray.lengthNe` has been renamed to `typedArray.lengthNotEqual`
+   - `typedArray.byteLengthLt` has been renamed to `typedArray.byteLengthLessThan`
+   - `typedArray.byteLengthLe` has been renamed to `typedArray.byteLengthLessThanOrEqual`
+   - `typedArray.byteLengthGt` has been renamed to `typedArray.byteLengthGreaterThan`
+   - `typedArray.byteLengthGe` has been renamed to `typedArray.byteLengthGreaterThanOrEqual`
+   - `typedArray.byteLengthEq` has been renamed to `typedArray.byteLengthEqual`
+   - `typedArray.byteLengthNe` has been renamed to `typedArray.byteLengthNotEqual`
+
+- **ObjectValidator:** Don't run validation on arrays (#99) ([c83b3d0](https://github.com/sapphiredev/shapeshift/commit/c83b3d03a201d38cc230d9c831ca1d9b66ca533b))
+
+## 🚀 Features
+
+- Add 2 utility types inspired by yup and co (#102) ([2fef902](https://github.com/sapphiredev/shapeshift/commit/2fef9026c30f2f1825aa55511d0ab088a3dd13ab))
+
+# [2.2.0](https://github.com/sapphiredev/shapeshift/compare/v2.0.0...v2.2.0) - (2022-04-29)
+
+## Bug Fixes
+
+- Ensure `BaseError` is exported as value (#95) ([335d799](https://github.com/sapphiredev/shapeshift/commit/335d799ef7a8c1a19a12e3eeec07e6d210db113d))
+
+## Documentation
+
+- **readme:** Add todo notice for `reshape` and `function` validations (#75) ([d5f16f6](https://github.com/sapphiredev/shapeshift/commit/d5f16f615de83503187dc834c6245fafbf138f5e))
+
+## Features
+
+- Add Typed Array (#78) ([ca5ea5f](https://github.com/sapphiredev/shapeshift/commit/ca5ea5f568084bd5d3aa004911d4ea64329e1a89))
+
+## Performance
+
+- Optimize `NativeEnum` (#79) ([e9ae280](https://github.com/sapphiredev/shapeshift/commit/e9ae280f73e9ea08239bd8bd22165fe0b2178f82))
+
 # [@sapphire/shapeshift@2.1.0](https://github.com/sapphiredev/shapeshift/compare/v2.0.0...@sapphire/shapeshift@2.1.0) - (2022-04-24)
 
 ## Documentation
