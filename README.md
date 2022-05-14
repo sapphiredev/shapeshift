@@ -14,13 +14,55 @@ Blazing fast input validation and transformation ⚡
 
 </div>
 
+## Table of Contents
+
+-   [Description](#description)
+-   [Features](#features)
+-   [Usage](#usage)
+    -   [Basic usage](#basic-usage)
+    -   [Defining validations](#defining-validations)
+        -   [Primitives](#primitives)
+        -   [Literals](#literals)
+        -   [Strings](#strings)
+        -   [Numbers](#numbers)
+        -   [BigInts](#bigints)
+        -   [Booleans](#booleans)
+        -   [Arrays](#arrays)
+        -   [Tuples](#tuples)
+        -   [Unions](#unions)
+        -   [Enums](#enums)
+        -   [Maps](#maps)
+        -   [Sets](#sets)
+        -   [Instances](#instances)
+        -   [Records](#records)
+        -   [Functions // TODO](#functions--todo)
+        -   [TypedArray](#typedarray)
+    -   [Defining schemas (objects)](#defining-schemas-objects)
+        -   [Utility types for TypeScript](#utility-types-for-typescript)
+            -   [Extracting an interface from a schema](#extracting-an-interface-from-a-schema)
+            -   [Defining the structure of a schema through an interface](#defining-the-structure-of-a-schema-through-an-interface)
+        -   [`.extend`:](#extend)
+        -   [`.pick` / `.omit`:](#pick--omit)
+        -   [`.partial`](#partial)
+    -   [Handling unrecognized keys](#handling-unrecognized-keys)
+        -   [`.strict`](#strict)
+        -   [`.ignore`](#ignore)
+        -   [`.passthrough`](#passthrough)
+    -   [BaseValidator: methods and properties](#basevalidator-methods-and-properties)
+-   [Buy us some doughnuts](#buy-us-some-doughnuts)
+-   [Contributors ✨](#contributors-%E2%9C%A8)
+
 ## Description
+
+[Back to top][toc]
 
 A very fast and lightweight input validation and transformation library for JavaScript.
 
 > **Note**: ShapeShift requires Node.js v15.0.0 or higher to work.
 
 ## Features
+
+[Back to top][toc]
 
 -   TypeScript friendly
 -   Offers CJS, ESM and UMD builds
@@ -29,20 +71,24 @@ A very fast and lightweight input validation and transformation library for Java
 
 ## Usage
 
+[Back to top][toc]
+
 **_For complete usages, please dive into our [documentation]_**
 
 ### Basic usage
 
-Creating a simple string schema
+[Back to top][toc]
+
+Creating a simple string validation
 
 ```typescript
 import { s } from '@sapphire/shapeshift';
 
-const mySchema = s.string;
+const myStringValidation = s.string;
 
 // Parse
-mySchema.parse('sapphire'); // => returns 'sapphire'
-mySchema.parse(12); // throws ValidationError
+myStringValidation.parse('sapphire'); // => returns 'sapphire'
+myStringValidation.parse(12); // throws ValidationError
 ```
 
 Creating an object schema
@@ -57,9 +103,13 @@ const user = s.object({
 user.parse({ username: 'Sapphire' });
 ```
 
-### Defining schemas
+### Defining validations
+
+[Back to top][toc]
 
 #### Primitives
+
+[Back to top][toc]
 
 ```typescript
 import { s } from '@sapphire/shapeshift';
@@ -86,6 +136,8 @@ s.never;
 
 #### Literals
 
+[Back to top][toc]
+
 ```typescript
 s.literal('sapphire');
 s.literal(12);
@@ -95,6 +147,8 @@ s.literal(new Date(1639278160000)); // s.date.equal(1639278160000);
 ```
 
 #### Strings
+
+[Back to top][toc]
 
 ShapeShift includes a handful of string-specific validations:
 
@@ -115,6 +169,8 @@ s.string.ipv6;
 ```
 
 #### Numbers
+
+[Back to top][toc]
 
 ShapeShift includes a handful of number-specific validations:
 
@@ -154,6 +210,8 @@ s.number.ceil; // Transforms the number to the result of `Math.ceil`
 
 #### BigInts
 
+[Back to top][toc]
+
 ShapeShift includes a handful of number-specific validations:
 
 ```typescript
@@ -181,6 +239,8 @@ s.bigint.uintN(5); // Clamps to a bigint to an unsigned bigint with 5 digits, se
 
 #### Booleans
 
+[Back to top][toc]
+
 ShapeShift includes a few boolean-specific validations:
 
 ```typescript
@@ -195,6 +255,8 @@ s.boolean.notEqual(false); // s.boolean.true
 ```
 
 #### Arrays
+
+[Back to top][toc]
 
 ```typescript
 const stringArray = s.array(s.string);
@@ -219,6 +281,8 @@ s.string.array.lengthRangeExclusive(0, 4); // Must have more than 0 element and 
 
 #### Tuples
 
+[Back to top][toc]
+
 Unlike arrays, tuples have a fixed number of elements and each element can have a different type:
 
 ```typescript
@@ -231,7 +295,144 @@ const dish = s.tuple([
 dish.parse(['Iberian ham', 10, new Date()]);
 ```
 
-#### Objects
+#### Unions
+
+[Back to top][toc]
+
+ShapeShift includes a built-in method for composing OR types:
+
+```typescript
+const stringOrNumber = s.union(s.string, s.number);
+
+stringOrNumber.parse('Sapphire'); // => 'Sapphire'
+stringOrNumber.parse(42); // => 42
+stringOrNumber.parse({}); // => throws CombinedError
+```
+
+#### Enums
+
+[Back to top][toc]
+
+Enums are a convenience method that aliases `s.union(s.literal(a), s.literal(b), ...)`:
+
+```typescript
+s.enum('Red', 'Green', 'Blue');
+// s.union(s.literal('Red'), s.literal('Green'), s.literal('Blue'));
+```
+
+#### Maps
+
+[Back to top][toc]
+
+```typescript
+const map = s.map(s.string, s.number);
+// Map<string, number>
+```
+
+#### Sets
+
+[Back to top][toc]
+
+```typescript
+const set = s.set(s.number);
+// Set<number>
+```
+
+#### Instances
+
+[Back to top][toc]
+
+You can use `s.instance(Class)` to check that the input is an instance of a class. This is useful to validate inputs against classes:
+
+```typescript
+class User {
+	public constructor(public name: string) {}
+}
+
+const userInstanceValidation = s.instance(User);
+userInstanceValidation.parse(new User('Sapphire')); // => User { name: 'Sapphire' }
+userInstanceValidation.parse('oops'); // => throws ValidatorError
+```
+
+#### Records
+
+[Back to top][toc]
+
+Record validations are similar to objects, but validate `Record<string, T>` types. Keep in mind this does not check for the keys, and cannot support validation for specific ones:
+
+```typescript
+const tags = s.record(s.string);
+
+tags.parse({ foo: 'bar', hello: 'world' }); // => { foo: 'bar', hello: 'world' }
+tags.parse({ foo: 42 }); // => throws CombinedError
+tags.parse('Hello'); // => throws ValidateError
+```
+
+---
+
+_**Function validation is not yet implemented and will be made available starting v2.1.0**_
+
+#### Functions // TODO
+
+[Back to top][toc]
+
+You can define function validations. This checks for whether or not an input is a function:
+
+```typescript
+s.function; // () => unknown
+```
+
+You can define arguments by passing an array as the first argument, as well as the return type as the second:
+
+```typescript
+s.function([s.string]); // (arg0: string) => unknown
+s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => string
+```
+
+> **Note**: ShapeShift will transform the given function into one with validation on arguments and output. You can access the `.raw` property of the function to get the unchecked function.
+
+---
+
+#### TypedArray
+
+[Back to top][toc]
+
+```ts
+const typedArray = s.typedArray();
+const int16Array = s.int16Array;
+const uint16Array = s.uint16Array;
+const uint8ClampedArray = s.uint8ClampedArray;
+const int16Array = s.int16Array;
+const uint16Array = s.uint16Array;
+const int32Array = s.int32Array;
+const uint32Array = s.uint32Array;
+const float32Array = s.float32Array;
+const float64Array = s.float64Array;
+const bigInt64Array = s.bigInt64Array;
+const bigUint64Array = s.bigUint64Array;
+```
+
+ShapeShift includes a handful of validations specific to typed arrays.
+
+```typescript
+s.typedArray().lengthLessThan(5); // Length must be less than 5
+s.typedArray().lengthLessThanOrEqual(5); // Length must be 5 or less
+s.typedArray().lengthGreaterThan(5); // Length must be more than 5
+s.typedArray().lengthGreaterThanOrEqual(5); // Length must be 5 or more
+s.typedArray().lengthEqual(5); // Length must be exactly 5
+s.typedArray().lengthNotEqual(5); // Length must not be 5
+s.typedArray().lengthRange(0, 4); // Length L must satisfy 0 <= L < 4
+s.typedArray().lengthRangeInclusive(0, 4); // Length L must satisfy 0 <= L <= 4
+s.typedArray().lengthRangeExclusive(0, 4); // Length L must satisfy 0 < L < 4
+```
+
+Note that all of these methods have analogous methods for working with the typed array's byte length, `s.typedArray().byteLengthX()` - for instance, `s.typedArray().byteLengthLessThan(5)` is the same as `s.typedArray().lengthLessThan(5)` but for the array's byte length.
+
+---
+
+### Defining schemas (objects)
+
+[Back to top][toc]
 
 ```typescript
 // Properties are required by default:
@@ -241,11 +442,15 @@ const animal = s.object({
 });
 ```
 
-##### Utility types for TypeScript
+#### Utility types for TypeScript
+
+[Back to top][toc]
 
 For object validation Shapeshift exports 2 utility types that can be used to extract interfaces from schemas and define the structure of a schema as an interface beforehand respectively.
 
-###### Extracting an interface from a schema
+##### Extracting an interface from a schema
+
+[Back to top][toc]
 
 You can use the `InferType` type to extract the interface from a schema, for example:
 
@@ -272,7 +477,9 @@ type Inferredtype = {
 };
 ```
 
-###### Defining the structure of a schema through an interface
+##### Defining the structure of a schema through an interface
+
+[Back to top][toc]
 
 You can use the `SchemaOf` type to define the structure of a schema before defining the actual schema, for example:
 
@@ -325,11 +532,18 @@ const recipeSchema: RecipeSchemaType = s.object({
 });
 ```
 
-##### `.extend`:
+#### `.extend`:
+
+[Back to top][toc]
 
 You can add additional fields using either an object or an ObjectValidator, in this case, you will get a new object validator with the merged properties:
 
 ```typescript
+const animal = s.object({
+	name: s.string.optional,
+	age: s.number
+});
+
 const pet = animal.extend({
 	owner: s.string.nullish
 });
@@ -343,7 +557,9 @@ const pet = animal.extend(
 
 > If both schemas share keys, an error will be thrown. Please use `.omit` on the first object if you desire this behaviour.
 
-##### `.pick` / `.omit`:
+#### `.pick` / `.omit`:
+
+[Back to top][toc]
 
 Inspired by TypeScript's built-in `Pick` and `Omit` utility types, all object schemas have the aforementioned methods that return a modifier version:
 
@@ -361,7 +577,9 @@ const noDependencies = pkg.omit(['dependencies']);
 // s.object({ name: s.string, description: s.string });
 ```
 
-##### `.partial`
+#### `.partial`
+
+[Back to top][toc]
 
 Inspired by TypeScript's built-in `Partial` utility type, all object schemas have the aforementioned method that makes all properties optional:
 
@@ -381,7 +599,11 @@ const user = s.object({
 });
 ```
 
-#### Unrecognized keys
+---
+
+### Handling unrecognized keys
+
+[Back to top][toc]
 
 By default, ShapeShift will not include keys that are not defined by the schema during parsing:
 
@@ -397,7 +619,9 @@ person.parse({
 // => { name: 'Sapphire' }
 ```
 
-##### `.strict`
+#### `.strict`
+
+[Back to top][toc]
 
 You can disallow unknown keys with `.strict`. If the input includes any unknown keys, an error will be thrown.
 
@@ -413,138 +637,29 @@ person.parse({
 // => throws ValidationError
 ```
 
-##### `.ignore`
+#### `.ignore`
+
+[Back to top][toc]
 
 You can use the `.ignore` getter to reset an object schema to the default behaviour (ignoring unrecognized keys).
 
-##### `.passthrough`
+#### `.passthrough`
+
+[Back to top][toc]
 
 You can use the `.passthrough` getter to make the validator add the unrecognized properties the shape does not have, from the input.
 
-#### Records
-
-Record schemas are similar to objects, but validate `Record<string, T>` types, keep in mind this does not check for the keys, and cannot support validation for specific ones:
-
-```typescript
-const tags = s.record(s.string);
-
-tags.parse({ foo: 'bar', hello: 'world' }); // => { foo: 'bar', hello: 'world' }
-tags.parse({ foo: 42 }); // => throws CombinedError
-tags.parse('Hello'); // => throws ValidateError
-```
-
-#### Unions
-
-ShapeShift includes a built-in method for composing OR types:
-
-```typescript
-const stringOrNumber = s.union(s.string, s.number);
-
-stringOrNumber.parse('Sapphire'); // => 'Sapphire'
-stringOrNumber.parse(42); // => 42
-stringOrNumber.parse({}); // => throws CombinedError
-```
-
-#### Enums
-
-Enums are a convenience method that aliases `s.union(s.literal(a), s.literal(b), ...)`:
-
-```typescript
-s.enum('Red', 'Green', 'Blue');
-// s.union(s.literal('Red'), s.literal('Green'), s.literal('Blue'));
-```
-
-#### Maps
-
-```typescript
-const map = s.map(s.string, s.number);
-// Map<string, number>
-```
-
-#### Sets
-
-```typescript
-const set = s.set(s.number);
-// Set<number>
-```
-
-#### Instances
-
-You can use `s.instance(Class)` to check that the input is an instance of a class. This is useful to validate inputs against classes:
-
-```typescript
-class User {
-	public constructor(public name: string) {}
-}
-
-const schema = s.instance(User);
-schema.parse(new User('Sapphire')); // => User { name: 'Sapphire' }
-schema.parse('oops' as any); // => throws ValidatorError
-```
-
 ---
-
-_**Function validation is not yet implemented and will be made available starting v2.1.0**_
-
-#### Functions // TODO
-
-You can define function schemas. This checks for whether or not an input is a function:
-
-```typescript
-s.function; // () => unknown
-```
-
-You can define arguments by passing an array as the first argument, as well as the return type as the second:
-
-```typescript
-s.function([s.string]); // (arg0: string) => unknown
-s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => string
-```
-
-> **Note**: ShapeShift will transform the given function into one with validation on arguments and output. You can access the `.raw` property of the function to get the unchecked function.
-
----
-
-#### TypedArray
-
-```ts
-const typedArray = s.typedArray();
-const int16Array = s.int16Array;
-const uint16Array = s.uint16Array;
-const uint8ClampedArray = s.uint8ClampedArray;
-const int16Array = s.int16Array;
-const uint16Array = s.uint16Array;
-const int32Array = s.int32Array;
-const uint32Array = s.uint32Array;
-const float32Array = s.float32Array;
-const float64Array = s.float64Array;
-const bigInt64Array = s.bigInt64Array;
-const bigUint64Array = s.bigUint64Array;
-```
-
-ShapeShift includes a handful of validations specific to typed arrays.
-
-```typescript
-s.typedArray().lengthLessThan(5); // Length must be less than 5
-s.typedArray().lengthLessThanOrEqual(5); // Length must be 5 or less
-s.typedArray().lengthGreaterThan(5); // Length must be more than 5
-s.typedArray().lengthGreaterThanOrEqual(5); // Length must be 5 or more
-s.typedArray().lengthEqual(5); // Length must be exactly 5
-s.typedArray().lengthNotEqual(5); // Length must not be 5
-s.typedArray().lengthRange(0, 4); // Length L must satisfy 0 <= L < 4
-s.typedArray().lengthRangeInclusive(0, 4); // Length L must satisfy 0 <= L <= 4
-s.typedArray().lengthRangeExclusive(0, 4); // Length L must satisfy 0 < L < 4
-```
-
-Note that all of these methods have analogous methods for working with the typed array's byte length, `s.typedArray().byteLengthX()` - for instance, `s.typedArray().byteLengthLessThan(5)` is the same as `s.typedArray().lengthLessThan(5)` but for the array's byte length.
 
 ### BaseValidator: methods and properties
 
-All schemas in ShapeShift contain certain methods.
+[Back to top][toc]
 
-`.run(data: unknown): Result<T, Error>`: given a schema, you can call this method to check whether or not the input is valid. If it is, a `Result` with `success: true` and a deep-cloned value will be returned with the given constraints and transformations. Otherwise, a `Result` with `success: false` and an error is returned.
+All validations in ShapeShift contain certain methods.
 
-`.parse(data: unknown): T`: given a schema, you can call this method to check whether or not the input is valid. If it is, a deep-cloned value will be returned with the given constraints and transformations. Otherwise, an error is thrown.
+`.run(data: unknown): Result<T, Error>`: given a validation, you can call this method to check whether or not the input is valid. If it is, a `Result` with `success: true` and a deep-cloned value will be returned with the given constraints and transformations. Otherwise, a `Result` with `success: false` and an error is returned.
+
+`.parse(data: unknown): T`: given a validations, you can call this method to check whether or not the input is valid. If it is, a deep-cloned value will be returned with the given constraints and transformations. Otherwise, an error is thrown.
 
 `.transform<R>((value: T) => R): NopValidator<R>`: adds a constraint that modifies the input:
 
@@ -627,6 +742,8 @@ s.object({ name: s.string }).or(s.string, s.number);
 
 ## Buy us some doughnuts
 
+[Back to top][toc]
+
 Sapphire Community is and always will be open source, even if we don't get donations. That being said, we know there are amazing people who may still want to donate just to show their appreciation. Thank you very much in advance!
 
 We accept donations through Open Collective, Ko-fi, Paypal, Patreon and GitHub Sponsorships. You can use the buttons below to donate through your method of choice.
@@ -639,6 +756,8 @@ We accept donations through Open Collective, Ko-fi, Paypal, Patreon and GitHub S
 |     PayPal      |     [Click Here](https://sapphirejs.dev/paypal)     |
 
 ## Contributors ✨
+
+[Back to top][toc]
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
@@ -666,3 +785,4 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 [`zod`]: https://github.com/colinhacks/zod
 [documentation]: https://www.sapphirejs.dev/docs/Documentation/api-shapeshift/
+[toc]: #table-of-contents
