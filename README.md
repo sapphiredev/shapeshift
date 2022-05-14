@@ -351,14 +351,14 @@ class User {
 
 const userInstanceValidation = s.instance(User);
 userInstanceValidation.parse(new User('Sapphire')); // => User { name: 'Sapphire' }
-userInstanceValidation.parse('oops' as any); // => throws ValidatorError
+userInstanceValidation.parse('oops'); // => throws ValidatorError
 ```
 
 #### Records
 
 [Back to top][toc]
 
-Record validations are similar to objects, but validate `Record<string, T>` types, keep in mind this does not check for the keys, and cannot support validation for specific ones:
+Record validations are similar to objects, but validate `Record<string, T>` types. Keep in mind this does not check for the keys, and cannot support validation for specific ones:
 
 ```typescript
 const tags = s.record(s.string);
