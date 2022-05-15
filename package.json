@@ -33,15 +33,15 @@
 		"postpack": "pinst --enable"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^16.2.4",
+		"@commitlint/cli": "^16.3.0",
 		"@commitlint/config-conventional": "^16.2.4",
-		"@favware/cliff-jumper": "^1.7.0",
+		"@favware/cliff-jumper": "^1.8.0",
 		"@favware/npm-deprecate": "^1.0.4",
 		"@favware/rollup-type-bundler": "^1.0.7",
 		"@sapphire/eslint-config": "^4.3.4",
 		"@sapphire/prettier-config": "^1.4.3",
 		"@sapphire/ts-config": "^3.3.4",
-		"@types/jest": "^27.5.0",
+		"@types/jest": "^27.5.1",
 		"@types/node": "^17.0.31",
 		"@typescript-eslint/eslint-plugin": "^5.23.0",
 		"@typescript-eslint/parser": "^5.23.0",
@@ -116,5 +116,5 @@
 		"minimist": "^1.2.6"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@3.2.0"
+	"packageManager": "yarn@3.2.1"
 }
