@@ -38,7 +38,7 @@
 		"@favware/cliff-jumper": "^1.8.0",
 		"@favware/npm-deprecate": "^1.0.4",
 		"@favware/rollup-type-bundler": "^1.0.7",
-		"@sapphire/eslint-config": "^4.3.4",
+		"@sapphire/eslint-config": "^4.3.5",
 		"@sapphire/prettier-config": "^1.4.3",
 		"@sapphire/ts-config": "^3.3.4",
 		"@types/jest": "^27.5.1",
