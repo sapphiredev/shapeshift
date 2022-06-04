@@ -7,6 +7,7 @@ import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import type { MappedObjectValidator, NonNullObject } from '../lib/util-types';
 import { BaseValidator } from './BaseValidator';
+import { DefaultValidator } from './DefaultValidator';
 import { LiteralValidator } from './LiteralValidator';
 import { NullishValidator } from './NullishValidator';
 import { UnionValidator } from './UnionValidator';
@@ -19,6 +20,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 
 	private readonly requiredKeys = new Map<keyof T, BaseValidator<unknown>>();
 	private readonly possiblyUndefinedKeys = new Map<keyof T, BaseValidator<unknown>>();
+	private readonly possiblyUndefinedKeysWithDefaults = new Map<keyof T, DefaultValidator<unknown>>();
 
 	public constructor(
 		shape: MappedObjectValidator<T>,
@@ -57,6 +59,8 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 					} else {
 						this.requiredKeys.set(key, validator);
 					}
+				} else if (validator instanceof DefaultValidator) {
+					this.possiblyUndefinedKeysWithDefaults.set(key, validator);
 				} else {
 					this.requiredKeys.set(key, validator);
 				}
@@ -68,6 +72,8 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 				} else {
 					this.requiredKeys.set(key, validator);
 				}
+			} else if (validator instanceof DefaultValidator) {
+				this.possiblyUndefinedKeysWithDefaults.set(key, validator);
 			} else {
 				this.requiredKeys.set(key, validator);
 			}
@@ -151,6 +157,12 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			}
 		}
 
+		// Run possibly undefined keys that also have defaults even if there are no more keys to process (this is necessary so we fill in those defaults)
+		for (const [key, validator] of this.possiblyUndefinedKeysWithDefaults) {
+			inputEntries.delete(key);
+			runPredicate(key, validator);
+		}
+
 		// Early exit if there are no more properties to validate in the object and there are errors to report
 		if (inputEntries.size === 0) {
 			return errors.length === 0 //
@@ -205,6 +217,12 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			} else {
 				errors.push([key, new MissingPropertyError(key)]);
 			}
+		}
+
+		// Run possibly undefined keys that also have defaults even if there are no more keys to process (this is necessary so we fill in those defaults)
+		for (const [key, validator] of this.possiblyUndefinedKeysWithDefaults) {
+			inputEntries.delete(key);
+			runPredicate(key, validator);
 		}
 
 		for (const [key, predicate] of this.possiblyUndefinedKeys) {

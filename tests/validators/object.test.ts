@@ -86,6 +86,16 @@ describe('ObjectValidator', () => {
 		expect(predicate['possiblyUndefinedKeys'].size).toEqual(1);
 	});
 
+	test('GIVEN a validator with a default value THEN it should be counted as a possibly undefined key with defaults', () => {
+		const predicate = s.object({
+			owo: s.string.default('hello')
+		});
+
+		expect(predicate['possiblyUndefinedKeysWithDefaults'].size).toEqual(1);
+
+		expect(predicate.parse({})).toStrictEqual({ owo: 'hello' });
+	});
+
 	test("GIVEN UnionValidator with LiteralValidator with 'owo' THEN it should be counted as a required key", () => {
 		const predicate = s.object({
 			owo: s.union(s.literal('owo'), s.number)
