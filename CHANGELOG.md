@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.1.0](https://github.com/sapphiredev/shapeshift/compare/v3.0.0...v3.1.0) - (2022-06-04)
+
+## 🐛 Bug Fixes
+
+- **ObjectValidator:** Fix #121 (#122) ([ecfad7e](https://github.com/sapphiredev/shapeshift/commit/ecfad7ec2cdd9e0cee0b3e227e55a91b28c29c30))
+
+## 📝 Documentation
+
+- **readme:** Clarify the difference between validations and schemas and add table of contents (#108) ([dc492a3](https://github.com/sapphiredev/shapeshift/commit/dc492a395349cc5bc680f313146127ea510b4ada))
+
+## 🚀 Features
+
+- **StringValidator:** Add date string checks (#106) ([1b72907](https://github.com/sapphiredev/shapeshift/commit/1b729078be32a88aeddf574c9cff3098990d4f94))
+
 # [3.0.0](https://github.com/sapphiredev/shapeshift/compare/v2.2.0...v3.0.0) - (2022-05-06)
 
 ## 🏃 Performance
