@@ -1,4 +1,5 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
+import { getGlobalValidationEnabled } from '../lib/configs';
 import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
@@ -22,6 +23,14 @@ export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 	protected handle(value: unknown): Result<Map<K, V>, ValidationError | CombinedPropertyError> {
 		if (!(value instanceof Map)) {
 			return Result.err(new ValidationError('s.map(K, V)', 'Expected a map', value));
+		}
+
+		if (this.isValidationEnabled === false) {
+			return Result.ok(value);
+		}
+
+		if (this.isValidationEnabled === null && !getGlobalValidationEnabled()) {
+			return Result.ok(value);
 		}
 
 		const errors: [string, BaseError][] = [];

@@ -49,6 +49,7 @@ Blazing fast input validation and transformation ⚡
         -   [`.ignore`](#ignore)
         -   [`.passthrough`](#passthrough)
     -   [BaseValidator: methods and properties](#basevalidator-methods-and-properties)
+    -   [Enabling and disabling validation](#enabling-and-disabling-validation)
 -   [Buy us some doughnuts](#buy-us-some-doughnuts)
 -   [Contributors ✨](#contributors-%E2%9C%A8)
 
@@ -738,6 +739,26 @@ s.string.or(s.number);
 
 s.object({ name: s.string }).or(s.string, s.number);
 // => s.union(s.object({ name: s.string }), s.string, s.number)
+```
+
+### Enabling and disabling validation
+
+[Back to top][toc]
+
+At times, you might want to have a consistent code base with validation, but would like to keep validation to the strict necessities instead of the in-depth constraints available in shapeshift. By calling `setGlobalValidationEnabled` you can disable validation at a global level, and by calling `setValidationEnabled` you can disable validation on a per-validator level.
+
+> When setting the validation enabled status per-validator, you can also set it to `null` to use the global setting.
+
+```typescript
+import { setGlobalValidationEnabled } from '@sapphire/shapeshift';
+
+setGlobalValidationEnabled(false);
+```
+
+```typescript
+import { s } from '@sapphire/shapeshift';
+
+const predicate = s.string.lengthGreaterThan(5).setValidationEnabled(false);
 ```
 
 ## Buy us some doughnuts

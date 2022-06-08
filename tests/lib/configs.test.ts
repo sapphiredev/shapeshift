@@ -1,0 +1,81 @@
+import { s, setGlobalValidationEnabled } from '../../src';
+
+describe('Validation enabled and disabled configurations', () => {
+	const stringPredicate = s.string.lengthGreaterThan(5);
+	const arrayPredicate = s.array(s.string).lengthGreaterThan(2);
+	const mapPredicate = s.map(s.string, s.number);
+	const objectPredicate = s.object({
+		owo: s.boolean
+	});
+	const recordPredicate = s.record(s.number);
+	const setPredicate = s.set(s.number);
+	const tuplePredicate = s.tuple([s.string, s.number]);
+
+	describe('Global configurations', () => {
+		beforeAll(() => {
+			setGlobalValidationEnabled(false);
+		});
+
+		afterAll(() => {
+			setGlobalValidationEnabled(true);
+		});
+
+		test.each([
+			//
+			['string', stringPredicate, ''],
+			['array', arrayPredicate, []],
+			['map', mapPredicate, new Map([[0, '']])],
+			['object', objectPredicate, { owo: 'string' }],
+			['record', recordPredicate, { one: 'one' }],
+			['set', setPredicate, new Set(['1'])],
+			['tuple', tuplePredicate, [0, 'zero']]
+		])('GIVEN globally disabled %s predicate THEN returns the input', (_, inputPredicate, input) => {
+			expect(inputPredicate.parse(input)).toStrictEqual(input);
+		});
+	});
+
+	describe('Validator level configurations', () => {
+		test.each([
+			//
+			['string', stringPredicate, ''],
+			['array', arrayPredicate, []],
+			['map', mapPredicate, new Map([[0, '']])],
+			['object', objectPredicate, { owo: 'string' }],
+			['record', recordPredicate, { one: 'one' }],
+			['set', setPredicate, new Set(['1'])],
+			['tuple', tuplePredicate, [0, 'zero']]
+		])('GIVEN disabled %s predicate THEN returns the input', (_, inputPredicate, input) => {
+			const predicate = inputPredicate.setValidationEnabled(false);
+
+			expect(predicate.parse(input)).toStrictEqual(input);
+		});
+	});
+
+	describe('Globally disabled but locally enabled', () => {
+		beforeAll(() => {
+			setGlobalValidationEnabled(false);
+		});
+
+		afterAll(() => {
+			setGlobalValidationEnabled(true);
+		});
+
+		test.each([
+			//
+			['string', stringPredicate, ''],
+			['array', arrayPredicate, []],
+			['map', mapPredicate, new Map([[0, '']])],
+			['object', objectPredicate, { owo: 'string' }],
+			['record', recordPredicate, { one: 'one' }],
+			['set', setPredicate, new Set(['1'])],
+			['tuple', tuplePredicate, [0, 'zero']]
+		])(
+			'GIVEN enabled %s predicate while the global option is set to false THEN it should throw validation errors',
+			(_, inputPredicate, input) => {
+				const predicate = inputPredicate.setValidationEnabled(true);
+
+				expect(() => predicate.parse(input)).toThrowError();
+			}
+		);
+	});
+});

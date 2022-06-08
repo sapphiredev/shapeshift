@@ -1,4 +1,5 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
+import { getGlobalValidationEnabled } from '../lib/configs';
 import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
@@ -124,6 +125,14 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 
 		if (Array.isArray(value)) {
 			return Result.err(new ValidationError('s.object(T)', 'Expected the value to not be an array', value));
+		}
+
+		if (this.isValidationEnabled === false) {
+			return Result.ok(value as T);
+		}
+
+		if (this.isValidationEnabled === null && !getGlobalValidationEnabled()) {
+			return Result.ok(value as T);
 		}
 
 		return this.handleStrategy(value as NonNullObject);

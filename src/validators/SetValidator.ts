@@ -1,4 +1,5 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
+import { getGlobalValidationEnabled } from '../lib/configs';
 import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedError } from '../lib/errors/CombinedError';
 import { ValidationError } from '../lib/errors/ValidationError';
@@ -20,6 +21,14 @@ export class SetValidator<T> extends BaseValidator<Set<T>> {
 	protected handle(values: unknown): Result<Set<T>, ValidationError | CombinedError> {
 		if (!(values instanceof Set)) {
 			return Result.err(new ValidationError('s.set(T)', 'Expected a set', values));
+		}
+
+		if (this.isValidationEnabled === false) {
+			return Result.ok(values);
+		}
+
+		if (this.isValidationEnabled === null && !getGlobalValidationEnabled()) {
+			return Result.ok(values);
 		}
 
 		const errors: BaseError[] = [];
