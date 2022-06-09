@@ -49,6 +49,12 @@ describe('Validation enabled and disabled configurations', () => {
 
 			expect(predicate.parse(input)).toStrictEqual(input);
 		});
+
+		test("GIVEN disabled predicate THEN checking if it's disabled should return true", () => {
+			const predicate = s.string.setValidationEnabled(false);
+
+			expect(predicate.getValidationEnabled()).toBe(true);
+		});
 	});
 
 	describe('Globally disabled but locally enabled', () => {
