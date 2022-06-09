@@ -53,7 +53,7 @@ describe('Validation enabled and disabled configurations', () => {
 		test("GIVEN disabled predicate THEN checking if it's disabled should return true", () => {
 			const predicate = s.string.setValidationEnabled(false);
 
-			expect(predicate.getValidationEnabled()).toBe(true);
+			expect(predicate.getValidationEnabled()).toBe(false);
 		});
 	});
 
