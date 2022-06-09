@@ -10,7 +10,6 @@ import {
 	arrayLengthRangeInclusive
 } from '../constraints/ArrayLengthConstraints';
 import type { IConstraint } from '../constraints/base/IConstraint';
-import { getGlobalValidationEnabled } from '../lib/configs';
 import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
@@ -79,11 +78,7 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 			return Result.err(new ValidationError('s.array(T)', 'Expected an array', values));
 		}
 
-		if (this.isValidationEnabled === false) {
-			return Result.ok(values);
-		}
-
-		if (this.isValidationEnabled === null && !getGlobalValidationEnabled()) {
+		if (!this.shouldValidatorRunConstraints) {
 			return Result.ok(values);
 		}
 

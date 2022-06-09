@@ -1,5 +1,4 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
-import { getGlobalValidationEnabled } from '../lib/configs';
 import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
@@ -31,11 +30,7 @@ export class RecordValidator<T> extends BaseValidator<Record<string, T>> {
 			return Result.err(new ValidationError('s.record(T)', 'Expected the value to not be an array', value));
 		}
 
-		if (this.isValidationEnabled === false) {
-			return Result.ok(value as Record<string, T>);
-		}
-
-		if (this.isValidationEnabled === null && !getGlobalValidationEnabled()) {
+		if (!this.shouldValidatorRunConstraints) {
 			return Result.ok(value as Record<string, T>);
 		}
 

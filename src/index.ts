@@ -1,7 +1,8 @@
-import { getGlobalValidationEnabled, setGlobalValidationEnabled } from './lib/configs';
 import { Shapes } from './lib/Shapes';
 
 export const s = new Shapes();
+
+export * from './lib/configs';
 export * from './lib/errors/BaseError';
 export * from './lib/errors/CombinedError';
 export * from './lib/errors/CombinedPropertyError';
@@ -15,4 +16,3 @@ export * from './lib/errors/ValidationError';
 export * from './lib/Result';
 export * from './type-exports';
 export * from './utility-types';
-export { getGlobalValidationEnabled, setGlobalValidationEnabled };
