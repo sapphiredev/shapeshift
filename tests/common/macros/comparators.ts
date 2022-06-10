@@ -35,7 +35,7 @@ export function expectError<T = any>(cb: () => T, expected: BaseError) {
 		return;
 	}
 
-	fail('Expected to throw, but failed to do so');
+	throw new Error('Expected to throw, but failed to do so');
 }
 
 function expectIdenticalError(actual: BaseError, expected: BaseError) {

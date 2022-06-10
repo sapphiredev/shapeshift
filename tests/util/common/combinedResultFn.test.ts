@@ -10,7 +10,7 @@ describe('combinedErrorFn', () => {
 
 	describe('1 function', () => {
 		test('GIVEN one function returning null THEN returns null', () => {
-			const cb = jest.fn().mockReturnValue(null);
+			const cb = vi.fn().mockReturnValue(null);
 			const fn = combinedErrorFn(cb);
 
 			expect(fn('foo', 'bar')).toBe(null);
@@ -21,7 +21,7 @@ describe('combinedErrorFn', () => {
 
 		test('GIVEN one function returning error THEN returns the same error', () => {
 			const error = new Error('my precious');
-			const cb = jest.fn().mockReturnValue(error);
+			const cb = vi.fn().mockReturnValue(error);
 			const fn = combinedErrorFn(cb);
 
 			expect(fn('foo', 'bar')).toBe(error);
@@ -33,8 +33,8 @@ describe('combinedErrorFn', () => {
 
 	describe('2 functions', () => {
 		test('GIVEN (null, null) THEN returns null', () => {
-			const cb0 = jest.fn().mockReturnValue(null);
-			const cb1 = jest.fn().mockReturnValue(null);
+			const cb0 = vi.fn().mockReturnValue(null);
+			const cb1 = vi.fn().mockReturnValue(null);
 			const fn = combinedErrorFn(cb0, cb1);
 
 			expect(fn('foo', 'bar')).toBe(null);
@@ -48,8 +48,8 @@ describe('combinedErrorFn', () => {
 
 		test('GIVEN (null, error) THEN returns error', () => {
 			const error = new Error('not all those who wander are lost');
-			const cb0 = jest.fn().mockReturnValue(null);
-			const cb1 = jest.fn().mockReturnValue(error);
+			const cb0 = vi.fn().mockReturnValue(null);
+			const cb1 = vi.fn().mockReturnValue(error);
 			const fn = combinedErrorFn(cb0, cb1);
 
 			expect(fn('foo', 'bar')).toBe(error);
@@ -63,8 +63,8 @@ describe('combinedErrorFn', () => {
 
 		test('GIVEN (error, null) THEN returns error', () => {
 			const error = new Error('it is a dangerous business');
-			const cb0 = jest.fn().mockReturnValue(error);
-			const cb1 = jest.fn().mockReturnValue(null);
+			const cb0 = vi.fn().mockReturnValue(error);
+			const cb1 = vi.fn().mockReturnValue(null);
 			const fn = combinedErrorFn(cb0, cb1);
 
 			expect(fn('foo', 'bar')).toBe(error);
@@ -78,9 +78,9 @@ describe('combinedErrorFn', () => {
 
 	describe('3 functions', () => {
 		test('GIVEN (null, null, null) THEN returns null', () => {
-			const cb0 = jest.fn().mockReturnValue(null);
-			const cb1 = jest.fn().mockReturnValue(null);
-			const cb2 = jest.fn().mockReturnValue(null);
+			const cb0 = vi.fn().mockReturnValue(null);
+			const cb1 = vi.fn().mockReturnValue(null);
+			const cb2 = vi.fn().mockReturnValue(null);
 			const fn = combinedErrorFn(cb0, cb1, cb2);
 
 			expect(fn('foo', 'bar')).toBe(null);
@@ -97,9 +97,9 @@ describe('combinedErrorFn', () => {
 
 		test('GIVEN (null, error, null) THEN returns error', () => {
 			const error = new Error('go where you must go, and hope!');
-			const cb0 = jest.fn().mockReturnValue(null);
-			const cb1 = jest.fn().mockReturnValue(error);
-			const cb2 = jest.fn().mockReturnValue(null);
+			const cb0 = vi.fn().mockReturnValue(null);
+			const cb1 = vi.fn().mockReturnValue(error);
+			const cb2 = vi.fn().mockReturnValue(null);
 			const fn = combinedErrorFn(cb0, cb1, cb2);
 
 			expect(fn('foo', 'bar')).toBe(error);
@@ -115,9 +115,9 @@ describe('combinedErrorFn', () => {
 
 		test('GIVEN (error, null, null) THEN returns error', () => {
 			const error = new Error('all is well that ends better');
-			const cb0 = jest.fn().mockReturnValue(error);
-			const cb1 = jest.fn().mockReturnValue(null);
-			const cb2 = jest.fn().mockReturnValue(null);
+			const cb0 = vi.fn().mockReturnValue(error);
+			const cb1 = vi.fn().mockReturnValue(null);
+			const cb2 = vi.fn().mockReturnValue(null);
 			const fn = combinedErrorFn(cb0, cb1, cb2);
 
 			expect(fn('foo', 'bar')).toBe(error);
