@@ -4,11 +4,11 @@ import { expectError } from '../common/macros/comparators';
 describe('EnumValidator', () => {
 	const predicate = s.enum('a', 'b', 'c');
 
-	test.each(['a', 'b', 'c'])('GIVEN a string (%p) THEN returns a string', (input) => {
+	test.each([['a'], ['b'], ['c']])('GIVEN a string (%j) THEN returns a string', (input) => {
 		expect(predicate.parse(input)).toBe(input);
 	});
 
-	test.each(['d', 'e', 'f', 1, null, true])('GIVEN a invalid value (%p) THEN throws CombinedError', (input) => {
+	test.each([['d'], ['e'], ['f'], [1], [null], [true]])('GIVEN a invalid value (%j) THEN throws CombinedError', (input) => {
 		expectError(
 			() => predicate.parse(input),
 			new CombinedError([

@@ -11,9 +11,9 @@ import {
 	type BaseValidator
 } from '../../../src';
 
-export function expectClonedValidator<T>(expected: BaseValidator<T>, actual: BaseValidator<T>) {
-	expect(actual).not.toBe(expected);
-	expect(actual).toBeInstanceOf(expected.constructor);
+export function expectClonedValidator<T>(expected: BaseValidator<T>, received: BaseValidator<T>) {
+	expect(received).not.toBe(expected);
+	expect(received).toBeInstanceOf(expected.constructor);
 }
 
 export function expectIdenticalValidator<T>(expected: BaseValidator<T>, actual: BaseValidator<T>) {

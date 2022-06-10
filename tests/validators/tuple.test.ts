@@ -8,7 +8,7 @@ describe('TupleValidator', () => {
 		expect<[string, number]>(predicate.parse(['foo', 1])).toStrictEqual(['foo', 1]);
 	});
 
-	test.each([false, 1, 'Hello', null, undefined])('GIVEN %p THEN throws ValidationError', (input) => {
+	test.each([[false], [1], ['Hello'], [null], [undefined]])('GIVEN %j THEN throws ValidationError', (input) => {
 		expectError(() => predicate.parse(input), new ValidationError('s.tuple(T)', 'Expected an array', input));
 	});
 
@@ -17,7 +17,7 @@ describe('TupleValidator', () => {
 		[null, 'bar'],
 		[undefined, {}],
 		[{}, null]
-	])('GIVEN [%p, %p] tuple THEN throws CombinedError', (a, b) => {
+	])('GIVEN [%j, %j] tuple THEN throws CombinedError', (a, b) => {
 		expectError(
 			() => predicate.parse([a, b]),
 			new CombinedPropertyError([
