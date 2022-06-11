@@ -24,6 +24,10 @@ export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 			return Result.err(new ValidationError('s.map(K, V)', 'Expected a map', value));
 		}
 
+		if (!this.shouldRunConstraints) {
+			return Result.ok(value);
+		}
+
 		const errors: [string, BaseError][] = [];
 		const transformed = new Map<K, V>();
 

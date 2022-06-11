@@ -1,4 +1,5 @@
 import type { IConstraint } from '../constraints/base/IConstraint';
+import { getGlobalValidationEnabled } from '../lib/configs';
 import type { BaseError } from '../lib/errors/BaseError';
 import type { CombinedError } from '../lib/errors/CombinedError';
 import type { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
@@ -9,6 +10,7 @@ import { ArrayValidator, DefaultValidator, LiteralValidator, NullishValidator, S
 
 export abstract class BaseValidator<T> {
 	protected constraints: readonly IConstraint<T>[] = [];
+	protected isValidationEnabled: boolean | null = null;
 
 	public constructor(constraints: readonly IConstraint<T>[] = []) {
 		this.constraints = constraints;
@@ -61,11 +63,37 @@ export abstract class BaseValidator<T> {
 	}
 
 	public parse(value: unknown): T {
+		// If validation is disabled (at the validator or global level), we only run the `handle` method, which will do some basic checks
+		// (like that the input is a string for a string validator)
+		if (!this.shouldRunConstraints) {
+			return this.handle(value).unwrap();
+		}
+
 		return this.constraints.reduce((v, constraint) => constraint.run(v).unwrap(), this.handle(value).unwrap());
 	}
 
+	/**
+	 * Sets if the validator should also run constraints or just do basic checks.
+	 * @param isValidationEnabled Whether this validator should be enabled or disabled. Set to `null` to go off of the global configuration.
+	 */
+	public setValidationEnabled(isValidationEnabled: boolean | null): this {
+		const clone = this.clone();
+		clone.isValidationEnabled = isValidationEnabled;
+		return clone;
+	}
+
+	public getValidationEnabled() {
+		return this.isValidationEnabled;
+	}
+
+	protected get shouldRunConstraints(): boolean {
+		return this.isValidationEnabled ?? getGlobalValidationEnabled();
+	}
+
 	protected clone(): this {
-		return Reflect.construct(this.constructor, [this.constraints]);
+		const clone: this = Reflect.construct(this.constructor, [this.constraints]);
+		clone.isValidationEnabled = this.isValidationEnabled;
+		return clone;
 	}
 
 	protected abstract handle(value: unknown): Result<T, ValidatorError>;

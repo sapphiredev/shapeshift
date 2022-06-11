@@ -78,6 +78,10 @@ export class ArrayValidator<T> extends BaseValidator<T[]> {
 			return Result.err(new ValidationError('s.array(T)', 'Expected an array', values));
 		}
 
+		if (!this.shouldRunConstraints) {
+			return Result.ok(values);
+		}
+
 		const errors: [number, BaseError][] = [];
 		const transformed: T[] = [];
 

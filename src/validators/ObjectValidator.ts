@@ -126,6 +126,10 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			return Result.err(new ValidationError('s.object(T)', 'Expected the value to not be an array', value));
 		}
 
+		if (!this.shouldRunConstraints) {
+			return Result.ok(value as T);
+		}
+
 		return this.handleStrategy(value as NonNullObject);
 	}
 

@@ -2,6 +2,7 @@ import { Shapes } from './lib/Shapes';
 
 export const s = new Shapes();
 
+export * from './lib/configs';
 export * from './lib/errors/BaseError';
 export * from './lib/errors/CombinedError';
 export * from './lib/errors/CombinedPropertyError';
