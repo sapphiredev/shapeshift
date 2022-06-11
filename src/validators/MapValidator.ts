@@ -24,7 +24,7 @@ export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 			return Result.err(new ValidationError('s.map(K, V)', 'Expected a map', value));
 		}
 
-		if (!this.shouldValidatorRunConstraints) {
+		if (!this.shouldRunConstraints) {
 			return Result.ok(value);
 		}
 

@@ -26,7 +26,7 @@ export class TupleValidator<T extends any[]> extends BaseValidator<[...T]> {
 			return Result.err(new ValidationError('s.tuple(T)', `Expected an array of length ${this.validators.length}`, values));
 		}
 
-		if (!this.shouldValidatorRunConstraints) {
+		if (!this.shouldRunConstraints) {
 			return Result.ok(values as [...T]);
 		}
 

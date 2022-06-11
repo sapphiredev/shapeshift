@@ -30,7 +30,7 @@ export class RecordValidator<T> extends BaseValidator<Record<string, T>> {
 			return Result.err(new ValidationError('s.record(T)', 'Expected the value to not be an array', value));
 		}
 
-		if (!this.shouldValidatorRunConstraints) {
+		if (!this.shouldRunConstraints) {
 			return Result.ok(value as Record<string, T>);
 		}
 

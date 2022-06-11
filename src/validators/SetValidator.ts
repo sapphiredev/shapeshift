@@ -22,7 +22,7 @@ export class SetValidator<T> extends BaseValidator<Set<T>> {
 			return Result.err(new ValidationError('s.set(T)', 'Expected a set', values));
 		}
 
-		if (!this.shouldValidatorRunConstraints) {
+		if (!this.shouldRunConstraints) {
 			return Result.ok(values);
 		}
 
