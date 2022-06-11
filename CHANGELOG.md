@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.2.0](https://github.com/sapphiredev/shapeshift/compare/v3.1.0...v3.2.0) - (2022-06-11)
+
+## 🚀 Features
+
+- Add disabling of validators (#125) ([e17af95](https://github.com/sapphiredev/shapeshift/commit/e17af95d697be62796c57d03385b0c74b9d2d580))
+
 # [3.1.0](https://github.com/sapphiredev/shapeshift/compare/v3.0.0...v3.1.0) - (2022-06-04)
 
 ## 🐛 Bug Fixes
