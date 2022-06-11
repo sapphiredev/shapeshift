@@ -87,7 +87,7 @@ export abstract class BaseValidator<T> {
 	}
 
 	protected get shouldRunConstraints(): boolean {
-		return this.isValidationEnabled === null ? getGlobalValidationEnabled() : this.isValidationEnabled;
+		return this.isValidationEnabled ?? getGlobalValidationEnabled();
 	}
 
 	protected clone(): this {
