@@ -28,8 +28,8 @@ export class ExpectedValidationError<T> extends ValidationError {
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1 };
 
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
-		const expected = inspect(this.expected, newOptions).replaceAll('\n', padding);
-		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
+		const expected = inspect(this.expected, newOptions).replace(/\n/g, padding);
+		const given = inspect(this.given, newOptions).replace(/\n/g, padding);
 
 		const header = `${options.stylize('ExpectedValidationError', 'special')} > ${validator}`;
 		const message = options.stylize(this.message, 'regexp');
