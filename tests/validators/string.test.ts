@@ -8,7 +8,7 @@ describe('StringValidator', () => {
 		expect(predicate.parse('Hello There')).toBe('Hello There');
 	});
 
-	test.each([[undefined], [null], [42]])('GIVEN %j THEN throws a ValidationError', (input) => {
+	test.each([undefined, null, 42])('GIVEN %j THEN throws a ValidationError', (input) => {
 		expectError(() => predicate.parse(input), new ValidationError('s.string', 'Expected a string primitive', input));
 	});
 

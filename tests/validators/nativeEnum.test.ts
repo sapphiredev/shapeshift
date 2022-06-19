@@ -5,7 +5,7 @@ describe('NativeEnumValidator', () => {
 	describe('invalid inputs', () => {
 		const predicate = s.nativeEnum({ hello: 'world' });
 
-		test.each([[true], [null], [undefined], [{}]])('GIVEN %j THEN throws ValidationError', (value) => {
+		test.each([true, null, undefined, {}])('GIVEN %j THEN throws ValidationError', (value) => {
 			expectError(() => predicate.parse(value), new ValidationError('s.nativeEnum(T)', 'Expected the value to be a string or number', value));
 		});
 	});

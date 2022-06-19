@@ -4,7 +4,7 @@ import { expectError } from '../common/macros/comparators';
 describe('NullishValidator', () => {
 	const predicate = s.nullish;
 
-	test.each([[null], [undefined]])('GIVEN %j THEN returns the given value', (input) => {
+	test.each([null, undefined])('GIVEN %j THEN returns the given value', (input) => {
 		expect(predicate.parse(input)).toBe(input);
 	});
 

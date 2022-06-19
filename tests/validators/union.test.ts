@@ -28,11 +28,11 @@ describe('UnionValidator', () => {
 	describe('or', () => {
 		const orPredicate = predicate.or(s.string.array);
 
-		test.each([[5], ['foo'], ['bar']])('GIVEN %j THEN returns the input', (value) => {
+		test.each([5, 'foo', ['bar']])('GIVEN %j THEN returns the input', (value) => {
 			expect<string | number | string[]>(orPredicate.parse(value)).toStrictEqual(value);
 		});
 
-		test.each([[null], [undefined], [true]])('GIVEN %j THEN throws CombinedError', (value) => {
+		test.each([null, undefined, true])('GIVEN %j THEN throws CombinedError', (value) => {
 			expectError(
 				() => orPredicate.parse(value),
 				new CombinedError([
@@ -51,11 +51,11 @@ describe('UnionValidator', () => {
 	describe('optional', () => {
 		const optionalPredicate = predicate.optional;
 
-		test.each([[undefined], ['hello'], [5]])('GIVEN %j THEN returns %j', (value) => {
+		test.each([undefined, 'hello', 5])('GIVEN %j THEN returns %j', (value) => {
 			expect<string | number | undefined>(optionalPredicate.parse(value)).toBe(value);
 		});
 
-		test.each([[null], [true], [{}]])('GIVEN %j THEN throws CombinedError', (value) => {
+		test.each([null, true, {}])('GIVEN %j THEN throws CombinedError', (value) => {
 			expectError(
 				() => optionalPredicate.parse(value),
 				new CombinedError([
@@ -98,11 +98,11 @@ describe('UnionValidator', () => {
 	describe('nullable', () => {
 		const nullablePredicate = predicate.nullable;
 
-		test.each([[null], ['hello'], [5]])('GIVEN %j THEN returns %j', (value) => {
+		test.each([null, 'hello', 5])('GIVEN %j THEN returns %j', (value) => {
 			expect<string | number | null>(nullablePredicate.parse(value)).toBe(value);
 		});
 
-		test.each([[undefined], [true], [{}]])('GIVEN %j THEN throws CombinedError', (value) => {
+		test.each([undefined, true, {}])('GIVEN %j THEN throws CombinedError', (value) => {
 			expectError(
 				() => nullablePredicate.parse(value),
 				new CombinedError([
@@ -145,7 +145,7 @@ describe('UnionValidator', () => {
 	describe('nullish', () => {
 		const nullishPredicate = predicate.nullish;
 
-		test.each([[null], [undefined], ['hello'], [5]])('GIVEN %j THEN returns %j', (value) => {
+		test.each([null, undefined, 'hello', 5])('GIVEN %j THEN returns %j', (value) => {
 			expect<string | number | undefined | null>(nullishPredicate.parse(value)).toBe(value);
 		});
 
