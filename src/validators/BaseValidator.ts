@@ -7,10 +7,11 @@ import type { UnknownEnumValueError } from '../lib/errors/UnknownEnumValueError'
 import type { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { ArrayValidator, DefaultValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator } from './imports';
+import { getValue } from './util/getValue';
 
 export abstract class BaseValidator<T> {
 	protected constraints: readonly IConstraint<T>[] = [];
-	protected isValidationEnabled: boolean | null = null;
+	protected isValidationEnabled: boolean | (() => boolean) | null = null;
 
 	public constructor(constraints: readonly IConstraint<T>[] = []) {
 		this.constraints = constraints;
@@ -74,20 +75,21 @@ export abstract class BaseValidator<T> {
 
 	/**
 	 * Sets if the validator should also run constraints or just do basic checks.
-	 * @param isValidationEnabled Whether this validator should be enabled or disabled. Set to `null` to go off of the global configuration.
+	 * @param isValidationEnabled Whether this validator should be enabled or disabled. You can pass boolean or a function returning boolean which will be called just before parsing.
+	 * Set to `null` to go off of the global configuration.
 	 */
-	public setValidationEnabled(isValidationEnabled: boolean | null): this {
+	public setValidationEnabled(isValidationEnabled: boolean | (() => boolean) | null): this {
 		const clone = this.clone();
 		clone.isValidationEnabled = isValidationEnabled;
 		return clone;
 	}
 
 	public getValidationEnabled() {
-		return this.isValidationEnabled;
+		return getValue(this.isValidationEnabled);
 	}
 
 	protected get shouldRunConstraints(): boolean {
-		return this.isValidationEnabled ?? getGlobalValidationEnabled();
+		return getValue(this.isValidationEnabled) ?? getGlobalValidationEnabled();
 	}
 
 	protected clone(): this {

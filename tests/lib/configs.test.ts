@@ -11,6 +11,17 @@ describe('Validation enabled and disabled configurations', () => {
 	const setPredicate = s.set(s.number);
 	const tuplePredicate = s.tuple([s.string, s.number]);
 
+	const predicateAndValues = [
+		//
+		['string', stringPredicate, ''],
+		['array', arrayPredicate, []],
+		['map', mapPredicate, new Map([[0, '']])],
+		['object', objectPredicate, { owo: 'string' }],
+		['record', recordPredicate, { one: 'one' }],
+		['set', setPredicate, new Set(['1'])],
+		['tuple', tuplePredicate, [0, 'zero']]
+	] as const;
+
 	describe('Global configurations', () => {
 		beforeAll(() => {
 			setGlobalValidationEnabled(false);
@@ -20,32 +31,20 @@ describe('Validation enabled and disabled configurations', () => {
 			setGlobalValidationEnabled(true);
 		});
 
-		test.each([
-			//
-			['string', stringPredicate, ''],
-			['array', arrayPredicate, []],
-			['map', mapPredicate, new Map([[0, '']])],
-			['object', objectPredicate, { owo: 'string' }],
-			['record', recordPredicate, { one: 'one' }],
-			['set', setPredicate, new Set(['1'])],
-			['tuple', tuplePredicate, [0, 'zero']]
-		])('GIVEN globally disabled %s predicate THEN returns the input', (_, inputPredicate, input) => {
+		test.each(predicateAndValues)('GIVEN globally disabled %s predicate THEN returns the input', (_, inputPredicate, input) => {
 			expect(inputPredicate.parse(input)).toStrictEqual(input);
 		});
 	});
 
 	describe('Validator level configurations', () => {
-		test.each([
-			//
-			['string', stringPredicate, ''],
-			['array', arrayPredicate, []],
-			['map', mapPredicate, new Map([[0, '']])],
-			['object', objectPredicate, { owo: 'string' }],
-			['record', recordPredicate, { one: 'one' }],
-			['set', setPredicate, new Set(['1'])],
-			['tuple', tuplePredicate, [0, 'zero']]
-		])('GIVEN disabled %s predicate THEN returns the input', (_, inputPredicate, input) => {
+		test.each(predicateAndValues)('GIVEN disabled %s predicate THEN returns the input', (_, inputPredicate, input) => {
 			const predicate = inputPredicate.setValidationEnabled(false);
+
+			expect(predicate.parse(input)).toStrictEqual(input);
+		});
+
+		test.each(predicateAndValues)('GIVEN function to disable %s predicate THEN returns the input', (_, inputPredicate, input) => {
+			const predicate = inputPredicate.setValidationEnabled(() => false);
 
 			expect(predicate.parse(input)).toStrictEqual(input);
 		});
@@ -66,16 +65,7 @@ describe('Validation enabled and disabled configurations', () => {
 			setGlobalValidationEnabled(true);
 		});
 
-		test.each([
-			//
-			['string', stringPredicate, ''],
-			['array', arrayPredicate, []],
-			['map', mapPredicate, new Map([[0, '']])],
-			['object', objectPredicate, { owo: 'string' }],
-			['record', recordPredicate, { one: 'one' }],
-			['set', setPredicate, new Set(['1'])],
-			['tuple', tuplePredicate, [0, 'zero']]
-		])(
+		test.each(predicateAndValues)(
 			'GIVEN enabled %s predicate while the global option is set to false THEN it should throw validation errors',
 			(_, inputPredicate, input) => {
 				const predicate = inputPredicate.setValidationEnabled(true);
