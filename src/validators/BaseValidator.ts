@@ -75,7 +75,8 @@ export abstract class BaseValidator<T> {
 
 	/**
 	 * Sets if the validator should also run constraints or just do basic checks.
-	 * @param isValidationEnabled Whether this validator should be enabled or disabled. Set to `null` to go off of the global configuration.
+	 * @param isValidationEnabled Whether this validator should be enabled or disabled. You can pass boolean or a function returning boolean which will be called just before parsing.
+	 * Set to `null` to go off of the global configuration.
 	 */
 	public setValidationEnabled(isValidationEnabled: boolean | (() => boolean) | null): this {
 		const clone = this.clone();
