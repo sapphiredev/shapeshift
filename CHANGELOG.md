@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.3.0](https://github.com/sapphiredev/shapeshift/compare/v3.2.0...v3.3.0) - (2022-06-19)
+
+## 🐛 Bug Fixes
+
+- Compile for es2020 instead of es2021 (#128) ([051344d](https://github.com/sapphiredev/shapeshift/commit/051344debe1cf423713d7fc64b8908353348f301))
+
+## 🚀 Features
+
+- Allow passing functions in `setValidationEnabled` (#131) ([e1991cf](https://github.com/sapphiredev/shapeshift/commit/e1991cfef1ffe92f9167d11d7f2ded65379df8d2))
+
+## 🧪 Testing
+
+- Migrate to vitest (#126) ([4d80969](https://github.com/sapphiredev/shapeshift/commit/4d80969b714c39768499569456405a73c1444da8))
+
 # [3.2.0](https://github.com/sapphiredev/shapeshift/compare/v3.1.0...v3.2.0) - (2022-06-11)
 
 ## 🚀 Features
