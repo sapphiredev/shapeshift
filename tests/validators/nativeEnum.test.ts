@@ -5,7 +5,7 @@ describe('NativeEnumValidator', () => {
 	describe('invalid inputs', () => {
 		const predicate = s.nativeEnum({ hello: 'world' });
 
-		test.each([true, null, undefined, {}])('GIVEN %p THEN throws ValidationError', (value) => {
+		test.each([true, null, undefined, {}])('GIVEN %j THEN throws ValidationError', (value) => {
 			expectError(() => predicate.parse(value), new ValidationError('s.nativeEnum(T)', 'Expected the value to be a string or number', value));
 		});
 	});
@@ -20,7 +20,7 @@ describe('NativeEnumValidator', () => {
 		test.each([
 			['Hi', StringEnum.Hi],
 			[StringEnum.Hi, StringEnum.Hi]
-		])('GIVEN a key or value of a native enum (%p) THEN returns the value', (value, expected) => {
+		])('GIVEN a key or value of a native enum (%j) THEN returns the value', (value, expected) => {
 			expect<StringEnum>(stringPredicate.parse(value)).toBe(expected);
 		});
 
@@ -40,7 +40,7 @@ describe('NativeEnumValidator', () => {
 		test.each([
 			['Vladdy', NumberEnum.Vladdy],
 			[NumberEnum.Vladdy, NumberEnum.Vladdy]
-		])('GIVEN a key or value of a native enum (%p) THEN returns the value', (input, expected) => {
+		])('GIVEN a key or value of a native enum (%j) THEN returns the value', (input, expected) => {
 			expect<NumberEnum>(numberPredicate.parse(input)).toBe(expected);
 		});
 	});
@@ -58,7 +58,7 @@ describe('NativeEnumValidator', () => {
 			[MixedEnum.Sapphire, MixedEnum.Sapphire],
 			['Vladdy', MixedEnum.Vladdy],
 			[MixedEnum.Vladdy, MixedEnum.Vladdy]
-		])('GIVEN a key or value of a native enum (%p) THEN returns the value', (input, expected) => {
+		])('GIVEN a key or value of a native enum (%j) THEN returns the value', (input, expected) => {
 			expect<MixedEnum>(mixedPredicate.parse(input)).toBe(expected);
 		});
 	});
@@ -66,7 +66,7 @@ describe('NativeEnumValidator', () => {
 	describe('valid input but invalid enum value', () => {
 		const predicate = s.nativeEnum({ owo: 42 });
 
-		test.each(['uwu', 69])('GIVEN valid type for input but not part of enum (%p) THEN throws ValidationError', (value) => {
+		test.each(['uwu', 69])('GIVEN valid type for input but not part of enum (%j) THEN throws ValidationError', (value) => {
 			expectError(() => predicate.parse(value), new UnknownEnumValueError(value, ['owo'], new Map([['owo', 42]])));
 		});
 	});

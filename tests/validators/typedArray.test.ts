@@ -17,11 +17,11 @@ describe('TypedArray', () => {
 			new Float64Array(),
 			new BigInt64Array(),
 			new BigUint64Array()
-		])('GIVEN %p THEN return the input', (input) => {
+		])('GIVEN %j THEN return the input', (input) => {
 			expect(predicate.parse(input)).toBe(input);
 		});
 
-		test.each([1, true, 'sapphire'])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire'])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a TypedArray`, input));
 		});
 	});
@@ -34,7 +34,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire', new Int16Array()])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire', new Int16Array()])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected an Int8Array`, input));
 		});
 	});
@@ -47,7 +47,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected an Uint8Array`, input));
 		});
 	});
@@ -60,7 +60,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected an Uint8ClampedArray`, input));
 		});
 	});
@@ -73,7 +73,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire', new Int32Array()])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire', new Int32Array()])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected an Int16Array`, input));
 		});
 	});
@@ -86,7 +86,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire', new Uint32Array()])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire', new Uint32Array()])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected an Uint16Array`, input));
 		});
 	});
@@ -99,7 +99,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire', new Int16Array()])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire', new Int16Array()])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected an Int32Array`, input));
 		});
 	});
@@ -112,7 +112,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire', new Uint16Array()])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected an Uint32Array`, input));
 		});
 	});
@@ -125,7 +125,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire', new Float64Array()])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire', new Float64Array()])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a Float32Array`, input));
 		});
 	});
@@ -138,7 +138,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire'])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire'])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a Float64Array`, input));
 		});
 	});
@@ -151,7 +151,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire', new BigUint64Array()])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire', new BigUint64Array()])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a BigInt64Array`, input));
 		});
 	});
@@ -164,7 +164,7 @@ describe('TypedArray', () => {
 			expect(predicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([1, true, 'sapphire'])('GIVEN %p THEN throw', (input) => {
+		test.each([1, true, 'sapphire'])('GIVEN %j THEN throw', (input) => {
 			expect(() => predicate.parse(input)).toThrow(new ValidationError('s.typedArray', `Expected a BigUint64Array`, input));
 		});
 	});
@@ -177,7 +177,7 @@ describe('TypedArray', () => {
 			expect(bytePredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5)])('GIVEN %j THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
 				new ExpectedConstraintError('s.typedArray(T).byteLengthEqual', 'Invalid Typed Array byte length', input, 'expected.byteLength === 10')
 			);
@@ -190,7 +190,7 @@ describe('TypedArray', () => {
 			expect(lengthPredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5)])('GIVEN %j THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
 				new ExpectedConstraintError('s.typedArray(T).lengthEqual', 'Invalid Typed Array length', input, 'expected.length === 10')
 			);
@@ -240,7 +240,7 @@ describe('TypedArray', () => {
 			expect(bytePredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(10)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(10)])('GIVEN %j THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
 				new ExpectedConstraintError(
 					's.typedArray(T).byteLengthLessThan',
@@ -258,7 +258,7 @@ describe('TypedArray', () => {
 			expect(lengthPredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(10)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(10)])('GIVEN %j THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
 				new ExpectedConstraintError('s.typedArray(T).lengthLessThan', 'Invalid Typed Array length', input, 'expected.length < 10')
 			);
@@ -273,7 +273,7 @@ describe('TypedArray', () => {
 			expect(bytePredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(11)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(11)])('GIVEN %j THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
 				new ExpectedConstraintError(
 					's.typedArray(T).byteLengthLessThanOrEqual',
@@ -291,7 +291,7 @@ describe('TypedArray', () => {
 			expect(lengthPredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(11)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(11)])('GIVEN %j THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
 				new ExpectedConstraintError('s.typedArray(T).lengthLessThanOrEqual', 'Invalid Typed Array length', input, 'expected.length <= 10')
 			);
@@ -306,7 +306,7 @@ describe('TypedArray', () => {
 			expect(bytePredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5)])('GIVEN %j THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
 				new ExpectedConstraintError(
 					's.typedArray(T).byteLengthGreaterThan',
@@ -324,7 +324,7 @@ describe('TypedArray', () => {
 			expect(lengthPredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5)])('GIVEN %j THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
 				new ExpectedConstraintError('s.typedArray(T).lengthGreaterThan', 'Invalid Typed Array length', input, 'expected.length > 10')
 			);
@@ -339,7 +339,7 @@ describe('TypedArray', () => {
 			expect(bytePredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5)])('GIVEN %j THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
 				new ExpectedConstraintError(
 					's.typedArray(T).byteLengthGreaterThanOrEqual',
@@ -357,7 +357,7 @@ describe('TypedArray', () => {
 			expect(lengthPredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5)])('GIVEN %j THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
 				new ExpectedConstraintError('s.typedArray(T).lengthGreaterThanOrEqual', 'Invalid Typed Array length', input, 'expected.length >= 10')
 			);
@@ -372,7 +372,7 @@ describe('TypedArray', () => {
 			expect(bytePredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %j THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
 				new ExpectedConstraintError(
 					's.typedArray(T).byteLengthRange',
@@ -390,7 +390,7 @@ describe('TypedArray', () => {
 			expect(lengthPredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %j THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
 				new ExpectedConstraintError('s.typedArray(T).lengthRange', 'Invalid Typed Array length', input, 'expected.length >= 10 AND <= 20')
 			);
@@ -405,7 +405,7 @@ describe('TypedArray', () => {
 			expect(bytePredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %j THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
 				new ExpectedConstraintError(
 					's.typedArray(T).byteLengthRangeInclusive',
@@ -423,7 +423,7 @@ describe('TypedArray', () => {
 			expect(lengthPredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %j THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
 				new ExpectedConstraintError(
 					's.typedArray(T).lengthRangeInclusive',
@@ -443,7 +443,7 @@ describe('TypedArray', () => {
 			expect(bytePredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %j THEN throw', (input) => {
 			expect(() => bytePredicate.parse(input)).toThrow(
 				new ExpectedConstraintError(
 					's.typedArray(T).byteLengthRangeExclusive',
@@ -461,7 +461,7 @@ describe('TypedArray', () => {
 			expect(lengthPredicate.parse(typedArray)).toBe(typedArray);
 		});
 
-		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %p THEN throw', (input) => {
+		test.each([new Uint8Array(5), new Uint8Array(25)])('GIVEN %j THEN throw', (input) => {
 			expect(() => lengthPredicate.parse(input)).toThrow(
 				new ExpectedConstraintError(
 					's.typedArray(T).lengthRangeExclusive',

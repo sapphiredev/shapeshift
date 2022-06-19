@@ -5,11 +5,11 @@ describe('BaseValidator', () => {
 	describe('optional', () => {
 		const optionalPredicate = s.string.optional;
 
-		test.each([undefined, 'hello'])('GIVEN %p THEN returns given value', (input) => {
+		test.each([undefined, 'hello'])('GIVEN %j THEN returns given value', (input) => {
 			expect<string | undefined>(optionalPredicate.parse(input)).toEqual(input);
 		});
 
-		test.each([null, 0, false, true])('GIVEN %p THEN throws CombinedError', (input) => {
+		test.each([null, 0, false, true])('GIVEN %o THEN throws CombinedError', (input) => {
 			expectError(
 				() => optionalPredicate.parse(input),
 				new CombinedError([
@@ -23,11 +23,11 @@ describe('BaseValidator', () => {
 	describe('nullable', () => {
 		const nullablePredicate = s.string.nullable;
 
-		test.each([null, 'Hello There'])('GIVEN %p THEN returns given value', (input) => {
+		test.each([null, 'Hello There'])('GIVEN %j THEN returns given value', (input) => {
 			expect<string | null>(nullablePredicate.parse(input)).toBe(input);
 		});
 
-		test.each([0, false, true])('GIVEN %p THEN throws CombinedError', (input) => {
+		test.each([0, false, true])('GIVEN %j THEN throws CombinedError', (input) => {
 			expectError(
 				() => nullablePredicate.parse(input),
 				new CombinedError([
@@ -41,11 +41,11 @@ describe('BaseValidator', () => {
 	describe('nullish', () => {
 		const nullishPredicate = s.string.nullish;
 
-		test.each(['Hello There', undefined, null])('GIVEN %p THEN returns the given value', (input) => {
+		test.each(['Hello There', undefined, null])('GIVEN %j THEN returns the given value', (input) => {
 			expect<string | undefined | null>(nullishPredicate.parse(input)).toBe(input);
 		});
 
-		test.each([0, false, true])('GIVEN %p THEN throws CombinedError', (input) => {
+		test.each([0, false, true])('GIVEN %j THEN throws CombinedError', (input) => {
 			expectError(
 				() => nullishPredicate.parse(input),
 				new CombinedError([
@@ -89,11 +89,11 @@ describe('BaseValidator', () => {
 	describe('or', () => {
 		const stringOrPredicate = s.string.or(s.number);
 
-		test.each(['Hello There', 6])('GIVEN a string or number (%p) THEN returns a string or number', (input) => {
+		test.each(['Hello There', 6])('GIVEN a string or number (%j) THEN returns a string or number', (input) => {
 			expect<string | number>(stringOrPredicate.parse(input)).toBe(input);
 		});
 
-		test.each([false, true, null])('GIVEN %p THEN throws CombinedError', (input) => {
+		test.each([false, true, null])('GIVEN %j THEN throws CombinedError', (input) => {
 			expectError(
 				() => stringOrPredicate.parse(input),
 				new CombinedError([
@@ -128,7 +128,7 @@ describe('BaseValidator', () => {
 			expect<string | number>(unionTransformPredicate.parse(6)).toStrictEqual(6);
 		});
 
-		test.each([false, true, null, undefined])('GIVEN %p THEN throws CombinedError', (input) => {
+		test.each([false, true, null, undefined])('GIVEN %j THEN throws CombinedError', (input) => {
 			expectError(
 				() => unionTransformPredicate.parse(input),
 				new CombinedError([

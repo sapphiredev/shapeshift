@@ -20,8 +20,8 @@
 		"lint": "eslint src tests --ext ts --fix",
 		"format": "prettier --write \"{src,tests}/**/*.ts\"",
 		"docs": "typedoc",
-		"test": "jest",
-		"test:watch": "jest --watch",
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"update": "yarn upgrade-interactive",
 		"build": "tsup && tsc -b src",
 		"clean": "node scripts/clean.mjs",
@@ -42,9 +42,10 @@
 		"@sapphire/prettier-config": "^1.4.3",
 		"@sapphire/ts-config": "^3.3.4",
 		"@types/jest": "^28.1.2",
-		"@types/node": "^17.0.42",
+		"@types/node": "^18.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.28.0",
 		"@typescript-eslint/parser": "^5.28.0",
+		"c8": "^7.11.3",
 		"cz-conventional-changelog": "^3.3.0",
 		"eslint": "^8.18.0",
 		"eslint-config-prettier": "^8.5.0",
@@ -59,7 +60,8 @@
 		"tsup": "^6.1.2",
 		"typedoc": "^0.22.17",
 		"typedoc-plugin-mdn-links": "^1.0.6",
-		"typescript": "^4.7.4"
+		"typescript": "^4.7.4",
+		"vitest": "^0.15.1"
 	},
 	"repository": {
 		"type": "git",

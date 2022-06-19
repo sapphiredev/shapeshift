@@ -9,7 +9,7 @@ describe('DateValidator', () => {
 		expect(predicate.parse(date)).toBe(date);
 	});
 
-	test.each(['abc', '', null, undefined])('GIVEN a non-date (%p) THEN throws ValidationError', (input) => {
+	test.each(['abc', '', null, undefined])('GIVEN a non-date (%j) THEN throws ValidationError', (input) => {
 		expectError(() => predicate.parse(input), new ValidationError('s.date', 'Expected a Date', input));
 	});
 
@@ -93,7 +93,7 @@ describe('DateValidator', () => {
 			});
 
 			describe('equal > NaN', () => {
-				test.each(['not-a-date', NaN])('GIVEN %p THEN returns s.date.invalid', (value) => {
+				test.each(['not-a-date', NaN])('GIVEN %j THEN returns s.date.invalid', (value) => {
 					expectClonedValidator(s.date.equal(value), s.date.invalid);
 				});
 			});
@@ -114,7 +114,7 @@ describe('DateValidator', () => {
 			});
 
 			describe('notEqual > NaN', () => {
-				test.each(['not-a-date', NaN])('GIVEN %p THEN returns s.date.invalid', (value) => {
+				test.each(['not-a-date', NaN])('GIVEN %j THEN returns s.date.invalid', (value) => {
 					expectClonedValidator(s.date.notEqual(value), s.date.invalid);
 				});
 			});
@@ -124,12 +124,12 @@ describe('DateValidator', () => {
 	describe('valid', () => {
 		const validPredicate = s.date.valid;
 
-		test.each(['2022-03-13T11:19:13.698Z', 1647170353698])('GIVEN a valid date (%p) THEN returns the given value', (value) => {
+		test.each(['2022-03-13T11:19:13.698Z', 1647170353698])('GIVEN a valid date (%j) THEN returns the given value', (value) => {
 			const date = new Date(value);
 			expect(validPredicate.parse(date)).toBe(date);
 		});
 
-		test.each([NaN, Infinity, -Infinity])('GIVEN an invalid date (%p) THEN throws ValidationError', (value) => {
+		test.each([NaN, Infinity, -Infinity])('GIVEN an invalid date (%j) THEN throws ValidationError', (value) => {
 			const date = new Date(value);
 			expectError(
 				() => validPredicate.parse(date),
@@ -141,12 +141,12 @@ describe('DateValidator', () => {
 	describe('invalid', () => {
 		const invalidPredicate = s.date.invalid;
 
-		test.each([NaN, Infinity, -Infinity])('GIVEN an invalid date (%p) THEN returns the given value', (value) => {
+		test.each([NaN, Infinity, -Infinity])('GIVEN an invalid date (%j) THEN returns the given value', (value) => {
 			const date = new Date(value);
 			expect(invalidPredicate.parse(date)).toBe(date);
 		});
 
-		test.each(['2022-03-13T11:19:13.698Z', 1647170353698])('GIVEN a valid date (%p) THEN throws ValidationError', (value) => {
+		test.each(['2022-03-13T11:19:13.698Z', 1647170353698])('GIVEN a valid date (%j) THEN throws ValidationError', (value) => {
 			const date = new Date(value);
 			expectError(
 				() => invalidPredicate.parse(date),
