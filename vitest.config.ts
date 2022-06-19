@@ -7,5 +7,8 @@ export default defineConfig({
 			enabled: true,
 			reporter: ['text', 'lcov', 'clover']
 		}
+	},
+	esbuild: {
+		target: 'es2020'
 	}
 });

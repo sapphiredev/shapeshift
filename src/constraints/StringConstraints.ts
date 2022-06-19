@@ -129,8 +129,7 @@ export function stringRegex(regex: RegExp) {
 }
 
 export function stringUuid({ version = 4, nullable = false }: StringUuidOptions = {}) {
-	version ?? (version = '1-5');
-
+	version ??= '1-5';
 	const regex = new RegExp(
 		`^(?:[0-9A-F]{8}-[0-9A-F]{4}-[${version}][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}${
 			nullable ? '|00000000-0000-0000-0000-000000000000' : ''
