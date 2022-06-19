@@ -8,7 +8,7 @@ export default defineConfig({
 	minify: false,
 	skipNodeModulesBundle: true,
 	sourcemap: true,
-	target: 'es2021',
+	target: 'es2020',
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
 	globalName: 'SapphireShapeshift',

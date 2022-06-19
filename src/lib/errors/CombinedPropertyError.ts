@@ -24,7 +24,7 @@ export class CombinedPropertyError extends BaseError {
 		const errors = this.errors
 			.map(([key, error]) => {
 				const property = CombinedPropertyError.formatProperty(key, options);
-				const body = error[customInspectSymbolStackLess](depth - 1, newOptions).replaceAll('\n', padding);
+				const body = error[customInspectSymbolStackLess](depth - 1, newOptions).replace(/\n/g, padding);
 
 				return `  input${property}${padding}${body}`;
 			})

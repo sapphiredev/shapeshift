@@ -29,7 +29,7 @@ export class ValidationError extends BaseError {
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1, compact: true };
 
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
-		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
+		const given = inspect(this.given, newOptions).replace(/\n/g, padding);
 
 		const header = `${options.stylize('ValidationError', 'special')} > ${validator}`;
 		const message = options.stylize(this.message, 'regexp');

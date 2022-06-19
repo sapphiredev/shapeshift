@@ -24,7 +24,7 @@ export class CombinedError extends BaseError {
 		const errors = this.errors
 			.map((error, i) => {
 				const index = options.stylize((i + 1).toString(), 'number');
-				const body = error[customInspectSymbolStackLess](depth - 1, newOptions).replaceAll('\n', padding);
+				const body = error[customInspectSymbolStackLess](depth - 1, newOptions).replace(/\n/g, padding);
 
 				return `  ${index} ${body}`;
 			})

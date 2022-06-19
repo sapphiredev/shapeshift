@@ -59,7 +59,7 @@ Blazing fast input validation and transformation ⚡
 
 A very fast and lightweight input validation and transformation library for JavaScript.
 
-> **Note**: ShapeShift requires Node.js v15.0.0 or higher to work.
+> **Note**: ShapeShift requires Node.js v14.0.0 or higher to work.
 
 ## Features
 

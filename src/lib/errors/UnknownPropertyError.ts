@@ -29,7 +29,7 @@ export class UnknownPropertyError extends BaseError {
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1, compact: true };
 
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
-		const given = inspect(this.value, newOptions).replaceAll('\n', padding);
+		const given = inspect(this.value, newOptions).replace(/\n/g, padding);
 
 		const header = `${options.stylize('UnknownPropertyError', 'special')} > ${property}`;
 		const message = options.stylize(this.message, 'regexp');
