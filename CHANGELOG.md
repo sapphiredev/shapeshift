@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.3.1](https://github.com/sapphiredev/shapeshift/compare/v3.3.0...v3.3.1) - (2022-06-22)
+
+## 🐛 Bug Fixes
+
+- Add generic type to parse (#133) ([90c91aa](https://github.com/sapphiredev/shapeshift/commit/90c91aad572d51a2bfbd1ed32a51e1d4201c5d4a))
+
 # [3.3.0](https://github.com/sapphiredev/shapeshift/compare/v3.2.0...v3.3.0) - (2022-06-19)
 
 ## 🐛 Bug Fixes
