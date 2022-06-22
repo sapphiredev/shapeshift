@@ -63,14 +63,14 @@ export abstract class BaseValidator<T> {
 		return result;
 	}
 
-	public parse(value: unknown): T {
+	public parse<R extends T = T>(value: unknown): R {
 		// If validation is disabled (at the validator or global level), we only run the `handle` method, which will do some basic checks
 		// (like that the input is a string for a string validator)
 		if (!this.shouldRunConstraints) {
-			return this.handle(value).unwrap();
+			return this.handle(value).unwrap() as R;
 		}
 
-		return this.constraints.reduce((v, constraint) => constraint.run(v).unwrap(), this.handle(value).unwrap());
+		return this.constraints.reduce((v, constraint) => constraint.run(v).unwrap(), this.handle(value).unwrap()) as R;
 	}
 
 	/**
