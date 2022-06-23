@@ -4,6 +4,14 @@ export type Constructor<T> = (new (...args: readonly any[]) => T) | (abstract ne
 
 export type Type<V> = V extends BaseValidator<infer T> ? T : never;
 
+type PickDefined<T> = { [K in keyof T as undefined extends T[K] ? never : K]: T[K] };
+
+type PickUndefinedMakeOptional<T> = {
+	[K in keyof T as undefined extends T[K] ? K : never]?: Exclude<T[K], undefined>;
+};
+
+export type UndefinedToOptional<T> = PickDefined<T> & PickUndefinedMakeOptional<T>;
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NonNullObject = {} & object;
 
