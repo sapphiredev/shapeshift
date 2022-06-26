@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.3.2](https://github.com/sapphiredev/shapeshift/compare/v3.3.1...v3.3.2) - (2022-06-26)
+
+## 🐛 Bug Fixes
+
+- Make keys optional in object parsing (#134) ([57a3719](https://github.com/sapphiredev/shapeshift/commit/57a37193d64399aae1431b041012d582e8defecf))
+
 # [3.3.1](https://github.com/sapphiredev/shapeshift/compare/v3.3.0...v3.3.1) - (2022-06-22)
 
 ## 🐛 Bug Fixes
