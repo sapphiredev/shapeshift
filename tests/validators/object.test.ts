@@ -249,6 +249,32 @@ describe('ObjectValidator', () => {
 		});
 	});
 
+	describe('Required', () => {
+		const partialPredicate = predicate.partial.required;
+
+		test('GIVEN empty object THEN returns an empty object', () => {
+			expect(
+				partialPredicate.parse({
+					username: 'Sapphire',
+					password: 'helloworld'
+				})
+			).toStrictEqual({
+				username: 'Sapphire',
+				password: 'helloworld'
+			});
+		});
+
+		test('GIVEN empty object THEN returns an empty object', () => {
+			expectError(
+				() => partialPredicate.parse({}),
+				new CombinedPropertyError([
+					['username', new MissingPropertyError('username')],
+					['password', new MissingPropertyError('password')]
+				])
+			);
+		});
+	});
+
 	describe('Extend', () => {
 		test('GIVEN a plain object THEN returns a predicate validator with merged shapes', () => {
 			const extendPredicate = predicate.extend({ foo: s.number });
