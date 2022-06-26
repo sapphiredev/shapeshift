@@ -54,7 +54,7 @@ Blazing fast input validation and transformation ⚡
         -   [BaseValidator: methods and properties](#basevalidator-methods-and-properties)
         -   [Enabling and disabling validation](#enabling-and-disabling-validation)
     -   [Buy us some doughnuts](#buy-us-some-doughnuts)
-    -   [Contributors ✨](#contributors-)
+    -   [Contributors ✨](#contributors-%E2%9C%A8)
 
 ## Description
 
