@@ -5,27 +5,27 @@ import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
 import { UnknownPropertyError } from '../lib/errors/UnknownPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import type { MappedObjectValidator, NonNullObject } from '../lib/util-types';
+import type { MappedObjectValidator, NonNullObject, UndefinedToOptional } from '../lib/util-types';
 import { BaseValidator } from './BaseValidator';
 import { DefaultValidator } from './DefaultValidator';
 import { LiteralValidator } from './LiteralValidator';
 import { NullishValidator } from './NullishValidator';
 import { UnionValidator } from './UnionValidator';
 
-export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
+export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>> extends BaseValidator<I> {
 	public readonly shape: MappedObjectValidator<T>;
 	public readonly strategy: ObjectValidatorStrategy;
-	private readonly keys: readonly (keyof T)[] = [];
-	private readonly handleStrategy: (value: NonNullObject) => Result<T, CombinedPropertyError>;
+	private readonly keys: readonly (keyof I)[] = [];
+	private readonly handleStrategy: (value: NonNullObject) => Result<I, CombinedPropertyError>;
 
-	private readonly requiredKeys = new Map<keyof T, BaseValidator<unknown>>();
-	private readonly possiblyUndefinedKeys = new Map<keyof T, BaseValidator<unknown>>();
-	private readonly possiblyUndefinedKeysWithDefaults = new Map<keyof T, DefaultValidator<unknown>>();
+	private readonly requiredKeys = new Map<keyof I, BaseValidator<unknown>>();
+	private readonly possiblyUndefinedKeys = new Map<keyof I, BaseValidator<unknown>>();
+	private readonly possiblyUndefinedKeysWithDefaults = new Map<keyof I, DefaultValidator<unknown>>();
 
 	public constructor(
 		shape: MappedObjectValidator<T>,
 		strategy: ObjectValidatorStrategy = ObjectValidatorStrategy.Ignore,
-		constraints: readonly IConstraint<T>[] = []
+		constraints: readonly IConstraint<I>[] = []
 	) {
 		super(constraints);
 		this.shape = shape;
@@ -44,7 +44,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 				break;
 		}
 
-		const shapeEntries = Object.entries(shape) as [keyof T, BaseValidator<T>][];
+		const shapeEntries = Object.entries(shape) as [keyof I, BaseValidator<T>][];
 		this.keys = shapeEntries.map(([key]) => key);
 
 		for (const [key, validator] of shapeEntries) {
@@ -80,7 +80,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		}
 	}
 
-	public get strict(): ObjectValidator<{ [Key in keyof T]-?: T[Key] }> {
+	public get strict(): ObjectValidator<{ [Key in keyof I]-?: I[Key] }> {
 		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Strict, this.constraints]);
 	}
 
@@ -92,8 +92,8 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Passthrough, this.constraints]);
 	}
 
-	public get partial(): ObjectValidator<{ [Key in keyof T]?: T[Key] }> {
-		const shape = Object.fromEntries(this.keys.map((key) => [key, this.shape[key].optional]));
+	public get partial(): ObjectValidator<{ [Key in keyof I]?: I[Key] }> {
+		const shape = Object.fromEntries(this.keys.map((key) => [key, this.shape[key as unknown as keyof typeof this.shape].optional]));
 		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
 
@@ -102,17 +102,21 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
 
-	public pick<K extends keyof T>(keys: readonly K[]): ObjectValidator<{ [Key in keyof Pick<T, K>]: T[Key] }> {
-		const shape = Object.fromEntries(keys.filter((key) => this.keys.includes(key)).map((key) => [key, this.shape[key]]));
+	public pick<K extends keyof I>(keys: readonly K[]): ObjectValidator<{ [Key in keyof Pick<I, K>]: I[Key] }> {
+		const shape = Object.fromEntries(
+			keys.filter((key) => this.keys.includes(key)).map((key) => [key, this.shape[key as unknown as keyof typeof this.shape]])
+		);
 		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
 
-	public omit<K extends keyof T>(keys: readonly K[]): ObjectValidator<{ [Key in keyof Omit<T, K>]: T[Key] }> {
-		const shape = Object.fromEntries(this.keys.filter((key) => !keys.includes(key as any)).map((key) => [key, this.shape[key]]));
+	public omit<K extends keyof I>(keys: readonly K[]): ObjectValidator<{ [Key in keyof Omit<I, K>]: I[Key] }> {
+		const shape = Object.fromEntries(
+			this.keys.filter((key) => !keys.includes(key as any)).map((key) => [key, this.shape[key as unknown as keyof typeof this.shape]])
+		);
 		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
 
-	protected override handle(value: unknown): Result<T, ValidationError | CombinedPropertyError> {
+	protected override handle(value: unknown): Result<I, ValidationError | CombinedPropertyError> {
 		const typeOfValue = typeof value;
 		if (typeOfValue !== 'object') {
 			return Result.err(new ValidationError('s.object(T)', `Expected the value to be an object, but received ${typeOfValue} instead`, value));
@@ -127,7 +131,7 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		}
 
 		if (!this.shouldRunConstraints) {
-			return Result.ok(value as T);
+			return Result.ok(value as I);
 		}
 
 		return this.handleStrategy(value as NonNullObject);
@@ -137,16 +141,16 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 		return Reflect.construct(this.constructor, [this.shape, this.strategy, this.constraints]);
 	}
 
-	private handleIgnoreStrategy(value: NonNullObject): Result<T, CombinedPropertyError> {
+	private handleIgnoreStrategy(value: NonNullObject): Result<I, CombinedPropertyError> {
 		const errors: [PropertyKey, BaseError][] = [];
-		const finalObject = {} as T;
-		const inputEntries = new Map(Object.entries(value) as [keyof T, unknown][]);
+		const finalObject = {} as I;
+		const inputEntries = new Map(Object.entries(value) as [keyof I, unknown][]);
 
-		const runPredicate = (key: keyof T, predicate: BaseValidator<unknown>) => {
+		const runPredicate = (key: keyof I, predicate: BaseValidator<unknown>) => {
 			const result = predicate.run(value[key as keyof NonNullObject]);
 
 			if (result.isOk()) {
-				finalObject[key] = result.value as T[keyof T];
+				finalObject[key] = result.value as I[keyof I];
 			} else {
 				const error = result.error!;
 				errors.push([key, error]);
@@ -199,16 +203,16 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			: Result.err(new CombinedPropertyError(errors));
 	}
 
-	private handleStrictStrategy(value: NonNullObject): Result<T, CombinedPropertyError> {
+	private handleStrictStrategy(value: NonNullObject): Result<I, CombinedPropertyError> {
 		const errors: [PropertyKey, BaseError][] = [];
-		const finalResult = {} as T;
-		const inputEntries = new Map(Object.entries(value) as [keyof T, unknown][]);
+		const finalResult = {} as I;
+		const inputEntries = new Map(Object.entries(value) as [keyof I, unknown][]);
 
-		const runPredicate = (key: keyof T, predicate: BaseValidator<unknown>) => {
+		const runPredicate = (key: keyof I, predicate: BaseValidator<unknown>) => {
 			const result = predicate.run(value[key as keyof NonNullObject]);
 
 			if (result.isOk()) {
-				finalResult[key] = result.value as T[keyof T];
+				finalResult[key] = result.value as I[keyof I];
 			} else {
 				const error = result.error!;
 				errors.push([key, error]);
@@ -252,9 +256,9 @@ export class ObjectValidator<T extends NonNullObject> extends BaseValidator<T> {
 			: Result.err(new CombinedPropertyError(errors));
 	}
 
-	private handlePassthroughStrategy(value: NonNullObject): Result<T, CombinedPropertyError> {
+	private handlePassthroughStrategy(value: NonNullObject): Result<I, CombinedPropertyError> {
 		const result = this.handleIgnoreStrategy(value);
-		return result.isErr() ? result : Result.ok({ ...value, ...result.value } as T);
+		return result.isErr() ? result : Result.ok({ ...value, ...result.value } as I);
 	}
 }
 
