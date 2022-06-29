@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.4.0](https://github.com/sapphiredev/shapeshift/compare/v3.3.2...v3.4.0) - (2022-06-29)
+
+## 🚀 Features
+
+- Add `required` in object validation (#137) ([928f7be](https://github.com/sapphiredev/shapeshift/commit/928f7beb5e727b47868e9e46f2191f2def228080))
+
 # [3.3.2](https://github.com/sapphiredev/shapeshift/compare/v3.3.1...v3.3.2) - (2022-06-26)
 
 ## 🐛 Bug Fixes
