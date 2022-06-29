@@ -43,7 +43,7 @@ export class UnionValidator<T> extends BaseValidator<T> {
 
 		const [validator] = this.validators;
 		if (validator instanceof LiteralValidator) {
-			if (validator.expected === undefined) return new UnionValidator([...this.validators.slice(1)], this.constraints) as RequiredValidator;
+			if (validator.expected === undefined) return new UnionValidator(this.validators.slice(1), this.constraints) as RequiredValidator;
 		} else if (validator instanceof NullishValidator) {
 			return new UnionValidator([new LiteralValidator(null), ...this.validators.slice(1)], this.constraints) as RequiredValidator;
 		}
