@@ -80,7 +80,7 @@ export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>
 		}
 	}
 
-	public get strict(): ObjectValidator<{ [Key in keyof I]-?: I[Key] }> {
+	public get strict() {
 		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Strict, this.constraints]);
 	}
 
@@ -94,6 +94,17 @@ export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>
 
 	public get partial(): ObjectValidator<{ [Key in keyof I]?: I[Key] }> {
 		const shape = Object.fromEntries(this.keys.map((key) => [key, this.shape[key as unknown as keyof typeof this.shape].optional]));
+		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
+	}
+
+	public get required(): ObjectValidator<{ [Key in keyof I]-?: I[Key] }> {
+		const shape = Object.fromEntries(
+			this.keys.map((key) => {
+				let validator = this.shape[key as unknown as keyof typeof this.shape];
+				if (validator instanceof UnionValidator) validator = validator.required;
+				return [key, validator];
+			})
+		);
 		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
 

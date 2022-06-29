@@ -16,42 +16,45 @@ Blazing fast input validation and transformation ⚡
 
 ## Table of Contents
 
--   [Description](#description)
--   [Features](#features)
--   [Usage](#usage)
-    -   [Basic usage](#basic-usage)
-    -   [Defining validations](#defining-validations)
-        -   [Primitives](#primitives)
-        -   [Literals](#literals)
-        -   [Strings](#strings)
-        -   [Numbers](#numbers)
-        -   [BigInts](#bigints)
-        -   [Booleans](#booleans)
-        -   [Arrays](#arrays)
-        -   [Tuples](#tuples)
-        -   [Unions](#unions)
-        -   [Enums](#enums)
-        -   [Maps](#maps)
-        -   [Sets](#sets)
-        -   [Instances](#instances)
-        -   [Records](#records)
-        -   [Functions // TODO](#functions--todo)
-        -   [TypedArray](#typedarray)
-    -   [Defining schemas (objects)](#defining-schemas-objects)
-        -   [Utility types for TypeScript](#utility-types-for-typescript)
-            -   [Extracting an interface from a schema](#extracting-an-interface-from-a-schema)
-            -   [Defining the structure of a schema through an interface](#defining-the-structure-of-a-schema-through-an-interface)
-        -   [`.extend`:](#extend)
-        -   [`.pick` / `.omit`:](#pick--omit)
-        -   [`.partial`](#partial)
-    -   [Handling unrecognized keys](#handling-unrecognized-keys)
-        -   [`.strict`](#strict)
-        -   [`.ignore`](#ignore)
-        -   [`.passthrough`](#passthrough)
-    -   [BaseValidator: methods and properties](#basevalidator-methods-and-properties)
-    -   [Enabling and disabling validation](#enabling-and-disabling-validation)
--   [Buy us some doughnuts](#buy-us-some-doughnuts)
--   [Contributors ✨](#contributors-%E2%9C%A8)
+-   [@sapphire/shapeshift](#sapphireshapeshift)
+    -   [Table of Contents](#table-of-contents)
+    -   [Description](#description)
+    -   [Features](#features)
+    -   [Usage](#usage)
+        -   [Basic usage](#basic-usage)
+        -   [Defining validations](#defining-validations)
+            -   [Primitives](#primitives)
+            -   [Literals](#literals)
+            -   [Strings](#strings)
+            -   [Numbers](#numbers)
+            -   [BigInts](#bigints)
+            -   [Booleans](#booleans)
+            -   [Arrays](#arrays)
+            -   [Tuples](#tuples)
+            -   [Unions](#unions)
+            -   [Enums](#enums)
+            -   [Maps](#maps)
+            -   [Sets](#sets)
+            -   [Instances](#instances)
+            -   [Records](#records)
+            -   [Functions // TODO](#functions--todo)
+            -   [TypedArray](#typedarray)
+        -   [Defining schemas (objects)](#defining-schemas-objects)
+            -   [Utility types for TypeScript](#utility-types-for-typescript)
+                -   [Extracting an interface from a schema](#extracting-an-interface-from-a-schema)
+                -   [Defining the structure of a schema through an interface](#defining-the-structure-of-a-schema-through-an-interface)
+            -   [`.extend`:](#extend)
+            -   [`.pick` / `.omit`:](#pick--omit)
+            -   [`.partial`](#partial)
+            -   [`.required`](#required)
+        -   [Handling unrecognized keys](#handling-unrecognized-keys)
+            -   [`.strict`](#strict)
+            -   [`.ignore`](#ignore)
+            -   [`.passthrough`](#passthrough)
+        -   [BaseValidator: methods and properties](#basevalidator-methods-and-properties)
+        -   [Enabling and disabling validation](#enabling-and-disabling-validation)
+    -   [Buy us some doughnuts](#buy-us-some-doughnuts)
+    -   [Contributors ✨](#contributors-%E2%9C%A8)
 
 ## Description
 
@@ -597,6 +600,30 @@ Which is the same as doing:
 const user = s.object({
 	username: s.string.optional,
 	password: s.string.optional
+});
+```
+
+---
+
+#### `.required`
+
+[Back to top][toc]
+
+Inspired by TypeScript's built-in `Required` utility type, all object schemas have the aforementioned method that makes all properties required:
+
+```typescript
+const user = s.object({
+	username: s.string.optional,
+	password: s.string.optional
+}).required;
+```
+
+Which is the same as doing:
+
+```typescript
+const user = s.object({
+	username: s.string,
+	password: s.string
 });
 ```
 

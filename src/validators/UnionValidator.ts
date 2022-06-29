@@ -36,6 +36,21 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		return new UnionValidator([new LiteralValidator(undefined), ...this.validators]);
 	}
 
+	public get required(): UnionValidator<Exclude<T, undefined>> {
+		type RequiredValidator = UnionValidator<Exclude<T, undefined>>;
+
+		if (this.validators.length === 0) return this.clone() as unknown as RequiredValidator;
+
+		const [validator] = this.validators;
+		if (validator instanceof LiteralValidator) {
+			if (validator.expected === undefined) return new UnionValidator(this.validators.slice(1), this.constraints) as RequiredValidator;
+		} else if (validator instanceof NullishValidator) {
+			return new UnionValidator([new LiteralValidator(null), ...this.validators.slice(1)], this.constraints) as RequiredValidator;
+		}
+
+		return this.clone() as unknown as RequiredValidator;
+	}
+
 	public override get nullable(): UnionValidator<T | null> {
 		if (this.validators.length === 0) return new UnionValidator<T | null>([new LiteralValidator(null)], this.constraints);
 

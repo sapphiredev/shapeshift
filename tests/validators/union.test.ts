@@ -95,6 +95,32 @@ describe('UnionValidator', () => {
 		});
 	});
 
+	describe('required', () => {
+		const requiredPredicate = predicate.optional.required;
+
+		test.each(['hello', 5])('GIVEN %j THEN returns %j', (value) => {
+			expect<string | number>(requiredPredicate.parse(value)).toBe(value);
+		});
+
+		test.each([null, true, {}, undefined])('GIVEN %j THEN throws CombinedError', (value) => {
+			expectError(
+				() => requiredPredicate.parse(value),
+				new CombinedError([
+					new ValidationError('s.string', 'Expected a string primitive', value),
+					new ValidationError('s.number', 'Expected a number primitive', value)
+				])
+			);
+		});
+
+		describe('nullish', () => {
+			const nullishRequiredPredicate = requiredPredicate.nullish.required;
+
+			test('GIVEN s.union(s.string, s.number).nullish.required THEN returns s.union(s.literal(null), s.string, s.number)', () => {
+				expectClonedValidator(nullishRequiredPredicate, s.union(s.literal(null), s.string, s.number));
+			});
+		});
+	});
+
 	describe('nullable', () => {
 		const nullablePredicate = predicate.nullable;
 
