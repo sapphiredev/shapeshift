@@ -15,4 +15,3 @@ export * from './lib/errors/UnknownPropertyError';
 export * from './lib/errors/ValidationError';
 export * from './lib/Result';
 export * from './type-exports';
-export * from './utility-types';

@@ -1,4 +1,5 @@
 import type { TypedArray, TypedArrayName } from '../constraints/util/typedArray';
+import type { Unwrap, UnwrapTuple } from '../lib/util-types';
 import {
 	ArrayValidator,
 	BaseValidator,
@@ -161,6 +162,3 @@ export class Shapes {
 		return new MapValidator(keyValidator, valueValidator);
 	}
 }
-
-export type UnwrapTuple<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [Unwrap<Head>, ...UnwrapTuple<Tail>] : [];
-export type Unwrap<T> = T extends BaseValidator<infer V> ? V : never;

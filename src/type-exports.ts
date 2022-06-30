@@ -90,11 +90,11 @@ export type { UnknownEnumValueError } from './lib/errors/UnknownEnumValueError';
 export type { UnknownPropertyError } from './lib/errors/UnknownPropertyError';
 export type { ValidationError } from './lib/errors/ValidationError';
 //
-export type { Shapes, Unwrap, UnwrapTuple } from './lib/Shapes';
+export type { Shapes } from './lib/Shapes';
 //
-export type { Constructor, MappedObjectValidator, NonNullObject, Type } from './lib/util-types';
+export * from './lib/util-types';
 //
-export type { ArrayValidator, ExpandSmallerTuples, GrowExp, GrowExpRev, Shift, Tuple, UnshiftTuple } from './validators/ArrayValidator';
+export type { ArrayValidator } from './validators/ArrayValidator';
 export type { BaseValidator, ValidatorError } from './validators/BaseValidator';
 export type { BigIntValidator } from './validators/BigIntValidator';
 export type { BooleanValidator } from './validators/BooleanValidator';
