@@ -80,7 +80,7 @@ export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>
 		}
 	}
 
-	public get strict() {
+	public get strict(): this {
 		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Strict, this.constraints]);
 	}
 
