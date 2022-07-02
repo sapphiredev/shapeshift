@@ -18,11 +18,17 @@ import type { ExpandSmallerTuples, Tuple, UnshiftTuple } from '../lib/util-types
 import { BaseValidator } from './imports';
 
 export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseValidator<T> {
+	public readonly strategy: ArrayValidatorStrategy;
 	private readonly validator: BaseValidator<I>;
 
-	public constructor(validator: BaseValidator<I>, constraints: readonly IConstraint<T>[] = []) {
+	public constructor(
+		validator: BaseValidator<I>,
+		strategy: ArrayValidatorStrategy = ArrayValidatorStrategy.Ignore,
+		constraints: readonly IConstraint<T>[] = []
+	) {
 		super(constraints);
 		this.validator = validator;
+		this.strategy = strategy;
 	}
 
 	public lengthLessThan<N extends number>(length: N): ArrayValidator<ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, N>]>>> {
@@ -70,8 +76,12 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 		return this.addConstraint(arrayLengthRangeExclusive(startAfter, endBefore) as IConstraint<T>) as any;
 	}
 
+	public get unique(): this {
+		return Reflect.construct(this.constructor, [this.validator, ArrayValidatorStrategy.Unique, this.constraints]);
+	}
+
 	protected override clone(): this {
-		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
+		return Reflect.construct(this.constructor, [this.validator, this.strategy, this.constraints]);
 	}
 
 	protected handle(values: unknown): Result<T, ValidationError | CombinedPropertyError> {
@@ -81,6 +91,11 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 
 		if (!this.shouldRunConstraints) {
 			return Result.ok(values as T);
+		}
+
+		if (this.strategy === ArrayValidatorStrategy.Unique) {
+			const errors = this.handleUniqueStrategy(values);
+			if (errors.length) return Result.err(new CombinedPropertyError(errors));
 		}
 
 		const errors: [number, BaseError][] = [];
@@ -96,4 +111,24 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 			? Result.ok(transformed)
 			: Result.err(new CombinedPropertyError(errors));
 	}
+
+	private handleUniqueStrategy(givenValues: unknown[]) {
+		if (givenValues.length < 2) return [];
+		const errors: [number, BaseError][] = [];
+		const values = [...givenValues];
+		let previousValue = values.shift();
+
+		for (let i = 0; i < values.length; i++) {
+			const value = values[i];
+			if (!Object.is(previousValue, value))
+				errors.push([i, new ValidationError('s.array(T).unique', 'Expected all values are unique', givenValues)]);
+			previousValue = value;
+		}
+		return errors;
+	}
+}
+
+export const enum ArrayValidatorStrategy {
+	Unique,
+	Ignore
 }
