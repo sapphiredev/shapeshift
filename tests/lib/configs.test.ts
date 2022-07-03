@@ -1,4 +1,4 @@
-import { s, setGlobalValidationEnabled } from '../../src';
+import { BaseValidator, s, setGlobalValidationEnabled } from '../../src';
 
 describe('Validation enabled and disabled configurations', () => {
 	const stringPredicate = s.string.lengthGreaterThan(5);
@@ -11,7 +11,7 @@ describe('Validation enabled and disabled configurations', () => {
 	const setPredicate = s.set(s.number);
 	const tuplePredicate = s.tuple([s.string, s.number]);
 
-	const predicateAndValues = [
+	const predicateAndValues: [string, BaseValidator<unknown>, unknown][] = [
 		//
 		['string', stringPredicate, ''],
 		['array', arrayPredicate, []],
@@ -20,7 +20,7 @@ describe('Validation enabled and disabled configurations', () => {
 		['record', recordPredicate, { one: 'one' }],
 		['set', setPredicate, new Set(['1'])],
 		['tuple', tuplePredicate, [0, 'zero']]
-	] as const;
+	];
 
 	describe('Global configurations', () => {
 		beforeAll(() => {
