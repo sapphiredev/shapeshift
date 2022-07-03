@@ -175,6 +175,21 @@ describe('ArrayValidator', () => {
 				);
 			});
 		});
+
+		describe('chainedLengthCheck', () => {
+			const lengthRangePredicate = s.string.array.lengthGreaterThan(0).lengthLessThan(2);
+
+			test.each([[['foo']]])('GIVEN %j THEN returns given value', (value) => {
+				expect(lengthRangePredicate.parse(value)).toEqual(value);
+			});
+
+			test.each([[['hewwo', 'there']]])('GIVEN %j THEN throws ConstraintError', (value) => {
+				expectError(
+					() => lengthRangePredicate.parse(value),
+					new ExpectedConstraintError('s.array(T).lengthLessThan', 'Invalid Array length', value, 'expected.length < 2')
+				);
+			});
+		});
 	});
 
 	test('GIVEN clone THEN returns similar instance', () => {
