@@ -1,4 +1,4 @@
-import { CombinedPropertyError, ExpectedConstraintError, s, ValidationError } from '../../src';
+import { ArrayValidator, CombinedPropertyError, ExpectedConstraintError, s, ValidationError } from '../../src';
 import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('ArrayValidator', () => {
@@ -193,18 +193,29 @@ describe('ArrayValidator', () => {
 	});
 
 	describe('Unique', () => {
-		const uniquePredicate = predicate.unique;
+		const validInputPredicate: [unknown, ArrayValidator<unknown>][] = [
+			[['Hello'], s.string.array.unique],
+			[['Hello', 'There'], s.string.array.unique],
+			[[{ name: 'Hello' }, { name: 'Hi' }], s.object({ name: s.string }).array.unique],
+			[[['Hello'], ['Hi']], s.string.array.array.unique],
+			[[[{ name: 'Hello' }], [{ name: 'Hi' }]], s.object({ name: s.string }).array.array.unique]
+		];
 
-		test('GIVEN a unique array THEN return the given value', () => {
-			expect<string[]>(uniquePredicate.parse(['Hello', 'there'])).toEqual(['Hello', 'there']);
-			expect<string[]>(uniquePredicate.parse(['Hello'])).toEqual(['Hello']);
+		const invalidInputPredicate: [unknown, ArrayValidator<unknown>][] = [
+			[['Hello', 'Hello'], s.string.array.unique],
+			[[{ name: 'Hello' }, { name: 'Hello' }], s.object({ name: s.string }).array.unique],
+			[[['Hello'], ['Hello']], s.string.array.array.unique],
+			[[[{ name: 'Hello' }], [{ name: 'Hello' }]], s.object({ name: s.string }).array.array.unique]
+		];
+
+		test.each(validInputPredicate)('GIVEN %s THEN return the given value', (value, p) => {
+			expect(p.parse(value)).toEqual(value);
+			expect(p.parse(value)).toEqual(value);
+			expect(p.parse(value)).toEqual(value);
 		});
 
-		test('GIVEN a non-unique array THEN throws ValidationError', () => {
-			expectError(
-				() => uniquePredicate.parse(['Hello', 'Hello']),
-				new ValidationError('s.array(T).unique', 'Expected all values to be unique', ['Hello', 'Hello'])
-			);
+		test.each(invalidInputPredicate)('GIVEN %s THEN throws ValidationError', (value, p) => {
+			expectError(() => p.parse(value), new ValidationError('s.array(T).unique', 'Expected all values to be unique', value));
 		});
 	});
 

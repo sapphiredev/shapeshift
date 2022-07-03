@@ -16,6 +16,7 @@ import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import type { ExpandSmallerTuples, Tuple, UnshiftTuple } from '../lib/util-types';
 import { BaseValidator } from './imports';
+import { stringify } from './util/stringify';
 
 export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseValidator<T> {
 	public readonly strategy: ArrayValidatorStrategy;
@@ -113,7 +114,7 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 
 	private isUnique(values: unknown[]) {
 		if (values.length < 2) return true;
-		const possiblyUnique = new Set(values);
+		const possiblyUnique = new Set(values.map(stringify));
 
 		if (possiblyUnique.size === values.length) {
 			return true;
