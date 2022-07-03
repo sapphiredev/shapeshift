@@ -29,8 +29,8 @@ export abstract class BaseValidator<T> {
 		return new UnionValidator([new NullishValidator(), this.clone()]);
 	}
 
-	public get array(): ArrayValidator<T> {
-		return new ArrayValidator<T>(this.clone());
+	public get array(): ArrayValidator<T[]> {
+		return new ArrayValidator<T[]>(this.clone());
 	}
 
 	public get set(): SetValidator<T> {
