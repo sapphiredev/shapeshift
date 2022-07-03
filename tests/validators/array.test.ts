@@ -210,8 +210,6 @@ describe('ArrayValidator', () => {
 
 		test.each(validInputPredicate)('GIVEN %s THEN return the given value', (value, p) => {
 			expect(p.parse(value)).toEqual(value);
-			expect(p.parse(value)).toEqual(value);
-			expect(p.parse(value)).toEqual(value);
 		});
 
 		test.each(invalidInputPredicate)('GIVEN %s THEN throws ValidationError', (value, p) => {
