@@ -2,6 +2,7 @@
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
 		"noEmit": true,
+		"lib": ["DOM", "ESNext"],
 		"types": ["vitest/globals"]
 	},
 	"include": ["src", "tests"]
