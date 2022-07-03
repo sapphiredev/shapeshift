@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from 'node:util';
 import {
 	arrayLengthEqual,
 	arrayLengthGreaterThan,
@@ -16,7 +17,6 @@ import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import type { ExpandSmallerTuples, Tuple, UnshiftTuple } from '../lib/util-types';
 import { BaseValidator } from './imports';
-import { stringify } from './util/stringify';
 
 export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseValidator<T> {
 	private readonly checkUnique: boolean;
@@ -108,13 +108,16 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 			: Result.err(new CombinedPropertyError(errors));
 	}
 
-	private isUnique(values: unknown[]) {
-		if (values.length < 2) return true;
-		const possiblyUnique = new Set(values.map(stringify));
+	private isUnique(givenValues: unknown[]) {
+		if (givenValues.length < 2) return true;
 
-		if (possiblyUnique.size === values.length) {
-			return true;
+		const values = [...givenValues];
+		let previousValue = values.shift();
+
+		for (const value of values) {
+			if (isDeepStrictEqual(previousValue, value)) return false;
+			previousValue = value;
 		}
-		return false;
+		return true;
 	}
 }
