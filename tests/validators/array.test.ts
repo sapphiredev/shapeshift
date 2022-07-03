@@ -12,7 +12,7 @@ describe('ArrayValidator', () => {
 		expectError(() => predicate.parse('Hello there'), new ValidationError('s.array(T)', 'Expected an array', 'Hello there'));
 	});
 
-	test.each([123, true, {}, [], null])('GIVEN an array with value j other than string THEN throws CombinedPropertyError', (input) => {
+	test.each([123, true, {}, [], null])('GIVEN an array with value %j other than string THEN throws CombinedPropertyError', (input) => {
 		expectError(
 			() => predicate.parse([input]),
 			new CombinedPropertyError([
