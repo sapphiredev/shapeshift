@@ -19,17 +19,13 @@ import { BaseValidator } from './imports';
 import { stringify } from './util/stringify';
 
 export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseValidator<T> {
-	public readonly strategy: ArrayValidatorStrategy;
+	private readonly checkUnique: boolean;
 	private readonly validator: BaseValidator<I>;
 
-	public constructor(
-		validator: BaseValidator<I>,
-		strategy: ArrayValidatorStrategy = ArrayValidatorStrategy.Ignore,
-		constraints: readonly IConstraint<T>[] = []
-	) {
+	public constructor(validator: BaseValidator<I>, checkUnique = false, constraints: readonly IConstraint<T>[] = []) {
 		super(constraints);
 		this.validator = validator;
-		this.strategy = strategy;
+		this.checkUnique = checkUnique;
 	}
 
 	public lengthLessThan<N extends number>(length: N): ArrayValidator<ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, N>]>>> {
@@ -78,11 +74,11 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 	}
 
 	public get unique(): this {
-		return Reflect.construct(this.constructor, [this.validator, ArrayValidatorStrategy.Unique, this.constraints]);
+		return Reflect.construct(this.constructor, [this.validator, true, this.constraints]);
 	}
 
 	protected override clone(): this {
-		return Reflect.construct(this.constructor, [this.validator, this.strategy, this.constraints]);
+		return Reflect.construct(this.constructor, [this.validator, this.checkUnique, this.constraints]);
 	}
 
 	protected handle(values: unknown): Result<T, ValidationError | CombinedPropertyError> {
@@ -94,7 +90,7 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 			return Result.ok(values as T);
 		}
 
-		if (this.strategy === ArrayValidatorStrategy.Unique && !this.isUnique(values)) {
+		if (this.checkUnique && !this.isUnique(values)) {
 			return Result.err(new ValidationError('s.array(T).unique', 'Expected all values to be unique', values));
 		}
 
@@ -121,9 +117,4 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 		}
 		return false;
 	}
-}
-
-export enum ArrayValidatorStrategy {
-	Unique,
-	Ignore
 }
