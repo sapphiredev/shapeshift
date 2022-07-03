@@ -193,7 +193,7 @@ describe('ArrayValidator', () => {
 	});
 
 	describe('Unique', () => {
-		const validInputPredicate: [unknown, ArrayValidator<unknown>][] = [
+		const validInputPredicate: [unknown, ArrayValidator<unknown[]>][] = [
 			[['Hello'], s.string.array.unique],
 			[['Hello', 'There'], s.string.array.unique],
 			[[{ name: 'Hello' }, { name: 'Hi' }], s.object({ name: s.string }).array.unique],
@@ -201,7 +201,7 @@ describe('ArrayValidator', () => {
 			[[[{ name: 'Hello' }], [{ name: 'Hi' }]], s.object({ name: s.string }).array.array.unique]
 		];
 
-		const invalidInputPredicate: [unknown, ArrayValidator<unknown>][] = [
+		const invalidInputPredicate: [unknown, ArrayValidator<unknown[]>][] = [
 			[['Hello', 'Hello'], s.string.array.unique],
 			[[{ name: 'Hello' }, { name: 'Hello' }], s.object({ name: s.string }).array.unique],
 			[[['Hello'], ['Hello']], s.string.array.array.unique],
