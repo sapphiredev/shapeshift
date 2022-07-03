@@ -195,6 +195,11 @@ describe('ArrayValidator', () => {
 	describe('Unique', () => {
 		const uniquePredicate = predicate.unique;
 
+		test('GIVEN a unique array THEN return the given value', () => {
+			expect<string[]>(uniquePredicate.parse(['Hello', 'there'])).toEqual(['Hello', 'there']);
+			expect<string[]>(uniquePredicate.parse(['Hello'])).toEqual(['Hello']);
+		});
+
 		test('GIVEN a non-unique array THEN throws ValidationError', () => {
 			expectError(
 				() => uniquePredicate.parse(['Hello', 'Hello']),
