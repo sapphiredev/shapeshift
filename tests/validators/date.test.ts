@@ -21,11 +21,11 @@ describe('DateValidator', () => {
 		describe('lessThan', () => {
 			const ltPredicate = s.date.lessThan(date);
 
-			test.each(datesInPast)('GIVEN %s THEN returns given value', (value) => {
+			test.each(datesInPast)('GIVEN %j THEN returns given value', (value) => {
 				expect(ltPredicate.parse(value)).toBe(value);
 			});
 
-			test.each(datesInFuture)('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each(datesInFuture)('GIVEN %j THEN throws ConstraintError', (value) => {
 				expectError(
 					() => ltPredicate.parse(value),
 					new ExpectedConstraintError('s.date.lessThan', 'Invalid Date value', value, 'expected < 2022-02-01T00:00:00.000Z')
@@ -36,11 +36,11 @@ describe('DateValidator', () => {
 		describe('lessThanOrEqual', () => {
 			const lePredicate = s.date.lessThanOrEqual(date);
 
-			test.each([...datesInPast, date])('GIVEN %s THEN returns given value', (value) => {
+			test.each([...datesInPast, date])('GIVEN %j THEN returns given value', (value) => {
 				expect(lePredicate.parse(value)).toBe(value);
 			});
 
-			test.each(datesInFuture)('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each(datesInFuture)('GIVEN %j THEN throws ConstraintError', (value) => {
 				expectError(
 					() => lePredicate.parse(value),
 					new ExpectedConstraintError('s.date.lessThanOrEqual', 'Invalid Date value', value, 'expected <= 2022-02-01T00:00:00.000Z')
@@ -51,11 +51,11 @@ describe('DateValidator', () => {
 		describe('greaterThan', () => {
 			const gtPredicate = s.date.greaterThan(date);
 
-			test.each(datesInFuture)('GIVEN %s THEN returns given value', (value) => {
+			test.each(datesInFuture)('GIVEN %j THEN returns given value', (value) => {
 				expect(gtPredicate.parse(value)).toBe(value);
 			});
 
-			test.each(datesInPast)('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each(datesInPast)('GIVEN %j THEN throws ConstraintError', (value) => {
 				expectError(
 					() => gtPredicate.parse(value),
 					new ExpectedConstraintError('s.date.greaterThan', 'Invalid Date value', value, 'expected > 2022-02-01T00:00:00.000Z')
@@ -66,11 +66,11 @@ describe('DateValidator', () => {
 		describe('greaterThanOrEqual', () => {
 			const gePredicate = s.date.greaterThanOrEqual(date);
 
-			test.each([date, ...datesInFuture])('GIVEN %s THEN returns given value', (value) => {
+			test.each([date, ...datesInFuture])('GIVEN %j THEN returns given value', (value) => {
 				expect(gePredicate.parse(value)).toBe(value);
 			});
 
-			test.each(datesInPast)('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each(datesInPast)('GIVEN %j THEN throws ConstraintError', (value) => {
 				expectError(
 					() => gePredicate.parse(value),
 					new ExpectedConstraintError('s.date.greaterThanOrEqual', 'Invalid Date value', value, 'expected >= 2022-02-01T00:00:00.000Z')
@@ -85,7 +85,7 @@ describe('DateValidator', () => {
 				expect(eqPredicate.parse(date)).toBe(date);
 			});
 
-			test.each([...datesInPast, ...datesInFuture])('GIVEN %s THEN throws ConstraintError', (value) => {
+			test.each([...datesInPast, ...datesInFuture])('GIVEN %j THEN throws ConstraintError', (value) => {
 				expectError(
 					() => eqPredicate.parse(value),
 					new ExpectedConstraintError('s.date.equal', 'Invalid Date value', value, 'expected === 2022-02-01T00:00:00.000Z')
@@ -102,7 +102,7 @@ describe('DateValidator', () => {
 		describe('notEqual', () => {
 			const nePredicate = s.date.notEqual(date);
 
-			test.each([...datesInPast, ...datesInFuture])('GIVEN %s THEN returns given value', (value) => {
+			test.each([...datesInPast, ...datesInFuture])('GIVEN %j THEN returns given value', (value) => {
 				expect(nePredicate.parse(value)).toBe(value);
 			});
 

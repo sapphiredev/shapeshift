@@ -31,19 +31,19 @@ describe('Validation enabled and disabled configurations', () => {
 			setGlobalValidationEnabled(true);
 		});
 
-		test.each(predicateAndValues)('GIVEN globally disabled %s predicate THEN returns the input', (_, inputPredicate, input) => {
+		test.each(predicateAndValues)('GIVEN globally disabled %j predicate THEN returns the input', (_, inputPredicate, input) => {
 			expect(inputPredicate.parse(input)).toStrictEqual(input);
 		});
 	});
 
 	describe('Validator level configurations', () => {
-		test.each(predicateAndValues)('GIVEN disabled %s predicate THEN returns the input', (_, inputPredicate, input) => {
+		test.each(predicateAndValues)('GIVEN disabled %j predicate THEN returns the input', (_, inputPredicate, input) => {
 			const predicate = inputPredicate.setValidationEnabled(false);
 
 			expect(predicate.parse(input)).toStrictEqual(input);
 		});
 
-		test.each(predicateAndValues)('GIVEN function to disable %s predicate THEN returns the input', (_, inputPredicate, input) => {
+		test.each(predicateAndValues)('GIVEN function to disable %j predicate THEN returns the input', (_, inputPredicate, input) => {
 			const predicate = inputPredicate.setValidationEnabled(() => false);
 
 			expect(predicate.parse(input)).toStrictEqual(input);
@@ -66,7 +66,7 @@ describe('Validation enabled and disabled configurations', () => {
 		});
 
 		test.each(predicateAndValues)(
-			'GIVEN enabled %s predicate while the global option is set to false THEN it should throw validation errors',
+			'GIVEN enabled %j predicate while the global option is set to false THEN it should throw validation errors',
 			(_, inputPredicate, input) => {
 				const predicate = inputPredicate.setValidationEnabled(true);
 

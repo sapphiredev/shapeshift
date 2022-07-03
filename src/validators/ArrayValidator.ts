@@ -111,13 +111,11 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 	private isUnique(givenValues: unknown[]) {
 		if (givenValues.length < 2) return true;
 
-		const values = [...givenValues];
-		let previousValue = values.shift();
-
-		for (const value of values) {
-			if (isDeepStrictEqual(previousValue, value)) return false;
-			previousValue = value;
+		for (let index = 1; index <= givenValues.length; index++) {
+			const previousValue = givenValues[index - 1];
+			if (isDeepStrictEqual(previousValue, givenValues[index])) return false;
 		}
+
 		return true;
 	}
 }

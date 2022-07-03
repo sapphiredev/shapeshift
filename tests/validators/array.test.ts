@@ -12,7 +12,7 @@ describe('ArrayValidator', () => {
 		expectError(() => predicate.parse('Hello there'), new ValidationError('s.array(T)', 'Expected an array', 'Hello there'));
 	});
 
-	test.each([123, true, {}, [], null])('GIVEN an array with value %s other than string THEN throws CombinedPropertyError', (input) => {
+	test.each([123, true, {}, [], null])('GIVEN an array with value j other than string THEN throws CombinedPropertyError', (input) => {
 		expectError(
 			() => predicate.parse([input]),
 			new CombinedPropertyError([
@@ -208,11 +208,11 @@ describe('ArrayValidator', () => {
 			[[[{ name: 'Hello' }], [{ name: 'Hello' }]], s.object({ name: s.string }).array.array.unique]
 		];
 
-		test.each(validInputPredicate)('GIVEN %s THEN return the given value', (value, p) => {
+		test.each(validInputPredicate)('GIVEN %j THEN return the given value', (value, p) => {
 			expect(p.parse(value)).toEqual(value);
 		});
 
-		test.each(invalidInputPredicate)('GIVEN %s THEN throws ValidationError', (value, p) => {
+		test.each(invalidInputPredicate)('GIVEN %j THEN throws ValidationError', (value, p) => {
 			expectError(() => p.parse(value), new ValidationError('s.array(T).unique', 'Expected all values to be unique', value));
 		});
 	});
