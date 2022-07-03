@@ -195,13 +195,10 @@ describe('ArrayValidator', () => {
 	describe('Unique', () => {
 		const uniquePredicate = predicate.unique;
 
-		test('GIVEN a non-unique array THEN throws CombinedPropertyError', () => {
+		test('GIVEN a non-unique array THEN throws ValidationError', () => {
 			expectError(
-				() => uniquePredicate.parse(['Hello', 'there']),
-				new CombinedPropertyError([
-					//
-					[0, new ValidationError('s.array(T).unique', 'Expected all values are unique', ['Hello', 'there'])]
-				])
+				() => uniquePredicate.parse(['Hello', 'Hello']),
+				new ValidationError('s.array(T).unique', 'Expected all values to be unique', ['Hello', 'Hello'])
 			);
 		});
 	});

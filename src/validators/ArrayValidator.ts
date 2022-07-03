@@ -93,9 +93,8 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 			return Result.ok(values as T);
 		}
 
-		if (this.strategy === ArrayValidatorStrategy.Unique) {
-			const errors = this.handleUniqueStrategy(values);
-			if (errors.length) return Result.err(new CombinedPropertyError(errors));
+		if (this.strategy === ArrayValidatorStrategy.Unique && !this.isUnique(values)) {
+			return Result.err(new ValidationError('s.array(T).unique', 'Expected all values to be unique', values));
 		}
 
 		const errors: [number, BaseError][] = [];
@@ -112,23 +111,18 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 			: Result.err(new CombinedPropertyError(errors));
 	}
 
-	private handleUniqueStrategy(givenValues: unknown[]) {
-		if (givenValues.length < 2) return [];
-		const errors: [number, BaseError][] = [];
-		const values = [...givenValues];
-		let previousValue = values.shift();
+	private isUnique(values: unknown[]) {
+		if (values.length < 2) return true;
+		const possiblyUnique = new Set(values);
 
-		for (let i = 0; i < values.length; i++) {
-			const value = values[i];
-			if (!Object.is(previousValue, value))
-				errors.push([i, new ValidationError('s.array(T).unique', 'Expected all values are unique', givenValues)]);
-			previousValue = value;
+		if (possiblyUnique.size === values.length) {
+			return true;
 		}
-		return errors;
+		return false;
 	}
 }
 
-export const enum ArrayValidatorStrategy {
+export enum ArrayValidatorStrategy {
 	Unique,
 	Ignore
 }
