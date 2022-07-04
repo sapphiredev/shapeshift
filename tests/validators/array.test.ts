@@ -203,6 +203,7 @@ describe('ArrayValidator', () => {
 
 		const invalidInputPredicate: [unknown, ArrayValidator<unknown[]>][] = [
 			[['Hello', 'Hello'], s.string.array.unique],
+			[[1, 2, 4, 2, 1], s.number.array.unique],
 			[[{ name: 'Hello' }, { name: 'Hello' }], s.object({ name: s.string }).array.unique],
 			[[['Hello'], ['Hello']], s.string.array.array.unique],
 			[[[{ name: 'Hello' }], [{ name: 'Hello' }]], s.object({ name: s.string }).array.array.unique]

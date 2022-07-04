@@ -41,6 +41,7 @@
 		"@sapphire/eslint-config": "^4.3.7",
 		"@sapphire/prettier-config": "^1.4.3",
 		"@sapphire/ts-config": "^3.3.4",
+		"@types/lodash.uniqwith": "^4",
 		"@types/node": "^18.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.30.3",
 		"@typescript-eslint/parser": "^5.30.3",
@@ -115,5 +116,8 @@
 		"minimist": "^1.2.6"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@3.2.1"
+	"packageManager": "yarn@3.2.1",
+	"dependencies": {
+		"lodash.uniqwith": "^4.5.0"
+	}
 }

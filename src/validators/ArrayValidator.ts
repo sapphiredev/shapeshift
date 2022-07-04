@@ -1,4 +1,6 @@
 import { isDeepStrictEqual } from 'node:util';
+import uniqWith from 'lodash.uniqwith';
+
 import {
 	arrayLengthEqual,
 	arrayLengthGreaterThan,
@@ -108,14 +110,11 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 			: Result.err(new CombinedPropertyError(errors));
 	}
 
-	private isUnique(givenValues: unknown[]) {
-		if (givenValues.length < 2) return true;
+	private isUnique(values: unknown[]) {
+		if (values.length < 2) return true;
 
-		for (let index = 1; index <= givenValues.length; index++) {
-			const previousValue = givenValues[index - 1];
-			if (isDeepStrictEqual(previousValue, givenValues[index])) return false;
-		}
+		const uniqueArray = uniqWith(values, isDeepStrictEqual);
 
-		return true;
+		return uniqueArray.length === values.length;
 	}
 }
