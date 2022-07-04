@@ -1,18 +1,21 @@
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
+import { isUnique } from './util/isUnique';
 import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
 
-export type ArrayConstraintName = `s.array(T).length${
-	| 'LessThan'
-	| 'LessThanOrEqual'
-	| 'GreaterThan'
-	| 'GreaterThanOrEqual'
-	| 'Equal'
-	| 'NotEqual'
-	| 'Range'
-	| 'RangeInclusive'
-	| 'RangeExclusive'}`;
+export type ArrayConstraintName = `s.array(T).${
+	| 'unique'
+	| `length${
+			| 'LessThan'
+			| 'LessThanOrEqual'
+			| 'GreaterThan'
+			| 'GreaterThanOrEqual'
+			| 'Equal'
+			| 'NotEqual'
+			| 'Range'
+			| 'RangeInclusive'
+			| 'RangeExclusive'}`}`;
 
 function arrayLengthComparator<T>(comparator: Comparator, name: ArrayConstraintName, expected: string, length: number): IConstraint<T[]> {
 	return {
@@ -86,3 +89,11 @@ export function arrayLengthRangeExclusive<T>(startAfter: number, endBefore: numb
 		}
 	};
 }
+
+export const uniqueArray: IConstraint<unknown[]> = {
+	run(input: unknown[]) {
+		return isUnique(input) //
+			? Result.ok(input)
+			: Result.err(new ExpectedConstraintError('s.array(T).unique', 'Array values are not unique', input, 'Expected all values to be unique'));
+	}
+};

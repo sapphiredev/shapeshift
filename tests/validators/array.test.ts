@@ -213,8 +213,11 @@ describe('ArrayValidator', () => {
 			expect(p.parse(value)).toEqual(value);
 		});
 
-		test.each(invalidInputPredicate)('GIVEN %j THEN throws ValidationError', (value, p) => {
-			expectError(() => p.parse(value), new ValidationError('s.array(T).unique', 'Expected all values to be unique', value));
+		test.each(invalidInputPredicate)('GIVEN %j THEN throws ExpectedConstraintError', (value, p) => {
+			expectError(
+				() => p.parse(value),
+				new ExpectedConstraintError('s.array(T).unique', 'Array values are not unique', value, 'Expected all values to be unique')
+			);
 		});
 	});
 

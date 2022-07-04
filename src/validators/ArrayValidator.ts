@@ -1,6 +1,3 @@
-import { isDeepStrictEqual } from 'node:util';
-import uniqWith from 'lodash.uniqwith';
-
 import {
 	arrayLengthEqual,
 	arrayLengthGreaterThan,
@@ -10,8 +7,9 @@ import {
 	arrayLengthNotEqual,
 	arrayLengthRange,
 	arrayLengthRangeExclusive,
-	arrayLengthRangeInclusive
-} from '../constraints/ArrayLengthConstraints';
+	arrayLengthRangeInclusive,
+	uniqueArray
+} from '../constraints/ArrayConstraints';
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
@@ -21,13 +19,11 @@ import type { ExpandSmallerTuples, Tuple, UnshiftTuple } from '../lib/util-types
 import { BaseValidator } from './imports';
 
 export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseValidator<T> {
-	private readonly checkUnique: boolean;
 	private readonly validator: BaseValidator<I>;
 
-	public constructor(validator: BaseValidator<I>, checkUnique = false, constraints: readonly IConstraint<T>[] = []) {
+	public constructor(validator: BaseValidator<I>, constraints: readonly IConstraint<T>[] = []) {
 		super(constraints);
 		this.validator = validator;
-		this.checkUnique = checkUnique;
 	}
 
 	public lengthLessThan<N extends number>(length: N): ArrayValidator<ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, N>]>>> {
@@ -76,11 +72,11 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 	}
 
 	public get unique(): this {
-		return Reflect.construct(this.constructor, [this.validator, true, this.constraints]);
+		return this.addConstraint(uniqueArray as IConstraint<T>);
 	}
 
 	protected override clone(): this {
-		return Reflect.construct(this.constructor, [this.validator, this.checkUnique, this.constraints]);
+		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
 	}
 
 	protected handle(values: unknown): Result<T, ValidationError | CombinedPropertyError> {
@@ -90,10 +86,6 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 
 		if (!this.shouldRunConstraints) {
 			return Result.ok(values as T);
-		}
-
-		if (this.checkUnique && !this.isUnique(values)) {
-			return Result.err(new ValidationError('s.array(T).unique', 'Expected all values to be unique', values));
 		}
 
 		const errors: [number, BaseError][] = [];
@@ -108,13 +100,5 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 		return errors.length === 0 //
 			? Result.ok(transformed)
 			: Result.err(new CombinedPropertyError(errors));
-	}
-
-	private isUnique(values: unknown[]) {
-		if (values.length < 2) return true;
-
-		const uniqueArray = uniqWith(values, isDeepStrictEqual);
-
-		return uniqueArray.length === values.length;
 	}
 }
