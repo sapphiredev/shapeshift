@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.4.1](https://github.com/sapphiredev/shapeshift/compare/v3.4.0...v3.4.1) - (2022-07-03)
+
+## 🏠 Refactor
+
+- Move all type utilities to one file (#139) ([61cab3d](https://github.com/sapphiredev/shapeshift/commit/61cab3d0e486d9dc74c8f6160ff8c75c91b595b2))
+
+## 🐛 Bug Fixes
+
+- Return array-validator from length* methods (#140) ([75b1f9a](https://github.com/sapphiredev/shapeshift/commit/75b1f9a6efffb6c27dcfd48eb4ec6269a3614633))
+
+## 🧪 Testing
+
+- Typechecking for tests (#145) ([273cdc8](https://github.com/sapphiredev/shapeshift/commit/273cdc82c1cf65ba4111ca6e70b050e02cbdf485))
+
 # [3.4.0](https://github.com/sapphiredev/shapeshift/compare/v3.3.2...v3.4.0) - (2022-06-29)
 
 ## 🚀 Features
