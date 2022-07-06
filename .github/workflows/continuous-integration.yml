@@ -96,10 +96,6 @@ jobs:
           node-version: 18
           cache: yarn
           registry-url: https://registry.npmjs.org/
-      - name: Debug Logging
-        run: |
-          pwd
-          ls -al
       - name: Run test script
         run: node scripts/no-bundle-test.mjs
 
