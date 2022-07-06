@@ -1,4 +1,4 @@
-import fastDeepEqual from 'fast-deep-equal';
+import fastDeepEqual from 'fast-deep-equal/es6';
 import uniqWith from 'lodash.uniqwith';
 
 export function isUnique(input: unknown[]) {
