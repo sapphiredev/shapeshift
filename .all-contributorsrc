@@ -1,88 +1,70 @@
 {
-  "projectName": "shapeshift",
-  "projectOwner": "sapphiredev",
-  "repoType": "github",
-  "repoHost": "https://github.com",
-  "files": [
-    "README.md"
-  ],
-  "imageSize": 100,
-  "commit": true,
-  "commitConvention": "angular",
-  "contributors": [
-    {
-      "login": "kyranet",
-      "name": "Antonio Román",
-      "avatar_url": "https://avatars.githubusercontent.com/u/24852502?v=4",
-      "profile": "https://github.com/kyranet",
-      "contributions": [
-        "code",
-        "doc",
-        "ideas"
-      ]
-    },
-    {
-      "login": "vladfrangu",
-      "name": "Vlad Frangu",
-      "avatar_url": "https://avatars.githubusercontent.com/u/17960496?v=4",
-      "profile": "https://github.com/vladfrangu",
-      "contributions": [
-        "code",
-        "doc",
-        "ideas"
-      ]
-    },
-    {
-      "login": "favna",
-      "name": "Jeroen Claassens",
-      "avatar_url": "https://avatars.githubusercontent.com/u/4019718?v=4",
-      "profile": "https://favware.tech/",
-      "contributions": [
-        "doc",
-        "maintenance",
-        "infra"
-      ]
-    },
-    {
-      "login": "renovate[bot]",
-      "name": "renovate[bot]",
-      "avatar_url": "https://avatars.githubusercontent.com/in/2740?v=4",
-      "profile": "https://github.com/apps/renovate",
-      "contributions": [
-        "maintenance"
-      ]
-    },
-    {
-      "login": "renovate-bot",
-      "name": "WhiteSource Renovate",
-      "avatar_url": "https://avatars.githubusercontent.com/u/25180681?v=4",
-      "profile": "https://renovate.whitesourcesoftware.com/",
-      "contributions": [
-        "maintenance"
-      ]
-    },
-    {
-      "login": "Khasms",
-      "name": "John",
-      "avatar_url": "https://avatars.githubusercontent.com/u/36800359?v=4",
-      "profile": "https://github.com/Khasms",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "imranbarbhuiya",
-      "name": "Parbez",
-      "avatar_url": "https://avatars.githubusercontent.com/u/74945038?v=4",
-      "profile": "https://github.com/imranbarbhuiya",
-      "contributions": [
-        "code",
-        "test",
-        "bug",
-        "doc"
-      ]
-    }
-  ],
-  "contributorsPerLine": 7,
-  "skipCi": true
+	"projectName": "shapeshift",
+	"projectOwner": "sapphiredev",
+	"repoType": "github",
+	"repoHost": "https://github.com",
+	"files": ["README.md"],
+	"imageSize": 100,
+	"commit": true,
+	"commitConvention": "angular",
+	"contributors": [
+		{
+			"login": "kyranet",
+			"name": "Antonio Román",
+			"avatar_url": "https://avatars.githubusercontent.com/u/24852502?v=4",
+			"profile": "https://github.com/kyranet",
+			"contributions": ["code", "doc", "ideas"]
+		},
+		{
+			"login": "vladfrangu",
+			"name": "Vlad Frangu",
+			"avatar_url": "https://avatars.githubusercontent.com/u/17960496?v=4",
+			"profile": "https://github.com/vladfrangu",
+			"contributions": ["code", "doc", "ideas"]
+		},
+		{
+			"login": "favna",
+			"name": "Jeroen Claassens",
+			"avatar_url": "https://avatars.githubusercontent.com/u/4019718?v=4",
+			"profile": "https://favware.tech/",
+			"contributions": ["doc", "maintenance", "infra"]
+		},
+		{
+			"login": "renovate[bot]",
+			"name": "renovate[bot]",
+			"avatar_url": "https://avatars.githubusercontent.com/in/2740?v=4",
+			"profile": "https://github.com/apps/renovate",
+			"contributions": ["maintenance"]
+		},
+		{
+			"login": "renovate-bot",
+			"name": "WhiteSource Renovate",
+			"avatar_url": "https://avatars.githubusercontent.com/u/25180681?v=4",
+			"profile": "https://renovate.whitesourcesoftware.com/",
+			"contributions": ["maintenance"]
+		},
+		{
+			"login": "Khasms",
+			"name": "John",
+			"avatar_url": "https://avatars.githubusercontent.com/u/36800359?v=4",
+			"profile": "https://github.com/Khasms",
+			"contributions": ["code"]
+		},
+		{
+			"login": "imranbarbhuiya",
+			"name": "Parbez",
+			"avatar_url": "https://avatars.githubusercontent.com/u/74945038?v=4",
+			"profile": "https://github.com/imranbarbhuiya",
+			"contributions": ["code", "test", "bug", "doc"]
+		},
+		{
+			"login": "allcontributors[bot]",
+			"name": "allcontributors[bot]",
+			"avatar_url": "https://avatars.githubusercontent.com/in/23186?v=4",
+			"profile": "https://github.com/apps/allcontributors",
+			"contributions": ["doc"]
+		}
+	],
+	"contributorsPerLine": 7,
+	"skipCi": true
 }
