@@ -1,8 +1,8 @@
-import { isIP, isIPv4, isIPv6 } from 'node:net';
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { validateEmail } from './util/emailValidator';
+import { isIP, isIPv4, isIPv6 } from './util/net';
 import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
 import { createUrlValidators } from './util/urlValidators';
 
