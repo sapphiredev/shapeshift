@@ -1,4 +1,4 @@
-import { ExpectedConstraintError, s, ValidationError } from '../../src';
+import { CombinedPropertyError, ExpectedConstraintError, MissingPropertyError, s, ValidationError } from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('LazyValidator', () => {
@@ -44,7 +44,12 @@ describe('CircularLazyValidator', () => {
 		items: s.lazy(() => predicate)
 	});
 
-	test('GIVEN circular schema THEN returns the given value', () => {
-		expect(predicate.parse({ id: 'Hello', items: { id: 'Hello', items: { id: 'Hello' } } })).toBe({ id: 'Hello', items: { id: 'Hello' } });
+	test('GIVEN circular schema THEN throw ', () => {
+		expectError(
+			() => predicate.parse({ id: 'Hello', items: { id: 'Hello', items: { id: 'Hello' } } }),
+			new CombinedPropertyError([
+				['items', new CombinedPropertyError([['items', new CombinedPropertyError([['items', new MissingPropertyError('items')]])]])]
+			])
+		);
 	});
 });
