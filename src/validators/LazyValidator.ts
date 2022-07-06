@@ -1,4 +1,4 @@
-import { Result } from '../lib/Result';
+import type { Result } from '../lib/Result';
 import type { IConstraint, Unwrap } from '../type-exports';
 import { BaseValidator, ValidatorError } from './imports';
 
@@ -15,10 +15,6 @@ export class LazyValidator<T extends BaseValidator<unknown>, R = Unwrap<T>> exte
 	}
 
 	protected handle(values: unknown): Result<R, ValidatorError> {
-		if (!this.shouldRunConstraints) {
-			return Result.ok(values as R);
-		}
-
 		return this.validator(values).run(values) as Result<R, ValidatorError>;
 	}
 }
