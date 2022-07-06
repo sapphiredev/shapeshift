@@ -1,4 +1,4 @@
-import { CombinedPropertyError, ExpectedConstraintError, MissingPropertyError, s, ValidationError } from '../../src';
+import { CombinedPropertyError, ExpectedConstraintError, MissingPropertyError, s, SchemaOf, ValidationError } from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('LazyValidator', () => {
@@ -38,10 +38,14 @@ describe('NestedLazyValidator', () => {
 });
 
 describe('CircularLazyValidator', () => {
-	// @ts-expect-error (circular)
-	const predicate = s.object({
+	interface PredicateSchema {
+		id: string;
+		items: PredicateSchema;
+	}
+
+	const predicate: SchemaOf<PredicateSchema> = s.object({
 		id: s.string,
-		items: s.lazy(() => predicate)
+		items: s.lazy<SchemaOf<PredicateSchema>>(() => predicate)
 	});
 
 	test('GIVEN circular schema THEN throw ', () => {
