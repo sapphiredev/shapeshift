@@ -36,3 +36,15 @@ describe('NestedLazyValidator', () => {
 		);
 	});
 });
+
+describe('CircularLazyValidator', () => {
+	// @ts-expect-error (circular)
+	const predicate = s.object({
+		id: s.string,
+		items: s.lazy(() => predicate)
+	});
+
+	test('GIVEN circular schema THEN returns the given value', () => {
+		expect(predicate.parse({ id: 'Hello', items: { id: 'Hello', items: { id: 'Hello' } } })).toBe({ id: 'Hello', items: { id: 'Hello' } });
+	});
+});
