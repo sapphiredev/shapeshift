@@ -20,6 +20,7 @@ import {
 	TupleValidator,
 	UnionValidator
 } from '../validators/imports';
+import { LazyValidator } from '../validators/LazyValidator';
 import { NativeEnumLike, NativeEnumValidator } from '../validators/NativeEnumValidator';
 import { TypedArrayValidator } from '../validators/TypedArrayValidator';
 import type { Constructor, MappedObjectValidator } from './util-types';
@@ -160,5 +161,9 @@ export class Shapes {
 
 	public map<T, U>(keyValidator: BaseValidator<T>, valueValidator: BaseValidator<U>) {
 		return new MapValidator(keyValidator, valueValidator);
+	}
+
+	public lazy<T extends BaseValidator<unknown>>(validator: (value: unknown) => T) {
+		return new LazyValidator(validator);
 	}
 }
