@@ -1,9 +1,8 @@
-import { isDeepStrictEqual } from 'node:util';
+import fastDeepEqual from 'fast-deep-equal';
 import uniqWith from 'lodash.uniqwith';
 
 export function isUnique(input: unknown[]) {
 	if (input.length < 2) return true;
-	// TODO: replace with hash
-	const uniqueArray = uniqWith(input, isDeepStrictEqual);
+	const uniqueArray = uniqWith(input, fastDeepEqual);
 	return uniqueArray.length === input.length;
 }
