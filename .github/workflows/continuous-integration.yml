@@ -51,7 +51,7 @@ jobs:
         if: matrix.node == 18
         with:
           name: coverage
-          path: coverage/no-bundle-test.mjs
+          path: coverage/
 
   Building:
     name: Compile source code
