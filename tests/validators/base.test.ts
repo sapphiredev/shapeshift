@@ -1,4 +1,4 @@
-import { CombinedError, ExpectedValidationError, s, ValidationError } from '../../src';
+import { CombinedError, ExpectedConstraintError, ExpectedValidationError, Result, s, ValidationError } from '../../src';
 import { expectClonedValidator, expectError, expectModifiedClonedValidator } from '../common/macros/comparators';
 
 describe('BaseValidator', () => {
@@ -137,6 +137,29 @@ describe('BaseValidator', () => {
 					new ValidationError('s.string', 'Expected a string primitive', input),
 					new ValidationError('s.number', 'Expected a number primitive', input)
 				])
+			);
+		});
+	});
+
+	describe('Reshape', () => {
+		const predicate = s.string.reshape((value) => {
+			return value.length > 5
+				? Result.ok(value.length)
+				: // FIXME: if I don't add this number generic, then `reshape` isn't able to infer the type
+				  // Lmk should I keep it like this or r there any fix possible
+				  Result.err<number>(
+						new ExpectedConstraintError('s.string.lengthGreaterThan', 'Invalid string length', value, 'expected.length > 5')
+				  );
+		});
+
+		test('GIVEN an array THEN returns the given value', () => {
+			expect<number>(predicate.parse('Sapphire')).toBe(8);
+		});
+
+		test('GIVEN a non-array THEN throws ValidationError', () => {
+			expectError(
+				() => predicate.parse('Hello'),
+				new ExpectedConstraintError('s.string.lengthGreaterThan', 'Invalid string length', 'Hello', 'expected.length > 5')
 			);
 		});
 	});
