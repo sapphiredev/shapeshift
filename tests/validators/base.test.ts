@@ -146,11 +146,11 @@ describe('BaseValidator', () => {
 			return value.length > 5 ? Result.ok(value.length) : Result.err(new Error('Too short'));
 		});
 
-		test('GIVEN an array THEN returns the given value', () => {
+		test('GIVEN a string with length > 5 THEN returns the given value', () => {
 			expect<number>(predicate.parse('Sapphire')).toBe(8);
 		});
 
-		test('GIVEN a non-array THEN throws ValidationError', () => {
+		test('GIVEN a string with length < 5 THEN throws Error', () => {
 			expectError(() => predicate.parse('Hello'), new Error('Too short'));
 		});
 	});
