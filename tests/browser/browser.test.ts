@@ -1,12 +1,12 @@
 /**
- * @vitest-environment happy-dom
+ * @vitest-environment jsdom
  */
 
-import type { IWindow } from 'happy-dom';
-import path from 'path';
+import path from 'node:path';
+import { DOMWindow, JSDOM } from 'jsdom';
 
 declare global {
-	interface Window extends IWindow {
+	interface Window {
 		SapphireShapeshift: typeof import('../../src');
 	}
 	namespace JSX {
@@ -16,11 +16,27 @@ declare global {
 	}
 }
 
+let window: DOMWindow;
+
 describe('browser-bundle-test', () => {
 	beforeEach(() => {
-		const scriptTag = document.createElement('script');
-		scriptTag.src = `file:///${path.join(__dirname, '../../dist/index.global.js')}`;
-		document.head.appendChild(scriptTag);
+		return new Promise((resolve, reject) => {
+			window = new JSDOM('', {
+				runScripts: 'dangerously'
+			}).window;
+
+			const { document } = window;
+
+			const scriptTag = document.createElement('script');
+			scriptTag.src = `file:///${path.join(__dirname, '../../dist/index.global.js')}`;
+			document.head.appendChild(scriptTag);
+			scriptTag.onload = () => {
+				resolve();
+			};
+			scriptTag.onerror = (e) => {
+				reject(e);
+			};
+		});
 	});
 
 	test('GIVEN an unique array THEN return the given value', () => {
