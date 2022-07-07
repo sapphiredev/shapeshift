@@ -21,7 +21,6 @@
 		"format": "prettier --write \"{src,tests}/**/*.ts\"",
 		"docs": "typedoc",
 		"test": "vitest run",
-		"test:browser": "vitest run --config vitest.browser.config.ts",
 		"test:watch": "vitest",
 		"update": "yarn upgrade-interactive",
 		"build": "tsup && tsc -b src",
