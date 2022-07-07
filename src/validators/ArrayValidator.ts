@@ -7,8 +7,9 @@ import {
 	arrayLengthNotEqual,
 	arrayLengthRange,
 	arrayLengthRangeExclusive,
-	arrayLengthRangeInclusive
-} from '../constraints/ArrayLengthConstraints';
+	arrayLengthRangeInclusive,
+	uniqueArray
+} from '../constraints/ArrayConstraints';
 import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
@@ -68,6 +69,10 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 		endBefore: E
 	): ArrayValidator<Exclude<ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, E>]>>, ExpandSmallerTuples<[...Tuple<T, S>]>>> {
 		return this.addConstraint(arrayLengthRangeExclusive(startAfter, endBefore) as IConstraint<T>) as any;
+	}
+
+	public get unique(): this {
+		return this.addConstraint(uniqueArray as IConstraint<T>);
 	}
 
 	protected override clone(): this {

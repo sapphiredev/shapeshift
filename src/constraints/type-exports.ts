@@ -9,7 +9,7 @@ export type {
 	arrayLengthRange,
 	arrayLengthRangeExclusive,
 	arrayLengthRangeInclusive
-} from './ArrayLengthConstraints';
+} from './ArrayConstraints';
 export type { IConstraint } from './base/IConstraint';
 export type {
 	BigIntConstraintName,

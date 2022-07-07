@@ -1,4 +1,4 @@
-import { CombinedPropertyError, ExpectedConstraintError, s, ValidationError } from '../../src';
+import { ArrayValidator, CombinedPropertyError, ExpectedConstraintError, s, ValidationError } from '../../src';
 import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('ArrayValidator', () => {
@@ -12,7 +12,7 @@ describe('ArrayValidator', () => {
 		expectError(() => predicate.parse('Hello there'), new ValidationError('s.array(T)', 'Expected an array', 'Hello there'));
 	});
 
-	test.each([123, true, {}, [], null])('GIVEN an array with value %s other than string THEN throws CombinedPropertyError', (input) => {
+	test.each([123, true, {}, [], null])('GIVEN an array with value %j other than string THEN throws CombinedPropertyError', (input) => {
 		expectError(
 			() => predicate.parse([input]),
 			new CombinedPropertyError([
@@ -189,6 +189,35 @@ describe('ArrayValidator', () => {
 					new ExpectedConstraintError('s.array(T).lengthLessThan', 'Invalid Array length', value, 'expected.length < 2')
 				);
 			});
+		});
+	});
+
+	describe('Unique', () => {
+		const validInputPredicate: [unknown, ArrayValidator<unknown[]>][] = [
+			[['Hello'], s.string.array.unique],
+			[['Hello', 'There'], s.string.array.unique],
+			[[{ name: 'Hello' }, { name: 'Hi' }], s.object({ name: s.string }).array.unique],
+			[[['Hello'], ['Hi']], s.string.array.array.unique],
+			[[[{ name: 'Hello' }], [{ name: 'Hi' }]], s.object({ name: s.string }).array.array.unique]
+		];
+
+		const invalidInputPredicate: [unknown, ArrayValidator<unknown[]>][] = [
+			[['Hello', 'Hello'], s.string.array.unique],
+			[[1, 2, 4, 2, 1], s.number.array.unique],
+			[[{ name: 'Hello' }, { name: 'Hello' }], s.object({ name: s.string }).array.unique],
+			[[['Hello'], ['Hello']], s.string.array.array.unique],
+			[[[{ name: 'Hello' }], [{ name: 'Hello' }]], s.object({ name: s.string }).array.array.unique]
+		];
+
+		test.each(validInputPredicate)('GIVEN %j THEN return the given value', (value, p) => {
+			expect(p.parse(value)).toEqual(value);
+		});
+
+		test.each(invalidInputPredicate)('GIVEN %j THEN throws ExpectedConstraintError', (value, p) => {
+			expectError(
+				() => p.parse(value),
+				new ExpectedConstraintError('s.array(T).unique', 'Array values are not unique', value, 'Expected all values to be unique')
+			);
 		});
 	});
 

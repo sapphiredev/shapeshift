@@ -4,7 +4,7 @@
 
 # @sapphire/shapeshift
 
-**ShapeShift**
+**Shapeshift**
 
 Blazing fast input validation and transformation ⚡
 
@@ -54,7 +54,7 @@ Blazing fast input validation and transformation ⚡
         -   [BaseValidator: methods and properties](#basevalidator-methods-and-properties)
         -   [Enabling and disabling validation](#enabling-and-disabling-validation)
     -   [Buy us some doughnuts](#buy-us-some-doughnuts)
-    -   [Contributors ✨](#contributors-%E2%9C%A8)
+    -   [Contributors](#contributors)
 
 ## Description
 
@@ -62,7 +62,7 @@ Blazing fast input validation and transformation ⚡
 
 A very fast and lightweight input validation and transformation library for JavaScript.
 
-> **Note**: ShapeShift requires Node.js v14.0.0 or higher to work.
+> **Note**: Shapeshift requires Node.js v14.0.0 or higher to work.
 
 ## Features
 
@@ -154,7 +154,7 @@ s.literal(new Date(1639278160000)); // s.date.equal(1639278160000);
 
 [Back to top][toc]
 
-ShapeShift includes a handful of string-specific validations:
+Shapeshift includes a handful of string-specific validations:
 
 ```typescript
 s.string.lengthLessThan(5);
@@ -176,7 +176,7 @@ s.string.ipv6;
 
 [Back to top][toc]
 
-ShapeShift includes a handful of number-specific validations:
+Shapeshift includes a handful of number-specific validations:
 
 ```typescript
 s.number.greaterThan(5); // > 5
@@ -216,7 +216,7 @@ s.number.ceil; // Transforms the number to the result of `Math.ceil`
 
 [Back to top][toc]
 
-ShapeShift includes a handful of number-specific validations:
+Shapeshift includes a handful of number-specific validations:
 
 ```typescript
 s.bigint.greaterThan(5n); // > 5n
@@ -245,7 +245,7 @@ s.bigint.uintN(5); // Clamps to a bigint to an unsigned bigint with 5 digits, se
 
 [Back to top][toc]
 
-ShapeShift includes a few boolean-specific validations:
+Shapeshift includes a few boolean-specific validations:
 
 ```typescript
 s.boolean.true; // value must be true
@@ -267,7 +267,7 @@ const stringArray = s.array(s.string);
 const stringArray = s.string.array;
 ```
 
-ShapeShift includes a handful of array-specific validations:
+Shapeshift includes a handful of array-specific validations:
 
 ```typescript
 s.string.array.lengthLessThan(5); // Must have less than 5 elements
@@ -279,6 +279,7 @@ s.string.array.lengthNotEqual(5); // Must not have exactly 5 elements
 s.string.array.lengthRange(0, 4); // Must have at least 0 elements and less than 4 elements (in math, that is [0, 4))
 s.string.array.lengthRangeInclusive(0, 4); // Must have at least 0 elements and at most 4 elements (in math, that is [0, 4])
 s.string.array.lengthRangeExclusive(0, 4); // Must have more than 0 element and less than 4 elements (in math, that is (0, 4))
+s.string.array.unique; // All elements must be unique. Deep equality is used to check for uniqueness.
 ```
 
 > **Note**: All `.length` methods define tuple types with the given amount of elements. For example, `s.string.array.lengthGreaterThanOrEqual(2)`'s inferred type is `[string, string, ...string[]]`
@@ -303,7 +304,7 @@ dish.parse(['Iberian ham', 10, new Date()]);
 
 [Back to top][toc]
 
-ShapeShift includes a built-in method for composing OR types:
+Shapeshift includes a built-in method for composing OR types:
 
 ```typescript
 const stringOrNumber = s.union(s.string, s.number);
@@ -393,7 +394,7 @@ s.function([s.string]); // (arg0: string) => unknown
 s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => string
 ```
 
-> **Note**: ShapeShift will transform the given function into one with validation on arguments and output. You can access the `.raw` property of the function to get the unchecked function.
+> **Note**: Shapeshift will transform the given function into one with validation on arguments and output. You can access the `.raw` property of the function to get the unchecked function.
 
 ---
 
@@ -416,7 +417,7 @@ const bigInt64Array = s.bigInt64Array;
 const bigUint64Array = s.bigUint64Array;
 ```
 
-ShapeShift includes a handful of validations specific to typed arrays.
+Shapeshift includes a handful of validations specific to typed arrays.
 
 ```typescript
 s.typedArray().lengthLessThan(5); // Length must be less than 5
@@ -633,7 +634,7 @@ const user = s.object({
 
 [Back to top][toc]
 
-By default, ShapeShift will not include keys that are not defined by the schema during parsing:
+By default, Shapeshift will not include keys that are not defined by the schema during parsing:
 
 ```typescript
 const person = s.object({
@@ -683,7 +684,7 @@ You can use the `.passthrough` getter to make the validator add the unrecognized
 
 [Back to top][toc]
 
-All validations in ShapeShift contain certain methods.
+All validations in Shapeshift contain certain methods.
 
 `.run(data: unknown): Result<T, Error>`: given a validation, you can call this method to check whether or not the input is valid. If it is, a `Result` with `success: true` and a deep-cloned value will be returned with the given constraints and transformations. Otherwise, a `Result` with `success: false` and an error is returned.
 
@@ -803,7 +804,7 @@ We accept donations through Open Collective, Ko-fi, Paypal, Patreon and GitHub S
 |     Patreon     |    [Click Here](https://sapphirejs.dev/patreon)     |
 |     PayPal      |     [Click Here](https://sapphirejs.dev/paypal)     |
 
-## Contributors ✨
+## Contributors
 
 [Back to top][toc]
 
@@ -821,6 +822,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://renovate.whitesourcesoftware.com/"><img src="https://avatars.githubusercontent.com/u/25180681?v=4?s=100" width="100px;" alt=""/><br /><sub><b>WhiteSource Renovate</b></sub></a><br /><a href="#maintenance-renovate-bot" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/Khasms"><img src="https://avatars.githubusercontent.com/u/36800359?v=4?s=100" width="100px;" alt=""/><br /><sub><b>John</b></sub></a><br /><a href="https://github.com/sapphiredev/shapeshift/commits?author=Khasms" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/imranbarbhuiya"><img src="https://avatars.githubusercontent.com/u/74945038?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Parbez</b></sub></a><br /><a href="https://github.com/sapphiredev/shapeshift/commits?author=imranbarbhuiya" title="Code">💻</a> <a href="https://github.com/sapphiredev/shapeshift/commits?author=imranbarbhuiya" title="Tests">⚠️</a> <a href="https://github.com/sapphiredev/shapeshift/issues?q=author%3Aimranbarbhuiya" title="Bug reports">🐛</a> <a href="https://github.com/sapphiredev/shapeshift/commits?author=imranbarbhuiya" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/apps/allcontributors"><img src="https://avatars.githubusercontent.com/in/23186?v=4?s=100" width="100px;" alt=""/><br /><sub><b>allcontributors[bot]</b></sub></a><br /><a href="https://github.com/sapphiredev/shapeshift/commits?author=allcontributors[bot]" title="Documentation">📖</a></td>
   </tr>
 </table>
 
