@@ -57,3 +57,22 @@ describe('CircularLazyValidator', () => {
 		);
 	});
 });
+
+describe('PassingCircularLazyValidator', () => {
+	interface PredicateSchema {
+		id: string;
+		items?: PredicateSchema;
+	}
+
+	const predicate: SchemaOf<PredicateSchema> = s.object({
+		id: s.string,
+		items: s.lazy<SchemaOf<PredicateSchema>>(() => predicate).optional
+	});
+
+	test('GIVEN circular schema THEN throw ', () => {
+		expect(predicate.parse({ id: 'Hello', items: { id: 'Hello', items: { id: 'Hello' } } })).toStrictEqual({
+			id: 'Hello',
+			items: { id: 'Hello', items: { id: 'Hello' } }
+		});
+	});
+});
