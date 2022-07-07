@@ -1,3 +1,7 @@
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { Window } from 'happy-dom';
 
 describe('bundle-test', () => {
