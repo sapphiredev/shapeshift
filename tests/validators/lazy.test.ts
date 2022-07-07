@@ -69,10 +69,7 @@ describe('PassingCircularLazyValidator', () => {
 		items: s.lazy<SchemaOf<PredicateSchema>>(() => predicate).optional
 	});
 
-	test('GIVEN circular schema THEN throw ', () => {
-		expect(predicate.parse({ id: 'Hello', items: { id: 'Hello', items: { id: 'Hello' } } })).toStrictEqual({
-			id: 'Hello',
-			items: { id: 'Hello', items: { id: 'Hello' } }
-		});
+	test('GIVEN circular schema THEN return given value', () => {
+		expect(predicate.parse({ id: 'Sapphire', items: { id: 'Hello' } })).toStrictEqual({ id: 'Sapphire', items: { id: 'Hello' } });
 	});
 });
