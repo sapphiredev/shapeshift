@@ -26,7 +26,7 @@ export function expectModifiedClonedValidator<T>(expected: BaseValidator<T>, act
 	expect(expected).not.toStrictEqual(actual);
 }
 
-export function expectError<T = any>(cb: () => T, expected: BaseError) {
+export function expectError<T = any>(cb: () => T, expected: Error) {
 	try {
 		cb();
 	} catch (error) {
@@ -38,7 +38,7 @@ export function expectError<T = any>(cb: () => T, expected: BaseError) {
 	throw new Error('Expected to throw, but failed to do so');
 }
 
-function expectIdenticalError(actual: BaseError, expected: BaseError) {
+function expectIdenticalError(actual: Error, expected: Error) {
 	expect(actual.constructor).toBe(expected.constructor);
 	expect(actual.name).toBe(expected.name);
 	expect(actual.message).toBe(expected.message);

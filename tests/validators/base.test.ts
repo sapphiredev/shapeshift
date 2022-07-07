@@ -1,4 +1,4 @@
-import { CombinedError, ExpectedConstraintError, ExpectedValidationError, Result, s, ValidationError } from '../../src';
+import { CombinedError, ExpectedValidationError, Result, s, ValidationError } from '../../src';
 import { expectClonedValidator, expectError, expectModifiedClonedValidator } from '../common/macros/comparators';
 
 describe('BaseValidator', () => {
@@ -143,13 +143,7 @@ describe('BaseValidator', () => {
 
 	describe('Reshape', () => {
 		const predicate = s.string.reshape((value) => {
-			return value.length > 5
-				? Result.ok(value.length)
-				: // FIXME: if I don't add this number generic, then `reshape` isn't able to infer the type
-				  // Lmk should I keep it like this or r there any fix possible
-				  Result.err<number>(
-						new ExpectedConstraintError('s.string.lengthGreaterThan', 'Invalid string length', value, 'expected.length > 5')
-				  );
+			return value.length > 5 ? Result.ok(value.length) : Result.err(new Error('Too short'));
 		});
 
 		test('GIVEN an array THEN returns the given value', () => {
@@ -157,10 +151,7 @@ describe('BaseValidator', () => {
 		});
 
 		test('GIVEN a non-array THEN throws ValidationError', () => {
-			expectError(
-				() => predicate.parse('Hello'),
-				new ExpectedConstraintError('s.string.lengthGreaterThan', 'Invalid string length', 'Hello', 'expected.length > 5')
-			);
+			expectError(() => predicate.parse('Hello'), new Error('Too short'));
 		});
 	});
 

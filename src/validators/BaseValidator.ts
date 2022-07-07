@@ -6,7 +6,7 @@ import type { CombinedPropertyError } from '../lib/errors/CombinedPropertyError'
 import type { UnknownEnumValueError } from '../lib/errors/UnknownEnumValueError';
 import type { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import type { BaseConstraintError } from '../type-exports';
+import type { BaseConstraintError, InferResultType } from '../type-exports';
 import { ArrayValidator, DefaultValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator } from './imports';
 import { getValue } from './util/getValue';
 
@@ -49,8 +49,8 @@ export abstract class BaseValidator<T> {
 	}
 
 	public reshape(cb: (input: T) => Result<T>): this;
-	public reshape<O>(cb: (input: T) => Result<O>): BaseValidator<O>;
-	public reshape<O>(cb: (input: T) => Result<O>): BaseValidator<O> {
+	public reshape<R extends Result<unknown>, O = InferResultType<R>>(cb: (input: T) => R): BaseValidator<O>;
+	public reshape<R extends Result<unknown>, O = InferResultType<R>>(cb: (input: T) => R): BaseValidator<O> {
 		return this.addConstraint({ run: cb as unknown as (input: T) => Result<T, BaseConstraintError<T>> }) as unknown as BaseValidator<O>;
 	}
 
