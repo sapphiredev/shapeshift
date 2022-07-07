@@ -2,8 +2,11 @@
  * @vitest-environment jsdom
  */
 
-import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import { DOMWindow, JSDOM } from 'jsdom';
+import path from 'node:path';
+
+const script = readFileSync(path.join(__dirname, '../../dist/index.global.js'), 'utf8');
 
 declare global {
 	interface Window {
@@ -20,23 +23,15 @@ let window: DOMWindow;
 
 describe('browser-bundle-test', () => {
 	beforeEach(() => {
-		return new Promise((resolve, reject) => {
-			window = new JSDOM('', {
-				runScripts: 'dangerously'
-			}).window;
+		window = new JSDOM('', {
+			runScripts: 'dangerously'
+		}).window;
 
-			const { document } = window;
+		const { document } = window;
 
-			const scriptTag = document.createElement('script');
-			scriptTag.src = `file:///${path.join(__dirname, '../../dist/index.global.js')}`;
-			document.head.appendChild(scriptTag);
-			scriptTag.onload = () => {
-				resolve();
-			};
-			scriptTag.onerror = (e) => {
-				reject(e);
-			};
-		});
+		const scriptTag = document.createElement('script');
+		scriptTag.textContent = script;
+		document.head.appendChild(scriptTag);
 	});
 
 	test('GIVEN an unique array THEN return the given value', () => {

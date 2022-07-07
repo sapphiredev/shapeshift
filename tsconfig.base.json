@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		"target": "ES2020",
 		"useDefineForClassFields": false,
-		"emitDecoratorMetadata": false
+		"emitDecoratorMetadata": false,
+		"skipLibCheck": true
 	}
 }
