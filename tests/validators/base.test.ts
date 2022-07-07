@@ -60,13 +60,15 @@ describe('BaseValidator', () => {
 		const numberArrayPredicate = s.number.array;
 		const input = [1, 2, 3];
 
-		test('GIVEN an array of string THEN returns the given value', () => {
+		test('GIVEN an array of number THEN returns the given value', () => {
 			expect<number[]>(numberArrayPredicate.parse(input)).toStrictEqual(input);
 		});
 
-		test('GIVEN s.string.array THEN returns s.array(s.string)', () => {
+		test('GIVEN s.number.array THEN returns s.array(s.number)', () => {
 			const arrayNumberPredicate = s.array(s.number);
 
+			expect<number[]>(numberArrayPredicate.parse([1])).toStrictEqual([1]);
+			expect<number[]>(arrayNumberPredicate.parse([1, 2, 3])).toStrictEqual([1, 2, 3]);
 			expectClonedValidator(numberArrayPredicate, arrayNumberPredicate);
 		});
 	});

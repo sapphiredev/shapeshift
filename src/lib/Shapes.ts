@@ -94,7 +94,7 @@ export class Shapes {
 		return new UnionValidator(validators);
 	}
 
-	public array<T>(validator: BaseValidator<T>) {
+	public array<T extends unknown[]>(validator: BaseValidator<T[number]>) {
 		return new ArrayValidator(validator);
 	}
 
