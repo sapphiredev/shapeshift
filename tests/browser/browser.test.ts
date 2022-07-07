@@ -3,10 +3,11 @@
  */
 
 import type { IWindow } from 'happy-dom';
+import path from 'path';
 
 declare global {
 	interface Window extends IWindow {
-		SapphireShapeshift: typeof import('../src');
+		SapphireShapeshift: typeof import('../../src');
 	}
 	namespace JSX {
 		interface Element {
@@ -15,10 +16,10 @@ declare global {
 	}
 }
 
-describe('bundle-test', () => {
+describe('browser-bundle-test', () => {
 	beforeEach(() => {
 		const scriptTag = document.createElement('script');
-		scriptTag.src = '../dist/index.global.js';
+		scriptTag.src = `file:///${path.join(__dirname, '../../dist/index.global.js')}`;
 		document.head.appendChild(scriptTag);
 	});
 
