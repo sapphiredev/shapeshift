@@ -1,4 +1,4 @@
-import { CombinedError, ExpectedValidationError, s, ValidationError } from '../../src';
+import { CombinedError, ExpectedValidationError, Result, s, ValidationError } from '../../src';
 import { expectClonedValidator, expectError, expectModifiedClonedValidator } from '../common/macros/comparators';
 
 describe('BaseValidator', () => {
@@ -138,6 +138,20 @@ describe('BaseValidator', () => {
 					new ValidationError('s.number', 'Expected a number primitive', input)
 				])
 			);
+		});
+	});
+
+	describe('Reshape', () => {
+		const predicate = s.string.reshape((value) => {
+			return value.length > 5 ? Result.ok(value.length) : Result.err(new Error('Too short'));
+		});
+
+		test('GIVEN a string with length > 5 THEN returns the given value', () => {
+			expect<number>(predicate.parse('Sapphire')).toBe(8);
+		});
+
+		test('GIVEN a string with length < 5 THEN throws Error', () => {
+			expectError(() => predicate.parse('Hello'), new Error('Too short'));
 		});
 	});
 

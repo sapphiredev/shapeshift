@@ -6,6 +6,7 @@ import type { CombinedPropertyError } from '../lib/errors/CombinedPropertyError'
 import type { UnknownEnumValueError } from '../lib/errors/UnknownEnumValueError';
 import type { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
+import type { BaseConstraintError, InferResultType } from '../type-exports';
 import { ArrayValidator, DefaultValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator } from './imports';
 import { getValue } from './util/getValue';
 
@@ -45,6 +46,12 @@ export abstract class BaseValidator<T> {
 	public transform<O>(cb: (value: T) => O): BaseValidator<O>;
 	public transform<O>(cb: (value: T) => O): BaseValidator<O> {
 		return this.addConstraint({ run: (input) => Result.ok(cb(input) as unknown as T) }) as unknown as BaseValidator<O>;
+	}
+
+	public reshape(cb: (input: T) => Result<T>): this;
+	public reshape<R extends Result<unknown>, O = InferResultType<R>>(cb: (input: T) => R): BaseValidator<O>;
+	public reshape<R extends Result<unknown>, O = InferResultType<R>>(cb: (input: T) => R): BaseValidator<O> {
+		return this.addConstraint({ run: cb as unknown as (input: T) => Result<T, BaseConstraintError<T>> }) as unknown as BaseValidator<O>;
 	}
 
 	public default(value: Exclude<T, undefined> | (() => Exclude<T, undefined>)): DefaultValidator<Exclude<T, undefined>> {

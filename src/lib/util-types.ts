@@ -1,5 +1,6 @@
 import type { BaseValidator } from '../validators/BaseValidator';
 import type { ObjectValidator } from '../validators/ObjectValidator';
+import type { Result } from './Result';
 
 export type Constructor<T> = (new (...args: readonly any[]) => T) | (abstract new (...args: readonly any[]) => T);
 
@@ -101,11 +102,11 @@ export type SchemaOf<T> = ObjectValidator<T>;
  */
 export type InferType<T extends ObjectValidator<any>> = T extends ObjectValidator<any, infer U> ? U : never;
 
-//
+export type InferResultType<T extends Result<any>> = T extends Result<infer U> ? U : never;
+
 export type UnwrapTuple<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [Unwrap<Head>, ...UnwrapTuple<Tail>] : [];
 export type Unwrap<T> = T extends BaseValidator<infer V> ? V : never;
 
-//
 export type UnshiftTuple<T extends [...any[]]> = T extends [T[0], ...infer Tail] ? Tail : never;
 export type ExpandSmallerTuples<T extends [...any[]]> = T extends [T[0], ...infer Tail] ? T | ExpandSmallerTuples<Tail> : [];
 
