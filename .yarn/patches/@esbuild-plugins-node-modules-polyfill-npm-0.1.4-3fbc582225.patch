@@ -1,0 +1,990 @@
+diff --git a/dist/index.js b/dist/index.js
+index 46f537441b2f3e43efb5c31901190f154a65b0c4..918ff214afe53e951a2e761c943d36a5770adf74 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -50,15 +50,16 @@ function NodeModulesPolyfillPlugin(options = {}) {
+             function loader(args) {
+                 return __awaiter(this, void 0, void 0, function* () {
+                     try {
++                        const argsPath = args.path.replace(/^node:/, '');
+                         const isCommonjs = args.namespace.endsWith('commonjs');
+-                        const resolved = polyfilledBuiltins.get(removeEndingSlash(args.path));
++                        const resolved = polyfilledBuiltins.get(removeEndingSlash(argsPath));
+                         const contents = yield (yield fs_1.default.promises.readFile(resolved)).toString();
+                         let resolveDir = path_1.default.dirname(resolved);
+                         if (isCommonjs) {
+                             return {
+                                 loader: 'js',
+                                 contents: commonJsTemplate({
+-                                    importPath: args.path,
++                                    importPath: argsPath,
+                                 }),
+                                 resolveDir,
+                             };
+@@ -80,17 +81,18 @@ function NodeModulesPolyfillPlugin(options = {}) {
+             }
+             onLoad({ filter: /.*/, namespace }, loader);
+             onLoad({ filter: /.*/, namespace: commonjsNamespace }, loader);
+-            const filter = new RegExp(polyfilledBuiltinsNames.map(escape_string_regexp_1.default).join('|'));
++            const filter = new RegExp([...polyfilledBuiltinsNames, ...polyfilledBuiltinsNames.map((n) => `node:${n}`)].map(escape_string_regexp_1.default).join('|'));
+             function resolver(args) {
+                 return __awaiter(this, void 0, void 0, function* () {
++                    const argsPath = args.path.replace(/^node:/, '');
+                     const ignoreRequire = args.namespace === commonjsNamespace;
+-                    if (!polyfilledBuiltins.has(args.path)) {
++                    if (!polyfilledBuiltins.has(argsPath)) {
+                         return;
+                     }
+                     const isCommonjs = !ignoreRequire && args.kind === 'require-call';
+                     return {
+                         namespace: isCommonjs ? commonjsNamespace : namespace,
+-                        path: args.path,
++                        path: argsPath,
+                     };
+                 });
+             }
+diff --git a/dist/index.test.d.ts b/dist/index.test.d.ts
+deleted file mode 100644
+index 121d59b38b6a3c8e8fabd3b46bebfd27aa041e97..0000000000000000000000000000000000000000
+--- a/dist/index.test.d.ts
++++ /dev/null
+@@ -1,2 +0,0 @@
+-export {};
+-//# sourceMappingURL=index.test.d.ts.map
+\ No newline at end of file
+diff --git a/dist/index.test.d.ts.map b/dist/index.test.d.ts.map
+deleted file mode 100644
+index b5774e19053a360ba1ab7e0439b5d28a4c58de95..0000000000000000000000000000000000000000
+--- a/dist/index.test.d.ts.map
++++ /dev/null
+@@ -1 +0,0 @@
+-{"version":3,"file":"index.test.d.ts","sourceRoot":"","sources":["../src/index.test.ts"],"names":[],"mappings":""}
+\ No newline at end of file
+diff --git a/dist/index.test.js b/dist/index.test.js
+deleted file mode 100644
+index 2923eecae70d32be10417eba1323a204216f9690..0000000000000000000000000000000000000000
+--- a/dist/index.test.js
++++ /dev/null
+@@ -1,183 +0,0 @@
+-"use strict";
+-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+-    return new (P || (P = Promise))(function (resolve, reject) {
+-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+-    });
+-};
+-var __importDefault = (this && this.__importDefault) || function (mod) {
+-    return (mod && mod.__esModule) ? mod : { "default": mod };
+-};
+-Object.defineProperty(exports, "__esModule", { value: true });
+-const esbuild_1 = require("esbuild");
+-const test_support_1 = require("test-support");
+-const fs_1 = __importDefault(require("fs"));
+-const _1 = __importDefault(require("."));
+-const node_globals_polyfill_1 = __importDefault(require("@esbuild-plugins/node-globals-polyfill"));
+-require('debug').enable(require('../package.json').name);
+-test('works', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield test_support_1.writeFiles({
+-        'entry.ts': `import {x} from './utils'; console.log(x);`,
+-        'utils.ts': `import path from 'path'; import { Buffer } from 'buffer'; export const x = path.resolve(Buffer.from('x').toString());`,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield esbuild_1.build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [_1.default()],
+-    });
+-    eval(res.outputFiles[0].text);
+-    // console.log(res.outputFiles[0].text)
+-    unlink();
+-}));
+-test('works with SafeBuffer and other package consumers', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield test_support_1.writeFiles({
+-        'entry.ts': `import {Buffer as SafeBuffer} from './safe-buffer'; console.log(SafeBuffer);`,
+-        'safe-buffer.ts': fs_1.default
+-            .readFileSync(require.resolve('safe-buffer'))
+-            .toString(),
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield esbuild_1.build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [_1.default()],
+-    });
+-    // console.log(
+-    //     res.outputFiles[0].text
+-    //         .split('\n')
+-    //         .map((x, i) => i + ' ' + x)
+-    //         .join('\n'),
+-    // )
+-    eval(res.outputFiles[0].text);
+-    unlink();
+-}));
+-test('events works', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield test_support_1.writeFiles({
+-        'entry.ts': `
+-        import EventEmitter from 'events';
+-
+-        class Test extends EventEmitter {
+-            constructor() { };
+-        }
+-        console.log(Test)
+-        `,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield esbuild_1.build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [_1.default()],
+-    });
+-    // console.log(res.outputFiles[0].text)
+-    eval(res.outputFiles[0].text);
+-    unlink();
+-}));
+-test('require can use default export', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield test_support_1.writeFiles({
+-        'entry.ts': `
+-        const assert = require('assert')
+-        // console.log(assert)
+-        assert('ok')
+-        `,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield esbuild_1.build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [_1.default()],
+-    });
+-    // console.log(res.outputFiles[0].text)
+-    eval(res.outputFiles[0].text);
+-    unlink();
+-}));
+-test.skip('crypto', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield test_support_1.writeFiles({
+-        'entry.ts': `import { randomBytes } from 'crypto'; console.log(randomBytes(20).toString('hex'))`,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield esbuild_1.build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [_1.default()],
+-    });
+-    eval(res.outputFiles[0].text);
+-    // console.log(res.outputFiles[0].text)
+-    unlink();
+-}));
+-test.skip('fs', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield test_support_1.writeFiles({
+-        'entry.ts': `import { readFile } from 'fs'; console.log(readFile(''))`,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield esbuild_1.build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [_1.default()],
+-    });
+-    eval(res.outputFiles[0].text);
+-    // console.log(res.outputFiles[0].text)
+-    unlink();
+-}));
+-test('does not include global keyword', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield test_support_1.writeFiles({
+-        'entry.ts': `import {x} from './utils'; console.log(x);`,
+-        'utils.ts': `import path from 'path'; import { Buffer } from 'buffer'; export const x = path.resolve(Buffer.from('x').toString());`,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield esbuild_1.build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [_1.default()],
+-    });
+-    const text = res.outputFiles[0].text;
+-    eval(text);
+-    expect(text).not.toContain(/\bglobal\b/);
+-    // console.log(res.outputFiles[0].text)
+-    unlink();
+-}));
+-test('works with globals polyfills', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield test_support_1.writeFiles({
+-        'entry.ts': `import {x} from './utils'; console.log(x);`,
+-        'utils.ts': `import path from 'path'; import { Buffer } from 'buffer'; export const x = path.resolve(Buffer.from('x').toString());`,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield esbuild_1.build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [_1.default(), node_globals_polyfill_1.default()],
+-    });
+-    const text = res.outputFiles[0].text;
+-    eval(text);
+-    console.log(text);
+-    // console.log(res.outputFiles[0].text)
+-    unlink();
+-}));
+-//# sourceMappingURL=index.test.js.map
+\ No newline at end of file
+diff --git a/dist/index.test.js.map b/dist/index.test.js.map
+deleted file mode 100644
+index e8a76e6a0a5d77ffdbc2078a15e3bc8fa716432d..0000000000000000000000000000000000000000
+--- a/dist/index.test.js.map
++++ /dev/null
+@@ -1 +0,0 @@
+-{"version":3,"file":"index.test.js","sourceRoot":"","sources":["../src/index.test.ts"],"names":[],"mappings":"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"}
+\ No newline at end of file
+diff --git a/esm/index.js b/esm/index.js
+index 57eb68ec6a764f94b83935792407170bdc3eeed9..5979d6d52f6a47340065103a426e2649fdc39ebb 100644
+--- a/esm/index.js
++++ b/esm/index.js
+@@ -44,15 +44,16 @@ export function NodeModulesPolyfillPlugin(options = {}) {
+             function loader(args) {
+                 return __awaiter(this, void 0, void 0, function* () {
+                     try {
++                        const argsPath = args.path.replace(/^node:/, '');
+                         const isCommonjs = args.namespace.endsWith('commonjs');
+-                        const resolved = polyfilledBuiltins.get(removeEndingSlash(args.path));
++                        const resolved = polyfilledBuiltins.get(removeEndingSlash(argsPath));
+                         const contents = yield (yield fs.promises.readFile(resolved)).toString();
+                         let resolveDir = path.dirname(resolved);
+                         if (isCommonjs) {
+                             return {
+                                 loader: 'js',
+                                 contents: commonJsTemplate({
+-                                    importPath: args.path,
++                                    importPath: argsPath,
+                                 }),
+                                 resolveDir,
+                             };
+@@ -74,17 +75,18 @@ export function NodeModulesPolyfillPlugin(options = {}) {
+             }
+             onLoad({ filter: /.*/, namespace }, loader);
+             onLoad({ filter: /.*/, namespace: commonjsNamespace }, loader);
+-            const filter = new RegExp(polyfilledBuiltinsNames.map(escapeStringRegexp).join('|'));
++            const filter = new RegExp([...polyfilledBuiltinsNames, ...polyfilledBuiltinsNames.map((n) => `node:${n}`)].map(escapeStringRegexp).join('|'));
+             function resolver(args) {
+                 return __awaiter(this, void 0, void 0, function* () {
++                    const argsPath = args.path.replace(/^node:/, '');
+                     const ignoreRequire = args.namespace === commonjsNamespace;
+-                    if (!polyfilledBuiltins.has(args.path)) {
++                    if (!polyfilledBuiltins.has(argsPath)) {
+                         return;
+                     }
+                     const isCommonjs = !ignoreRequire && args.kind === 'require-call';
+                     return {
+                         namespace: isCommonjs ? commonjsNamespace : namespace,
+-                        path: args.path,
++                        path: argsPath,
+                     };
+                 });
+             }
+diff --git a/esm/index.test.d.ts b/esm/index.test.d.ts
+deleted file mode 100644
+index 121d59b38b6a3c8e8fabd3b46bebfd27aa041e97..0000000000000000000000000000000000000000
+--- a/esm/index.test.d.ts
++++ /dev/null
+@@ -1,2 +0,0 @@
+-export {};
+-//# sourceMappingURL=index.test.d.ts.map
+\ No newline at end of file
+diff --git a/esm/index.test.d.ts.map b/esm/index.test.d.ts.map
+deleted file mode 100644
+index b5774e19053a360ba1ab7e0439b5d28a4c58de95..0000000000000000000000000000000000000000
+--- a/esm/index.test.d.ts.map
++++ /dev/null
+@@ -1 +0,0 @@
+-{"version":3,"file":"index.test.d.ts","sourceRoot":"","sources":["../src/index.test.ts"],"names":[],"mappings":""}
+\ No newline at end of file
+diff --git a/esm/index.test.js b/esm/index.test.js
+deleted file mode 100644
+index 3da138150f856273864e10b4e054aa9be1c03dd4..0000000000000000000000000000000000000000
+--- a/esm/index.test.js
++++ /dev/null
+@@ -1,158 +0,0 @@
+-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+-    return new (P || (P = Promise))(function (resolve, reject) {
+-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+-    });
+-};
+-import { build } from 'esbuild';
+-import { writeFiles } from 'test-support';
+-import fs from 'fs';
+-import NodeModulesPolyfillsPlugin from '.';
+-require('debug').enable(require('../package.json').name);
+-test('works', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield writeFiles({
+-        'entry.ts': `import {x} from './utils'; console.log(x);`,
+-        'utils.ts': `import path from 'path'; import { Buffer } from 'buffer'; export const x = path.resolve(Buffer.from('x').toString());`,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    });
+-    eval(res.outputFiles[0].text);
+-    // console.log(res.outputFiles[0].text)
+-    unlink();
+-}));
+-test('works with SafeBuffer and other package consumers', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield writeFiles({
+-        'entry.ts': `import {Buffer as SafeBuffer} from './safe-buffer'; console.log(SafeBuffer);`,
+-        'safe-buffer.ts': fs
+-            .readFileSync(require.resolve('safe-buffer'))
+-            .toString(),
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    });
+-    // console.log(
+-    //     res.outputFiles[0].text
+-    //         .split('\n')
+-    //         .map((x, i) => i + ' ' + x)
+-    //         .join('\n'),
+-    // )
+-    eval(res.outputFiles[0].text);
+-    unlink();
+-}));
+-test('events works', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield writeFiles({
+-        'entry.ts': `
+-        import EventEmitter from 'events';
+-
+-        class Test extends EventEmitter {
+-            constructor() { };
+-        }
+-        console.log(Test)
+-        `,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    });
+-    // console.log(res.outputFiles[0].text)
+-    eval(res.outputFiles[0].text);
+-    unlink();
+-}));
+-test('require can use default export', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield writeFiles({
+-        'entry.ts': `
+-        const assert = require('assert')
+-        // console.log(assert)
+-        assert('ok')
+-        `,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    });
+-    // console.log(res.outputFiles[0].text)
+-    eval(res.outputFiles[0].text);
+-    unlink();
+-}));
+-test.skip('crypto', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield writeFiles({
+-        'entry.ts': `import { randomBytes } from 'crypto'; console.log(randomBytes(20).toString('hex'))`,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    });
+-    eval(res.outputFiles[0].text);
+-    // console.log(res.outputFiles[0].text)
+-    unlink();
+-}));
+-test.skip('fs', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield writeFiles({
+-        'entry.ts': `import { readFile } from 'fs'; console.log(readFile(''))`,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    });
+-    eval(res.outputFiles[0].text);
+-    // console.log(res.outputFiles[0].text)
+-    unlink();
+-}));
+-test('does not include global keyword', () => __awaiter(void 0, void 0, void 0, function* () {
+-    const { unlink, paths: [ENTRY], } = yield writeFiles({
+-        'entry.ts': `import {x} from './utils'; console.log(x);`,
+-        'utils.ts': `import path from 'path'; import { Buffer } from 'buffer'; export const x = path.resolve(Buffer.from('x').toString());`,
+-    });
+-    // const outfile = randomOutputFile()
+-    const res = yield build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    });
+-    const text = res.outputFiles[0].text;
+-    eval(text);
+-    console.log(text);
+-    expect(text).not.toContain(/\bglobal\b/);
+-    // console.log(res.outputFiles[0].text)
+-    unlink();
+-}));
+-//# sourceMappingURL=index.test.js.map
+\ No newline at end of file
+diff --git a/esm/index.test.js.map b/esm/index.test.js.map
+deleted file mode 100644
+index 525eed70bbbc91d4d927ccca165b5625822a82d4..0000000000000000000000000000000000000000
+--- a/esm/index.test.js.map
++++ /dev/null
+@@ -1 +0,0 @@
+-{"version":3,"file":"index.test.js","sourceRoot":"","sources":["../src/index.test.ts"],"names":[],"mappings":";;;;;;;;;AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,SAAS,CAAA;AAC/B,OAAO,EAAE,UAAU,EAAE,MAAM,cAAc,CAAA;AACzC,OAAO,EAAE,MAAM,IAAI,CAAA;AACnB,OAAO,0BAA0B,MAAM,GAAG,CAAA;AAE1C,OAAO,CAAC,OAAO,CAAC,CAAC,MAAM,CAAC,OAAO,CAAC,iBAAiB,CAAC,CAAC,IAAI,CAAC,CAAA;AAExD,IAAI,CAAC,OAAO,EAAE,GAAS,EAAE;IACrB,MAAM,EACF,MAAM,EACN,KAAK,EAAE,CAAC,KAAK,CAAC,GACjB,GAAG,MAAM,UAAU,CAAC;QACjB,UAAU,EAAE,4CAA4C;QACxD,UAAU,EAAE,uHAAuH;KACtI,CAAC,CAAA;IACF,qCAAqC;IACrC,MAAM,GAAG,GAAG,MAAM,KAAK,CAAC;QACpB,WAAW,EAAE,CAAC,KAAK,CAAC;QACpB,KAAK,EAAE,KAAK;QACZ,MAAM,EAAE,KAAK;QACb,MAAM,EAAE,QAAQ;QAChB,MAAM,EAAE,IAAI;QACZ,OAAO,EAAE,CAAC,0BAA0B,EAAE,CAAC;KAC1C,CAAC,CAAA;IACF,IAAI,CAAC,GAAG,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAA;IAC7B,uCAAuC;IACvC,MAAM,EAAE,CAAA;AACZ,CAAC,CAAA,CAAC,CAAA;AAEF,IAAI,CAAC,mDAAmD,EAAE,GAAS,EAAE;IACjE,MAAM,EACF,MAAM,EACN,KAAK,EAAE,CAAC,KAAK,CAAC,GACjB,GAAG,MAAM,UAAU,CAAC;QACjB,UAAU,EAAE,8EAA8E;QAC1F,gBAAgB,EAAE,EAAE;aACf,YAAY,CAAC,OAAO,CAAC,OAAO,CAAC,aAAa,CAAC,CAAC;aAC5C,QAAQ,EAAE;KAClB,CAAC,CAAA;IACF,qCAAqC;IACrC,MAAM,GAAG,GAAG,MAAM,KAAK,CAAC;QACpB,WAAW,EAAE,CAAC,KAAK,CAAC;QACpB,KAAK,EAAE,KAAK;QACZ,MAAM,EAAE,KAAK;QACb,MAAM,EAAE,QAAQ;QAChB,MAAM,EAAE,IAAI;QACZ,OAAO,EAAE,CAAC,0BAA0B,EAAE,CAAC;KAC1C,CAAC,CAAA;IACF,eAAe;IACf,8BAA8B;IAC9B,uBAAuB;IACvB,sCAAsC;IACtC,uBAAuB;IACvB,IAAI;IACJ,IAAI,CAAC,GAAG,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAA;IAC7B,MAAM,EAAE,CAAA;AACZ,CAAC,CAAA,CAAC,CAAA;AAEF,IAAI,CAAC,cAAc,EAAE,GAAS,EAAE;IAC5B,MAAM,EACF,MAAM,EACN,KAAK,EAAE,CAAC,KAAK,CAAC,GACjB,GAAG,MAAM,UAAU,CAAC;QACjB,UAAU,EAAE;;;;;;;SAOX;KACJ,CAAC,CAAA;IACF,qCAAqC;IACrC,MAAM,GAAG,GAAG,MAAM,KAAK,CAAC;QACpB,WAAW,EAAE,CAAC,KAAK,CAAC;QACpB,KAAK,EAAE,KAAK;QACZ,MAAM,EAAE,KAAK;QACb,MAAM,EAAE,QAAQ;QAChB,MAAM,EAAE,IAAI;QACZ,OAAO,EAAE,CAAC,0BAA0B,EAAE,CAAC;KAC1C,CAAC,CAAA;IACF,uCAAuC;IACvC,IAAI,CAAC,GAAG,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAA;IAC7B,MAAM,EAAE,CAAA;AACZ,CAAC,CAAA,CAAC,CAAA;AAEF,IAAI,CAAC,gCAAgC,EAAE,GAAS,EAAE;IAC9C,MAAM,EACF,MAAM,EACN,KAAK,EAAE,CAAC,KAAK,CAAC,GACjB,GAAG,MAAM,UAAU,CAAC;QACjB,UAAU,EAAE;;;;SAIX;KACJ,CAAC,CAAA;IACF,qCAAqC;IACrC,MAAM,GAAG,GAAG,MAAM,KAAK,CAAC;QACpB,WAAW,EAAE,CAAC,KAAK,CAAC;QACpB,KAAK,EAAE,KAAK;QACZ,MAAM,EAAE,KAAK;QACb,MAAM,EAAE,QAAQ;QAChB,MAAM,EAAE,IAAI;QACZ,OAAO,EAAE,CAAC,0BAA0B,EAAE,CAAC;KAC1C,CAAC,CAAA;IACF,uCAAuC;IACvC,IAAI,CAAC,GAAG,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAA;IAC7B,MAAM,EAAE,CAAA;AACZ,CAAC,CAAA,CAAC,CAAA;AAEF,IAAI,CAAC,IAAI,CAAC,QAAQ,EAAE,GAAS,EAAE;IAC3B,MAAM,EACF,MAAM,EACN,KAAK,EAAE,CAAC,KAAK,CAAC,GACjB,GAAG,MAAM,UAAU,CAAC;QACjB,UAAU,EAAE,oFAAoF;KACnG,CAAC,CAAA;IACF,qCAAqC;IACrC,MAAM,GAAG,GAAG,MAAM,KAAK,CAAC;QACpB,WAAW,EAAE,CAAC,KAAK,CAAC;QACpB,KAAK,EAAE,KAAK;QACZ,MAAM,EAAE,KAAK;QACb,MAAM,EAAE,QAAQ;QAChB,MAAM,EAAE,IAAI;QACZ,OAAO,EAAE,CAAC,0BAA0B,EAAE,CAAC;KAC1C,CAAC,CAAA;IACF,IAAI,CAAC,GAAG,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAA;IAC7B,uCAAuC;IACvC,MAAM,EAAE,CAAA;AACZ,CAAC,CAAA,CAAC,CAAA;AACF,IAAI,CAAC,IAAI,CAAC,IAAI,EAAE,GAAS,EAAE;IACvB,MAAM,EACF,MAAM,EACN,KAAK,EAAE,CAAC,KAAK,CAAC,GACjB,GAAG,MAAM,UAAU,CAAC;QACjB,UAAU,EAAE,0DAA0D;KACzE,CAAC,CAAA;IACF,qCAAqC;IACrC,MAAM,GAAG,GAAG,MAAM,KAAK,CAAC;QACpB,WAAW,EAAE,CAAC,KAAK,CAAC;QACpB,KAAK,EAAE,KAAK;QACZ,MAAM,EAAE,KAAK;QACb,MAAM,EAAE,QAAQ;QAChB,MAAM,EAAE,IAAI;QACZ,OAAO,EAAE,CAAC,0BAA0B,EAAE,CAAC;KAC1C,CAAC,CAAA;IACF,IAAI,CAAC,GAAG,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAA;IAC7B,uCAAuC;IACvC,MAAM,EAAE,CAAA;AACZ,CAAC,CAAA,CAAC,CAAA;AAEF,IAAI,CAAC,iCAAiC,EAAE,GAAS,EAAE;IAC/C,MAAM,EACF,MAAM,EACN,KAAK,EAAE,CAAC,KAAK,CAAC,GACjB,GAAG,MAAM,UAAU,CAAC;QACjB,UAAU,EAAE,4CAA4C;QACxD,UAAU,EAAE,uHAAuH;KACtI,CAAC,CAAA;IACF,qCAAqC;IACrC,MAAM,GAAG,GAAG,MAAM,KAAK,CAAC;QACpB,WAAW,EAAE,CAAC,KAAK,CAAC;QACpB,KAAK,EAAE,KAAK;QACZ,MAAM,EAAE,KAAK;QACb,MAAM,EAAE,QAAQ;QAChB,MAAM,EAAE,IAAI;QACZ,OAAO,EAAE,CAAC,0BAA0B,EAAE,CAAC;KAC1C,CAAC,CAAA;IACF,MAAM,IAAI,GAAG,GAAG,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,IAAI,CAAA;IACpC,IAAI,CAAC,IAAI,CAAC,CAAA;IACV,OAAO,CAAC,GAAG,CAAC,IAAI,CAAC,CAAA;IACjB,MAAM,CAAC,IAAI,CAAC,CAAC,GAAG,CAAC,SAAS,CAAC,YAAY,CAAC,CAAA;IACxC,uCAAuC;IACvC,MAAM,EAAE,CAAA;AACZ,CAAC,CAAA,CAAC,CAAA"}
+\ No newline at end of file
+diff --git a/src/index.test.ts b/src/index.test.ts
+deleted file mode 100644
+index 92792e6d15cbf8a8a020155903c52271898024e8..0000000000000000000000000000000000000000
+--- a/src/index.test.ts
++++ /dev/null
+@@ -1,200 +0,0 @@
+-import { build } from 'esbuild'
+-import { writeFiles } from 'test-support'
+-import fs from 'fs'
+-import NodeModulesPolyfillsPlugin from '.'
+-import NodeGlobalsPolyfillsPlugin from '@esbuild-plugins/node-globals-polyfill'
+-
+-require('debug').enable(require('../package.json').name)
+-
+-test('works', async () => {
+-    const {
+-        unlink,
+-        paths: [ENTRY],
+-    } = await writeFiles({
+-        'entry.ts': `import {x} from './utils'; console.log(x);`,
+-        'utils.ts': `import path from 'path'; import { Buffer } from 'buffer'; export const x = path.resolve(Buffer.from('x').toString());`,
+-    })
+-    // const outfile = randomOutputFile()
+-    const res = await build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    })
+-    eval(res.outputFiles[0].text)
+-    // console.log(res.outputFiles[0].text)
+-    unlink()
+-})
+-
+-test('works with SafeBuffer and other package consumers', async () => {
+-    const {
+-        unlink,
+-        paths: [ENTRY],
+-    } = await writeFiles({
+-        'entry.ts': `import {Buffer as SafeBuffer} from './safe-buffer'; console.log(SafeBuffer);`,
+-        'safe-buffer.ts': fs
+-            .readFileSync(require.resolve('safe-buffer'))
+-            .toString(),
+-    })
+-    // const outfile = randomOutputFile()
+-    const res = await build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    })
+-    // console.log(
+-    //     res.outputFiles[0].text
+-    //         .split('\n')
+-    //         .map((x, i) => i + ' ' + x)
+-    //         .join('\n'),
+-    // )
+-    eval(res.outputFiles[0].text)
+-    unlink()
+-})
+-
+-test('events works', async () => {
+-    const {
+-        unlink,
+-        paths: [ENTRY],
+-    } = await writeFiles({
+-        'entry.ts': `
+-        import EventEmitter from 'events';
+-
+-        class Test extends EventEmitter {
+-            constructor() { };
+-        }
+-        console.log(Test)
+-        `,
+-    })
+-    // const outfile = randomOutputFile()
+-    const res = await build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    })
+-    // console.log(res.outputFiles[0].text)
+-    eval(res.outputFiles[0].text)
+-    unlink()
+-})
+-
+-test('require can use default export', async () => {
+-    const {
+-        unlink,
+-        paths: [ENTRY],
+-    } = await writeFiles({
+-        'entry.ts': `
+-        const assert = require('assert')
+-        // console.log(assert)
+-        assert('ok')
+-        `,
+-    })
+-    // const outfile = randomOutputFile()
+-    const res = await build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    })
+-    // console.log(res.outputFiles[0].text)
+-    eval(res.outputFiles[0].text)
+-    unlink()
+-})
+-
+-test.skip('crypto', async () => {
+-    const {
+-        unlink,
+-        paths: [ENTRY],
+-    } = await writeFiles({
+-        'entry.ts': `import { randomBytes } from 'crypto'; console.log(randomBytes(20).toString('hex'))`,
+-    })
+-    // const outfile = randomOutputFile()
+-    const res = await build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    })
+-    eval(res.outputFiles[0].text)
+-    // console.log(res.outputFiles[0].text)
+-    unlink()
+-})
+-test.skip('fs', async () => {
+-    const {
+-        unlink,
+-        paths: [ENTRY],
+-    } = await writeFiles({
+-        'entry.ts': `import { readFile } from 'fs'; console.log(readFile(''))`,
+-    })
+-    // const outfile = randomOutputFile()
+-    const res = await build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    })
+-    eval(res.outputFiles[0].text)
+-    // console.log(res.outputFiles[0].text)
+-    unlink()
+-})
+-
+-test('does not include global keyword', async () => {
+-    const {
+-        unlink,
+-        paths: [ENTRY],
+-    } = await writeFiles({
+-        'entry.ts': `import {x} from './utils'; console.log(x);`,
+-        'utils.ts': `import path from 'path'; import { Buffer } from 'buffer'; export const x = path.resolve(Buffer.from('x').toString());`,
+-    })
+-    // const outfile = randomOutputFile()
+-    const res = await build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin()],
+-    })
+-    const text = res.outputFiles[0].text
+-    eval(text)
+-    expect(text).not.toContain(/\bglobal\b/)
+-    // console.log(res.outputFiles[0].text)
+-    unlink()
+-})
+-
+-test('works with globals polyfills', async () => {
+-    const {
+-        unlink,
+-        paths: [ENTRY],
+-    } = await writeFiles({
+-        'entry.ts': `import {x} from './utils'; console.log(x);`,
+-        'utils.ts': `import path from 'path'; import { Buffer } from 'buffer'; export const x = path.resolve(Buffer.from('x').toString());`,
+-    })
+-    // const outfile = randomOutputFile()
+-    const res = await build({
+-        entryPoints: [ENTRY],
+-        write: false,
+-        format: 'esm',
+-        target: 'es2017',
+-        bundle: true,
+-        plugins: [NodeModulesPolyfillsPlugin(), NodeGlobalsPolyfillsPlugin()],
+-    })
+-    const text = res.outputFiles[0].text
+-    eval(text)
+-    console.log(text)
+-    // console.log(res.outputFiles[0].text)
+-    unlink()
+-})
+diff --git a/src/index.ts b/src/index.ts
+deleted file mode 100644
+index 76835c3453e747d9800c7fc2cc92283ca14ff8c1..0000000000000000000000000000000000000000
+--- a/src/index.ts
++++ /dev/null
+@@ -1,126 +0,0 @@
+-import { OnResolveArgs, Plugin } from 'esbuild'
+-import escapeStringRegexp from 'escape-string-regexp'
+-import fs from 'fs'
+-import path from 'path'
+-import esbuild from 'esbuild'
+-import { builtinsPolyfills } from './polyfills'
+-
+-// import { NodeResolvePlugin } from '@esbuild-plugins/node-resolve'
+-const NAME = 'node-modules-polyfills'
+-const NAMESPACE = NAME
+-
+-function removeEndingSlash(importee) {
+-    if (importee && importee.slice(-1) === '/') {
+-        importee = importee.slice(0, -1)
+-    }
+-    return importee
+-}
+-
+-export interface NodePolyfillsOptions {
+-    name?: string
+-    namespace?: string
+-}
+-
+-export function NodeModulesPolyfillPlugin(
+-    options: NodePolyfillsOptions = {},
+-): Plugin {
+-    const { namespace = NAMESPACE, name = NAME } = options
+-    if (namespace.endsWith('commonjs')) {
+-        throw new Error(`namespace ${namespace} must not end with commonjs`)
+-    }
+-    // this namespace is needed to make ES modules expose their default export to require: require('assert') will give you import('assert').default
+-    const commonjsNamespace = namespace + '-commonjs'
+-    const polyfilledBuiltins = builtinsPolyfills()
+-    const polyfilledBuiltinsNames = [...polyfilledBuiltins.keys()]
+-
+-    return {
+-        name,
+-        setup: function setup({ onLoad, onResolve, initialOptions }) {
+-            // polyfills contain global keyword, it must be defined
+-            if (initialOptions?.define && !initialOptions.define?.global) {
+-                initialOptions.define['global'] = 'globalThis'
+-            } else if (!initialOptions?.define) {
+-                initialOptions.define = { global: 'globalThis' }
+-            }
+-
+-            // TODO these polyfill module cannot import anything, is that ok?
+-            async function loader(
+-                args: esbuild.OnLoadArgs,
+-            ): Promise<esbuild.OnLoadResult> {
+-                try {
+-                    const isCommonjs = args.namespace.endsWith('commonjs')
+-
+-                    const resolved = polyfilledBuiltins.get(
+-                        removeEndingSlash(args.path),
+-                    )
+-                    const contents = await (
+-                        await fs.promises.readFile(resolved)
+-                    ).toString()
+-                    let resolveDir = path.dirname(resolved)
+-
+-                    if (isCommonjs) {
+-                        return {
+-                            loader: 'js',
+-                            contents: commonJsTemplate({
+-                                importPath: args.path,
+-                            }),
+-                            resolveDir,
+-                        }
+-                    }
+-                    return {
+-                        loader: 'js',
+-                        contents,
+-                        resolveDir,
+-                    }
+-                } catch (e) {
+-                    console.error('node-modules-polyfill', e)
+-                    return {
+-                        contents: `export {}`,
+-                        loader: 'js',
+-                    }
+-                }
+-            }
+-            onLoad({ filter: /.*/, namespace }, loader)
+-            onLoad({ filter: /.*/, namespace: commonjsNamespace }, loader)
+-            const filter = new RegExp(
+-                polyfilledBuiltinsNames.map(escapeStringRegexp).join('|'), // TODO builtins could end with slash, keep in mind in regex
+-            )
+-            async function resolver(args: OnResolveArgs) {
+-                const ignoreRequire = args.namespace === commonjsNamespace
+-
+-                if (!polyfilledBuiltins.has(args.path)) {
+-                    return
+-                }
+-
+-                const isCommonjs =
+-                    !ignoreRequire && args.kind === 'require-call'
+-
+-                return {
+-                    namespace: isCommonjs ? commonjsNamespace : namespace,
+-                    path: args.path,
+-                }
+-            }
+-            onResolve({ filter }, resolver)
+-            // onResolve({ filter: /.*/, namespace }, resolver)
+-        },
+-    }
+-}
+-
+-function commonJsTemplate({ importPath }) {
+-    return `
+-const polyfill = require('${importPath}')
+-
+-if (polyfill && polyfill.default) {
+-    module.exports = polyfill.default
+-    for (let k in polyfill) {
+-        module.exports[k] = polyfill[k]
+-    }
+-} else if (polyfill)  {
+-    module.exports = polyfill
+-}
+-
+-
+-`
+-}
+-
+-export default NodeModulesPolyfillPlugin
+diff --git a/src/polyfills.ts b/src/polyfills.ts
+deleted file mode 100644
+index cea5f8d078867a8cec3c8fc8134c4ecc0465bd72..0000000000000000000000000000000000000000
+--- a/src/polyfills.ts
++++ /dev/null
+@@ -1,151 +0,0 @@
+-// Taken from https://github.com/ionic-team/rollup-plugin-node-polyfills/blob/master/src/modules.ts
+-
+-import { NodePolyfillsOptions } from '.'
+-
+-const EMPTY_PATH = require.resolve(
+-    'rollup-plugin-node-polyfills/polyfills/empty.js',
+-)
+-
+-export function builtinsPolyfills() {
+-    const libs = new Map()
+-
+-    libs.set(
+-        'process',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/process-es6'),
+-    )
+-    libs.set(
+-        'buffer',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/buffer-es6'),
+-    )
+-    libs.set(
+-        'util',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/util'),
+-    )
+-    libs.set('sys', libs.get('util'))
+-    libs.set(
+-        'events',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/events'),
+-    )
+-    libs.set(
+-        'stream',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/stream'),
+-    )
+-    libs.set(
+-        'path',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/path'),
+-    )
+-    libs.set(
+-        'querystring',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/qs'),
+-    )
+-    libs.set(
+-        'punycode',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/punycode'),
+-    )
+-    libs.set(
+-        'url',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/url'),
+-    )
+-    libs.set(
+-        'string_decoder',
+-        require.resolve(
+-            'rollup-plugin-node-polyfills/polyfills/string-decoder',
+-        ),
+-    )
+-    libs.set(
+-        'http',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/http'),
+-    )
+-    libs.set(
+-        'https',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/http'),
+-    )
+-    libs.set('os', require.resolve('rollup-plugin-node-polyfills/polyfills/os'))
+-    libs.set(
+-        'assert',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/assert'),
+-    )
+-    libs.set(
+-        'constants',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/constants'),
+-    )
+-    libs.set(
+-        '_stream_duplex',
+-        require.resolve(
+-            'rollup-plugin-node-polyfills/polyfills/readable-stream/duplex',
+-        ),
+-    )
+-    libs.set(
+-        '_stream_passthrough',
+-        require.resolve(
+-            'rollup-plugin-node-polyfills/polyfills/readable-stream/passthrough',
+-        ),
+-    )
+-    libs.set(
+-        '_stream_readable',
+-        require.resolve(
+-            'rollup-plugin-node-polyfills/polyfills/readable-stream/readable',
+-        ),
+-    )
+-    libs.set(
+-        '_stream_writable',
+-        require.resolve(
+-            'rollup-plugin-node-polyfills/polyfills/readable-stream/writable',
+-        ),
+-    )
+-    libs.set(
+-        '_stream_transform',
+-        require.resolve(
+-            'rollup-plugin-node-polyfills/polyfills/readable-stream/transform',
+-        ),
+-    )
+-    libs.set(
+-        'timers',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/timers'),
+-    )
+-    libs.set(
+-        'console',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/console'),
+-    )
+-    libs.set('vm', require.resolve('rollup-plugin-node-polyfills/polyfills/vm'))
+-    libs.set(
+-        'zlib',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/zlib'),
+-    )
+-    libs.set(
+-        'tty',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/tty'),
+-    )
+-    libs.set(
+-        'domain',
+-        require.resolve('rollup-plugin-node-polyfills/polyfills/domain'),
+-    )
+-
+-    // not shimmed
+-    libs.set('dns', EMPTY_PATH)
+-    libs.set('dgram', EMPTY_PATH)
+-    libs.set('child_process', EMPTY_PATH)
+-    libs.set('cluster', EMPTY_PATH)
+-    libs.set('module', EMPTY_PATH)
+-    libs.set('net', EMPTY_PATH)
+-    libs.set('readline', EMPTY_PATH)
+-    libs.set('repl', EMPTY_PATH)
+-    libs.set('tls', EMPTY_PATH)
+-    libs.set('fs', EMPTY_PATH)
+-    libs.set('crypto', EMPTY_PATH)
+-
+-    // libs.set(
+-    //     'fs',
+-    //     require.resolve('rollup-plugin-node-polyfills/polyfills/browserify-fs'),
+-    // )
+-
+-    // TODO enable crypto and fs https://github.com/ionic-team/rollup-plugin-node-polyfills/issues/20
+-    // libs.set(
+-    //     'crypto',
+-    //     require.resolve(
+-    //         'rollup-plugin-node-polyfills/polyfills/crypto-browserify',
+-    //     ),
+-    // )
+-
+-    return libs
+-}
