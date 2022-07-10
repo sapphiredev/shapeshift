@@ -6,8 +6,7 @@ export default defineConfig({
 		coverage: {
 			enabled: true,
 			reporter: ['text', 'lcov', 'clover']
-		},
-		dir: './tests'
+		}
 	},
 	esbuild: {
 		target: 'es2020'

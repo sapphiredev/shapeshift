@@ -25,7 +25,7 @@
 		"update": "yarn upgrade-interactive",
 		"build": "tsup && tsc -b src",
 		"clean": "node scripts/clean.mjs",
-		"typecheck": "tsc -p tsconfig.typecheck.json",
+		"typecheck": "tsc -p tsconfig.eslint.json",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"postinstall": "husky install .github/husky",

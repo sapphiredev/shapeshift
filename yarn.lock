@@ -4917,21 +4917,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.74.1, rollup@npm:^2.75.7":
-  version: 2.75.7
-  resolution: "rollup@npm:2.75.7"
-  dependencies:
-    fsevents: ~2.3.2
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  bin:
-    rollup: dist/bin/rollup
-  checksum: a6331d46b01062b184efdcb42ce12caf2e1575f989963944534b02f5855f6f3bc239ed0c1a18893572d7695af6d83166f3aef59dbd0365084e1531cb67824674
-  languageName: node
-  linkType: hard
-
-"rollup@npm:^2.75.6":
+"rollup@npm:^2.74.1, rollup@npm:^2.75.6, rollup@npm:^2.75.7":
   version: 2.76.0
   resolution: "rollup@npm:2.76.0"
   dependencies:
@@ -5893,8 +5879,8 @@ __metadata:
   linkType: hard
 
 "vite@npm:^2.9.12 || ^3.0.0-0":
-  version: 3.0.0-beta.7
-  resolution: "vite@npm:3.0.0-beta.7"
+  version: 3.0.0-beta.9
+  resolution: "vite@npm:3.0.0-beta.9"
   dependencies:
     esbuild: ^0.14.47
     fsevents: ~2.3.2
@@ -5920,7 +5906,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 04e670f1bc332d50a0b7d7a2bc3fc7b01370e2a7e1a706d27f9ed57b681558beca06a8681da45b393eeaa6725fb84457176acad4c7c7bb653167d5eea50425d8
+  checksum: 287ead2b4cd3e4c015cc515d2c5eac55727098967bd21622610dc05a05984bb6b35f69e50b6b9874345efe86332915762477e38f03d15fa120d1245c9b606032
   languageName: node
   linkType: hard
 
