@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.5.0](https://github.com/sapphiredev/shapeshift/compare/v3.4.1...v3.5.0) - (2022-07-10)
+
+## 🏠 Refactor
+
+- Port net module (#149) ([5f26e32](https://github.com/sapphiredev/shapeshift/commit/5f26e32b0f87d2b100ca13471d5835c0067ddee8))
+
+## 🐛 Bug Fixes
+
+- Ensure browser compatibility (#150) ([92d05d8](https://github.com/sapphiredev/shapeshift/commit/92d05d83c1fbab53f98f61219fb01d49fc031bae))
+- Fixed `s.array` type inference (#153) ([a5948dc](https://github.com/sapphiredev/shapeshift/commit/a5948dc67ce6a0ea73986d32084898a4ce0b9c3a))
+- Fixed `shape#array` types (#146) ([43016a0](https://github.com/sapphiredev/shapeshift/commit/43016a025b04a676d906758ed065d26a17231888))
+
+## 🚀 Features
+
+- Lazy validator (#147) ([807666e](https://github.com/sapphiredev/shapeshift/commit/807666ef537c84d2e0f8bd9f4ce1a8060bfb3fb5))
+- Reshape finally (#148) ([d3751f6](https://github.com/sapphiredev/shapeshift/commit/d3751f6d3d99f415d797369f98158f932371e02c))
+- **arrays:** Add unique (#141) ([ad7af34](https://github.com/sapphiredev/shapeshift/commit/ad7af34eb811541253150b7ff0b58a6bd7200796))
+
 # [3.4.1](https://github.com/sapphiredev/shapeshift/compare/v3.4.0...v3.4.1) - (2022-07-03)
 
 ## 🏠 Refactor
