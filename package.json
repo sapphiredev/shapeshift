@@ -35,7 +35,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.3",
 		"@commitlint/config-conventional": "^17.0.3",
-		"@esbuild-plugins/node-modules-polyfill": "patch:@esbuild-plugins/node-modules-polyfill@npm:0.1.4#.yarn/patches/@esbuild-plugins-node-modules-polyfill-npm-0.1.4-3fbc582225.patch",
+		"@esbuild-plugins/node-modules-polyfill": "^0.1.4",
 		"@favware/cliff-jumper": "^1.8.5",
 		"@favware/npm-deprecate": "^1.0.4",
 		"@favware/rollup-type-bundler": "^1.0.9",
@@ -116,7 +116,8 @@
 	},
 	"resolutions": {
 		"ansi-regex": "^5.0.1",
-		"minimist": "^1.2.6"
+		"minimist": "^1.2.6",
+		"@esbuild-plugins/node-modules-polyfill@^0.1.4": "patch:@esbuild-plugins/node-modules-polyfill@npm:0.1.4#.yarn/patches/@esbuild-plugins-node-modules-polyfill-npm-0.1.4-3fbc582225.patch"
 	},
 	"prettier": "@sapphire/prettier-config",
 	"packageManager": "yarn@3.2.1",

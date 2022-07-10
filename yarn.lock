@@ -514,7 +514,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.0.3
     "@commitlint/config-conventional": ^17.0.3
-    "@esbuild-plugins/node-modules-polyfill": "patch:@esbuild-plugins/node-modules-polyfill@npm:0.1.4#.yarn/patches/@esbuild-plugins-node-modules-polyfill-npm-0.1.4-3fbc582225.patch"
+    "@esbuild-plugins/node-modules-polyfill": ^0.1.4
     "@favware/cliff-jumper": ^1.8.5
     "@favware/npm-deprecate": ^1.0.4
     "@favware/rollup-type-bundler": ^1.0.9
