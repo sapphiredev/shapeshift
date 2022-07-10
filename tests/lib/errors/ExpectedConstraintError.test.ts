@@ -1,4 +1,4 @@
-import { inspect } from 'util';
+import { inspect } from 'node:util';
 import { ExpectedConstraintError } from '../../../src/lib/errors/ExpectedConstraintError';
 
 describe('ExpectedConstraintError', () => {

@@ -1,4 +1,4 @@
-import type { InspectOptionsStylized } from 'util';
+import type { InspectOptionsStylized } from 'node:util';
 
 export const customInspectSymbol = Symbol.for('nodejs.util.inspect.custom');
 export const customInspectSymbolStackLess = Symbol.for('nodejs.util.inspect.custom.stack-less');

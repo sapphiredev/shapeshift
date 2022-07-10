@@ -1,4 +1,4 @@
-import type { InspectOptionsStylized } from 'util';
+import type { InspectOptionsStylized } from 'node:util';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
 export class MissingPropertyError extends BaseError {

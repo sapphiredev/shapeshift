@@ -1,4 +1,4 @@
-import { inspect } from 'util';
+import { inspect } from 'node:util';
 import { MultiplePossibilitiesConstraintError } from '../../../src';
 
 describe('MultiplePossibilitiesConstraintError', () => {

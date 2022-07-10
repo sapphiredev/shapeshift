@@ -1,4 +1,4 @@
-import { inspect } from 'util';
+import { inspect } from 'node:util';
 import { CombinedPropertyError, ValidationError } from '../../../src';
 
 describe('CombinedError', () => {
