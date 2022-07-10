@@ -29,7 +29,7 @@
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"postinstall": "husky install .github/husky",
-		"prepack": "rollup-type-bundler -e util && pinst --disable",
+		"prepack": "pinst --disable",
 		"postpack": "pinst --enable"
 	},
 	"devDependencies": {
@@ -38,7 +38,6 @@
 		"@esbuild-plugins/node-modules-polyfill": "^0.1.4",
 		"@favware/cliff-jumper": "^1.8.5",
 		"@favware/npm-deprecate": "^1.0.4",
-		"@favware/rollup-type-bundler": "^1.0.9",
 		"@sapphire/eslint-config": "^4.3.7",
 		"@sapphire/prettier-config": "^1.4.3",
 		"@sapphire/ts-config": "^3.3.4",
