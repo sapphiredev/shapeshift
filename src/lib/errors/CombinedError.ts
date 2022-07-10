@@ -5,7 +5,7 @@ export class CombinedError extends BaseError {
 	public readonly errors: readonly BaseError[];
 
 	public constructor(errors: readonly BaseError[]) {
-		super('Received one or more errors');
+		super(errors.length === 1 ? errors[0].message : 'Received multiple errors');
 
 		this.errors = errors;
 	}

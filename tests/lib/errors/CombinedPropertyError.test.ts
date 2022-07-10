@@ -9,7 +9,7 @@ describe('CombinedError', () => {
 	]);
 
 	test('GIVEN an instance THEN assigns fields correctly', () => {
-		expect(error.message).toBe('Received one or more errors');
+		expect(error.message).toBe('Received multiple errors');
 		expect(error.errors).toHaveLength(3);
 		expect(error.errors[0][1]).toBeInstanceOf(ValidationError);
 		expect(error.errors[1][1]).toBeInstanceOf(ValidationError);
@@ -21,7 +21,7 @@ describe('CombinedError', () => {
 			const content = inspect(error, { colors: false });
 			const expected = [
 				'CombinedPropertyError (3)',
-				'  Received one or more errors',
+				'  Received multiple errors',
 				'',
 				'  input.foo',
 				'  | ValidationError > StringValidator',

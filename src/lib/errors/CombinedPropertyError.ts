@@ -5,7 +5,7 @@ export class CombinedPropertyError extends BaseError {
 	public readonly errors: [PropertyKey, BaseError][];
 
 	public constructor(errors: [PropertyKey, BaseError][]) {
-		super('Received one or more errors');
+		super(errors.length === 1 ? errors[0][1].message : 'Received multiple errors');
 
 		this.errors = errors;
 	}
