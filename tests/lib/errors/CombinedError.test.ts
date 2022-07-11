@@ -8,7 +8,7 @@ describe('CombinedError', () => {
 	]);
 
 	test('GIVEN an instance THEN assigns fields correctly', () => {
-		expect(error.message).toBe('Received multiple errors');
+		expect(error.message).toBe('Received 2 errors:\nExpected a string primitive\nExpected a string primitive');
 		expect(error.errors).toHaveLength(2);
 		expect(error.errors[0]).toBeInstanceOf(ValidationError);
 		expect(error.errors[1]).toBeInstanceOf(ValidationError);
@@ -19,7 +19,9 @@ describe('CombinedError', () => {
 			const content = inspect(error, { colors: false });
 			const expected = [
 				'CombinedError (2)',
-				'  Received multiple errors',
+				'  Received 2 errors:',
+				'  Expected a string primitive',
+				'  Expected a string primitive',
 				'',
 				'  1 ValidationError > StringValidator',
 				'  |   Expected a string primitive',
