@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsup';
-import NodeModulesPolyfills from '@esbuild-plugins/node-modules-polyfill';
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 
 export default defineConfig({
 	clean: true,
@@ -13,13 +13,5 @@ export default defineConfig({
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
 	globalName: 'SapphireShapeshift',
-	// @ts-expect-error it's exported as default
-	esbuildPlugins: [NodeModulesPolyfills.default()],
-	esbuildOptions: (options, context) => {
-		if (context.format === 'cjs') {
-			options.banner = {
-				js: '"use strict";'
-			};
-		}
-	}
+	esbuildPlugins: [NodeModulesPolyfillPlugin()]
 });
