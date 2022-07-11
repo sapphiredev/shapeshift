@@ -5,7 +5,7 @@ export class CombinedError extends BaseError {
 	public readonly errors: readonly BaseError[];
 
 	public constructor(errors: readonly BaseError[]) {
-		super(errors.length === 1 ? errors[0].message : `Received ${errors.length} errors:\n${errors.map(e => e.message).join("\n")}`);
+		super(errors.length === 1 ? errors[0].message : `Received ${errors.length} errors:\n${errors.map((e) => e.message).join('\n')}`);
 
 		this.errors = errors;
 	}

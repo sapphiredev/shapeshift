@@ -20,8 +20,8 @@ describe('CombinedError', () => {
 			const expected = [
 				'CombinedError (2)',
 				'  Received 2 errors:',
-				'  Expected a string primitive',
-				'  Expected a string primitive',
+				'Expected a string primitive',
+				'Expected a string primitive',
 				'',
 				'  1 ValidationError > StringValidator',
 				'  |   Expected a string primitive',
