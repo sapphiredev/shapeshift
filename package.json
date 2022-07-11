@@ -29,7 +29,7 @@
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"postinstall": "husky install .github/husky",
-		"prepack": "pinst --disable",
+		"prepack": "yarn build && pinst --disable",
 		"postpack": "pinst --enable"
 	},
 	"devDependencies": {
