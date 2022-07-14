@@ -20,6 +20,7 @@ import { BaseValidator } from './imports';
 
 type makeArray<T> = T extends any[] ? T : T[];
 
+// TODO(v4): revert https://github.com/sapphiredev/shapeshift/pull/159
 export class ArrayValidator<T, I = makeArray<T>[number], P extends unknown[] = makeArray<T>> extends BaseValidator<P> {
 	private readonly validator: BaseValidator<I>;
 
