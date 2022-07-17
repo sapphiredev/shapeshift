@@ -509,7 +509,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.30.6
     c8: ^7.11.3
     cz-conventional-changelog: ^3.3.0
-    eslint: ^8.19.0
+    eslint: ^8.20.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
     fast-deep-equal: ^3.1.3
@@ -524,7 +524,7 @@ __metadata:
     typedoc: ^0.23.7
     typedoc-plugin-mdn-links: ^2.0.0
     typescript: ^4.7.4
-    vitest: ^0.18.0
+    vitest: ^0.18.1
   languageName: unknown
   linkType: soft
 
@@ -2316,7 +2316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.17.0, eslint@npm:^8.19.0":
+"eslint@npm:^8.17.0":
   version: 8.19.0
   resolution: "eslint@npm:8.19.0"
   dependencies:
@@ -2358,6 +2358,51 @@ __metadata:
   bin:
     eslint: bin/eslint.js
   checksum: 0bc9df1a3a09dcd5a781ec728f280aa8af3ab19c2d1f14e2668b5ee5b8b1fb0e72dde5c3acf738e7f4281685fb24ec149b6154255470b06cf41de76350bca7a4
+  languageName: node
+  linkType: hard
+
+"eslint@npm:^8.20.0":
+  version: 8.20.0
+  resolution: "eslint@npm:8.20.0"
+  dependencies:
+    "@eslint/eslintrc": ^1.3.0
+    "@humanwhocodes/config-array": ^0.9.2
+    ajv: ^6.10.0
+    chalk: ^4.0.0
+    cross-spawn: ^7.0.2
+    debug: ^4.3.2
+    doctrine: ^3.0.0
+    escape-string-regexp: ^4.0.0
+    eslint-scope: ^7.1.1
+    eslint-utils: ^3.0.0
+    eslint-visitor-keys: ^3.3.0
+    espree: ^9.3.2
+    esquery: ^1.4.0
+    esutils: ^2.0.2
+    fast-deep-equal: ^3.1.3
+    file-entry-cache: ^6.0.1
+    functional-red-black-tree: ^1.0.1
+    glob-parent: ^6.0.1
+    globals: ^13.15.0
+    ignore: ^5.2.0
+    import-fresh: ^3.0.0
+    imurmurhash: ^0.1.4
+    is-glob: ^4.0.0
+    js-yaml: ^4.1.0
+    json-stable-stringify-without-jsonify: ^1.0.1
+    levn: ^0.4.1
+    lodash.merge: ^4.6.2
+    minimatch: ^3.1.2
+    natural-compare: ^1.4.0
+    optionator: ^0.9.1
+    regexpp: ^3.2.0
+    strip-ansi: ^6.0.1
+    strip-json-comments: ^3.1.0
+    text-table: ^0.2.0
+    v8-compile-cache: ^2.0.3
+  bin:
+    eslint: bin/eslint.js
+  checksum: a31adf390d71d916925586bc8467b48f620e93dd0416bc1e897d99265af88b48d4eba3985b5ff4653ae5cc46311a360d373574002277e159bb38a4363abf9228
   languageName: node
   linkType: hard
 
@@ -3607,10 +3652,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"local-pkg@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "local-pkg@npm:0.4.1"
-  checksum: 4ab3b4853ffbc3b292a3ae2e22618dbc348418a2ebf60ada55fdcc5a8583f9167c89fc7977194ffa39d0a4c5078f9c421d246afdd252fea7a840f7a8f3b5f96b
+"local-pkg@npm:^0.4.2":
+  version: 0.4.2
+  resolution: "local-pkg@npm:0.4.2"
+  checksum: 22be451353c25c4411b552bf01880ebc9e995b93574b2facc7757968d888356df59199cacada14162ab53bbc9da055bb692c907b4171f008dbce45a2afc777c1
   languageName: node
   linkType: hard
 
@@ -5459,17 +5504,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinypool@npm:^0.2.1":
-  version: 0.2.2
-  resolution: "tinypool@npm:0.2.2"
-  checksum: 2ce12dd4f28ed7182095981b29e6cf8170b3efea7016c99c1d059da7b4929124565a35e89fe1b69a9a0d2d9aa58143c32a9f7f793f3160c4f453da8febede98a
+"tinypool@npm:^0.2.4":
+  version: 0.2.4
+  resolution: "tinypool@npm:0.2.4"
+  checksum: f050bd36c89529a2a0d3f9c1fdbba3f317114e3ee6eb5d5ba72c51e887d45ef3ef8d8533fb2ca2eba7189d19d2231712b81b3a75e099248532f5563369929c33
   languageName: node
   linkType: hard
 
-"tinyspy@npm:^0.3.3":
-  version: 0.3.3
-  resolution: "tinyspy@npm:0.3.3"
-  checksum: 1beb8f04c100d9ac769ff85266594f07d6f08f41cfb95c4bef9da3e59988b42e8d4e66c2ec455d3ecad80027347920e87d7a7098c5a2a28637f9fee25e11a8f1
+"tinyspy@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "tinyspy@npm:1.0.0"
+  checksum: f9a7cea406db9b0f99a4ef162eb0a45d88fc36facbc309702c8d568283baa363ab3c4138d8402fbfdef7a8d3157ff7cfae3e99ec6c75d8f684bd7b23485b5ec5
   languageName: node
   linkType: hard
 
@@ -5885,18 +5930,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^0.18.0":
-  version: 0.18.0
-  resolution: "vitest@npm:0.18.0"
+"vitest@npm:^0.18.1":
+  version: 0.18.1
+  resolution: "vitest@npm:0.18.1"
   dependencies:
     "@types/chai": ^4.3.1
     "@types/chai-subset": ^1.3.3
     "@types/node": "*"
     chai: ^4.3.6
     debug: ^4.3.4
-    local-pkg: ^0.4.1
-    tinypool: ^0.2.1
-    tinyspy: ^0.3.3
+    local-pkg: ^0.4.2
+    tinypool: ^0.2.4
+    tinyspy: ^1.0.0
     vite: ^2.9.12 || ^3.0.0-0
   peerDependencies:
     "@edge-runtime/vm": "*"
@@ -5917,7 +5962,7 @@ __metadata:
       optional: true
   bin:
     vitest: vitest.mjs
-  checksum: 20e76b0de9f02dd09a412b11e5898d1ec7c5c9f9287da40a79fde98f6bd100db6f777fb5f1370496a2c153277cc5eb6738e176435101332fce1c87a565e62d5f
+  checksum: 0d3a77625eb542bae27715cb24c91b7f4379d1084ce154ff54c991ab669fe0977a927121d232e6659e97b71b852060ca85c0b1825612f2e092b436e24cca276c
   languageName: node
   linkType: hard
 
