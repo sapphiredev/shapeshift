@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.5.1](https://github.com/sapphiredev/shapeshift/compare/v3.5.0...v3.5.1) - (2022-07-17)
+
+## 🐛 Bug Fixes
+
+- Fast deep equal import (#155) ([5ce8ff6](https://github.com/sapphiredev/shapeshift/commit/5ce8ff6803b70624af07c3e406bc1cdc9e3cdafe))
+
 # [3.5.0](https://github.com/sapphiredev/shapeshift/compare/v3.4.1...v3.5.0) - (2022-07-10)
 
 ## 🏠 Refactor
