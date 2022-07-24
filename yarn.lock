@@ -237,30 +237,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@esbuild-plugins/node-modules-polyfill@npm:0.1.4":
-  version: 0.1.4
-  resolution: "@esbuild-plugins/node-modules-polyfill@npm:0.1.4"
-  dependencies:
-    escape-string-regexp: ^4.0.0
-    rollup-plugin-node-polyfills: ^0.2.1
-  peerDependencies:
-    esbuild: "*"
-  checksum: 39ff2a816139d71ebfbb78914c024565b6026da3146776aa10d27ee1330938ce78c7b2aad11c2d7768c7675d0942d1d1690dabfe60fa79e07dbb31cfbe396cec
-  languageName: node
-  linkType: hard
-
-"@esbuild-plugins/node-modules-polyfill@patch:@esbuild-plugins/node-modules-polyfill@npm:0.1.4#.yarn/patches/@esbuild-plugins-node-modules-polyfill-npm-0.1.4-3fbc582225.patch::locator=%40sapphire%2Fshapeshift%40workspace%3A.":
-  version: 0.1.4
-  resolution: "@esbuild-plugins/node-modules-polyfill@patch:@esbuild-plugins/node-modules-polyfill@npm%3A0.1.4#.yarn/patches/@esbuild-plugins-node-modules-polyfill-npm-0.1.4-3fbc582225.patch::version=0.1.4&hash=84d9a5&locator=%40sapphire%2Fshapeshift%40workspace%3A."
-  dependencies:
-    escape-string-regexp: ^4.0.0
-    rollup-plugin-node-polyfills: ^0.2.1
-  peerDependencies:
-    esbuild: "*"
-  checksum: d95469eace8de33ee6ea58a91b85eb20dfa546f5f4d88b2bcc4401a7e51d98dd8e7c3ed5b6bf92c456109ca1ba291b028bc6892f608553a54ab422d895dee534
-  languageName: node
-  linkType: hard
-
 "@eslint/eslintrc@npm:^1.3.0":
   version: 1.3.0
   resolution: "@eslint/eslintrc@npm:1.3.0"
@@ -383,6 +359,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jspm/core@npm:2.0.0-beta.24":
+  version: 2.0.0-beta.24
+  resolution: "@jspm/core@npm:2.0.0-beta.24"
+  checksum: c3a986d523a61522794c26b809d1fb40b1404a45a5661ba476b5d529e9c15c4c0dc51983c95168532bcc7455a387f0eceeed06f4b386aa219173535fa53a0a62
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -450,6 +433,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-inject@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "@rollup/plugin-inject@npm:4.0.4"
+  dependencies:
+    "@rollup/pluginutils": ^3.1.0
+    estree-walker: ^2.0.1
+    magic-string: ^0.25.7
+  peerDependencies:
+    rollup: ^1.20.0 || ^2.0.0
+  checksum: 22a1847372a96296a5b176af3d5b23ac7b48143a32c77ec4efed38daf4b0d1399a3cd144496d65731299984c5f98c9e00dc6a7f53d0fe87bd4aab2d4bd7b8289
+  languageName: node
+  linkType: hard
+
+"@rollup/pluginutils@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@rollup/pluginutils@npm:3.1.0"
+  dependencies:
+    "@types/estree": 0.0.39
+    estree-walker: ^1.0.1
+    picomatch: ^2.2.2
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0
+  checksum: 8be16e27863c219edbb25a4e6ec2fe0e1e451d9e917b6a43cf2ae5bc025a6b8faaa40f82a6e53b66d0de37b58ff472c6c3d57a83037ae635041f8df959d6d9aa
+  languageName: node
+  linkType: hard
+
 "@sapphire/eslint-config@npm:^4.3.7":
   version: 4.3.7
   resolution: "@sapphire/eslint-config@npm:4.3.7"
@@ -496,7 +505,6 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.0.3
     "@commitlint/config-conventional": ^17.0.3
-    "@esbuild-plugins/node-modules-polyfill": ^0.1.4
     "@favware/cliff-jumper": ^1.8.5
     "@favware/npm-deprecate": ^1.0.4
     "@sapphire/eslint-config": ^4.3.7
@@ -509,6 +517,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.30.7
     c8: ^7.12.0
     cz-conventional-changelog: ^3.3.0
+    esbuild-plugins-node-modules-polyfill: ^1.0.2
     eslint: ^8.20.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
@@ -600,6 +609,13 @@ __metadata:
   version: 4.3.1
   resolution: "@types/chai@npm:4.3.1"
   checksum: 2ee246b76c469cd620a7a1876a73bc597074361b67d547b4bd96a0c1adb43597ede2d8589ab626192e14349d83cbb646cc11e2c179eeeb43ff11596de94d82c4
+  languageName: node
+  linkType: hard
+
+"@types/estree@npm:0.0.39":
+  version: 0.0.39
+  resolution: "@types/estree@npm:0.0.39"
+  checksum: 412fb5b9868f2c418126451821833414189b75cc6bf84361156feed733e3d92ec220b9d74a89e52722e03d5e241b2932732711b7497374a404fad49087adc248
   languageName: node
   linkType: hard
 
@@ -2240,6 +2256,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esbuild-plugins-node-modules-polyfill@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "esbuild-plugins-node-modules-polyfill@npm:1.0.2"
+  dependencies:
+    modern-node-polyfills: ^0.0.7
+  checksum: e99934dc8ef97db1bd37f7db0e65bca8b33a8a790e3e8182828062bbc793237b6d7b7f6db0ce7adc0b88a002ab5f366476fcc423eee9bd79067bf7d1ba9b755a
+  languageName: node
+  linkType: hard
+
 "esbuild-sunos-64@npm:0.14.49":
   version: 0.14.49
   resolution: "esbuild-sunos-64@npm:0.14.49"
@@ -2548,10 +2573,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"estree-walker@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "estree-walker@npm:0.6.1"
-  checksum: 9d6f82a4921f11eec18f8089fb3cce6e53bcf45a8e545c42a2674d02d055fb30f25f90495f8be60803df6c39680c80dcee7f944526867eb7aa1fc9254883b23d
+"estree-walker@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "estree-walker@npm:1.0.1"
+  checksum: 7e70da539691f6db03a08e7ce94f394ce2eef4180e136d251af299d41f92fb2d28ebcd9a6e393e3728d7970aeb5358705ddf7209d52fbcb2dd4693f95dcf925f
+  languageName: node
+  linkType: hard
+
+"estree-walker@npm:^2.0.1":
+  version: 2.0.2
+  resolution: "estree-walker@npm:2.0.2"
+  checksum: 6151e6f9828abe2259e57f5fd3761335bb0d2ebd76dc1a01048ccee22fabcfef3c0859300f6d83ff0d1927849368775ec5a6d265dde2f6de5a1be1721cd94efc
   languageName: node
   linkType: hard
 
@@ -3732,7 +3764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"local-pkg@npm:^0.4.2":
+"local-pkg@npm:^0.4.1, local-pkg@npm:^0.4.2":
   version: 0.4.2
   resolution: "local-pkg@npm:0.4.2"
   checksum: 22be451353c25c4411b552bf01880ebc9e995b93574b2facc7757968d888356df59199cacada14162ab53bbc9da055bb692c907b4171f008dbce45a2afc777c1
@@ -3860,7 +3892,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.25.3":
+"magic-string@npm:^0.25.7":
   version: 0.25.9
   resolution: "magic-string@npm:0.25.9"
   dependencies:
@@ -4180,6 +4212,20 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: a96865108c6c3b1b8e1d5e9f11843de1e077e57737602de1b82030815f311be11f96f09cce59bd5b903d0b29834733e5313f9301e3ed6d6f6fba2eae0df4298f
+  languageName: node
+  linkType: hard
+
+"modern-node-polyfills@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "modern-node-polyfills@npm:0.0.7"
+  dependencies:
+    "@jspm/core": 2.0.0-beta.24
+    "@rollup/plugin-inject": ^4.0.4
+    acorn: ^8.7.1
+    esbuild: ^0.14.47
+    local-pkg: ^0.4.1
+    rollup: ^2.75.7
+  checksum: 27e6e37d283f5ef0b7c6bd8807c663a15187e0e1ae761348bc4ebdec00465978ecf513a56aeb35385c9808453a5441f6efb7f21520d4f6665145f04dafb8d73c
   languageName: node
   linkType: hard
 
@@ -4641,7 +4687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.3.1":
+"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.2, picomatch@npm:^2.3.1":
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 050c865ce81119c4822c45d3c84f1ced46f93a0126febae20737bd05ca20589c564d6e9226977df859ed5e03dc73f02584a2b0faad36e896936238238b0446cf
@@ -4989,36 +5035,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-inject@npm:^3.0.0":
-  version: 3.0.2
-  resolution: "rollup-plugin-inject@npm:3.0.2"
-  dependencies:
-    estree-walker: ^0.6.1
-    magic-string: ^0.25.3
-    rollup-pluginutils: ^2.8.1
-  checksum: a014972c80fe34b8c8154056fa2533a8440066a31de831e3793fc21b15d108d92c22d8f7f472397bd5783d7c5e04d8cbf112fb72c5a26e997726e4eb090edad1
-  languageName: node
-  linkType: hard
-
-"rollup-plugin-node-polyfills@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "rollup-plugin-node-polyfills@npm:0.2.1"
-  dependencies:
-    rollup-plugin-inject: ^3.0.0
-  checksum: e84645212c443aca3cfae2ba69f01c6d8c5c250f0bf651416b69a4572b60aae9da7cdd687de3ab9b903f7a1ab96b06b71f0c4927d1b02a37485360d2b563937b
-  languageName: node
-  linkType: hard
-
-"rollup-pluginutils@npm:^2.8.1":
-  version: 2.8.2
-  resolution: "rollup-pluginutils@npm:2.8.2"
-  dependencies:
-    estree-walker: ^0.6.1
-  checksum: 339fdf866d8f4ff6e408fa274c0525412f7edb01dc46b5ccda51f575b7e0d20ad72965773376fb5db95a77a7fcfcab97bf841ec08dbadf5d6b08af02b7a2cf5e
-  languageName: node
-  linkType: hard
-
-"rollup@npm:^2.74.1, rollup@npm:^2.75.6":
+"rollup@npm:^2.74.1, rollup@npm:^2.75.6, rollup@npm:^2.75.7":
   version: 2.77.0
   resolution: "rollup@npm:2.77.0"
   dependencies:

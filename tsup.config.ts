@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsup';
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
+import { nodeModulesPolyfillPlugin } from 'esbuild-plugins-node-modules-polyfill';
 
 export default defineConfig({
 	clean: true,
@@ -13,5 +13,5 @@ export default defineConfig({
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
 	globalName: 'SapphireShapeshift',
-	esbuildPlugins: [NodeModulesPolyfillPlugin()]
+	esbuildPlugins: [nodeModulesPolyfillPlugin()]
 });
