@@ -41,12 +41,12 @@
 		"@sapphire/eslint-config": "^4.3.7",
 		"@sapphire/prettier-config": "^1.4.3",
 		"@sapphire/ts-config": "^3.3.4",
-		"@types/jsdom": "^16.2.14",
+		"@types/jsdom": "^16.2.15",
 		"@types/lodash.uniqwith": "^4.5.7",
 		"@types/node": "^18.0.5",
-		"@typescript-eslint/eslint-plugin": "^5.30.6",
-		"@typescript-eslint/parser": "^5.30.6",
-		"c8": "^7.11.3",
+		"@typescript-eslint/eslint-plugin": "^5.30.7",
+		"@typescript-eslint/parser": "^5.30.7",
+		"c8": "^7.12.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"eslint": "^8.20.0",
 		"eslint-config-prettier": "^8.5.0",
@@ -58,7 +58,7 @@
 		"prettier": "^2.7.1",
 		"pretty-quick": "^3.1.3",
 		"tsup": "^6.1.3",
-		"typedoc": "^0.23.7",
+		"typedoc": "^0.23.8",
 		"typedoc-plugin-mdn-links": "^2.0.0",
 		"typescript": "^4.7.4",
 		"vitest": "^0.18.1"
@@ -119,7 +119,7 @@
 		"@esbuild-plugins/node-modules-polyfill@^0.1.4": "patch:@esbuild-plugins/node-modules-polyfill@npm:0.1.4#.yarn/patches/@esbuild-plugins-node-modules-polyfill-npm-0.1.4-3fbc582225.patch"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@3.2.1",
+	"packageManager": "yarn@3.2.2",
 	"dependencies": {
 		"fast-deep-equal": "^3.1.3",
 		"lodash.uniqwith": "^4.5.0"
