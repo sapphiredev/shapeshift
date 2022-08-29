@@ -2,6 +2,22 @@ import { CombinedError, ExpectedValidationError, Result, s, ValidationError } fr
 import { expectClonedValidator, expectError, expectModifiedClonedValidator } from '../common/macros/comparators';
 
 describe('BaseValidator', () => {
+	describe('is', () => {
+		test("GIVEN any value THEN it's narrowed to schema type", () => {
+			const predicate = s.string;
+
+			const value = 'Hello there' as string | null;
+			const is = predicate.is(value);
+
+			expect(is).toBe(true);
+			if (is) {
+				expect<string>(value);
+			} else {
+				expect<null>(value);
+			}
+		});
+	});
+
 	describe('optional', () => {
 		const optionalPredicate = s.string.optional;
 
