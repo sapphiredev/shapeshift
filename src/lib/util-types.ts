@@ -72,7 +72,7 @@ export type MappedObjectValidator<T> = { [key in keyof T]: BaseValidator<T[key]>
  * });
  * ```
  */
-export type SchemaOf<T> = ObjectValidator<T>;
+export type SchemaOf<T extends NonNullObject> = ObjectValidator<T>;
 
 /**
  * Infers the type of a schema object given `typeof schema`.
