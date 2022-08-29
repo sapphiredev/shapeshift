@@ -13,5 +13,6 @@ export default defineConfig({
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
 	globalName: 'SapphireShapeshift',
-	esbuildPlugins: [nodeModulesPolyfillPlugin()]
+	esbuildPlugins: [nodeModulesPolyfillPlugin()],
+	treeshake: true
 });
