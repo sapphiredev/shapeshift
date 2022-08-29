@@ -119,7 +119,7 @@
 		"minimist": "^1.2.6"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@3.2.2",
+	"packageManager": "yarn@3.2.3",
 	"dependencies": {
 		"fast-deep-equal": "^3.1.3",
 		"lodash.uniqwith": "^4.5.0"
