@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.6.0](https://github.com/sapphiredev/shapeshift/compare/v3.5.1...v3.6.0) - (2022-08-29)
+
+## 🐛 Bug Fixes
+
+- Typescript 4.8 compatibility (#179) ([2281535](https://github.com/sapphiredev/shapeshift/commit/2281535f7589a987510828e46bf66accc8393c34))
+
+## 🚀 Features
+
+- Add `Validator#is` (#183) ([5114f95](https://github.com/sapphiredev/shapeshift/commit/5114f9516e5406cd1ca4a7ceb5ea5761158af1c6))
+
 # [3.5.1](https://github.com/sapphiredev/shapeshift/compare/v3.5.0...v3.5.1) - (2022-07-17)
 
 ## 🐛 Bug Fixes
