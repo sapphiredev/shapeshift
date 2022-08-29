@@ -80,6 +80,10 @@ export abstract class BaseValidator<T> {
 		return this.constraints.reduce((v, constraint) => constraint.run(v).unwrap(), this.handle(value).unwrap()) as R;
 	}
 
+	public is<R extends T = T>(value: unknown): value is R {
+		return this.run(value).isOk();
+	}
+
 	/**
 	 * Sets if the validator should also run constraints or just do basic checks.
 	 * @param isValidationEnabled Whether this validator should be enabled or disabled. You can pass boolean or a function returning boolean which will be called just before parsing.
