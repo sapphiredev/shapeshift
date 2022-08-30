@@ -1,7 +1,6 @@
 {
-	"out": "./docs/",
-	"readme": "./README.md",
-	"name": "@sapphire/shapeshift",
+	"$schema": "https://typedoc.org/schema.json",
 	"entryPoints": ["src/index.ts"],
-	"tsconfig": "./src/tsconfig.json"
+	"json": "docs/api.json",
+	"tsconfig": "src/tsconfig.json"
 }
