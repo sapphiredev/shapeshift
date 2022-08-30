@@ -819,6 +819,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/apps/allcontributors"><img src="https://avatars.githubusercontent.com/in/23186?v=4?s=100" width="100px;" alt=""/><br /><sub><b>allcontributors[bot]</b></sub></a><br /><a href="https://github.com/sapphiredev/shapeshift/commits?author=allcontributors[bot]" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/RealShadowNova"><img src="https://avatars.githubusercontent.com/u/46537907?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hezekiah Hendry</b></sub></a><br /><a href="#tool-RealShadowNova" title="Tools">🔧</a></td>
   </tr>
 </table>
 
