@@ -290,7 +290,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@favware/colorette-spinner@npm:^1.0.0":
+"@favware/colorette-spinner@npm:^1.0.1":
   version: 1.0.1
   resolution: "@favware/colorette-spinner@npm:1.0.1"
   dependencies:
@@ -551,7 +551,7 @@ __metadata:
     ts-node: ^10.9.1
     tsup: ^6.2.3
     typedoc: ^0.23.14
-    typedoc-json-parser: ^2.3.2
+    typedoc-json-parser: ^3.1.0
     typescript: ^4.8.2
     vitest: ^0.22.1
   languageName: unknown
@@ -6018,39 +6018,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-json-parser@npm:^2.3.2":
-  version: 2.3.2
-  resolution: "typedoc-json-parser@npm:2.3.2"
+"typedoc-json-parser@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "typedoc-json-parser@npm:3.1.0"
   dependencies:
-    "@favware/colorette-spinner": ^1.0.0
+    "@favware/colorette-spinner": ^1.0.1
     colorette: ^2.0.19
     commander: ^9.4.0
     js-yaml: ^4.1.0
     tslib: ^2.4.0
-    typedoc: ^0.23.10
+    typedoc: ^0.23.11
   bin:
     typedoc-json-parser: ./dist/bin/index.js
-  checksum: 9223c36cc93cc9c71b710532080b282c3c4e5ff9836474d2af6701058bd3073f4078d4286f08572de7e32983db9967a4d71d37c0250382130f8e738636d3406b
+  checksum: 4259a95e60851ef4a14d94aa68b4fa611b1700f75f959417416231d33273333a6af9f833b9e2e9b90224e517de9e2bc96d7fb5d7e52ba64e1597c8684a2f2bca
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.23.10":
-  version: 0.23.11
-  resolution: "typedoc@npm:0.23.11"
-  dependencies:
-    lunr: ^2.3.9
-    marked: ^4.0.19
-    minimatch: ^5.1.0
-    shiki: ^0.11.1
-  peerDependencies:
-    typescript: 4.6.x || 4.7.x || 4.8.x
-  bin:
-    typedoc: bin/typedoc
-  checksum: 02bc1e4c15ea064c0a35e049500b40f99ce8dec1d2778edd9dbc12c0ca348c630253ad17e1c2b901961fcd56e3eea31fd62f82eed4ff95864e9e1d2e5e7564d7
-  languageName: node
-  linkType: hard
-
-"typedoc@npm:^0.23.14":
+"typedoc@npm:^0.23.11, typedoc@npm:^0.23.14":
   version: 0.23.14
   resolution: "typedoc@npm:0.23.14"
   dependencies:
