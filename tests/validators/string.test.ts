@@ -365,31 +365,51 @@ describe('StringValidator', () => {
 					);
 				});
 			});
+		});
+		describe('date', () => {
+			const stringDatePredicate = s.string.date;
 
-			describe('date', () => {
-				const stringDatePredicate = s.string.date;
-
-				test.each([
-					'6969-01-01T02:20:00.000Z',
-					'1/1/6969, 4:20:00 AM',
-					'Sun, 01 Jan 6969 02:20:00 GMT',
-					'Sun Jan 01 6969 04:20:00 GMT+0200 (Eastern European Standard Time)'
-				])('GIVEN %j THEN returns given value', (input) => {
-					expect(stringDatePredicate.parse(input)).toBe(input);
-				});
-
-				test('GIVEN invalid date string THEN throws a ConstraintError', () => {
-					expectError(
-						() => stringDatePredicate.parse('owo'),
-						new ExpectedConstraintError(
-							's.string.date',
-							'Invalid date string',
-							'owo',
-							'expected to be a valid date string (in the ISO 8601 or ECMA-262 format)'
-						)
-					);
-				});
+			test.each([
+				'6969-01-01T02:20:00.000Z',
+				'1/1/6969, 4:20:00 AM',
+				'Sun, 01 Jan 6969 02:20:00 GMT',
+				'Sun Jan 01 6969 04:20:00 GMT+0200 (Eastern European Standard Time)'
+			])('GIVEN %j THEN returns given value', (input) => {
+				expect(stringDatePredicate.parse(input)).toBe(input);
 			});
+
+			test('GIVEN invalid date string THEN throws a ConstraintError', () => {
+				expectError(
+					() => stringDatePredicate.parse('owo'),
+					new ExpectedConstraintError(
+						's.string.date',
+						'Invalid date string',
+						'owo',
+						'expected to be a valid date string (in the ISO 8601 or ECMA-262 format)'
+					)
+				);
+			});
+		});
+
+		describe('phone', () => {
+			const phonePredicate = s.string.phone;
+
+			test.each(['+79919542975', '786-307-3615', '+16308520397', '+919367788755', '+916000060091', '9365706789', '936-570-6789'])(
+				'GIVEN %j THEN returns given value',
+				(input) => {
+					expect(phonePredicate.parse(input)).toBe(input);
+				}
+			);
+
+			test.each(['+1 555-555-5555 ext', '+1 (555) 555-5555', '987-123-4567 x12345', '(123) 456-7890 ext12345'])(
+				'GIVEN %j THEN throws a ConstraintError',
+				(input) => {
+					expectError(
+						() => phonePredicate.parse(input),
+						new ExpectedConstraintError('s.string.phone', 'Invalid phone number', input, 'expected to be a phone number')
+					);
+				}
+			);
 		});
 	});
 });
