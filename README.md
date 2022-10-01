@@ -170,6 +170,7 @@ s.string.regex(regex);
 s.string.ip();
 s.string.ipv4;
 s.string.ipv6;
+s.string.phone();
 ```
 
 #### Numbers
