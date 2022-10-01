@@ -392,7 +392,7 @@ describe('StringValidator', () => {
 		});
 
 		describe('phone', () => {
-			const phonePredicate = s.string.phone();
+			const phonePredicate = s.string.phone;
 
 			test.each(['+79919542975', '786-307-3615', '+16308520397', '+919367788755', '+916000060091', '9365706789', '936-570-6789'])(
 				'GIVEN %j THEN returns given value',

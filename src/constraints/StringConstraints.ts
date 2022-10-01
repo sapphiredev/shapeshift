@@ -4,7 +4,7 @@ import type { IConstraint } from './base/IConstraint';
 import { validateEmail } from './util/emailValidator';
 import { isIP, isIPv4, isIPv6 } from './util/net';
 import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
-import { createPhoneNumberValidators, PhoneNumber, phoneNumberRegex, type PhoneNumberOptions } from './util/phoneValidator';
+import { validatePhoneNumber } from './util/phoneValidator';
 import { createUrlValidators } from './util/urlValidators';
 
 export type StringConstraintName =
@@ -161,21 +161,12 @@ export function stringDate(): IConstraint<string> {
 	};
 }
 
-export function stringPhone(options?: PhoneNumberOptions): IConstraint<string> {
-	const validatorFn = createPhoneNumberValidators(options);
+export function stringPhone(): IConstraint<string> {
 	return {
 		run(input: string) {
-			const match = phoneNumberRegex.exec(input) as (RegExpExecArray & { groups: PhoneNumber }) | null;
-			if (!match) {
-				return Result.err(
-					new ExpectedConstraintError('s.string.phone', 'Invalid phone number', input, 'expected to be a valid phone number')
-				);
-			}
-
-			const validatorFnResult = validatorFn(input, match.groups);
-
-			if (validatorFnResult === null) return Result.ok(input);
-			return Result.err(validatorFnResult);
+			return validatePhoneNumber(input)
+				? Result.ok(input)
+				: Result.err(new ExpectedConstraintError('s.string.phone', 'Invalid phone number', input, 'expected to be a phone number'));
 		}
 	};
 }
