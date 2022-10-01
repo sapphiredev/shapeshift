@@ -392,16 +392,23 @@ describe('StringValidator', () => {
 		});
 
 		describe('phone', () => {
-			const phonePredicate = s.string.phone;
+			const phonePredicate = s.string.phone();
 
-			test.each(['+79919542975', '786-307-3615', '+16308520397', '+919367788755', '+916000060091', '9365706789', '936-570-6789'])(
-				'GIVEN %j THEN returns given value',
-				(input) => {
-					expect(phonePredicate.parse(input)).toBe(input);
-				}
-			);
+			test.each([
+				'+79919542975',
+				'786-307-3615',
+				'+16308520397',
+				'+919367788755',
+				'+916000060091',
+				'9365706789',
+				'936-570-6789',
+				'0091 9613312454',
+				'+1 (555) 555-5555'
+			])('GIVEN %j THEN returns given value', (input) => {
+				expect(phonePredicate.parse(input)).toBe(input);
+			});
 
-			test.each(['+1 555-555-5555 ext', '+1 (555) 555-5555', '987-123-4567 x12345', '(123) 456-7890 ext12345'])(
+			test.each(['+1 555-555-5555 ext', '987-123-4567 x12345', '(123) 456-7890 ext12345', '123456', '+1 (555) (555) (555)'])(
 				'GIVEN %j THEN throws a ConstraintError',
 				(input) => {
 					expectError(

@@ -77,7 +77,7 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 		return this.addConstraint(stringIp(version) as IConstraint<T>);
 	}
 
-	public get phone(): this {
+	public phone(): this {
 		return this.addConstraint(stringPhone() as IConstraint<T>);
 	}
 
