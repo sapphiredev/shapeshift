@@ -9,6 +9,7 @@ import {
 	stringLengthLessThan,
 	stringLengthLessThanOrEqual,
 	stringLengthNotEqual,
+	stringPhone,
 	stringRegex,
 	stringUrl,
 	stringUuid,
@@ -74,6 +75,10 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 
 	public ip(version?: 4 | 6): this {
 		return this.addConstraint(stringIp(version) as IConstraint<T>);
+	}
+
+	public phone(): this {
+		return this.addConstraint(stringPhone() as IConstraint<T>);
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {

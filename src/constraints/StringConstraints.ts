@@ -4,6 +4,7 @@ import type { IConstraint } from './base/IConstraint';
 import { validateEmail } from './util/emailValidator';
 import { isIP, isIPv4, isIPv6 } from './util/net';
 import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
+import { validatePhoneNumber } from './util/phoneValidator';
 import { createUrlValidators } from './util/urlValidators';
 
 export type StringConstraintName =
@@ -14,7 +15,8 @@ export type StringConstraintName =
 			| 'uuid'
 			| 'email'
 			| `ip${'v4' | 'v6' | ''}`
-			| 'date'}`;
+			| 'date'
+			| 'phone'}`;
 
 export type StringProtocol = `${string}:`;
 
@@ -155,6 +157,16 @@ export function stringDate(): IConstraint<string> {
 						)
 				  )
 				: Result.ok(input);
+		}
+	};
+}
+
+export function stringPhone(): IConstraint<string> {
+	return {
+		run(input: string) {
+			return validatePhoneNumber(input)
+				? Result.ok(input)
+				: Result.err(new ExpectedConstraintError('s.string.phone', 'Invalid phone number', input, 'expected to be a phone number'));
 		}
 	};
 }
