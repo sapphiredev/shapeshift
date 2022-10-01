@@ -16,6 +16,7 @@ import {
 	StringUuidOptions,
 	type UrlOptions
 } from '../constraints/StringConstraints';
+import type { PhoneNumberOptions } from '../constraints/util/phoneValidator';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
@@ -77,8 +78,8 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 		return this.addConstraint(stringIp(version) as IConstraint<T>);
 	}
 
-	public get phone(): this {
-		return this.addConstraint(stringPhone() as IConstraint<T>);
+	public phone(options?: PhoneNumberOptions): this {
+		return this.addConstraint(stringPhone(options) as IConstraint<T>);
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {
