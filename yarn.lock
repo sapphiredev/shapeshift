@@ -579,7 +579,7 @@ __metadata:
     ts-node: ^10.9.1
     tsup: ^6.2.3
     typedoc: ^0.23.15
-    typedoc-json-parser: ^4.0.0
+    typedoc-json-parser: ^5.0.1
     typescript: ^4.8.4
     vitest: ^0.23.4
   languageName: unknown
@@ -1667,6 +1667,13 @@ __metadata:
   version: 9.4.0
   resolution: "commander@npm:9.4.0"
   checksum: a322de584a6ccd1ea83c24f6a660e52d16ffbe2613fcfbb8d2cc68bc9dec637492456d754fe8bb5b039ad843ed8e04fb0b107e581a75f62cde9e1a0ab1546e09
+  languageName: node
+  linkType: hard
+
+"commander@npm:^9.4.1":
+  version: 9.4.1
+  resolution: "commander@npm:9.4.1"
+  checksum: bfb18e325a5bdf772763c2213d5c7d9e77144d944124e988bcd8e5e65fb6d45d5d4e86b09155d0f2556c9a59c31e428720e57968bcd050b2306e910a0bf3cf13
   languageName: node
   linkType: hard
 
@@ -6109,35 +6116,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-json-parser@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "typedoc-json-parser@npm:4.0.0"
+"typedoc-json-parser@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "typedoc-json-parser@npm:5.0.1"
   dependencies:
     "@favware/colorette-spinner": ^1.0.1
     colorette: ^2.0.19
-    commander: ^9.4.0
+    commander: ^9.4.1
     js-yaml: ^4.1.0
     tslib: ^2.4.0
-    typedoc: ^0.23.14
+    typedoc: ^0.23.15
   bin:
     typedoc-json-parser: ./dist/bin/index.js
-  checksum: 6f76c76af0a2424593a269a290540c99052f9f5e29eb76c59eee41b7bf8a4461fe68c86ba921e9eb70db6dbb6262d34a2f76b03838021e81d57edf9b44fb110c
-  languageName: node
-  linkType: hard
-
-"typedoc@npm:^0.23.14":
-  version: 0.23.14
-  resolution: "typedoc@npm:0.23.14"
-  dependencies:
-    lunr: ^2.3.9
-    marked: ^4.0.19
-    minimatch: ^5.1.0
-    shiki: ^0.11.1
-  peerDependencies:
-    typescript: 4.6.x || 4.7.x || 4.8.x
-  bin:
-    typedoc: bin/typedoc
-  checksum: 4037dc0db4aa8b205ac505bdc191de404ea2da3eb8dabbf8172851c239b85a96fbfd81503dc2d4789066d6901d76c552abc73ee04a239763b69b90587d44527b
+  checksum: 1de3ac1d62b30d4048e52e91ce0a175ce6d3c1f5145be5aa18217f5dced215ea8c28d2d60193a478ab03e238cb4ab70e1f817bf5b60d5b98c81626f3a4110ec9
   languageName: node
   linkType: hard
 
