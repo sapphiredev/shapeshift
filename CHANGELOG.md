@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.7.0](https://github.com/sapphiredev/shapeshift/compare/v3.6.0...v3.7.0) - (2022-10-02)
+
+## 📝 Documentation
+
+- Add phone in readme (#203) ([4ec9b7a](https://github.com/sapphiredev/shapeshift/commit/4ec9b7ab85124d84b3404cb548b17b9221a716c5))
+- Add RealShadowNova as a contributor for tool (#185) ([6dfc442](https://github.com/sapphiredev/shapeshift/commit/6dfc442af6ef26d6bbca39078eca5727257b6dab))
+
+## 🚀 Features
+
+- Add `s.string.phone` (#202) ([7d122d5](https://github.com/sapphiredev/shapeshift/commit/7d122d5dc0eaa63c639b9cde1514e63566a681bd))
+
 # [3.6.0](https://github.com/sapphiredev/shapeshift/compare/v3.5.1...v3.6.0) - (2022-08-29)
 
 ## 🐛 Bug Fixes
