@@ -42,7 +42,7 @@
 		"@sapphire/ts-config": "^3.3.4",
 		"@types/jsdom": "^20.0.0",
 		"@types/lodash.uniqwith": "^4.5.7",
-		"@types/node": "^18.7.23",
+		"@types/node": "^18.11.0",
 		"@typescript-eslint/eslint-plugin": "^5.40.0",
 		"@typescript-eslint/parser": "^5.40.0",
 		"@vitest/coverage-c8": "^0.24.3",
