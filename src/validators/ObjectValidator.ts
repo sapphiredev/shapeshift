@@ -49,6 +49,7 @@ export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>
 
 		for (const [key, validator] of shapeEntries) {
 			if (validator instanceof UnionValidator) {
+				// eslint-disable-next-line @typescript-eslint/dot-notation
 				const [possiblyLiteralOrNullishPredicate] = validator['validators'];
 
 				if (possiblyLiteralOrNullishPredicate instanceof NullishValidator) {
