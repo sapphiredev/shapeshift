@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.7.1](https://github.com/sapphiredev/shapeshift/compare/v3.7.0...v3.7.1) - (2022-11-27)
+
+## 🐛 Bug Fixes
+
+- Fixed "jump to definition" for `undefinedToOptional` going to wrong symbol (#226) ([6aab6d0](https://github.com/sapphiredev/shapeshift/commit/6aab6d01450fd7abbeaa95e91fb58568240e02ff))
+
+## 📝 Documentation
+
+- Add @legendhimslef as a contributor ([499522a](https://github.com/sapphiredev/shapeshift/commit/499522a782c3ecd4df80978d0811df1a75d08212))
+
 # [3.7.0](https://github.com/sapphiredev/shapeshift/compare/v3.6.0...v3.7.0) - (2022-10-02)
 
 ## 📝 Documentation
