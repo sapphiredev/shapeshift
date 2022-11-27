@@ -9,13 +9,28 @@ export type Type<V> = V extends BaseValidator<infer T> ? T : never;
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NonNullObject = {} & object;
 
+/**
+ * @deprecated This type is no longer used and will be removed in the next major version.
+ */
 export type PickDefined<T> = { [K in keyof T as undefined extends T[K] ? never : K]: T[K] };
 
+/**
+ * @deprecated This type is no longer used and will be removed in the next major version.
+ */
 export type PickUndefinedMakeOptional<T> = {
 	[K in keyof T as undefined extends T[K] ? K : never]+?: Exclude<T[K], undefined>;
 };
 
-export type UndefinedToOptional<T> = PickDefined<T> & PickUndefinedMakeOptional<T>;
+type FilterDefinedKeys<TObj extends NonNullObject> = Exclude<
+	{
+		[TKey in keyof TObj]: undefined extends TObj[TKey] ? never : TKey;
+	}[keyof TObj],
+	undefined
+>;
+
+export type UndefinedToOptional<T extends NonNullObject> = Pick<T, FilterDefinedKeys<T>> & {
+	[k in keyof Omit<T, FilterDefinedKeys<T>>]?: Exclude<T[k], undefined>;
+};
 
 export type MappedObjectValidator<T> = { [key in keyof T]: BaseValidator<T[key]> };
 
