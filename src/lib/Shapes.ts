@@ -1,5 +1,5 @@
 import type { TypedArray, TypedArrayName } from '../constraints/util/typedArray';
-import type { NonNullObject, Unwrap, UnwrapTuple } from '../lib/util-types';
+import type { Unwrap, UnwrapTuple } from '../lib/util-types';
 import {
 	ArrayValidator,
 	BaseValidator,
@@ -46,7 +46,7 @@ export class Shapes {
 		return new DateValidator();
 	}
 
-	public object<T extends NonNullObject>(shape: MappedObjectValidator<T>) {
+	public object<T extends object>(shape: MappedObjectValidator<T>) {
 		return new ObjectValidator<T>(shape);
 	}
 
