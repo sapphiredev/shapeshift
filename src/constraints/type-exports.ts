@@ -48,6 +48,7 @@ export type {
 	numberNotNaN,
 	numberSafeInt
 } from './NumberConstraints';
+export type { ObjectConstraintName, WhenOptions } from './ObjectConstrains';
 export type {
 	StringConstraintName,
 	StringDomain,

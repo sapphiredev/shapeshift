@@ -706,7 +706,7 @@ __metadata:
     "@sapphire/prettier-config": ^1.4.4
     "@sapphire/ts-config": ^3.3.4
     "@types/jsdom": ^20.0.1
-    "@types/lodash.uniqwith": ^4.5.7
+    "@types/lodash": ^4.14.191
     "@types/node": ^18.11.13
     "@typescript-eslint/eslint-plugin": ^5.46.0
     "@typescript-eslint/parser": ^5.46.0
@@ -720,7 +720,7 @@ __metadata:
     husky: ^8.0.2
     jsdom: ^20.0.3
     lint-staged: ^13.1.0
-    lodash.uniqwith: ^4.5.0
+    lodash: ^4.17.21
     pinst: ^3.0.0
     prettier: ^2.8.1
     pretty-quick: ^3.1.3
@@ -834,16 +834,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash.uniqwith@npm:^4.5.7":
-  version: 4.5.7
-  resolution: "@types/lodash.uniqwith@npm:4.5.7"
-  dependencies:
-    "@types/lodash": "*"
-  checksum: feea705d2162d906bfba7043500bb2f149ca6032bb49a24b8f60f96b8ba0a41cd4aff7e82057fe5e9e25909f31ba81b35b34dbda549e5b8ba667db9560285446
-  languageName: node
-  linkType: hard
-
-"@types/lodash@npm:*":
+"@types/lodash@npm:^4.14.191":
   version: 4.14.191
   resolution: "@types/lodash@npm:4.14.191"
   checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
@@ -4249,13 +4240,6 @@ __metadata:
   version: 4.5.0
   resolution: "lodash.uniq@npm:4.5.0"
   checksum: a4779b57a8d0f3c441af13d9afe7ecff22dd1b8ce1129849f71d9bbc8e8ee4e46dfb4b7c28f7ad3d67481edd6e51126e4e2a6ee276e25906d10f7140187c392d
-  languageName: node
-  linkType: hard
-
-"lodash.uniqwith@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "lodash.uniqwith@npm:4.5.0"
-  checksum: d49a4565ed64efd86674127d321622673c29cde3e060baebc0f30372f22886c61b2ead44709db8c890053db1b9660e8ed689689812c1a485eb5703caa94d1150
   languageName: node
   linkType: hard
 
