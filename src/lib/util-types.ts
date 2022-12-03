@@ -6,6 +6,9 @@ export type Constructor<T> = (new (...args: readonly any[]) => T) | (abstract ne
 
 export type Type<V> = V extends BaseValidator<infer T> ? T : never;
 
+/**
+ * @deprecated Use `object` instead.
+ */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NonNullObject = {} & object;
 
@@ -21,14 +24,14 @@ export type PickUndefinedMakeOptional<T> = {
 	[K in keyof T as undefined extends T[K] ? K : never]+?: Exclude<T[K], undefined>;
 };
 
-type FilterDefinedKeys<TObj extends NonNullObject> = Exclude<
+type FilterDefinedKeys<TObj extends object> = Exclude<
 	{
 		[TKey in keyof TObj]: undefined extends TObj[TKey] ? never : TKey;
 	}[keyof TObj],
 	undefined
 >;
 
-export type UndefinedToOptional<T extends NonNullObject> = Pick<T, FilterDefinedKeys<T>> & {
+export type UndefinedToOptional<T extends object> = Pick<T, FilterDefinedKeys<T>> & {
 	[k in keyof Omit<T, FilterDefinedKeys<T>>]?: Exclude<T[k], undefined>;
 };
 
@@ -87,7 +90,7 @@ export type MappedObjectValidator<T> = { [key in keyof T]: BaseValidator<T[key]>
  * });
  * ```
  */
-export type SchemaOf<T extends NonNullObject> = ObjectValidator<T>;
+export type SchemaOf<T extends object> = ObjectValidator<T>;
 
 /**
  * Infers the type of a schema object given `typeof schema`.

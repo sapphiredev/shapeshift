@@ -5,18 +5,18 @@ import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
 import { UnknownPropertyError } from '../lib/errors/UnknownPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import type { MappedObjectValidator, NonNullObject, UndefinedToOptional } from '../lib/util-types';
+import type { MappedObjectValidator, UndefinedToOptional } from '../lib/util-types';
 import { BaseValidator } from './BaseValidator';
 import { DefaultValidator } from './DefaultValidator';
 import { LiteralValidator } from './LiteralValidator';
 import { NullishValidator } from './NullishValidator';
 import { UnionValidator } from './UnionValidator';
 
-export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>> extends BaseValidator<I> {
+export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> extends BaseValidator<I> {
 	public readonly shape: MappedObjectValidator<T>;
 	public readonly strategy: ObjectValidatorStrategy;
 	private readonly keys: readonly (keyof I)[] = [];
-	private readonly handleStrategy: (value: NonNullObject) => Result<I, CombinedPropertyError>;
+	private readonly handleStrategy: (value: object) => Result<I, CombinedPropertyError>;
 
 	private readonly requiredKeys = new Map<keyof I, BaseValidator<unknown>>();
 	private readonly possiblyUndefinedKeys = new Map<keyof I, BaseValidator<unknown>>();
@@ -109,7 +109,7 @@ export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>
 		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
 
-	public extend<ET extends NonNullObject>(schema: ObjectValidator<ET> | MappedObjectValidator<ET>): ObjectValidator<T & ET> {
+	public extend<ET extends object>(schema: ObjectValidator<ET> | MappedObjectValidator<ET>): ObjectValidator<T & ET> {
 		const shape = { ...this.shape, ...(schema instanceof ObjectValidator ? schema.shape : schema) };
 		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
 	}
@@ -146,20 +146,20 @@ export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>
 			return Result.ok(value as I);
 		}
 
-		return this.handleStrategy(value as NonNullObject);
+		return this.handleStrategy(value as object);
 	}
 
 	protected override clone(): this {
 		return Reflect.construct(this.constructor, [this.shape, this.strategy, this.constraints]);
 	}
 
-	private handleIgnoreStrategy(value: NonNullObject): Result<I, CombinedPropertyError> {
+	private handleIgnoreStrategy(value: object): Result<I, CombinedPropertyError> {
 		const errors: [PropertyKey, BaseError][] = [];
 		const finalObject = {} as I;
 		const inputEntries = new Map(Object.entries(value) as [keyof I, unknown][]);
 
 		const runPredicate = (key: keyof I, predicate: BaseValidator<unknown>) => {
-			const result = predicate.run(value[key as keyof NonNullObject]);
+			const result = predicate.run(value[key as keyof object]);
 
 			if (result.isOk()) {
 				finalObject[key] = result.value as I[keyof I];
@@ -215,13 +215,13 @@ export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>
 			: Result.err(new CombinedPropertyError(errors));
 	}
 
-	private handleStrictStrategy(value: NonNullObject): Result<I, CombinedPropertyError> {
+	private handleStrictStrategy(value: object): Result<I, CombinedPropertyError> {
 		const errors: [PropertyKey, BaseError][] = [];
 		const finalResult = {} as I;
 		const inputEntries = new Map(Object.entries(value) as [keyof I, unknown][]);
 
 		const runPredicate = (key: keyof I, predicate: BaseValidator<unknown>) => {
-			const result = predicate.run(value[key as keyof NonNullObject]);
+			const result = predicate.run(value[key as keyof object]);
 
 			if (result.isOk()) {
 				finalResult[key] = result.value as I[keyof I];
@@ -268,7 +268,7 @@ export class ObjectValidator<T extends NonNullObject, I = UndefinedToOptional<T>
 			: Result.err(new CombinedPropertyError(errors));
 	}
 
-	private handlePassthroughStrategy(value: NonNullObject): Result<I, CombinedPropertyError> {
+	private handlePassthroughStrategy(value: object): Result<I, CombinedPropertyError> {
 		const result = this.handleIgnoreStrategy(value);
 		return result.isErr() ? result : Result.ok({ ...value, ...result.value } as I);
 	}
