@@ -1,21 +1,28 @@
-import type { IConstraint } from '../constraints/base/IConstraint';
 import { getGlobalValidationEnabled } from '../lib/configs';
-import type { BaseError } from '../lib/errors/BaseError';
+import { Result } from '../lib/Result';
+import { ArrayValidator, DefaultValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator } from './imports';
+import { getValue } from './util/getValue';
+import { whenConstraint, type WhenKey, type WhenOptions } from '../constraints/ObjectConstrains';
 import type { CombinedError } from '../lib/errors/CombinedError';
 import type { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import type { UnknownEnumValueError } from '../lib/errors/UnknownEnumValueError';
 import type { ValidationError } from '../lib/errors/ValidationError';
-import { Result } from '../lib/Result';
 import type { BaseConstraintError, InferResultType } from '../type-exports';
-import { ArrayValidator, DefaultValidator, LiteralValidator, NullishValidator, SetValidator, UnionValidator } from './imports';
-import { getValue } from './util/getValue';
+import type { IConstraint } from '../constraints/base/IConstraint';
+import type { BaseError } from '../lib/errors/BaseError';
 
 export abstract class BaseValidator<T> {
+	protected parent?: object;
 	protected constraints: readonly IConstraint<T>[] = [];
 	protected isValidationEnabled: boolean | (() => boolean) | null = null;
 
 	public constructor(constraints: readonly IConstraint<T>[] = []) {
 		this.constraints = constraints;
+	}
+
+	public setParent(parent: object): this {
+		this.parent = parent;
+		return this;
 	}
 
 	public get optional(): UnionValidator<T | undefined> {
@@ -58,12 +65,16 @@ export abstract class BaseValidator<T> {
 		return new DefaultValidator(this.clone() as unknown as BaseValidator<Exclude<T, undefined>>, value);
 	}
 
+	public when<Key extends WhenKey, This extends BaseValidator<any> = this>(key: Key, options: WhenOptions<This, Key>): this {
+		return this.addConstraint(whenConstraint<This, T, Key>(key, options, this as unknown as This));
+	}
+
 	public run(value: unknown): Result<T, BaseError> {
 		let result = this.handle(value) as Result<T, BaseError>;
 		if (result.isErr()) return result;
 
 		for (const constraint of this.constraints) {
-			result = constraint.run(result.value as T);
+			result = constraint.run(result.value as T, this.parent);
 			if (result.isErr()) break;
 		}
 

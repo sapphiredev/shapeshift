@@ -4,6 +4,7 @@ import type {
 	BooleanConstraintName,
 	DateConstraintName,
 	NumberConstraintName,
+	ObjectConstraintName,
 	StringConstraintName,
 	TypedArrayConstraintName
 } from '../../constraints/type-exports';
@@ -16,6 +17,7 @@ export type ConstraintErrorNames =
 	| BooleanConstraintName
 	| DateConstraintName
 	| NumberConstraintName
+	| ObjectConstraintName
 	| StringConstraintName;
 
 export abstract class BaseConstraintError<T = unknown> extends BaseError {

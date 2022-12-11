@@ -2,6 +2,7 @@
 import {
 	CombinedError,
 	CombinedPropertyError,
+	ExpectedConstraintError,
 	ExpectedValidationError,
 	MissingPropertyError,
 	s,
@@ -346,6 +347,287 @@ describe('ObjectValidator', () => {
 
 			expect(Object.keys(pickPredicate.shape)).toStrictEqual(['username']);
 			expect(pickPredicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({ username: 'Sapphire' });
+		});
+	});
+
+	describe('When', () => {
+		test('Given a key WITH is function THEN return value based on the value at key position', () => {
+			const whenPredicate = s.object({
+				booleanLike: s.boolean,
+				numberLike: s.number.when('booleanLike', {
+					is: (value) => value === true,
+					then: (schema) => schema.greaterThanOrEqual(5),
+					otherwise: (schema) => schema.lessThanOrEqual(5)
+				})
+			});
+
+			expect(whenPredicate.parse({ booleanLike: true, numberLike: 6 })).toStrictEqual({ booleanLike: true, numberLike: 6 });
+			expectError(
+				() => whenPredicate.parse({ booleanLike: true, numberLike: 4 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+				])
+			);
+
+			expect(whenPredicate.parse({ booleanLike: false, numberLike: 4 })).toStrictEqual({ booleanLike: false, numberLike: 4 });
+
+			expectError(
+				() => whenPredicate.parse({ booleanLike: false, numberLike: 6 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+				])
+			);
+		});
+
+		test('Given a key WITH is primitive literal THEN return value based on the value strictly equal to the primitive literal', () => {
+			const whenPredicate = s.object({
+				booleanLike: s.boolean,
+				numberLike: s.number.when('booleanLike', {
+					is: true,
+					then: (schema) => schema.greaterThanOrEqual(5),
+					otherwise: (schema) => schema.lessThanOrEqual(5)
+				})
+			});
+
+			expect(whenPredicate.parse({ booleanLike: true, numberLike: 6 })).toStrictEqual({ booleanLike: true, numberLike: 6 });
+			expectError(
+				() => whenPredicate.parse({ booleanLike: true, numberLike: 4 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+				])
+			);
+
+			expect(whenPredicate.parse({ booleanLike: false, numberLike: 4 })).toStrictEqual({ booleanLike: false, numberLike: 4 });
+
+			expectError(
+				() => whenPredicate.parse({ booleanLike: false, numberLike: 6 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+				])
+			);
+		});
+
+		test('Given a key WITHOUT is THEN return value based on the value at key position', () => {
+			const whenPredicate = s.object({
+				booleanLike: s.boolean,
+				numberLike: s.number.when('booleanLike', {
+					then: (schema) => schema.greaterThanOrEqual(5),
+					otherwise: (schema) => schema.lessThanOrEqual(5)
+				})
+			});
+
+			expect(whenPredicate.parse({ booleanLike: true, numberLike: 6 })).toStrictEqual({ booleanLike: true, numberLike: 6 });
+			expectError(
+				() => whenPredicate.parse({ booleanLike: true, numberLike: 4 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+				])
+			);
+
+			expect(whenPredicate.parse({ booleanLike: false, numberLike: 4 })).toStrictEqual({ booleanLike: false, numberLike: 4 });
+
+			expectError(
+				() => whenPredicate.parse({ booleanLike: false, numberLike: 6 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+				])
+			);
+		});
+
+		test('Given an array of keys WITHOUT is THEN check truly of each values', () => {
+			const whenPredicate = s.object({
+				booleanLike: s.boolean,
+				stringLike: s.string,
+				numberLike: s.number.when(['booleanLike', 'stringLike'], {
+					then: (schema) => schema.greaterThanOrEqual(5),
+					otherwise: (schema) => schema.lessThanOrEqual(5)
+				})
+			});
+
+			expect(whenPredicate.parse({ booleanLike: true, stringLike: 'foo', numberLike: 6 })).toStrictEqual({
+				booleanLike: true,
+				stringLike: 'foo',
+				numberLike: 6
+			});
+			expectError(
+				() => whenPredicate.parse({ booleanLike: true, stringLike: 'foo', numberLike: 4 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+				])
+			);
+
+			expect(whenPredicate.parse({ booleanLike: false, stringLike: 'foo', numberLike: 4 })).toStrictEqual({
+				booleanLike: false,
+				stringLike: 'foo',
+				numberLike: 4
+			});
+
+			expect(whenPredicate.parse({ booleanLike: true, stringLike: '', numberLike: 4 })).toStrictEqual({
+				booleanLike: true,
+				stringLike: '',
+				numberLike: 4
+			});
+
+			expectError(
+				() => whenPredicate.parse({ booleanLike: false, stringLike: 'foo', numberLike: 6 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+				])
+			);
+
+			expectError(
+				() => whenPredicate.parse({ booleanLike: true, stringLike: '', numberLike: 6 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+				])
+			);
+		});
+
+		test('Given a number key THEN return return value based on the key', () => {
+			const whenPredicate = s.object({
+				1: s.boolean,
+				numberLike: s.number.when(1, {
+					is: (value) => value === true,
+					then: (schema) => schema.greaterThanOrEqual(5),
+					otherwise: (schema) => schema.lessThanOrEqual(5)
+				})
+			});
+
+			expect(whenPredicate.parse({ 1: true, numberLike: 6 })).toStrictEqual({ 1: true, numberLike: 6 });
+			expectError(
+				() => whenPredicate.parse({ 1: true, numberLike: 4 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+				])
+			);
+
+			expect(whenPredicate.parse({ 1: false, numberLike: 4 })).toStrictEqual({ 1: false, numberLike: 4 });
+
+			expectError(
+				() => whenPredicate.parse({ 1: false, numberLike: 6 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+				])
+			);
+		});
+
+		test('Given multiple keys THEN return return value based on the keys', () => {
+			const whenPredicate = s.object({
+				booleanLike: s.boolean,
+				stringLike: s.string,
+				numberLike: s.number.when(['booleanLike', 'stringLike'], {
+					is: ([booleanLikeValue, stringLikeValue]) => booleanLikeValue === true && stringLikeValue === 'foo',
+					then: (schema) => schema.greaterThanOrEqual(5),
+					otherwise: (schema) => schema.lessThanOrEqual(5)
+				})
+			});
+
+			expect(whenPredicate.parse({ booleanLike: true, stringLike: 'foo', numberLike: 6 })).toStrictEqual({
+				booleanLike: true,
+				numberLike: 6,
+				stringLike: 'foo'
+			});
+			expect(whenPredicate.parse({ booleanLike: true, stringLike: 'bar', numberLike: 4 })).toStrictEqual({
+				booleanLike: true,
+				numberLike: 4,
+				stringLike: 'bar'
+			});
+			expect(whenPredicate.parse({ booleanLike: false, stringLike: 'foo', numberLike: 4 })).toStrictEqual({
+				booleanLike: false,
+				numberLike: 4,
+				stringLike: 'foo'
+			});
+
+			expectError(
+				() => whenPredicate.parse({ booleanLike: false, stringLike: 'foo', numberLike: 6 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+				])
+			);
+			expectError(
+				() => expect(whenPredicate.parse({ booleanLike: true, stringLike: 'bar', numberLike: 6 })),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+				])
+			);
+		});
+
+		test('Given a key without `otherwise` THEN return the same value for false condition', () => {
+			const whenPredicate = s.object({
+				booleanLike: s.boolean,
+				numberLike: s.number.when('booleanLike', {
+					is: (value) => value === true,
+					then: (schema) => schema.greaterThanOrEqual(5)
+				})
+			});
+
+			expect(whenPredicate.parse({ booleanLike: true, numberLike: 6 })).toStrictEqual({ booleanLike: true, numberLike: 6 });
+			expectError(
+				() => whenPredicate.parse({ booleanLike: true, numberLike: 4 }),
+				new CombinedPropertyError([
+					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+				])
+			);
+
+			expect(whenPredicate.parse({ booleanLike: false, numberLike: 4 })).toStrictEqual({ booleanLike: false, numberLike: 4 });
+			expect(whenPredicate.parse({ booleanLike: false, numberLike: 6 })).toStrictEqual({ booleanLike: false, numberLike: 6 });
+		});
+
+		test('Given a predicate with no parent THEN throw ExpectedConstraintError', () => {
+			const whenPredicate = s.number.when('booleanLike', {
+				is: (value) => value === true,
+				then: (schema) => schema.greaterThanOrEqual(5),
+				otherwise: (schema) => schema.lessThanOrEqual(5)
+			});
+
+			expectError(
+				() => whenPredicate.parse(5),
+				new ExpectedConstraintError('s.object(T.when)', 'Validator has no parent', undefined, 'Validator to have a parent')
+			);
+		});
+
+		test('Given a nested object and a key with dot THEN return return value based on the key', () => {
+			const whenPredicate = s.object({
+				objectLike: s.object({
+					booleanLike: s.boolean,
+					numberLike: s.number.when('objectLike.booleanLike', {
+						is: (value) => value === true,
+						then: (schema) => schema.greaterThanOrEqual(5),
+						otherwise: (schema) => schema.lessThanOrEqual(5)
+					})
+				})
+			});
+
+			expect(whenPredicate.parse({ objectLike: { booleanLike: true, numberLike: 6 } })).toStrictEqual({
+				objectLike: { booleanLike: true, numberLike: 6 }
+			});
+			expectError(
+				() => whenPredicate.parse({ objectLike: { booleanLike: true, numberLike: 4 } }),
+				new CombinedPropertyError([
+					[
+						'objectLike',
+						new CombinedPropertyError([
+							['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+						])
+					]
+				])
+			);
+
+			expect(whenPredicate.parse({ objectLike: { booleanLike: false, numberLike: 4 } })).toStrictEqual({
+				objectLike: { booleanLike: false, numberLike: 4 }
+			});
+
+			expectError(
+				() => whenPredicate.parse({ objectLike: { booleanLike: false, numberLike: 6 } }),
+				new CombinedPropertyError([
+					[
+						'objectLike',
+						new CombinedPropertyError([
+							['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+						])
+					]
+				])
+			);
 		});
 	});
 

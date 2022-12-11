@@ -146,6 +146,10 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 			return Result.ok(value as I);
 		}
 
+		for (const predicate of Object.values(this.shape) as BaseValidator<any>[]) {
+			predicate.setParent(this.parent ?? value!);
+		}
+
 		return this.handleStrategy(value as object);
 	}
 
