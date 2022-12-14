@@ -1,4 +1,4 @@
-import get from 'lodash/get';
+import get from 'lodash/get.js';
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { BaseValidator } from '../type-exports';

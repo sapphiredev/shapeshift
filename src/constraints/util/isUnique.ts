@@ -1,5 +1,5 @@
 import fastDeepEqual from 'fast-deep-equal/es6/index.js';
-import uniqWith from 'lodash/uniqWith';
+import uniqWith from 'lodash/uniqWith.js';
 
 export function isUnique(input: unknown[]) {
 	if (input.length < 2) return true;
