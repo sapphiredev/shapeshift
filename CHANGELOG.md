@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.8.1](https://github.com/sapphiredev/shapeshift/compare/v3.8.0...v3.8.1) - (2022-12-15)
+
+## 🐛 Bug Fixes
+
+- Fixed lodash esm import (#230) ([63def7b](https://github.com/sapphiredev/shapeshift/commit/63def7bcec6319b3792093945ba7ba9f871ced6f))
+
 # [3.8.0](https://github.com/sapphiredev/shapeshift/compare/v3.7.1...v3.8.0) - (2022-12-11)
 
 ## 🏠 Refactor
