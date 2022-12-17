@@ -1,5 +1,6 @@
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
+import type { ValidatorOptions } from '../lib/util-types';
 import type { IConstraint } from './base/IConstraint';
 import { validateEmail } from './util/emailValidator';
 import { isIP, isIPv4, isIPv6 } from './util/net';
@@ -7,7 +8,7 @@ import { equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notE
 import { validatePhoneNumber } from './util/phoneValidator';
 import { createUrlValidators } from './util/urlValidators';
 
-export type StringConstraintName = `s.string.${
+export type StringConstraintName = `s.string().${
 	| `length${'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual' | 'Equal' | 'NotEqual'}`
 	| 'regex'
 	| 'url'
@@ -15,7 +16,7 @@ export type StringConstraintName = `s.string.${
 	| 'email'
 	| `ip${'v4' | 'v6' | ''}`
 	| 'date'
-	| 'phone'}`;
+	| 'phone'}()`;
 
 export type StringProtocol = `${string}:`;
 
@@ -33,75 +34,90 @@ export interface StringUuidOptions {
 	nullable?: boolean;
 }
 
-function stringLengthComparator(comparator: Comparator, name: StringConstraintName, expected: string, length: number): IConstraint<string> {
+function stringLengthComparator(
+	comparator: Comparator,
+	name: StringConstraintName,
+	expected: string,
+	length: number,
+	options?: ValidatorOptions
+): IConstraint<string> {
 	return {
 		run(input: string) {
 			return comparator(input.length, length) //
 				? Result.ok(input)
-				: Result.err(new ExpectedConstraintError(name, 'Invalid string length', input, expected));
+				: Result.err(new ExpectedConstraintError(name, options?.message ?? 'Invalid string length', input, expected));
 		}
 	};
 }
 
-export function stringLengthLessThan(length: number): IConstraint<string> {
+export function stringLengthLessThan(length: number, options?: ValidatorOptions): IConstraint<string> {
 	const expected = `expected.length < ${length}`;
-	return stringLengthComparator(lessThan, 's.string.lengthLessThan', expected, length);
+	return stringLengthComparator(lessThan, 's.string().lengthLessThan()', expected, length, options);
 }
 
-export function stringLengthLessThanOrEqual(length: number): IConstraint<string> {
+export function stringLengthLessThanOrEqual(length: number, options?: ValidatorOptions): IConstraint<string> {
 	const expected = `expected.length <= ${length}`;
-	return stringLengthComparator(lessThanOrEqual, 's.string.lengthLessThanOrEqual', expected, length);
+	return stringLengthComparator(lessThanOrEqual, 's.string().lengthLessThanOrEqual()', expected, length, options);
 }
 
-export function stringLengthGreaterThan(length: number): IConstraint<string> {
+export function stringLengthGreaterThan(length: number, options?: ValidatorOptions): IConstraint<string> {
 	const expected = `expected.length > ${length}`;
-	return stringLengthComparator(greaterThan, 's.string.lengthGreaterThan', expected, length);
+	return stringLengthComparator(greaterThan, 's.string().lengthGreaterThan()', expected, length, options);
 }
 
-export function stringLengthGreaterThanOrEqual(length: number): IConstraint<string> {
+export function stringLengthGreaterThanOrEqual(length: number, options?: ValidatorOptions): IConstraint<string> {
 	const expected = `expected.length >= ${length}`;
-	return stringLengthComparator(greaterThanOrEqual, 's.string.lengthGreaterThanOrEqual', expected, length);
+	return stringLengthComparator(greaterThanOrEqual, 's.string().lengthGreaterThanOrEqual()', expected, length, options);
 }
 
-export function stringLengthEqual(length: number): IConstraint<string> {
+export function stringLengthEqual(length: number, options?: ValidatorOptions): IConstraint<string> {
 	const expected = `expected.length === ${length}`;
-	return stringLengthComparator(equal, 's.string.lengthEqual', expected, length);
+	return stringLengthComparator(equal, 's.string().lengthEqual()', expected, length, options);
 }
 
-export function stringLengthNotEqual(length: number): IConstraint<string> {
+export function stringLengthNotEqual(length: number, options?: ValidatorOptions): IConstraint<string> {
 	const expected = `expected.length !== ${length}`;
-	return stringLengthComparator(notEqual, 's.string.lengthNotEqual', expected, length);
+	return stringLengthComparator(notEqual, 's.string().lengthNotEqual()', expected, length, options);
 }
 
-export function stringEmail(): IConstraint<string> {
+export function stringEmail(options?: ValidatorOptions): IConstraint<string> {
 	return {
 		run(input: string) {
 			return validateEmail(input)
 				? Result.ok(input)
-				: Result.err(new ExpectedConstraintError('s.string.email', 'Invalid email address', input, 'expected to be an email address'));
+				: Result.err(
+						new ExpectedConstraintError(
+							's.string().email()',
+							options?.message ?? 'Invalid email address',
+							input,
+							'expected to be an email address'
+						)
+					);
 		}
 	};
 }
 
-function stringRegexValidator(type: StringConstraintName, expected: string, regex: RegExp): IConstraint<string> {
+function stringRegexValidator(type: StringConstraintName, expected: string, regex: RegExp, options?: ValidatorOptions): IConstraint<string> {
 	return {
 		run(input: string) {
 			return regex.test(input) //
 				? Result.ok(input)
-				: Result.err(new ExpectedConstraintError(type, 'Invalid string format', input, expected));
+				: Result.err(new ExpectedConstraintError(type, options?.message ?? 'Invalid string format', input, expected));
 		}
 	};
 }
 
-export function stringUrl(options?: UrlOptions): IConstraint<string> {
-	const validatorFn = createUrlValidators(options);
+export function stringUrl(options?: UrlOptions, validatorOptions?: ValidatorOptions): IConstraint<string> {
+	const validatorFn = createUrlValidators(options, validatorOptions);
 	return {
 		run(input: string) {
 			let url: URL;
 			try {
 				url = new URL(input);
 			} catch {
-				return Result.err(new ExpectedConstraintError('s.string.url', 'Invalid URL', input, 'expected to match a URL'));
+				return Result.err(
+					new ExpectedConstraintError('s.string().url()', validatorOptions?.message ?? 'Invalid URL', input, 'expected to match a URL')
+				);
 			}
 
 			const validatorFnResult = validatorFn(input, url);
@@ -111,25 +127,27 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 	};
 }
 
-export function stringIp(version?: 4 | 6): IConstraint<string> {
+export function stringIp(version?: 4 | 6, options?: ValidatorOptions): IConstraint<string> {
 	const ipVersion = version ? (`v${version}` as const) : '';
 	const validatorFn = version === 4 ? isIPv4 : version === 6 ? isIPv6 : isIP;
 
-	const name = `s.string.ip${ipVersion}` as const;
+	const name = `s.string().ip${ipVersion}()` as const;
 	const message = `Invalid IP${ipVersion} address`;
 	const expected = `expected to be an IP${ipVersion} address`;
 	return {
 		run(input: string) {
-			return validatorFn(input) ? Result.ok(input) : Result.err(new ExpectedConstraintError(name, message, input, expected));
+			return validatorFn(input)
+				? Result.ok(input)
+				: Result.err(new ExpectedConstraintError(name, options?.message ?? message, input, expected));
 		}
 	};
 }
 
-export function stringRegex(regex: RegExp) {
-	return stringRegexValidator('s.string.regex', `expected ${regex}.test(expected) to be true`, regex);
+export function stringRegex(regex: RegExp, options?: ValidatorOptions) {
+	return stringRegexValidator('s.string().regex()', `expected ${regex}.test(expected) to be true`, regex, options);
 }
 
-export function stringUuid({ version = 4, nullable = false }: StringUuidOptions = {}) {
+export function stringUuid({ version = 4, nullable = false }: StringUuidOptions = {}, options?: ValidatorOptions) {
 	version ??= '1-5';
 	const regex = new RegExp(
 		`^(?:[0-9A-F]{8}-[0-9A-F]{4}-[${version}][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}${
@@ -138,10 +156,10 @@ export function stringUuid({ version = 4, nullable = false }: StringUuidOptions 
 		'i'
 	);
 	const expected = `expected to match UUID${typeof version === 'number' ? `v${version}` : ` in range of ${version}`}`;
-	return stringRegexValidator('s.string.uuid', expected, regex);
+	return stringRegexValidator('s.string().uuid()', expected, regex, options);
 }
 
-export function stringDate(): IConstraint<string> {
+export function stringDate(options?: ValidatorOptions): IConstraint<string> {
 	return {
 		run(input: string) {
 			const time = Date.parse(input);
@@ -149,8 +167,8 @@ export function stringDate(): IConstraint<string> {
 			return Number.isNaN(time)
 				? Result.err(
 						new ExpectedConstraintError(
-							's.string.date',
-							'Invalid date string',
+							's.string().date()',
+							options?.message ?? 'Invalid date string',
 							input,
 							'expected to be a valid date string (in the ISO 8601 or ECMA-262 format)'
 						)
@@ -160,12 +178,19 @@ export function stringDate(): IConstraint<string> {
 	};
 }
 
-export function stringPhone(): IConstraint<string> {
+export function stringPhone(options?: ValidatorOptions): IConstraint<string> {
 	return {
 		run(input: string) {
 			return validatePhoneNumber(input)
 				? Result.ok(input)
-				: Result.err(new ExpectedConstraintError('s.string.phone', 'Invalid phone number', input, 'expected to be a phone number'));
+				: Result.err(
+						new ExpectedConstraintError(
+							's.string().phone()',
+							options?.message ?? 'Invalid phone number',
+							input,
+							'expected to be a phone number'
+						)
+					);
 		}
 	};
 }

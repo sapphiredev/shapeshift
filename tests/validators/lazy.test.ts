@@ -3,8 +3,8 @@ import { expectError } from '../common/macros/comparators';
 
 describe('LazyValidator', () => {
 	const predicate = s.lazy((value) => {
-		if (typeof value === 'boolean') return s.boolean.true;
-		return s.string;
+		if (typeof value === 'boolean') return s.boolean().true();
+		return s.string();
 	});
 
 	test.each([true, 'hello'])('GIVEN %j THEN returns the given value', (input) => {
@@ -12,16 +12,16 @@ describe('LazyValidator', () => {
 	});
 
 	test('GIVEN an invalid value THEN throw ValidationError', () => {
-		expectError(() => predicate.parse(123), new ValidationError('s.string', 'Expected a string primitive', 123));
+		expectError(() => predicate.parse(123), new ValidationError('s.string()', 'Expected a string primitive', 123));
 	});
 });
 
 describe('NestedLazyValidator', () => {
 	const predicate = s.lazy((value) => {
-		if (typeof value === 'boolean') return s.boolean.true;
+		if (typeof value === 'boolean') return s.boolean().true();
 		return s.lazy((value) => {
-			if (typeof value === 'string') return s.string.lengthEqual(5);
-			return s.number;
+			if (typeof value === 'string') return s.string().lengthEqual(5);
+			return s.number();
 		});
 	});
 
@@ -32,7 +32,7 @@ describe('NestedLazyValidator', () => {
 	test('GIVEN an invalid value THEN throw ValidationError', () => {
 		expectError(
 			() => predicate.parse('Sapphire'),
-			new ExpectedConstraintError('s.string.lengthEqual', 'Invalid string length', 'Sapphire', 'expected.length === 5')
+			new ExpectedConstraintError('s.string().lengthEqual()', 'Invalid string length', 'Sapphire', 'expected.length === 5')
 		);
 	});
 });
@@ -44,7 +44,7 @@ describe('CircularLazyValidator', () => {
 	}
 
 	const predicate: SchemaOf<PredicateSchema> = s.object({
-		id: s.string,
+		id: s.string(),
 		items: s.lazy<SchemaOf<PredicateSchema>>(() => predicate)
 	});
 
@@ -65,8 +65,8 @@ describe('PassingCircularLazyValidator', () => {
 	}
 
 	const predicate: SchemaOf<PredicateSchema> = s.object({
-		id: s.string,
-		items: s.lazy<SchemaOf<PredicateSchema>>(() => predicate).optional
+		id: s.string(),
+		items: s.lazy<SchemaOf<PredicateSchema>>(() => predicate).optional()
 	});
 
 	test('GIVEN circular schema THEN return given value', () => {

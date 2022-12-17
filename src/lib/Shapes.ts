@@ -1,5 +1,5 @@
 import type { TypedArray, TypedArrayName } from '../constraints/util/typedArray';
-import type { Unwrap, UnwrapTuple } from '../lib/util-types';
+import type { Unwrap, UnwrapTuple, ValidatorOptions } from '../lib/util-types';
 import {
 	ArrayValidator,
 	BaseValidator,
@@ -13,6 +13,7 @@ import {
 	NullishValidator,
 	NumberValidator,
 	ObjectValidator,
+	ObjectValidatorStrategy,
 	PassthroughValidator,
 	RecordValidator,
 	SetValidator,
@@ -26,146 +27,152 @@ import { TypedArrayValidator } from '../validators/TypedArrayValidator';
 import type { Constructor, MappedObjectValidator } from './util-types';
 
 export class Shapes {
-	public get string() {
-		return new StringValidator();
+	public string(options?: ValidatorOptions) {
+		return new StringValidator(options);
 	}
 
-	public get number() {
-		return new NumberValidator();
+	public number(options?: ValidatorOptions) {
+		return new NumberValidator(options);
 	}
 
-	public get bigint() {
-		return new BigIntValidator();
+	public bigint(options?: ValidatorOptions) {
+		return new BigIntValidator(options);
 	}
 
-	public get boolean() {
-		return new BooleanValidator();
+	public boolean(options?: ValidatorOptions) {
+		return new BooleanValidator(options);
 	}
 
-	public get date() {
-		return new DateValidator();
+	public date(options?: ValidatorOptions) {
+		return new DateValidator(options);
 	}
 
-	public object<T extends object>(shape: MappedObjectValidator<T>) {
-		return new ObjectValidator<T>(shape);
+	public object<T extends object>(shape: MappedObjectValidator<T>, options?: ValidatorOptions) {
+		return new ObjectValidator<T>(shape, ObjectValidatorStrategy.Ignore, options);
 	}
 
-	public get undefined() {
-		return this.literal(undefined);
+	public undefined(options?: ValidatorOptions) {
+		return this.literal(undefined, { equalsOptions: options });
 	}
 
-	public get null() {
-		return this.literal(null);
+	public null(options?: ValidatorOptions) {
+		return this.literal(null, { equalsOptions: options });
 	}
 
-	public get nullish() {
-		return new NullishValidator();
+	public nullish(options?: ValidatorOptions) {
+		return new NullishValidator(options);
 	}
 
-	public get any() {
-		return new PassthroughValidator<any>();
+	public any(options?: ValidatorOptions) {
+		return new PassthroughValidator<any>(options);
 	}
 
-	public get unknown() {
-		return new PassthroughValidator<unknown>();
+	public unknown(options?: ValidatorOptions) {
+		return new PassthroughValidator<unknown>(options);
 	}
 
-	public get never() {
-		return new NeverValidator();
+	public never(options?: ValidatorOptions) {
+		return new NeverValidator(options);
 	}
 
-	public enum<T>(...values: readonly T[]) {
-		return this.union(...values.map((value) => this.literal(value)));
+	public enum<T>(values: readonly T[], options?: ValidatorOptions) {
+		return this.union(
+			values.map((value) => this.literal(value, { equalsOptions: options })),
+			options
+		);
 	}
 
-	public nativeEnum<T extends NativeEnumLike>(enumShape: T): NativeEnumValidator<T> {
-		return new NativeEnumValidator(enumShape);
+	public nativeEnum<T extends NativeEnumLike>(enumShape: T, options?: ValidatorOptions): NativeEnumValidator<T> {
+		return new NativeEnumValidator(enumShape, options);
 	}
 
-	public literal<T>(value: T): BaseValidator<T> {
-		if (value instanceof Date) return this.date.equal(value) as unknown as BaseValidator<T>;
-		return new LiteralValidator(value);
+	public literal<T>(value: T, options?: { dateOptions?: ValidatorOptions; equalsOptions?: ValidatorOptions }): BaseValidator<T> {
+		if (value instanceof Date) {
+			return this.date(options?.dateOptions).equal(value, options?.equalsOptions) as unknown as BaseValidator<T>;
+		}
+
+		return new LiteralValidator(value, options?.equalsOptions);
 	}
 
-	public instance<T>(expected: Constructor<T>): InstanceValidator<T> {
-		return new InstanceValidator(expected);
+	public instance<T>(expected: Constructor<T>, options?: ValidatorOptions): InstanceValidator<T> {
+		return new InstanceValidator(expected, options);
 	}
 
-	public union<T extends [...BaseValidator<any>[]]>(...validators: [...T]): UnionValidator<Unwrap<T[number]>> {
-		return new UnionValidator(validators);
+	public union<T extends BaseValidator<any>[]>(validators: T, options?: ValidatorOptions): UnionValidator<Unwrap<T[number]>> {
+		return new UnionValidator(validators, options);
 	}
 
-	public array<T>(validator: BaseValidator<T[][number]>): ArrayValidator<T[], T[][number]>;
-	public array<T extends unknown[]>(validator: BaseValidator<T[number]>): ArrayValidator<T, T[number]>;
-	public array<T extends unknown[]>(validator: BaseValidator<T[number]>) {
-		return new ArrayValidator(validator);
+	public array<T>(validator: BaseValidator<T[][number]>, options?: ValidatorOptions): ArrayValidator<T[], T[][number]>;
+	public array<T extends unknown[]>(validator: BaseValidator<T[number]>, options?: ValidatorOptions): ArrayValidator<T, T[number]>;
+	public array<T extends unknown[]>(validator: BaseValidator<T[number]>, options?: ValidatorOptions) {
+		return new ArrayValidator(validator, options);
 	}
 
-	public typedArray<T extends TypedArray>(type: TypedArrayName = 'TypedArray') {
-		return new TypedArrayValidator<T>(type);
+	public typedArray<T extends TypedArray>(type: TypedArrayName = 'TypedArray', options?: ValidatorOptions) {
+		return new TypedArrayValidator<T>(type, options);
 	}
 
-	public get int8Array() {
-		return this.typedArray<Int8Array>('Int8Array');
+	public int8Array(options?: ValidatorOptions) {
+		return this.typedArray<Int8Array>('Int8Array', options);
 	}
 
-	public get uint8Array() {
-		return this.typedArray<Uint8Array>('Uint8Array');
+	public uint8Array(options?: ValidatorOptions) {
+		return this.typedArray<Uint8Array>('Uint8Array', options);
 	}
 
-	public get uint8ClampedArray() {
-		return this.typedArray<Uint8ClampedArray>('Uint8ClampedArray');
+	public uint8ClampedArray(options?: ValidatorOptions) {
+		return this.typedArray<Uint8ClampedArray>('Uint8ClampedArray', options);
 	}
 
-	public get int16Array() {
-		return this.typedArray<Int16Array>('Int16Array');
+	public int16Array(options?: ValidatorOptions) {
+		return this.typedArray<Int16Array>('Int16Array', options);
 	}
 
-	public get uint16Array() {
-		return this.typedArray<Uint16Array>('Uint16Array');
+	public uint16Array(options?: ValidatorOptions) {
+		return this.typedArray<Uint16Array>('Uint16Array', options);
 	}
 
-	public get int32Array() {
-		return this.typedArray<Int32Array>('Int32Array');
+	public int32Array(options?: ValidatorOptions) {
+		return this.typedArray<Int32Array>('Int32Array', options);
 	}
 
-	public get uint32Array() {
-		return this.typedArray<Uint32Array>('Uint32Array');
+	public uint32Array(options?: ValidatorOptions) {
+		return this.typedArray<Uint32Array>('Uint32Array', options);
 	}
 
-	public get float32Array() {
-		return this.typedArray<Float32Array>('Float32Array');
+	public float32Array(options?: ValidatorOptions) {
+		return this.typedArray<Float32Array>('Float32Array', options);
 	}
 
-	public get float64Array() {
-		return this.typedArray<Float64Array>('Float64Array');
+	public float64Array(options?: ValidatorOptions) {
+		return this.typedArray<Float64Array>('Float64Array', options);
 	}
 
-	public get bigInt64Array() {
-		return this.typedArray<BigInt64Array>('BigInt64Array');
+	public bigInt64Array(options?: ValidatorOptions) {
+		return this.typedArray<BigInt64Array>('BigInt64Array', options);
 	}
 
-	public get bigUint64Array() {
-		return this.typedArray<BigUint64Array>('BigUint64Array');
+	public bigUint64Array(options?: ValidatorOptions) {
+		return this.typedArray<BigUint64Array>('BigUint64Array', options);
 	}
 
-	public tuple<T extends [...BaseValidator<any>[]]>(validators: [...T]): TupleValidator<UnwrapTuple<T>> {
-		return new TupleValidator(validators);
+	public tuple<T extends [...BaseValidator<any>[]]>(validators: [...T], options?: ValidatorOptions): TupleValidator<UnwrapTuple<T>> {
+		return new TupleValidator(validators, options);
 	}
 
-	public set<T>(validator: BaseValidator<T>) {
-		return new SetValidator(validator);
+	public set<T>(validator: BaseValidator<T>, options?: ValidatorOptions) {
+		return new SetValidator(validator, options);
 	}
 
-	public record<T>(validator: BaseValidator<T>) {
-		return new RecordValidator(validator);
+	public record<T>(validator: BaseValidator<T>, options?: ValidatorOptions) {
+		return new RecordValidator(validator, options);
 	}
 
-	public map<T, U>(keyValidator: BaseValidator<T>, valueValidator: BaseValidator<U>) {
-		return new MapValidator(keyValidator, valueValidator);
+	public map<T, U>(keyValidator: BaseValidator<T>, valueValidator: BaseValidator<U>, options?: ValidatorOptions) {
+		return new MapValidator(keyValidator, valueValidator, options);
 	}
 
-	public lazy<T extends BaseValidator<unknown>>(validator: (value: unknown) => T) {
-		return new LazyValidator(validator);
+	public lazy<T extends BaseValidator<unknown>>(validator: (value: unknown) => T, options?: ValidatorOptions) {
+		return new LazyValidator(validator, options);
 	}
 }

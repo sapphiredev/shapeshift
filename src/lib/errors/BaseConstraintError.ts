@@ -9,6 +9,7 @@ import type {
 	TypedArrayConstraintName
 } from '../../constraints/type-exports';
 import { BaseError } from './BaseError';
+import type { BaseConstraintErrorJsonified } from './error-types';
 
 export type ConstraintErrorNames =
 	| TypedArrayConstraintName
@@ -28,5 +29,14 @@ export abstract class BaseConstraintError<T = unknown> extends BaseError {
 		super(message);
 		this.constraint = constraint;
 		this.given = given;
+	}
+
+	public override toJSON(): BaseConstraintErrorJsonified<T> {
+		return {
+			name: this.name,
+			constraint: this.constraint,
+			given: this.given,
+			message: this.message
+		};
 	}
 }

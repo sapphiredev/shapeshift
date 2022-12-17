@@ -1,11 +1,12 @@
 import type { InspectOptionsStylized } from 'util';
+import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
 export class CombinedPropertyError extends BaseError {
 	public readonly errors: [PropertyKey, BaseError][];
 
-	public constructor(errors: [PropertyKey, BaseError][]) {
-		super('Received one or more errors');
+	public constructor(errors: [PropertyKey, BaseError][], validatorOptions?: ValidatorOptions) {
+		super(validatorOptions?.message ?? 'Received one or more errors');
 
 		this.errors = errors;
 	}

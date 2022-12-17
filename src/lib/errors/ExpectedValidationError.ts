@@ -1,5 +1,6 @@
 import { inspect, type InspectOptionsStylized } from 'util';
 import { customInspectSymbolStackLess } from './BaseError';
+import type { ExpectedValidationErrorJsonified } from './error-types';
 import { ValidationError } from './ValidationError';
 
 export class ExpectedValidationError<T> extends ValidationError {
@@ -10,12 +11,13 @@ export class ExpectedValidationError<T> extends ValidationError {
 		this.expected = expected;
 	}
 
-	public override toJSON() {
+	public override toJSON(): ExpectedValidationErrorJsonified<T> {
 		return {
 			name: this.name,
 			validator: this.validator,
 			given: this.given,
-			expected: this.expected
+			expected: this.expected,
+			message: this.message
 		};
 	}
 

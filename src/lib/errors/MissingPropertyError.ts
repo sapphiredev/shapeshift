@@ -1,17 +1,20 @@
 import type { InspectOptionsStylized } from 'util';
+import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
+import type { MissingPropertyErrorJsonified } from './error-types';
 
 export class MissingPropertyError extends BaseError {
 	public readonly property: PropertyKey;
 
-	public constructor(property: PropertyKey) {
-		super('A required property is missing');
+	public constructor(property: PropertyKey, validatorOptions?: ValidatorOptions) {
+		super(validatorOptions?.message ?? 'A required property is missing');
 		this.property = property;
 	}
 
-	public toJSON() {
+	public override toJSON(): MissingPropertyErrorJsonified {
 		return {
 			name: this.name,
+			message: this.message,
 			property: this.property
 		};
 	}
