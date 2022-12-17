@@ -3,7 +3,7 @@ import { expectClonedValidator, expectError } from '../common/macros/comparators
 
 describe('RecordValidator', () => {
 	const value = { foo: 'bar', fizz: 'buzz' };
-	const predicate = s.record(s.string);
+	const predicate = s.record(s.string());
 
 	test('GIVEN a non-record THEN throws ValidationError', () => {
 		expectError(() => predicate.parse(false), new ValidationError('s.record(T)', 'Expected an object', false));
@@ -21,8 +21,8 @@ describe('RecordValidator', () => {
 		expectError(
 			() => predicate.parse({ foo: 1, fizz: true }),
 			new CombinedPropertyError([
-				['foo', new ValidationError('s.string', 'Expected a string primitive', 1)],
-				['fizz', new ValidationError('s.string', 'Expected a string primitive', true)]
+				['foo', new ValidationError('s.string()', 'Expected a string primitive', 1)],
+				['fizz', new ValidationError('s.string()', 'Expected a string primitive', true)]
 			])
 		);
 	});

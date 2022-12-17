@@ -2,7 +2,7 @@ import { CombinedPropertyError, s, ValidationError } from '../../src';
 import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('TupleValidator', () => {
-	const predicate = s.tuple([s.string, s.number]);
+	const predicate = s.tuple([s.string(), s.number()]);
 
 	test('GIVEN a matching tuple THEN returns a tuple', () => {
 		expect<[string, number]>(predicate.parse(['foo', 1])).toStrictEqual(['foo', 1]);
@@ -21,8 +21,8 @@ describe('TupleValidator', () => {
 		expectError(
 			() => predicate.parse([a, b]),
 			new CombinedPropertyError([
-				[0, new ValidationError('s.string', 'Expected a string primitive', a)],
-				[1, new ValidationError('s.number', 'Expected a number primitive', b)]
+				[0, new ValidationError('s.string()', 'Expected a string primitive', a)],
+				[1, new ValidationError('s.number()', 'Expected a number primitive', b)]
 			])
 		);
 	});

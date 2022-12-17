@@ -15,92 +15,93 @@ import {
 } from '../constraints/NumberConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
+import type { ValidatorOptions } from '../lib/util-types';
 import { BaseValidator } from './imports';
 
 export class NumberValidator<T extends number> extends BaseValidator<T> {
-	public lessThan(number: number): this {
-		return this.addConstraint(numberLessThan(number) as IConstraint<T>);
+	public lessThan(number: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(numberLessThan(number, options) as IConstraint<T>);
 	}
 
-	public lessThanOrEqual(number: number): this {
-		return this.addConstraint(numberLessThanOrEqual(number) as IConstraint<T>);
+	public lessThanOrEqual(number: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(numberLessThanOrEqual(number, options) as IConstraint<T>);
 	}
 
-	public greaterThan(number: number): this {
-		return this.addConstraint(numberGreaterThan(number) as IConstraint<T>);
+	public greaterThan(number: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(numberGreaterThan(number, options) as IConstraint<T>);
 	}
 
-	public greaterThanOrEqual(number: number): this {
-		return this.addConstraint(numberGreaterThanOrEqual(number) as IConstraint<T>);
+	public greaterThanOrEqual(number: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(numberGreaterThanOrEqual(number, options) as IConstraint<T>);
 	}
 
-	public equal<N extends number>(number: N): NumberValidator<N> {
+	public equal<N extends number>(number: N, options: ValidatorOptions = this.validatorOptions): NumberValidator<N> {
 		return Number.isNaN(number) //
-			? (this.addConstraint(numberNaN as IConstraint<T>) as unknown as NumberValidator<N>)
-			: (this.addConstraint(numberEqual(number) as IConstraint<T>) as unknown as NumberValidator<N>);
+			? (this.addConstraint(numberNaN(options) as IConstraint<T>) as unknown as NumberValidator<N>)
+			: (this.addConstraint(numberEqual(number, options) as IConstraint<T>) as unknown as NumberValidator<N>);
 	}
 
-	public notEqual(number: number): this {
+	public notEqual(number: number, options: ValidatorOptions = this.validatorOptions): this {
 		return Number.isNaN(number) //
-			? this.addConstraint(numberNotNaN as IConstraint<T>)
-			: this.addConstraint(numberNotEqual(number) as IConstraint<T>);
+			? this.addConstraint(numberNotNaN(options) as IConstraint<T>)
+			: this.addConstraint(numberNotEqual(number, options) as IConstraint<T>);
 	}
 
-	public get int(): this {
-		return this.addConstraint(numberInt as IConstraint<T>);
+	public int(options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(numberInt(options) as IConstraint<T>);
 	}
 
-	public get safeInt(): this {
-		return this.addConstraint(numberSafeInt as IConstraint<T>);
+	public safeInt(options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(numberSafeInt(options) as IConstraint<T>);
 	}
 
-	public get finite(): this {
-		return this.addConstraint(numberFinite as IConstraint<T>);
+	public finite(options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(numberFinite(options) as IConstraint<T>);
 	}
 
-	public get positive(): this {
-		return this.greaterThanOrEqual(0);
+	public positive(options: ValidatorOptions = this.validatorOptions): this {
+		return this.greaterThanOrEqual(0, options);
 	}
 
-	public get negative(): this {
-		return this.lessThan(0);
+	public negative(options: ValidatorOptions = this.validatorOptions): this {
+		return this.lessThan(0, options);
 	}
 
-	public divisibleBy(divider: number): this {
-		return this.addConstraint(numberDivisibleBy(divider) as IConstraint<T>);
+	public divisibleBy(divider: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(numberDivisibleBy(divider, options) as IConstraint<T>);
 	}
 
-	public get abs(): this {
-		return this.transform(Math.abs as (value: number) => T);
+	public abs(options: ValidatorOptions = this.validatorOptions): this {
+		return this.transform(Math.abs as (value: number) => T, options);
 	}
 
-	public get sign(): this {
-		return this.transform(Math.sign as (value: number) => T);
+	public sign(options: ValidatorOptions = this.validatorOptions): this {
+		return this.transform(Math.sign as (value: number) => T, options);
 	}
 
-	public get trunc(): this {
-		return this.transform(Math.trunc as (value: number) => T);
+	public trunc(options: ValidatorOptions = this.validatorOptions): this {
+		return this.transform(Math.trunc as (value: number) => T, options);
 	}
 
-	public get floor(): this {
-		return this.transform(Math.floor as (value: number) => T);
+	public floor(options: ValidatorOptions = this.validatorOptions): this {
+		return this.transform(Math.floor as (value: number) => T, options);
 	}
 
-	public get fround(): this {
-		return this.transform(Math.fround as (value: number) => T);
+	public fround(options: ValidatorOptions = this.validatorOptions): this {
+		return this.transform(Math.fround as (value: number) => T, options);
 	}
 
-	public get round(): this {
-		return this.transform(Math.round as (value: number) => T);
+	public round(options: ValidatorOptions = this.validatorOptions): this {
+		return this.transform(Math.round as (value: number) => T, options);
 	}
 
-	public get ceil(): this {
-		return this.transform(Math.ceil as (value: number) => T);
+	public ceil(options: ValidatorOptions = this.validatorOptions): this {
+		return this.transform(Math.ceil as (value: number) => T, options);
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {
 		return typeof value === 'number' //
 			? Result.ok(value as T)
-			: Result.err(new ValidationError('s.number', 'Expected a number primitive', value));
+			: Result.err(new ValidationError('s.number()', this.validatorOptions.message ?? 'Expected a number primitive', value));
 	}
 }

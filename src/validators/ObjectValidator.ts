@@ -5,7 +5,7 @@ import { MissingPropertyError } from '../lib/errors/MissingPropertyError';
 import { UnknownPropertyError } from '../lib/errors/UnknownPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import type { MappedObjectValidator, UndefinedToOptional } from '../lib/util-types';
+import type { MappedObjectValidator, UndefinedToOptional, ValidatorOptions } from '../lib/util-types';
 import { BaseValidator } from './BaseValidator';
 import { DefaultValidator } from './DefaultValidator';
 import { LiteralValidator } from './LiteralValidator';
@@ -25,9 +25,10 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 	public constructor(
 		shape: MappedObjectValidator<T>,
 		strategy: ObjectValidatorStrategy = ObjectValidatorStrategy.Ignore,
+		validatorOptions: ValidatorOptions = {},
 		constraints: readonly IConstraint<I>[] = []
 	) {
-		super(constraints);
+		super(validatorOptions, constraints);
 		this.shape = shape;
 		this.strategy = strategy;
 
@@ -81,65 +82,80 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 		}
 	}
 
-	public get strict(): this {
-		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Strict, this.constraints]);
+	public strict(options: ValidatorOptions = this.validatorOptions): this {
+		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Strict, options, this.constraints]);
 	}
 
-	public get ignore(): this {
-		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Ignore, this.constraints]);
+	public ignore(options: ValidatorOptions = this.validatorOptions): this {
+		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Ignore, options, this.constraints]);
 	}
 
-	public get passthrough(): this {
-		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Passthrough, this.constraints]);
+	public passthrough(options: ValidatorOptions = this.validatorOptions): this {
+		return Reflect.construct(this.constructor, [this.shape, ObjectValidatorStrategy.Passthrough, options, this.constraints]);
 	}
 
-	public get partial(): ObjectValidator<{ [Key in keyof I]?: I[Key] }> {
-		const shape = Object.fromEntries(this.keys.map((key) => [key, this.shape[key as unknown as keyof typeof this.shape].optional]));
-		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
+	public partial(options: ValidatorOptions = this.validatorOptions): ObjectValidator<{ [Key in keyof I]?: I[Key] }> {
+		const shape = Object.fromEntries(this.keys.map((key) => [key, this.shape[key as unknown as keyof typeof this.shape].optional(options)]));
+		return Reflect.construct(this.constructor, [shape, this.strategy, options, this.constraints]);
 	}
 
-	public get required(): ObjectValidator<{ [Key in keyof I]-?: I[Key] }> {
+	public required(options: ValidatorOptions = this.validatorOptions): ObjectValidator<{ [Key in keyof I]-?: I[Key] }> {
 		const shape = Object.fromEntries(
 			this.keys.map((key) => {
 				let validator = this.shape[key as unknown as keyof typeof this.shape];
-				if (validator instanceof UnionValidator) validator = validator.required;
+				if (validator instanceof UnionValidator) validator = validator.required(options);
 				return [key, validator];
 			})
 		);
-		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
+		return Reflect.construct(this.constructor, [shape, this.strategy, options, this.constraints]);
 	}
 
-	public extend<ET extends object>(schema: ObjectValidator<ET> | MappedObjectValidator<ET>): ObjectValidator<T & ET> {
+	public extend<ET extends object>(
+		schema: ObjectValidator<ET> | MappedObjectValidator<ET>,
+		options: ValidatorOptions = this.validatorOptions
+	): ObjectValidator<T & ET> {
 		const shape = { ...this.shape, ...(schema instanceof ObjectValidator ? schema.shape : schema) };
-		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
+		return Reflect.construct(this.constructor, [shape, this.strategy, options, this.constraints]);
 	}
 
-	public pick<K extends keyof I>(keys: readonly K[]): ObjectValidator<{ [Key in keyof Pick<I, K>]: I[Key] }> {
+	public pick<K extends keyof I>(
+		keys: readonly K[],
+		options: ValidatorOptions = this.validatorOptions
+	): ObjectValidator<{ [Key in keyof Pick<I, K>]: I[Key] }> {
 		const shape = Object.fromEntries(
 			keys.filter((key) => this.keys.includes(key)).map((key) => [key, this.shape[key as unknown as keyof typeof this.shape]])
 		);
-		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
+		return Reflect.construct(this.constructor, [shape, this.strategy, options, this.constraints]);
 	}
 
-	public omit<K extends keyof I>(keys: readonly K[]): ObjectValidator<{ [Key in keyof Omit<I, K>]: I[Key] }> {
+	public omit<K extends keyof I>(
+		keys: readonly K[],
+		options: ValidatorOptions = this.validatorOptions
+	): ObjectValidator<{ [Key in keyof Omit<I, K>]: I[Key] }> {
 		const shape = Object.fromEntries(
 			this.keys.filter((key) => !keys.includes(key as any)).map((key) => [key, this.shape[key as unknown as keyof typeof this.shape]])
 		);
-		return Reflect.construct(this.constructor, [shape, this.strategy, this.constraints]);
+		return Reflect.construct(this.constructor, [shape, this.strategy, options, this.constraints]);
 	}
 
 	protected override handle(value: unknown): Result<I, ValidationError | CombinedPropertyError> {
 		const typeOfValue = typeof value;
 		if (typeOfValue !== 'object') {
-			return Result.err(new ValidationError('s.object(T)', `Expected the value to be an object, but received ${typeOfValue} instead`, value));
+			return Result.err(
+				new ValidationError(
+					's.object(T)',
+					this.validatorOptions.message ?? `Expected the value to be an object, but received ${typeOfValue} instead`,
+					value
+				)
+			);
 		}
 
 		if (value === null) {
-			return Result.err(new ValidationError('s.object(T)', 'Expected the value to not be null', value));
+			return Result.err(new ValidationError('s.object(T)', this.validatorOptions.message ?? 'Expected the value to not be null', value));
 		}
 
 		if (Array.isArray(value)) {
-			return Result.err(new ValidationError('s.object(T)', 'Expected the value to not be an array', value));
+			return Result.err(new ValidationError('s.object(T)', this.validatorOptions.message ?? 'Expected the value to not be an array', value));
 		}
 
 		if (!this.shouldRunConstraints) {
@@ -154,7 +170,7 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 	}
 
 	protected override clone(): this {
-		return Reflect.construct(this.constructor, [this.shape, this.strategy, this.constraints]);
+		return Reflect.construct(this.constructor, [this.shape, this.strategy, this.validatorOptions, this.constraints]);
 	}
 
 	private handleIgnoreStrategy(value: object): Result<I, CombinedPropertyError> {
@@ -177,7 +193,7 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 			if (inputEntries.delete(key)) {
 				runPredicate(key, predicate);
 			} else {
-				errors.push([key, new MissingPropertyError(key)]);
+				errors.push([key, new MissingPropertyError(key, this.validatorOptions)]);
 			}
 		}
 
@@ -191,7 +207,7 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 		if (inputEntries.size === 0) {
 			return errors.length === 0 //
 				? Result.ok(finalObject)
-				: Result.err(new CombinedPropertyError(errors));
+				: Result.err(new CombinedPropertyError(errors, this.validatorOptions));
 		}
 
 		// In the event the remaining keys to check are less than the number of possible undefined keys, we check those
@@ -216,7 +232,7 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 
 		return errors.length === 0 //
 			? Result.ok(finalObject)
-			: Result.err(new CombinedPropertyError(errors));
+			: Result.err(new CombinedPropertyError(errors, this.validatorOptions));
 	}
 
 	private handleStrictStrategy(value: object): Result<I, CombinedPropertyError> {
@@ -239,7 +255,7 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 			if (inputEntries.delete(key)) {
 				runPredicate(key, predicate);
 			} else {
-				errors.push([key, new MissingPropertyError(key)]);
+				errors.push([key, new MissingPropertyError(key, this.validatorOptions)]);
 			}
 		}
 
@@ -263,13 +279,13 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 
 		if (inputEntries.size !== 0) {
 			for (const [key, value] of inputEntries.entries()) {
-				errors.push([key, new UnknownPropertyError(key, value)]);
+				errors.push([key, new UnknownPropertyError(key, value, this.validatorOptions)]);
 			}
 		}
 
 		return errors.length === 0 //
 			? Result.ok(finalResult)
-			: Result.err(new CombinedPropertyError(errors));
+			: Result.err(new CombinedPropertyError(errors, this.validatorOptions));
 	}
 
 	private handlePassthroughStrategy(value: object): Result<I, CombinedPropertyError> {

@@ -1,8 +1,9 @@
 import get from 'lodash/get.js';
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
-import type { BaseValidator } from '../type-exports';
-import type { IConstraint } from './type-exports';
+import type { ValidatorOptions } from '../lib/util-types';
+import type { BaseValidator } from '../validators/BaseValidator';
+import type { IConstraint } from './base/IConstraint';
 
 export type ObjectConstraintName = `s.object(T.when)`;
 
@@ -17,12 +18,20 @@ export interface WhenOptions<T extends BaseValidator<any>, Key extends WhenKey> 
 export function whenConstraint<T extends BaseValidator<any>, I, Key extends WhenKey>(
 	key: Key,
 	options: WhenOptions<T, Key>,
-	validator: T
+	validator: T,
+	validatorOptions?: ValidatorOptions
 ): IConstraint<I> {
 	return {
 		run(input: I, parent?: any) {
 			if (!parent) {
-				return Result.err(new ExpectedConstraintError('s.object(T.when)', 'Validator has no parent', parent, 'Validator to have a parent'));
+				return Result.err(
+					new ExpectedConstraintError(
+						's.object(T.when)',
+						validatorOptions?.message ?? 'Validator has no parent',
+						parent,
+						'Validator to have a parent'
+					)
+				);
 			}
 
 			const isKeyArray = Array.isArray(key);

@@ -2,7 +2,7 @@ import { ExpectedValidationError, s } from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('UndefinedValidator', () => {
-	const predicate = s.undefined;
+	const predicate = s.undefined();
 
 	test('GIVEN undefined THEN returns undefined', () => {
 		expect(predicate.parse(undefined)).toBe(undefined);
