@@ -12,8 +12,8 @@ import { expectError } from '../common/macros/comparators';
 
 describe('ObjectValidator', () => {
 	const predicate = s.object({
-		username: s.string,
-		password: s.string
+		username: s.string(),
+		password: s.string()
 	});
 
 	test('GIVEN a non-object value THEN throws ValidationError', () => {
@@ -40,7 +40,7 @@ describe('ObjectValidator', () => {
 			() => predicate.parse({ username: 42, password: 'helloworld' }),
 			new CombinedPropertyError([
 				//
-				['username', new ValidationError('s.string', 'Expected a string primitive', 42)]
+				['username', new ValidationError('s.string()', 'Expected a string primitive', 42)]
 			])
 		);
 	});
@@ -49,15 +49,15 @@ describe('ObjectValidator', () => {
 		expectError(
 			() => predicate.parse({ username: 42, password: true }),
 			new CombinedPropertyError([
-				['username', new ValidationError('s.string', 'Expected a string primitive', 42)],
-				['password', new ValidationError('s.string', 'Expected a string primitive', true)]
+				['username', new ValidationError('s.string()', 'Expected a string primitive', 42)],
+				['password', new ValidationError('s.string()', 'Expected a string primitive', true)]
 			])
 		);
 	});
 
 	test('GIVEN LiteralValidator with undefined THEN it should be counted as a possibly undefined key', () => {
 		const predicate = s.object({
-			owo: s.undefined
+			owo: s.undefined()
 		});
 
 		expect(predicate['possiblyUndefinedKeys'].size).toEqual(1);
@@ -65,7 +65,7 @@ describe('ObjectValidator', () => {
 
 	test('GIVEN LiteralValidator with null THEN it should be counted as a required key', () => {
 		const predicate = s.object({
-			owo: s.null
+			owo: s.null()
 		});
 
 		expect(predicate['requiredKeys'].size).toEqual(1);
@@ -73,7 +73,7 @@ describe('ObjectValidator', () => {
 
 	test('GIVEN NullishValidator then it should count as a possibly undefined key', () => {
 		const predicate = s.object({
-			owo: s.nullish
+			owo: s.nullish()
 		});
 
 		expect(predicate['possiblyUndefinedKeys'].size).toEqual(1);
@@ -81,7 +81,7 @@ describe('ObjectValidator', () => {
 
 	test('GIVEN UnionValidator with NullishValidator inside THEN it should be counted as a possibly undefined key', () => {
 		const predicate = s.object({
-			owo: s.string.nullish
+			owo: s.string().nullish()
 		});
 
 		expect(predicate['possiblyUndefinedKeys'].size).toEqual(1);
@@ -89,7 +89,7 @@ describe('ObjectValidator', () => {
 
 	test('GIVEN a validator with a default value THEN it should be counted as a possibly undefined key with defaults', () => {
 		const predicate = s.object({
-			owo: s.string.default('hello')
+			owo: s.string().default('hello')
 		});
 
 		expect(predicate['possiblyUndefinedKeysWithDefaults'].size).toEqual(1);
@@ -99,7 +99,7 @@ describe('ObjectValidator', () => {
 
 	test("GIVEN UnionValidator with LiteralValidator with 'owo' THEN it should be counted as a required key", () => {
 		const predicate = s.object({
-			owo: s.union(s.literal('owo'), s.number)
+			owo: s.union([s.literal('owo'), s.number()])
 		});
 
 		expect(predicate['requiredKeys'].size).toEqual(1);
@@ -107,7 +107,7 @@ describe('ObjectValidator', () => {
 
 	test('GIVEN UnionValidator with LiteralValidator with null THEN it should be counted as a required key', () => {
 		const predicate = s.object({
-			owo: s.union(s.string, s.literal(null))
+			owo: s.union([s.string(), s.literal(null)])
 		});
 
 		expect(predicate['requiredKeys'].size).toEqual(1);
@@ -116,11 +116,11 @@ describe('ObjectValidator', () => {
 	// Unit test for lines 167-190 of ObjectValidator.ts
 	test('GIVEN a big schema THEN it should validate using the shortest possible solution', () => {
 		const predicate = s.object({
-			a: s.string,
-			b: s.string,
-			c: s.string.optional,
-			d: s.string.optional,
-			e: s.string.optional
+			a: s.string(),
+			b: s.string(),
+			c: s.string().optional(),
+			d: s.string().optional(),
+			e: s.string().optional()
 		});
 
 		expect(predicate.parse({ a: 'a', b: 'b', c: 'c', d: 'd' })).toStrictEqual({ a: 'a', b: 'b', c: 'c', d: 'd' });
@@ -128,7 +128,7 @@ describe('ObjectValidator', () => {
 	});
 
 	describe('Strict', () => {
-		const strictPredicate = predicate.strict;
+		const strictPredicate = predicate.strict();
 
 		test('GIVEN matching keys and values THEN returns no errors', () => {
 			expect(strictPredicate.parse({ username: 'Sapphire', password: 'helloworld' })).toStrictEqual({
@@ -142,7 +142,7 @@ describe('ObjectValidator', () => {
 				() => strictPredicate.parse({ username: 42, password: 'helloworld' }),
 				new CombinedPropertyError([
 					//
-					['username', new ValidationError('s.string', 'Expected a string primitive', 42)]
+					['username', new ValidationError('s.string()', 'Expected a string primitive', 42)]
 				])
 			);
 		});
@@ -151,7 +151,7 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => strictPredicate.parse({ username: 42, password: 'helloworld', foo: 'bar' }),
 				new CombinedPropertyError([
-					['username', new ValidationError('s.string', 'Expected a string primitive', 42)],
+					['username', new ValidationError('s.string()', 'Expected a string primitive', 42)],
 					['foo', new UnknownPropertyError('foo', 'bar')]
 				])
 			);
@@ -161,7 +161,7 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => strictPredicate.parse({ username: 42, foo: 'owo' }),
 				new CombinedPropertyError([
-					['username', new ValidationError('s.string', 'Expected a string primitive', 42)],
+					['username', new ValidationError('s.string()', 'Expected a string primitive', 42)],
 					['password', new MissingPropertyError('password')],
 					['foo', new UnknownPropertyError('foo', 'owo')]
 				])
@@ -169,7 +169,7 @@ describe('ObjectValidator', () => {
 		});
 
 		const optionalStrict = strictPredicate.extend({
-			optionalKey: s.string.optional
+			optionalKey: s.string().optional()
 		});
 
 		test('GIVEN matching keys and values without optional keys THEN returns no errors', () => {
@@ -187,7 +187,7 @@ describe('ObjectValidator', () => {
 	});
 
 	describe('Ignore', () => {
-		const ignorePredicate = predicate.ignore;
+		const ignorePredicate = predicate.ignore();
 
 		test('GIVEN matching keys and values THEN returns no errors', () => {
 			expect(ignorePredicate.parse({ username: 'Sapphire', password: 'helloworld', email: 'foo@bar.com' })).toStrictEqual({
@@ -205,7 +205,7 @@ describe('ObjectValidator', () => {
 
 		test('GIVEN matching keys with an optional key that fails validation, THEN throws CombinedPropertyError with ValidationError', () => {
 			const predicate = ignorePredicate.extend({
-				owo: s.boolean.optional
+				owo: s.boolean().optional()
 			});
 
 			expectError(
@@ -215,7 +215,7 @@ describe('ObjectValidator', () => {
 						'owo',
 						new CombinedError([
 							new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', 'owo', undefined),
-							new ValidationError('s.boolean', 'Expected a boolean primitive', 'owo')
+							new ValidationError('s.boolean()', 'Expected a boolean primitive', 'owo')
 						])
 					]
 				])
@@ -224,7 +224,7 @@ describe('ObjectValidator', () => {
 	});
 
 	describe('Passthrough', () => {
-		const passthroughPredicate = predicate.passthrough;
+		const passthroughPredicate = predicate.passthrough();
 
 		test('GIVEN matching keys and values THEN returns no errors', () => {
 			expect(passthroughPredicate.parse({ username: 'Sapphire', password: 'helloworld', email: 'foo@bar.com' })).toStrictEqual({
@@ -243,7 +243,7 @@ describe('ObjectValidator', () => {
 	});
 
 	describe('Partial', () => {
-		const partialPredicate = predicate.partial;
+		const partialPredicate = predicate.partial();
 
 		test('GIVEN empty object THEN returns an empty object', () => {
 			expect(partialPredicate.parse({})).toStrictEqual({});
@@ -251,7 +251,7 @@ describe('ObjectValidator', () => {
 	});
 
 	describe('Required', () => {
-		const partialPredicate = predicate.partial.required;
+		const partialPredicate = predicate.partial().required();
 
 		test('GIVEN empty object THEN returns an empty object', () => {
 			expect(
@@ -278,7 +278,7 @@ describe('ObjectValidator', () => {
 
 	describe('Extend', () => {
 		test('GIVEN a plain object THEN returns a predicate validator with merged shapes', () => {
-			const extendPredicate = predicate.extend({ foo: s.number });
+			const extendPredicate = predicate.extend({ foo: s.number() });
 
 			expect(Object.keys(extendPredicate.shape)).toStrictEqual(['username', 'password', 'foo']);
 			expect(extendPredicate.parse({ username: 'Sapphire', password: 'helloworld', foo: 42 })).toStrictEqual({
@@ -289,7 +289,7 @@ describe('ObjectValidator', () => {
 		});
 
 		test('GIVEN an object predicate THEN returns a predicate validator with merged shapes', () => {
-			const extendPredicate = predicate.extend(s.object({ foo: s.number }));
+			const extendPredicate = predicate.extend(s.object({ foo: s.number() }));
 
 			expect(Object.keys(extendPredicate.shape)).toStrictEqual(['username', 'password', 'foo']);
 			expect(extendPredicate.parse({ username: 'Sapphire', password: 'helloworld', foo: 42 })).toStrictEqual({
@@ -352,8 +352,8 @@ describe('ObjectValidator', () => {
 	describe('When', () => {
 		test('Given a key WITH is function THEN return value based on the value at key position', () => {
 			const whenPredicate = s.object({
-				booleanLike: s.boolean,
-				numberLike: s.number.when('booleanLike', {
+				booleanLike: s.boolean(),
+				numberLike: s.number().when('booleanLike', {
 					is: (value) => value === true,
 					then: (schema) => schema.greaterThanOrEqual(5),
 					otherwise: (schema) => schema.lessThanOrEqual(5)
@@ -364,7 +364,7 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: true, numberLike: 4 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().greaterThanOrEqual()', 'Invalid number value', 4, 'expected >= 5')]
 				])
 			);
 
@@ -373,15 +373,15 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: false, numberLike: 6 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().lessThanOrEqual()', 'Invalid number value', 6, 'expected <= 5')]
 				])
 			);
 		});
 
 		test('Given a key WITH is primitive literal THEN return value based on the value strictly equal to the primitive literal', () => {
 			const whenPredicate = s.object({
-				booleanLike: s.boolean,
-				numberLike: s.number.when('booleanLike', {
+				booleanLike: s.boolean(),
+				numberLike: s.number().when('booleanLike', {
 					is: true,
 					then: (schema) => schema.greaterThanOrEqual(5),
 					otherwise: (schema) => schema.lessThanOrEqual(5)
@@ -392,7 +392,7 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: true, numberLike: 4 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().greaterThanOrEqual()', 'Invalid number value', 4, 'expected >= 5')]
 				])
 			);
 
@@ -401,15 +401,15 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: false, numberLike: 6 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().lessThanOrEqual()', 'Invalid number value', 6, 'expected <= 5')]
 				])
 			);
 		});
 
 		test('Given a key WITHOUT is THEN return value based on the value at key position', () => {
 			const whenPredicate = s.object({
-				booleanLike: s.boolean,
-				numberLike: s.number.when('booleanLike', {
+				booleanLike: s.boolean(),
+				numberLike: s.number().when('booleanLike', {
 					then: (schema) => schema.greaterThanOrEqual(5),
 					otherwise: (schema) => schema.lessThanOrEqual(5)
 				})
@@ -419,7 +419,7 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: true, numberLike: 4 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().greaterThanOrEqual()', 'Invalid number value', 4, 'expected >= 5')]
 				])
 			);
 
@@ -428,16 +428,16 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: false, numberLike: 6 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().lessThanOrEqual()', 'Invalid number value', 6, 'expected <= 5')]
 				])
 			);
 		});
 
 		test('Given an array of keys WITHOUT is THEN check truly of each values', () => {
 			const whenPredicate = s.object({
-				booleanLike: s.boolean,
-				stringLike: s.string,
-				numberLike: s.number.when(['booleanLike', 'stringLike'], {
+				booleanLike: s.boolean(),
+				stringLike: s.string(),
+				numberLike: s.number().when(['booleanLike', 'stringLike'], {
 					then: (schema) => schema.greaterThanOrEqual(5),
 					otherwise: (schema) => schema.lessThanOrEqual(5)
 				})
@@ -451,7 +451,7 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: true, stringLike: 'foo', numberLike: 4 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().greaterThanOrEqual()', 'Invalid number value', 4, 'expected >= 5')]
 				])
 			);
 
@@ -470,22 +470,22 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: false, stringLike: 'foo', numberLike: 6 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().lessThanOrEqual()', 'Invalid number value', 6, 'expected <= 5')]
 				])
 			);
 
 			expectError(
 				() => whenPredicate.parse({ booleanLike: true, stringLike: '', numberLike: 6 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().lessThanOrEqual()', 'Invalid number value', 6, 'expected <= 5')]
 				])
 			);
 		});
 
 		test('Given a number key THEN return return value based on the key', () => {
 			const whenPredicate = s.object({
-				1: s.boolean,
-				numberLike: s.number.when(1, {
+				1: s.boolean(),
+				numberLike: s.number().when(1, {
 					is: (value) => value === true,
 					then: (schema) => schema.greaterThanOrEqual(5),
 					otherwise: (schema) => schema.lessThanOrEqual(5)
@@ -496,7 +496,7 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ 1: true, numberLike: 4 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().greaterThanOrEqual()', 'Invalid number value', 4, 'expected >= 5')]
 				])
 			);
 
@@ -505,16 +505,16 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ 1: false, numberLike: 6 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().lessThanOrEqual()', 'Invalid number value', 6, 'expected <= 5')]
 				])
 			);
 		});
 
 		test('Given multiple keys THEN return return value based on the keys', () => {
 			const whenPredicate = s.object({
-				booleanLike: s.boolean,
-				stringLike: s.string,
-				numberLike: s.number.when(['booleanLike', 'stringLike'], {
+				booleanLike: s.boolean(),
+				stringLike: s.string(),
+				numberLike: s.number().when(['booleanLike', 'stringLike'], {
 					is: ([booleanLikeValue, stringLikeValue]) => booleanLikeValue === true && stringLikeValue === 'foo',
 					then: (schema) => schema.greaterThanOrEqual(5),
 					otherwise: (schema) => schema.lessThanOrEqual(5)
@@ -540,21 +540,21 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: false, stringLike: 'foo', numberLike: 6 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().lessThanOrEqual()', 'Invalid number value', 6, 'expected <= 5')]
 				])
 			);
 			expectError(
 				() => expect(whenPredicate.parse({ booleanLike: true, stringLike: 'bar', numberLike: 6 })),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().lessThanOrEqual()', 'Invalid number value', 6, 'expected <= 5')]
 				])
 			);
 		});
 
 		test('Given a key without `otherwise` THEN return the same value for false condition', () => {
 			const whenPredicate = s.object({
-				booleanLike: s.boolean,
-				numberLike: s.number.when('booleanLike', {
+				booleanLike: s.boolean(),
+				numberLike: s.number().when('booleanLike', {
 					is: (value) => value === true,
 					then: (schema) => schema.greaterThanOrEqual(5)
 				})
@@ -564,7 +564,7 @@ describe('ObjectValidator', () => {
 			expectError(
 				() => whenPredicate.parse({ booleanLike: true, numberLike: 4 }),
 				new CombinedPropertyError([
-					['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+					['numberLike', new ExpectedConstraintError('s.number().greaterThanOrEqual()', 'Invalid number value', 4, 'expected >= 5')]
 				])
 			);
 
@@ -573,7 +573,7 @@ describe('ObjectValidator', () => {
 		});
 
 		test('Given a predicate with no parent THEN throw ExpectedConstraintError', () => {
-			const whenPredicate = s.number.when('booleanLike', {
+			const whenPredicate = s.number().when('booleanLike', {
 				is: (value) => value === true,
 				then: (schema) => schema.greaterThanOrEqual(5),
 				otherwise: (schema) => schema.lessThanOrEqual(5)
@@ -588,8 +588,8 @@ describe('ObjectValidator', () => {
 		test('Given a nested object and a key with dot THEN return return value based on the key', () => {
 			const whenPredicate = s.object({
 				objectLike: s.object({
-					booleanLike: s.boolean,
-					numberLike: s.number.when('objectLike.booleanLike', {
+					booleanLike: s.boolean(),
+					numberLike: s.number().when('objectLike.booleanLike', {
 						is: (value) => value === true,
 						then: (schema) => schema.greaterThanOrEqual(5),
 						otherwise: (schema) => schema.lessThanOrEqual(5)
@@ -606,7 +606,7 @@ describe('ObjectValidator', () => {
 					[
 						'objectLike',
 						new CombinedPropertyError([
-							['numberLike', new ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')]
+							['numberLike', new ExpectedConstraintError('s.number().greaterThanOrEqual()', 'Invalid number value', 4, 'expected >= 5')]
 						])
 					]
 				])
@@ -622,7 +622,7 @@ describe('ObjectValidator', () => {
 					[
 						'objectLike',
 						new CombinedPropertyError([
-							['numberLike', new ExpectedConstraintError('s.number.lessThanOrEqual', 'Invalid number value', 6, 'expected <= 5')]
+							['numberLike', new ExpectedConstraintError('s.number().lessThanOrEqual()', 'Invalid number value', 6, 'expected <= 5')]
 						])
 					]
 				])

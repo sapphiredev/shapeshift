@@ -2,7 +2,7 @@ import { CombinedError, ExpectedValidationError, s } from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('EnumValidator', () => {
-	const predicate = s.enum('a', 'b', 'c');
+	const predicate = s.enum(['a', 'b', 'c']);
 
 	test.each(['a', 'b', 'c'])('GIVEN a string (%j) THEN returns a string', (input) => {
 		expect(predicate.parse(input)).toBe(input);

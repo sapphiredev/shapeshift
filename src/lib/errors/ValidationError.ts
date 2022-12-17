@@ -1,5 +1,6 @@
 import { inspect, type InspectOptionsStylized } from 'util';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
+import type { ValidationErrorJsonified } from './error-types';
 
 export class ValidationError extends BaseError {
 	public readonly validator: string;
@@ -12,9 +13,10 @@ export class ValidationError extends BaseError {
 		this.given = given;
 	}
 
-	public toJSON() {
+	public override toJSON(): ValidationErrorJsonified {
 		return {
 			name: this.name,
+			message: 'Unknown validation error occurred.',
 			validator: this.validator,
 			given: this.given
 		};

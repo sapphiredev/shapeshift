@@ -32,9 +32,10 @@ describe('MissingPropertyError', () => {
 	});
 
 	describe('toJSON', () => {
-		test('toJSON should return an object with name and property', () => {
+		test('toJSON should return an object with name, message, and property', () => {
 			expect(error.toJSON()).toEqual({
 				name: 'Error',
+				message: 'A required property is missing',
 				property: 'foo'
 			});
 		});

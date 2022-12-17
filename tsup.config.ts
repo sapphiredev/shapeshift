@@ -1,7 +1,7 @@
-import { defineConfig } from 'tsup';
 import { nodeModulesPolyfillPlugin } from 'esbuild-plugins-node-modules-polyfill';
+import { defineConfig as defineTsupConfig } from 'tsup';
 
-export default defineConfig({
+export default defineTsupConfig({
 	clean: true,
 	dts: true,
 	entry: ['src/index.ts'],

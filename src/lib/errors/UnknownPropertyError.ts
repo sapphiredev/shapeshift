@@ -1,20 +1,23 @@
 import { inspect, type InspectOptionsStylized } from 'util';
+import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
+import type { UnknownEnumKeyErrorJsonified } from './error-types';
 
 export class UnknownPropertyError extends BaseError {
 	public readonly property: PropertyKey;
 	public readonly value: unknown;
 
-	public constructor(property: PropertyKey, value: unknown) {
-		super('Received unexpected property');
+	public constructor(property: PropertyKey, value: unknown, options?: ValidatorOptions) {
+		super(options?.message ?? 'Received unexpected property');
 
 		this.property = property;
 		this.value = value;
 	}
 
-	public toJSON() {
+	public override toJSON(): UnknownEnumKeyErrorJsonified {
 		return {
 			name: this.name,
+			message: this.message,
 			property: this.property,
 			value: this.value
 		};

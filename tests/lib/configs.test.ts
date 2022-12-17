@@ -1,15 +1,15 @@
 import { s, setGlobalValidationEnabled, type BaseValidator } from '../../src';
 
 describe('Validation enabled and disabled configurations', () => {
-	const stringPredicate = s.string.lengthGreaterThan(5);
-	const arrayPredicate = s.array(s.string).lengthGreaterThan(2);
-	const mapPredicate = s.map(s.string, s.number);
+	const stringPredicate = s.string().lengthGreaterThan(5);
+	const arrayPredicate = s.array(s.string()).lengthGreaterThan(2);
+	const mapPredicate = s.map(s.string(), s.number());
 	const objectPredicate = s.object({
-		owo: s.boolean
+		owo: s.boolean()
 	});
-	const recordPredicate = s.record(s.number);
-	const setPredicate = s.set(s.number);
-	const tuplePredicate = s.tuple([s.string, s.number]);
+	const recordPredicate = s.record(s.number());
+	const setPredicate = s.set(s.number());
+	const tuplePredicate = s.tuple([s.string(), s.number()]);
 
 	const predicateAndValues: [string, BaseValidator<unknown>, unknown][] = [
 		//
@@ -50,7 +50,7 @@ describe('Validation enabled and disabled configurations', () => {
 		});
 
 		test("GIVEN disabled predicate THEN checking if it's disabled should return true", () => {
-			const predicate = s.string.setValidationEnabled(false);
+			const predicate = s.string().setValidationEnabled(false);
 
 			expect(predicate.getValidationEnabled()).toBe(false);
 		});

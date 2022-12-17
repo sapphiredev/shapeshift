@@ -1,6 +1,7 @@
 import { inspect, type InspectOptionsStylized } from 'util';
-import { customInspectSymbolStackLess } from './BaseError';
 import { BaseConstraintError, type ConstraintErrorNames } from './BaseConstraintError';
+import { customInspectSymbolStackLess } from './BaseError';
+import type { ExpectedConstraintErrorJsonified } from './error-types';
 
 export class ExpectedConstraintError<T = unknown> extends BaseConstraintError<T> {
 	public readonly expected: string;
@@ -10,12 +11,13 @@ export class ExpectedConstraintError<T = unknown> extends BaseConstraintError<T>
 		this.expected = expected;
 	}
 
-	public toJSON() {
+	public override toJSON(): ExpectedConstraintErrorJsonified<T> {
 		return {
 			name: this.name,
 			constraint: this.constraint,
 			given: this.given,
-			expected: this.expected
+			expected: this.expected,
+			message: this.message
 		};
 	}
 
