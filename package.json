@@ -43,9 +43,9 @@
 		"@types/jsdom": "^20.0.1",
 		"@types/lodash": "^4.14.191",
 		"@types/node": "^18.11.17",
-		"@typescript-eslint/eslint-plugin": "^5.46.1",
-		"@typescript-eslint/parser": "^5.46.1",
-		"@vitest/coverage-c8": "^0.25.8",
+		"@typescript-eslint/eslint-plugin": "^5.47.0",
+		"@typescript-eslint/parser": "^5.47.0",
+		"@vitest/coverage-c8": "^0.26.2",
 		"cz-conventional-changelog": "^3.3.0",
 		"esbuild-plugins-node-modules-polyfill": "^1.0.9",
 		"eslint": "^8.30.0",
@@ -62,8 +62,8 @@
 		"typedoc": "^0.23.23",
 		"typedoc-json-parser": "^7.0.2",
 		"typescript": "^4.9.4",
-		"vite": "^4.0.2",
-		"vitest": "^0.25.8"
+		"vite": "^4.0.3",
+		"vitest": "^0.26.2"
 	},
 	"repository": {
 		"type": "git",
@@ -119,7 +119,7 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.7"
 	},
-	"packageManager": "yarn@3.3.0",
+	"packageManager": "yarn@3.3.1",
 	"dependencies": {
 		"fast-deep-equal": "^3.1.3",
 		"lodash": "^4.17.21"
