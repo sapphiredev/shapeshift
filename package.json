@@ -117,7 +117,8 @@
 	},
 	"resolutions": {
 		"ansi-regex": "^5.0.1",
-		"minimist": "^1.2.8"
+		"minimist": "^1.2.8",
+		"tsup@^6.6.0": "patch:tsup@npm%3A6.6.0#./.yarn/patches/tsup-npm-6.6.0-a50628fde8.patch"
 	},
 	"packageManager": "yarn@3.4.1",
 	"dependencies": {

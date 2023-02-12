@@ -6346,7 +6346,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^6.6.0":
+"tsup@npm:6.6.0":
   version: 6.6.0
   resolution: "tsup@npm:6.6.0"
   dependencies:
@@ -6379,6 +6379,42 @@ __metadata:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
   checksum: 202ed7a6b607190f47dd7503994e8e62ce672a35ff3ecaf4c1dc4c8a9590b99f91ce8c1303e28781b5a089450140492729a41d93874e87936aed94e205155551
+  languageName: node
+  linkType: hard
+
+"tsup@patch:tsup@npm%3A6.6.0#./.yarn/patches/tsup-npm-6.6.0-a50628fde8.patch::locator=%40sapphire%2Fshapeshift%40workspace%3A.":
+  version: 6.6.0
+  resolution: "tsup@patch:tsup@npm%3A6.6.0#./.yarn/patches/tsup-npm-6.6.0-a50628fde8.patch::version=6.6.0&hash=08a4de&locator=%40sapphire%2Fshapeshift%40workspace%3A."
+  dependencies:
+    bundle-require: ^4.0.0
+    cac: ^6.7.12
+    chokidar: ^3.5.1
+    debug: ^4.3.1
+    esbuild: ^0.17.6
+    execa: ^5.0.0
+    globby: ^11.0.3
+    joycon: ^3.0.1
+    postcss-load-config: ^3.0.1
+    resolve-from: ^5.0.0
+    rollup: ^3.2.5
+    source-map: 0.8.0-beta.0
+    sucrase: ^3.20.3
+    tree-kill: ^1.2.2
+  peerDependencies:
+    "@swc/core": ^1
+    postcss: ^8.4.12
+    typescript: ^4.1.0
+  peerDependenciesMeta:
+    "@swc/core":
+      optional: true
+    postcss:
+      optional: true
+    typescript:
+      optional: true
+  bin:
+    tsup: dist/cli-default.js
+    tsup-node: dist/cli-node.js
+  checksum: cfb478b03c1e5511b81c3b29fb43f63612aefd4585911fbe51d0fa227c4ff797aa700927045bee03018bae4d8dcbcea77997b8211ed5d3e7fd299602cb73f3cf
   languageName: node
   linkType: hard
 

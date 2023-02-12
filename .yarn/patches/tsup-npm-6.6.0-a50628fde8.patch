@@ -1,0 +1,22 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index fe8f6b33586f63aff086bd1593a577087a5e46ae..b06dcef6e1367806e2d1b159363f058c98b33b38 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -192,7 +192,7 @@ interface CompressOptions {
+     unused?: boolean;
+ }
+ 
+-enum InlineFunctions {
++declare enum InlineFunctions {
+     Disabled = 0,
+     SimpleFunctions = 1,
+     WithArguments = 2,
+@@ -289,7 +289,7 @@ interface FormatOptions {
+     wrap_func_args?: boolean;
+ }
+ 
+-enum OutputQuoteStyle {
++declare enum OutputQuoteStyle {
+     PreferDouble = 0,
+     AlwaysSingle = 1,
+     AlwaysDouble = 2,
