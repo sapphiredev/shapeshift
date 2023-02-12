@@ -875,7 +875,7 @@ __metadata:
     prettier: ^2.8.4
     pretty-quick: ^3.1.3
     ts-node: ^10.9.1
-    tsup: ^6.6.0
+    tsup: ^6.6.2
     typedoc: ^0.23.25
     typedoc-json-parser: ^7.1.0
     typescript: ^4.9.5
@@ -6346,9 +6346,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:6.6.0":
-  version: 6.6.0
-  resolution: "tsup@npm:6.6.0"
+"tsup@npm:^6.6.2":
+  version: 6.6.2
+  resolution: "tsup@npm:6.6.2"
   dependencies:
     bundle-require: ^4.0.0
     cac: ^6.7.12
@@ -6378,43 +6378,7 @@ __metadata:
   bin:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
-  checksum: 202ed7a6b607190f47dd7503994e8e62ce672a35ff3ecaf4c1dc4c8a9590b99f91ce8c1303e28781b5a089450140492729a41d93874e87936aed94e205155551
-  languageName: node
-  linkType: hard
-
-"tsup@patch:tsup@npm%3A6.6.0#./.yarn/patches/tsup-npm-6.6.0-a50628fde8.patch::locator=%40sapphire%2Fshapeshift%40workspace%3A.":
-  version: 6.6.0
-  resolution: "tsup@patch:tsup@npm%3A6.6.0#./.yarn/patches/tsup-npm-6.6.0-a50628fde8.patch::version=6.6.0&hash=08a4de&locator=%40sapphire%2Fshapeshift%40workspace%3A."
-  dependencies:
-    bundle-require: ^4.0.0
-    cac: ^6.7.12
-    chokidar: ^3.5.1
-    debug: ^4.3.1
-    esbuild: ^0.17.6
-    execa: ^5.0.0
-    globby: ^11.0.3
-    joycon: ^3.0.1
-    postcss-load-config: ^3.0.1
-    resolve-from: ^5.0.0
-    rollup: ^3.2.5
-    source-map: 0.8.0-beta.0
-    sucrase: ^3.20.3
-    tree-kill: ^1.2.2
-  peerDependencies:
-    "@swc/core": ^1
-    postcss: ^8.4.12
-    typescript: ^4.1.0
-  peerDependenciesMeta:
-    "@swc/core":
-      optional: true
-    postcss:
-      optional: true
-    typescript:
-      optional: true
-  bin:
-    tsup: dist/cli-default.js
-    tsup-node: dist/cli-node.js
-  checksum: cfb478b03c1e5511b81c3b29fb43f63612aefd4585911fbe51d0fa227c4ff797aa700927045bee03018bae4d8dcbcea77997b8211ed5d3e7fd299602cb73f3cf
+  checksum: 80d52608f187d0cda8b8029acca52ed9da5f1152915f8e8b2c23efe1fb309a90229098005740596a6e30a91b3f270b39b3d81437d5a9b7b3d3e9ff8fc0aa98e6
   languageName: node
   linkType: hard
 
