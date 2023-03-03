@@ -1,4 +1,4 @@
-import { inspect, type InspectOptionsStylized } from 'node:util';
+import { inspect, type InspectOptionsStylized } from 'util';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
 export class ValidationError extends BaseError {

@@ -1,4 +1,4 @@
-import { inspect, type InspectOptionsStylized } from 'node:util';
+import { inspect, type InspectOptionsStylized } from 'util';
 import { customInspectSymbolStackLess } from './BaseError';
 import { BaseConstraintError, type ConstraintErrorNames } from './BaseConstraintError';
 
