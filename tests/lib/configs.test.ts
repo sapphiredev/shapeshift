@@ -1,4 +1,4 @@
-import { BaseValidator, s, setGlobalValidationEnabled } from '../../src';
+import { s, setGlobalValidationEnabled, type BaseValidator } from '../../src';
 
 describe('Validation enabled and disabled configurations', () => {
 	const stringPredicate = s.string.lengthGreaterThan(5);

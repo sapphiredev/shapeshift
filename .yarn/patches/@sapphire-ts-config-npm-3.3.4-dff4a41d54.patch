@@ -1,0 +1,81 @@
+diff --git a/extra-strict-without-decorators.json b/extra-strict-without-decorators.json
+deleted file mode 100644
+index 29ebda7ccd9421cafa113bc15783a261d6eea72b..0000000000000000000000000000000000000000
+--- a/extra-strict-without-decorators.json
++++ /dev/null
+@@ -1,8 +0,0 @@
+-{
+-	"$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/tsconfig.json",
+-	"extends": "./extra-strict.json",
+-	"compilerOptions": {
+-		"emitDecoratorMetadata": false,
+-		"experimentalDecorators": false
+-	}
+-}
+diff --git a/package.json b/package.json
+index 4f68bbadc02d3720d9b4806c5dee2d410dec9602..96cf35e084d10cf4b46793c7014323954aed7e32 100644
+--- a/package.json
++++ b/package.json
+@@ -11,17 +11,9 @@
+ 			"import": "./tsconfig.json",
+ 			"require": "./tsconfig.json"
+ 		},
+-		"./without-decorators": {
+-			"import": "./without-decorators.json",
+-			"require": "./without-decorators.json"
+-		},
+ 		"./extra-strict": {
+ 			"import": "./extra-strict.json",
+ 			"require": "./extra-strict.json"
+-		},
+-		"./extra-strict-without-decorators": {
+-			"import": "./extra-strict-without-decorators.json",
+-			"require": "./extra-strict-without-decorators.json"
+ 		}
+ 	},
+ 	"sideEffects": false,
+@@ -33,7 +25,7 @@
+ 	},
+ 	"dependencies": {
+ 		"tslib": "^2.3.1",
+-		"typescript": "^4.6.3"
++		"typescript": "^5.0.2"
+ 	},
+ 	"files": [
+ 		"tsconfig.json",
+diff --git a/tsconfig.json b/tsconfig.json
+index 5062caed1acfb1ae330853f9e8b26a969a507402..812df44a5cd15ae1c49647957229abbae92a1a31 100644
+--- a/tsconfig.json
++++ b/tsconfig.json
+@@ -5,15 +5,12 @@
+ 		"alwaysStrict": true,
+ 		"declaration": true,
+ 		"declarationMap": true,
+-		"emitDecoratorMetadata": true,
+ 		"esModuleInterop": true,
+-		"experimentalDecorators": true,
+-		"forceConsistentCasingInFileNames": true,
+ 		"importHelpers": true,
+-		"importsNotUsedAsValues": "error",
++		"verbatimModuleSyntax": true,
+ 		"incremental": true,
+ 		"lib": ["esnext"],
+-		"module": "CommonJS",
++		"module": "Node16",
+ 		"moduleResolution": "Node",
+ 		"newLine": "lf",
+ 		"noEmitHelpers": true,
+diff --git a/without-decorators.json b/without-decorators.json
+deleted file mode 100644
+index a0849973f79cb05b952c595c17f53489bc16ce05..0000000000000000000000000000000000000000
+--- a/without-decorators.json
++++ /dev/null
+@@ -1,8 +0,0 @@
+-{
+-	"$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/tsconfig.json",
+-	"extends": "./tsconfig.json",
+-	"compilerOptions": {
+-		"emitDecoratorMetadata": false,
+-		"experimentalDecorators": false
+-	}
+-}

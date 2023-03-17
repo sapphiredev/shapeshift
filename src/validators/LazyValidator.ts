@@ -1,6 +1,6 @@
 import type { Result } from '../lib/Result';
 import type { IConstraint, Unwrap } from '../type-exports';
-import { BaseValidator, ValidatorError } from './imports';
+import { BaseValidator, type ValidatorError } from './imports';
 
 export class LazyValidator<T extends BaseValidator<unknown>, R = Unwrap<T>> extends BaseValidator<R> {
 	private readonly validator: (value: unknown) => T;

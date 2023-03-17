@@ -1,4 +1,4 @@
-import { CombinedPropertyError, ExpectedConstraintError, MissingPropertyError, s, SchemaOf, ValidationError } from '../../src';
+import { CombinedPropertyError, ExpectedConstraintError, MissingPropertyError, ValidationError, s, type SchemaOf } from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('LazyValidator', () => {

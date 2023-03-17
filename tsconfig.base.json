@@ -1,8 +1,8 @@
 {
-	"extends": "@sapphire/ts-config/extra-strict-without-decorators",
+	"extends": "@sapphire/ts-config/extra-strict",
 	"compilerOptions": {
-		"target": "ES2020",
 		"useDefineForClassFields": false,
-		"emitDecoratorMetadata": false
+		"verbatimModuleSyntax": true,
+		"ignoreDeprecations": "5.0" // To be removed when @sapphire/ts-config is updated to TS 5.x
 	}
 }
