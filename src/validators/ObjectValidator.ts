@@ -278,7 +278,7 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 	}
 }
 
-export const enum ObjectValidatorStrategy {
+export enum ObjectValidatorStrategy {
 	Ignore,
 	Strict,
 	Passthrough
