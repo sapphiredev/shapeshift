@@ -21,8 +21,6 @@
 		"format": "prettier --write \"{src,tests}/**/*.ts\"",
 		"docs": "typedoc-json-parser",
 		"test": "vitest run",
-		"test:watch": "vitest",
-		"update": "yarn upgrade-interactive",
 		"build": "tsup",
 		"clean": "node scripts/clean.mjs",
 		"typecheck": "tsc -p tsconfig.eslint.json",
@@ -31,6 +29,10 @@
 		"postinstall": "husky install .github/husky",
 		"prepack": "yarn build && pinst --disable",
 		"postpack": "pinst --enable"
+	},
+	"dependencies": {
+		"fast-deep-equal": "^3.1.3",
+		"lodash": "^4.17.21"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.5.1",
@@ -61,7 +63,7 @@
 		"tsup": "^6.7.0",
 		"typedoc": "^0.23.28",
 		"typedoc-json-parser": "^7.2.0",
-		"typescript": "^4.9.5",
+		"typescript": "^5.0.3",
 		"vite": "^4.2.1",
 		"vitest": "^0.29.8"
 	},
@@ -119,9 +121,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.8"
 	},
-	"packageManager": "yarn@3.5.0",
-	"dependencies": {
-		"fast-deep-equal": "^3.1.3",
-		"lodash": "^4.17.21"
-	}
+	"packageManager": "yarn@3.5.0"
 }

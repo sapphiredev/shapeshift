@@ -2,7 +2,7 @@ import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
 import { isUnique } from './util/isUnique';
-import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
+import { equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual, type Comparator } from './util/operators';
 
 export type ArrayConstraintName = `s.array(T).${
 	| 'unique'

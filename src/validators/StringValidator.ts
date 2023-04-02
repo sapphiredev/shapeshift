@@ -13,7 +13,7 @@ import {
 	stringRegex,
 	stringUrl,
 	stringUuid,
-	StringUuidOptions,
+	type StringUuidOptions,
 	type UrlOptions
 } from '../constraints/StringConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';

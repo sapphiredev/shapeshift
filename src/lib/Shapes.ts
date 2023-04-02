@@ -21,7 +21,7 @@ import {
 	UnionValidator
 } from '../validators/imports';
 import { LazyValidator } from '../validators/LazyValidator';
-import { NativeEnumLike, NativeEnumValidator } from '../validators/NativeEnumValidator';
+import { NativeEnumValidator, type NativeEnumLike } from '../validators/NativeEnumValidator';
 import { TypedArrayValidator } from '../validators/TypedArrayValidator';
 import type { Constructor, MappedObjectValidator } from './util-types';
 

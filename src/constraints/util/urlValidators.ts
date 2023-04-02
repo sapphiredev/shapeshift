@@ -1,5 +1,5 @@
 import { MultiplePossibilitiesConstraintError } from '../../lib/errors/MultiplePossibilitiesConstraintError';
-import { combinedErrorFn, ErrorFn } from './common/combinedResultFn';
+import { combinedErrorFn, type ErrorFn } from './common/combinedResultFn';
 
 export type StringProtocol = `${string}:`;
 

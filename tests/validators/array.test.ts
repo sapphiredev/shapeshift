@@ -1,4 +1,4 @@
-import { ArrayValidator, CombinedPropertyError, ExpectedConstraintError, s, ValidationError } from '../../src';
+import { CombinedPropertyError, ExpectedConstraintError, ValidationError, s, type ArrayValidator } from '../../src';
 import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe('ArrayValidator', () => {

@@ -1,7 +1,7 @@
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
 import type { IConstraint } from './base/IConstraint';
-import { Comparator, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual } from './util/operators';
+import { equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual, type Comparator } from './util/operators';
 import type { TypedArray } from './util/typedArray';
 
 export type TypedArrayConstraintName = `s.typedArray(T).${'byteLength' | 'length'}${

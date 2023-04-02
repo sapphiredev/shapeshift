@@ -2,6 +2,7 @@ import { Shapes } from './lib/Shapes';
 
 export const s = new Shapes();
 
+export * from './lib/Result';
 export * from './lib/configs';
 export * from './lib/errors/BaseError';
 export * from './lib/errors/CombinedError';
@@ -13,5 +14,4 @@ export * from './lib/errors/MultiplePossibilitiesConstraintError';
 export * from './lib/errors/UnknownEnumValueError';
 export * from './lib/errors/UnknownPropertyError';
 export * from './lib/errors/ValidationError';
-export * from './lib/Result';
 export * from './type-exports';

@@ -20,7 +20,7 @@ import {
 	typedArrayLengthRangeInclusive
 } from '../constraints/TypedArrayLengthConstraints';
 import { aOrAn } from '../constraints/util/common/vowels';
-import { TypedArray, TypedArrayName, TypedArrays } from '../constraints/util/typedArray';
+import { TypedArrays, type TypedArray, type TypedArrayName } from '../constraints/util/typedArray';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
 import { BaseValidator } from './imports';
