@@ -119,8 +119,7 @@
 	},
 	"resolutions": {
 		"ansi-regex": "^5.0.1",
-		"minimist": "^1.2.8",
-		"@sapphire/ts-config@^3.3.4": "patch:@sapphire/ts-config@npm%3A3.3.4#./.yarn/patches/@sapphire-ts-config-npm-3.3.4-dff4a41d54.patch"
+		"minimist": "^1.2.8"
 	},
 	"packageManager": "yarn@3.5.0"
 }
