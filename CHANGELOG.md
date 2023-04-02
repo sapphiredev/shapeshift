@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.8.2](https://github.com/sapphiredev/shapeshift/compare/v3.8.1...v3.8.2) - (2023-04-02)
+
+## 🐛 Bug Fixes
+
+- ***:** TypeScript 5.x compatibility (#253) ([eba2a88](https://github.com/sapphiredev/shapeshift/commit/eba2a88b91fb6631f431313753299ec7a70cf6ce))
+- Remove `node:` prefix (#249) ([af766b5](https://github.com/sapphiredev/shapeshift/commit/af766b504c1013f3cd24f7bf803ac9ff7442a8d7))
+
 # [3.8.1](https://github.com/sapphiredev/shapeshift/compare/v3.8.0...v3.8.1) - (2022-12-15)
 
 ## 🐛 Bug Fixes
