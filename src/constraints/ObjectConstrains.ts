@@ -1,6 +1,6 @@
 import get from 'lodash/get.js';
-import { Result } from '../lib/Result';
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
+import { Result } from '../lib/Result';
 import type { ValidatorOptions } from '../lib/util-types';
 import type { BaseValidator } from '../validators/BaseValidator';
 import type { IConstraint } from './base/IConstraint';

@@ -10,6 +10,7 @@ export type {
 	arrayLengthRangeExclusive,
 	arrayLengthRangeInclusive
 } from './ArrayConstraints';
+export type { IConstraint } from './base/IConstraint';
 export type {
 	BigIntConstraintName,
 	bigintDivisibleBy,
@@ -51,10 +52,6 @@ export type { ObjectConstraintName, WhenOptions } from './ObjectConstrains';
 export type {
 	StringConstraintName,
 	StringDomain,
-	StringProtocol,
-	StringUuidOptions,
-	UUIDVersion,
-	UrlOptions,
 	stringEmail,
 	stringIp,
 	stringLengthEqual,
@@ -63,12 +60,15 @@ export type {
 	stringLengthLessThan,
 	stringLengthLessThanOrEqual,
 	stringLengthNotEqual,
+	StringProtocol,
 	stringRegex,
 	stringUrl,
-	stringUuid
+	stringUuid,
+	StringUuidOptions,
+	UrlOptions,
+	UUIDVersion
 } from './StringConstraints';
 export type {
-	TypedArrayConstraintName,
 	typedArrayByteLengthEqual,
 	typedArrayByteLengthGreaterThan,
 	typedArrayByteLengthGreaterThanOrEqual,
@@ -78,6 +78,7 @@ export type {
 	typedArrayByteLengthRange,
 	typedArrayByteLengthRangeExclusive,
 	typedArrayByteLengthRangeInclusive,
+	TypedArrayConstraintName,
 	typedArrayLengthEqual,
 	typedArrayLengthGreaterThan,
 	typedArrayLengthGreaterThanOrEqual,
@@ -88,4 +89,3 @@ export type {
 	typedArrayLengthRangeExclusive,
 	typedArrayLengthRangeInclusive
 } from './TypedArrayLengthConstraints';
-export type { IConstraint } from './base/IConstraint';
