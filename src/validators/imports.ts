@@ -1,11 +1,12 @@
-export * from './BaseValidator';
-
 export * from './ArrayValidator';
+export * from './BaseValidator';
 export * from './BigIntValidator';
 export * from './BooleanValidator';
 export * from './DateValidator';
+export * from './DefaultValidator';
 export * from './InstanceValidator';
 export * from './LiteralValidator';
+export * from './MapValidator';
 export * from './NeverValidator';
 export * from './NullishValidator';
 export * from './NumberValidator';
@@ -16,5 +17,3 @@ export * from './SetValidator';
 export * from './StringValidator';
 export * from './TupleValidator';
 export * from './UnionValidator';
-export * from './MapValidator';
-export * from './DefaultValidator';
