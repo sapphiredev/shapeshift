@@ -144,7 +144,7 @@ describe('StringValidator', () => {
 				test.each(['google.com', 'foo.bar'])('GIVEN %j THEN throws a ConstraintError', (input) => {
 					expectError(
 						() => urlPredicate.parse(input),
-						new ExpectedConstraintError('s.string.url', 'Invalid URL', input, 'expected to match an URL')
+						new ExpectedConstraintError('s.string.url', 'Invalid URL', input, 'expected to match a URL')
 					);
 				});
 			});
