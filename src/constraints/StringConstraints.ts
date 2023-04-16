@@ -102,7 +102,7 @@ export function stringUrl(options?: UrlOptions): IConstraint<string> {
 			try {
 				url = new URL(input);
 			} catch {
-				return Result.err(new ExpectedConstraintError('s.string.url', 'Invalid URL', input, 'expected to match an URL'));
+				return Result.err(new ExpectedConstraintError('s.string.url', 'Invalid URL', input, 'expected to match a URL'));
 			}
 
 			const validatorFnResult = validatorFn(input, url);
