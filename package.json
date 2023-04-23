@@ -39,6 +39,7 @@
 		"@commitlint/config-conventional": "^17.6.1",
 		"@favware/cliff-jumper": "^2.0.0",
 		"@favware/npm-deprecate": "^1.0.7",
+		"@rollup/pluginutils": "^5.0.2",
 		"@sapphire/eslint-config": "^4.4.1",
 		"@sapphire/prettier-config": "^1.4.5",
 		"@sapphire/ts-config": "^4.0.0",
