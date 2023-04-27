@@ -649,19 +649,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^5.0.2":
-  version: 5.0.2
-  resolution: "@rollup/pluginutils@npm:5.0.2"
+"@rollup/pluginutils@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@rollup/pluginutils@npm:3.1.0"
   dependencies:
-    "@types/estree": ^1.0.0
-    estree-walker: ^2.0.2
-    picomatch: ^2.3.1
+    "@types/estree": 0.0.39
+    estree-walker: ^1.0.1
+    picomatch: ^2.2.2
   peerDependencies:
-    rollup: ^1.20.0||^2.0.0||^3.0.0
-  peerDependenciesMeta:
-    rollup:
-      optional: true
-  checksum: edea15e543bebc7dcac3b0ac8bc7b8e8e6dbd46e2864dbe5dd28072de1fbd5b0e10d545a610c0edaa178e8a7ac432e2a2a52e547ece1308471412caba47db8ce
+    rollup: ^1.20.0||^2.0.0
+  checksum: 8be16e27863c219edbb25a4e6ec2fe0e1e451d9e917b6a43cf2ae5bc025a6b8faaa40f82a6e53b66d0de37b58ff472c6c3d57a83037ae635041f8df959d6d9aa
   languageName: node
   linkType: hard
 
@@ -720,7 +717,6 @@ __metadata:
     "@commitlint/config-conventional": ^17.6.1
     "@favware/cliff-jumper": ^2.0.0
     "@favware/npm-deprecate": ^1.0.7
-    "@rollup/pluginutils": ^5.0.2
     "@sapphire/eslint-config": ^4.4.1
     "@sapphire/prettier-config": ^1.4.5
     "@sapphire/ts-config": ^4.0.0
@@ -731,7 +727,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.59.0
     "@vitest/coverage-c8": ^0.30.1
     cz-conventional-changelog: ^3.3.0
-    esbuild-plugins-node-modules-polyfill: ^1.0.11
+    esbuild-plugins-node-modules-polyfill: ^1.0.13
     eslint: ^8.39.0
     eslint-config-prettier: ^8.8.0
     eslint-plugin-prettier: ^4.2.1
@@ -821,10 +817,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/estree@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "@types/estree@npm:1.0.1"
-  checksum: e9aa175eacb797216fafce4d41e8202c7a75555bc55232dee0f9903d7171f8f19f0ae7d5191bb1a88cb90e65468be508c0df850a9fb81b4433b293a5a749899d
+"@types/estree@npm:0.0.39":
+  version: 0.0.39
+  resolution: "@types/estree@npm:0.0.39"
+  checksum: 412fb5b9868f2c418126451821833414189b75cc6bf84361156feed733e3d92ec220b9d74a89e52722e03d5e241b2932732711b7497374a404fad49087adc248
   languageName: node
   linkType: hard
 
@@ -2429,12 +2425,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild-plugins-node-modules-polyfill@npm:^1.0.11":
-  version: 1.0.11
-  resolution: "esbuild-plugins-node-modules-polyfill@npm:1.0.11"
+"esbuild-plugins-node-modules-polyfill@npm:^1.0.13":
+  version: 1.0.13
+  resolution: "esbuild-plugins-node-modules-polyfill@npm:1.0.13"
   dependencies:
-    modern-node-polyfills: ^0.1.1
-  checksum: b2103a0d6c54819b8225bc060b298b49f87548243178b16a8d2e1565c34dcdc3d66b57cf8f98c915cd23d4e069808c59a1a0105f746e041b926c6af1aeee54b4
+    modern-node-polyfills: ^0.1.3
+  checksum: e84fffea0102a18a429987d46d42da2f83fada85949656d58e351856e127b14786ef3c50cc223b7f1eb7a01d54bc8a14e461d6f3fdab1978040940fbb8773f06
   languageName: node
   linkType: hard
 
@@ -2813,10 +2809,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"estree-walker@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "estree-walker@npm:2.0.2"
-  checksum: 6151e6f9828abe2259e57f5fd3761335bb0d2ebd76dc1a01048ccee22fabcfef3c0859300f6d83ff0d1927849368775ec5a6d265dde2f6de5a1be1721cd94efc
+"estree-walker@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "estree-walker@npm:1.0.1"
+  checksum: 7e70da539691f6db03a08e7ce94f394ce2eef4180e136d251af299d41f92fb2d28ebcd9a6e393e3728d7970aeb5358705ddf7209d52fbcb2dd4693f95dcf925f
   languageName: node
   linkType: hard
 
@@ -4652,14 +4648,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"modern-node-polyfills@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "modern-node-polyfills@npm:0.1.1"
+"modern-node-polyfills@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "modern-node-polyfills@npm:0.1.3"
   dependencies:
     "@jspm/core": 2.0.0-beta.24
+    "@rollup/pluginutils": ^3.1.0
     esbuild: ^0.14.54
     local-pkg: ^0.4.3
-  checksum: 9fcc318d855a93fb30dde6b7cf3ee37afa422d1086ce2cd204ad5c5d746e296e9dbedcd6bebf74030782729e5b02e0112dc51b3d993b0886b45ca698b13f2916
+  checksum: 16ce23fb4beae5a436ecf6d19aac03ce14d214004b5a9789293af51002cb5dea9d548a4e7c9116955eb402deae0ba83a5455fc461ebbc9fb2361f07e312a22c9
   languageName: node
   linkType: hard
 
@@ -5156,7 +5153,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.3.1":
+"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.2, picomatch@npm:^2.3.1":
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 050c865ce81119c4822c45d3c84f1ced46f93a0126febae20737bd05ca20589c564d6e9226977df859ed5e03dc73f02584a2b0faad36e896936238238b0446cf
