@@ -12,6 +12,7 @@ import type { IConstraint } from '../constraints/base/IConstraint';
 import type { BaseError } from '../lib/errors/BaseError';
 
 export abstract class BaseValidator<T> {
+	public description?: string;
 	protected parent?: object;
 	protected constraints: readonly IConstraint<T>[] = [];
 	protected isValidationEnabled: boolean | (() => boolean) | null = null;
@@ -67,6 +68,12 @@ export abstract class BaseValidator<T> {
 
 	public when<Key extends WhenKey, This extends BaseValidator<any> = this>(key: Key, options: WhenOptions<This, Key>): this {
 		return this.addConstraint(whenConstraint<This, T, Key>(key, options, this as unknown as This));
+	}
+
+	public describe(description: string): this {
+		const clone = this.clone();
+		clone.description = description;
+		return clone;
 	}
 
 	public run(value: unknown): Result<T, BaseError> {
