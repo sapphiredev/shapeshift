@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.9.0](https://github.com/sapphiredev/shapeshift/compare/v3.8.2...v3.9.0) - (2023-05-09)
+
+## 🐛 Bug Fixes
+
+- Resolve minor grammar mistake (#260) ([62df609](https://github.com/sapphiredev/shapeshift/commit/62df6094845ffa118aa93ea3c5f47f81f1c5d99f))
+
+## 🚀 Features
+
+- Add BaseValidator.describe (#267) ([d9e1a2d](https://github.com/sapphiredev/shapeshift/commit/d9e1a2d2f3c5e6378f0025becf8497138ee6d97c))
+
 # [3.8.2](https://github.com/sapphiredev/shapeshift/compare/v3.8.1...v3.8.2) - (2023-04-02)
 
 ## 🐛 Bug Fixes
