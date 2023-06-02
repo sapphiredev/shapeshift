@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.9.1](https://github.com/sapphiredev/shapeshift/compare/v3.9.0...v3.9.1) - (2023-06-02)
+
+## 🐛 Bug Fixes
+
+- **types:** Move the `types` condition to the front (#273) ([5a3e202](https://github.com/sapphiredev/shapeshift/commit/5a3e202e9ceafb3d330a568e93c060dd5aac1dde))
+
 # [3.9.0](https://github.com/sapphiredev/shapeshift/compare/v3.8.2...v3.9.0) - (2023-05-09)
 
 ## 🐛 Bug Fixes
