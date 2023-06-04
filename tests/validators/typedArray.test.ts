@@ -477,7 +477,6 @@ describe('TypedArray', () => {
 		const predicate = s.typedArray().byteLengthEqual(20);
 
 		test('GIVEN clone THEN returns similar instance', () => {
-			// eslint-disable-next-line @typescript-eslint/dot-notation
 			expectClonedValidator(predicate, predicate['clone']());
 		});
 	});

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import {
 	CombinedError,
 	CombinedPropertyError,

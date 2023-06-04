@@ -217,14 +217,12 @@ describe('BaseValidator', () => {
 		test('GIVEN clone THEN returns similar instance', () => {
 			const predicate = s.string;
 
-			// eslint-disable-next-line @typescript-eslint/dot-notation
 			expectClonedValidator(predicate, predicate['clone']());
 		});
 
 		test('GIVEN clone of default THEN returns similar instance', () => {
 			const predicate = s.number.default(5);
 
-			// eslint-disable-next-line @typescript-eslint/dot-notation
 			expectClonedValidator(predicate, predicate['clone']());
 		});
 	});
