@@ -23,7 +23,7 @@ export class DefaultValidator<T> extends BaseValidator<T> {
 	protected handle(value: unknown): Result<T, ValidatorError> {
 		return typeof value === 'undefined' //
 			? Result.ok(getValue(this.defaultValue))
-			: this.validator.handle(value);
+			: this.validator['handle'](value); // eslint-disable-line @typescript-eslint/dot-notation
 	}
 
 	protected override clone(): this {

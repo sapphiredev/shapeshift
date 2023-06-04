@@ -49,7 +49,8 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 
 		for (const [key, validator] of shapeEntries) {
 			if (validator instanceof UnionValidator) {
-				const [possiblyLiteralOrNullishPredicate] = validator.validators;
+				// eslint-disable-next-line @typescript-eslint/dot-notation
+				const [possiblyLiteralOrNullishPredicate] = validator['validators'];
 
 				if (possiblyLiteralOrNullishPredicate instanceof NullishValidator) {
 					this.possiblyUndefinedKeys.set(key, validator);
