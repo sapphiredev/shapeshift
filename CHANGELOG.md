@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.9.2](https://github.com/sapphiredev/shapeshift/compare/v3.9.1...v3.9.2) - (2023-06-04)
+
+## 🐛 Bug Fixes
+
+- **arrayvalidator:** Fixed runaway type instantiation with TypeScript >=5.1 (#275) ([f59d901](https://github.com/sapphiredev/shapeshift/commit/f59d90112181e6625230c28e6a4f0f065ced6344))
+
 # [3.9.1](https://github.com/sapphiredev/shapeshift/compare/v3.9.0...v3.9.1) - (2023-06-02)
 
 ## 🐛 Bug Fixes
