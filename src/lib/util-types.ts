@@ -139,4 +139,12 @@ export type GrowExp<A extends Array<any>, N extends number, P extends Array<Arra
 	? GrowExp<[...A, ...A], N, [A, ...P]>
 	: GrowExpRev<A, N, P>;
 
-export type Tuple<T, N extends number> = number extends N ? Array<T> : N extends 0 ? [] : N extends 1 ? [T] : GrowExp<[T], N, [[]]>;
+export type Tuple<T, N extends number> = N extends number
+	? number extends N
+		? Array<T>
+		: N extends 0
+		? []
+		: N extends 1
+		? [T]
+		: GrowExp<[T], N, [[]]>
+	: never;
