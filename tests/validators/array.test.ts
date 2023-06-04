@@ -224,7 +224,6 @@ describe('ArrayValidator', () => {
 	test('GIVEN clone THEN returns similar instance', () => {
 		const arrayPredicate = s.string.array;
 
-		// eslint-disable-next-line @typescript-eslint/dot-notation
 		expectClonedValidator(arrayPredicate, arrayPredicate['clone']());
 	});
 });
