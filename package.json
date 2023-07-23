@@ -39,7 +39,7 @@
 		"@commitlint/config-conventional": "^17.6.7",
 		"@favware/cliff-jumper": "^2.1.1",
 		"@favware/npm-deprecate": "^1.0.7",
-		"@sapphire/eslint-config": "^4.4.3",
+		"@sapphire/eslint-config": "^5.0.0",
 		"@sapphire/prettier-config": "^1.4.5",
 		"@sapphire/ts-config": "^4.0.1",
 		"@types/jsdom": "^21.1.1",
