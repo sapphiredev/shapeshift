@@ -7,16 +7,15 @@ import { equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notE
 import { validatePhoneNumber } from './util/phoneValidator';
 import { createUrlValidators } from './util/urlValidators';
 
-export type StringConstraintName =
-	| `s.string.${
-			| `length${'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual' | 'Equal' | 'NotEqual'}`
-			| 'regex'
-			| 'url'
-			| 'uuid'
-			| 'email'
-			| `ip${'v4' | 'v6' | ''}`
-			| 'date'
-			| 'phone'}`;
+export type StringConstraintName = `s.string.${
+	| `length${'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual' | 'Equal' | 'NotEqual'}`
+	| 'regex'
+	| 'url'
+	| 'uuid'
+	| 'email'
+	| `ip${'v4' | 'v6' | ''}`
+	| 'date'
+	| 'phone'}`;
 
 export type StringProtocol = `${string}:`;
 
