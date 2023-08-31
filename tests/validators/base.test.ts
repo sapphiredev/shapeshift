@@ -4,7 +4,7 @@ import { expectClonedValidator, expectError, expectModifiedClonedValidator } fro
 describe('BaseValidator', () => {
 	describe('description', () => {
 		test('GIVEN a validator THEN returns the description', () => {
-			const validator = s.string.describe('The name of the user');
+			const validator = s.string().describe('The name of the user');
 
 			expect(validator.description).toBe('The name of the user');
 		});
