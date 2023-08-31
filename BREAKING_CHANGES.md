@@ -1,29 +1,3 @@
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
-BREAKING CHANGE: `AAA` is now `AAA` to allow for custom options as argument.
 BREAKING CHANGE: `dateInvalid` is now a function (instead of a constant) to allow for custom options as argument.
 BREAKING CHANGE: `dateValid` is now a function (instead of a constant) to allow for custom options as argument.
 BREAKING CHANGE: `NonNullObject` utility type has been removed.
