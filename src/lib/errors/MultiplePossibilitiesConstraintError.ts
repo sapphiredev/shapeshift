@@ -1,6 +1,7 @@
 import { inspect, type InspectOptionsStylized } from 'util';
-import { customInspectSymbolStackLess } from './BaseError';
 import { BaseConstraintError, type ConstraintErrorNames } from './BaseConstraintError';
+import { customInspectSymbolStackLess } from './BaseError';
+import type { MultiplePossibilitiesConstraintErrorJsonified } from './error-types';
 
 export class MultiplePossibilitiesConstraintError<T = unknown> extends BaseConstraintError<T> {
 	public readonly expected: readonly string[];
@@ -10,9 +11,10 @@ export class MultiplePossibilitiesConstraintError<T = unknown> extends BaseConst
 		this.expected = expected;
 	}
 
-	public toJSON() {
+	public override toJSON(): MultiplePossibilitiesConstraintErrorJsonified<T> {
 		return {
 			name: this.name,
+			message: this.message,
 			constraint: this.constraint,
 			given: this.given,
 			expected: this.expected

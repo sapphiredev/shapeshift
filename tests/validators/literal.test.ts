@@ -12,9 +12,9 @@ describe('LiteralValidator', () => {
 		expectError(() => predicate.parse('hello'), new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', 'hello', 'sapphire'));
 	});
 
-	test('GIVEN date literal THEN returns s.date.equal(V)', () => {
+	test('GIVEN date literal THEN returns s.date().equal(V)', () => {
 		const date = new Date('2022-01-01');
-		expectClonedValidator(s.literal(date), s.date.equal(date));
+		expectClonedValidator(s.literal(date), s.date().equal(date));
 	});
 
 	test('GIVEN clone THEN returns similar instance', () => {

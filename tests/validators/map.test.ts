@@ -6,7 +6,7 @@ describe('MapValidator', () => {
 		['a', 1],
 		['b', 2]
 	]);
-	const predicate = s.map(s.string, s.number);
+	const predicate = s.map(s.string(), s.number());
 
 	test('GIVEN a non-map THEN throws ValidationError', () => {
 		expectError(() => predicate.parse(false), new ValidationError('s.map(K, V)', 'Expected a map', false));
@@ -27,10 +27,10 @@ describe('MapValidator', () => {
 		expectError(
 			() => predicate.parse(map),
 			new CombinedPropertyError([
-				[2, new ValidationError('s.string', 'Expected a string primitive', 2)],
-				['foo', new ValidationError('s.number', 'Expected a number primitive', 'bar')],
-				[4, new ValidationError('s.string', 'Expected a string primitive', 4)],
-				[4, new ValidationError('s.number', 'Expected a number primitive', 'buzz')]
+				[2, new ValidationError('s.string()', 'Expected a string primitive', 2)],
+				['foo', new ValidationError('s.number()', 'Expected a number primitive', 'bar')],
+				[4, new ValidationError('s.string()', 'Expected a string primitive', 4)],
+				[4, new ValidationError('s.number()', 'Expected a number primitive', 'buzz')]
 			])
 		);
 	});

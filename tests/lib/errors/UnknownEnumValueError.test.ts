@@ -48,9 +48,10 @@ describe('UnknownEnumValueError', () => {
 	});
 
 	describe('toJSON', () => {
-		test('toJSON should return an object with name and property', () => {
+		test('toJSON should return an object with name, message, value, enumKeys, and enumMappings', () => {
 			expect(error.toJSON()).toEqual({
 				name: 'Error',
+				message: 'Expected the value to be one of the following enum values:',
 				value: 'foo',
 				enumKeys: ['bar', 'baz'],
 				enumMappings: [

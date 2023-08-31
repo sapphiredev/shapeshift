@@ -15,73 +15,88 @@ import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedPropertyError } from '../lib/errors/CombinedPropertyError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
-import type { ExpandSmallerTuples, Tuple, UnshiftTuple } from '../lib/util-types';
+import type { ExpandSmallerTuples, Tuple, UnshiftTuple, ValidatorOptions } from '../lib/util-types';
 import { BaseValidator } from './imports';
 
 export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseValidator<T> {
 	private readonly validator: BaseValidator<I>;
 
-	public constructor(validator: BaseValidator<I>, constraints: readonly IConstraint<T>[] = []) {
-		super(constraints);
+	public constructor(validator: BaseValidator<I>, validatorOptions: ValidatorOptions = {}, constraints: readonly IConstraint<T>[] = []) {
+		super(validatorOptions, constraints);
 		this.validator = validator;
 	}
 
-	public lengthLessThan<N extends number>(length: N): ArrayValidator<ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, N>]>>> {
-		return this.addConstraint(arrayLengthLessThan(length) as IConstraint<T>) as any;
+	public lengthLessThan<N extends number>(
+		length: N,
+		options: ValidatorOptions = this.validatorOptions
+	): ArrayValidator<ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, N>]>>> {
+		return this.addConstraint(arrayLengthLessThan(length, options) as IConstraint<T>) as any;
 	}
 
-	public lengthLessThanOrEqual<N extends number>(length: N): ArrayValidator<ExpandSmallerTuples<[...Tuple<I, N>]>> {
-		return this.addConstraint(arrayLengthLessThanOrEqual(length) as IConstraint<T>) as any;
+	public lengthLessThanOrEqual<N extends number>(
+		length: N,
+		options: ValidatorOptions = this.validatorOptions
+	): ArrayValidator<ExpandSmallerTuples<[...Tuple<I, N>]>> {
+		return this.addConstraint(arrayLengthLessThanOrEqual(length, options) as IConstraint<T>) as any;
 	}
 
-	public lengthGreaterThan<N extends number>(length: N): ArrayValidator<[...Tuple<I, N>, I, ...T]> {
-		return this.addConstraint(arrayLengthGreaterThan(length) as IConstraint<T>) as any;
+	public lengthGreaterThan<N extends number>(
+		length: N,
+		options: ValidatorOptions = this.validatorOptions
+	): ArrayValidator<[...Tuple<I, N>, I, ...T]> {
+		return this.addConstraint(arrayLengthGreaterThan(length, options) as IConstraint<T>) as any;
 	}
 
-	public lengthGreaterThanOrEqual<N extends number>(length: N): ArrayValidator<[...Tuple<I, N>, ...T]> {
-		return this.addConstraint(arrayLengthGreaterThanOrEqual(length) as IConstraint<T>) as any;
+	public lengthGreaterThanOrEqual<N extends number>(
+		length: N,
+		options: ValidatorOptions = this.validatorOptions
+	): ArrayValidator<[...Tuple<I, N>, ...T]> {
+		return this.addConstraint(arrayLengthGreaterThanOrEqual(length, options) as IConstraint<T>) as any;
 	}
 
-	public lengthEqual<N extends number>(length: N): ArrayValidator<[...Tuple<I, N>]> {
-		return this.addConstraint(arrayLengthEqual(length) as IConstraint<T>) as any;
+	public lengthEqual<N extends number>(length: N, options: ValidatorOptions = this.validatorOptions): ArrayValidator<[...Tuple<I, N>]> {
+		return this.addConstraint(arrayLengthEqual(length, options) as IConstraint<T>) as any;
 	}
 
-	public lengthNotEqual(length: number): ArrayValidator<[...T]> {
-		return this.addConstraint(arrayLengthNotEqual(length) as IConstraint<T>) as any;
+	public lengthNotEqual<N extends number>(length: N, options: ValidatorOptions = this.validatorOptions): ArrayValidator<[...Tuple<I, N>]> {
+		return this.addConstraint(arrayLengthNotEqual(length, options) as IConstraint<T>) as any;
 	}
 
 	public lengthRange<S extends number, E extends number>(
 		start: S,
-		endBefore: E
+		endBefore: E,
+		options: ValidatorOptions = this.validatorOptions
 	): ArrayValidator<Exclude<ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, E>]>>, ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, S>]>>>> {
-		return this.addConstraint(arrayLengthRange(start, endBefore) as IConstraint<T>) as any;
+		return this.addConstraint(arrayLengthRange(start, endBefore, options) as IConstraint<T>) as any;
 	}
 
 	public lengthRangeInclusive<S extends number, E extends number>(
 		startAt: S,
-		endAt: E
+		endAt: E,
+		options: ValidatorOptions = this.validatorOptions
 	): ArrayValidator<Exclude<ExpandSmallerTuples<[...Tuple<I, E>]>, ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, S>]>>>> {
-		return this.addConstraint(arrayLengthRangeInclusive(startAt, endAt) as IConstraint<T>) as any;
+		return this.addConstraint(arrayLengthRangeInclusive(startAt, endAt, options) as IConstraint<T>) as any;
 	}
 
 	public lengthRangeExclusive<S extends number, E extends number>(
 		startAfter: S,
-		endBefore: E
+		endBefore: E,
+		options: ValidatorOptions = this.validatorOptions
 	): ArrayValidator<Exclude<ExpandSmallerTuples<UnshiftTuple<[...Tuple<I, E>]>>, ExpandSmallerTuples<[...Tuple<T, S>]>>> {
-		return this.addConstraint(arrayLengthRangeExclusive(startAfter, endBefore) as IConstraint<T>) as any;
+		return this.addConstraint(arrayLengthRangeExclusive(startAfter, endBefore, options) as IConstraint<T>) as any;
 	}
 
-	public get unique(): this {
-		return this.addConstraint(uniqueArray as IConstraint<T>);
+	public unique(options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(uniqueArray(options) as IConstraint<T>);
 	}
 
 	protected override clone(): this {
-		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
+		return Reflect.construct(this.constructor, [this.validator, this.validatorOptions, this.constraints]);
 	}
 
 	protected handle(values: unknown): Result<T, ValidationError | CombinedPropertyError> {
 		if (!Array.isArray(values)) {
-			return Result.err(new ValidationError('s.array(T)', 'Expected an array', values));
+			return Result.err(new ValidationError('s.array(T)', this.validatorOptions.message ?? 'Expected an array', values));
 		}
 
 		if (!this.shouldRunConstraints) {
@@ -99,6 +114,6 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 
 		return errors.length === 0 //
 			? Result.ok(transformed)
-			: Result.err(new CombinedPropertyError(errors));
+			: Result.err(new CombinedPropertyError(errors, this.validatorOptions));
 	}
 }

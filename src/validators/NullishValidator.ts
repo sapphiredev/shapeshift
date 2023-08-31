@@ -6,6 +6,6 @@ export class NullishValidator extends BaseValidator<undefined | null> {
 	protected handle(value: unknown): Result<undefined | null, ValidationError> {
 		return value === undefined || value === null //
 			? Result.ok(value)
-			: Result.err(new ValidationError('s.nullish', 'Expected undefined or null', value));
+			: Result.err(new ValidationError('s.nullish()', this.validatorOptions.message ?? 'Expected undefined or null', value));
 	}
 }

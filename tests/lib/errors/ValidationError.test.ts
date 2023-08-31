@@ -36,9 +36,10 @@ describe('ValidationError', () => {
 	});
 
 	describe('toJSON', () => {
-		test('toJSON should return an object with name, validator and given', () => {
+		test('toJSON should return an object with name, message, validator and given', () => {
 			expect(error.toJSON()).toStrictEqual({
 				name: 'Error',
+				message: 'Unknown validation error occurred.',
 				validator: 'StringValidator',
 				given: 42
 			});

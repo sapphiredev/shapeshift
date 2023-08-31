@@ -40,9 +40,10 @@ describe('ExpectedValidationError', () => {
 	});
 
 	describe('toJSON', () => {
-		test('toJSON should return an object with name, validator, given and expected', () => {
+		test('toJSON should return an object with name, message, validator, given and expected', () => {
 			expect(error.toJSON()).toStrictEqual({
 				name: 'Error',
+				message: 'Expected values to be equals',
 				validator: 'LiteralValidator',
 				given: 'world',
 				expected: 'hello'

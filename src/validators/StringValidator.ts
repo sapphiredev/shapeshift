@@ -18,72 +18,89 @@ import {
 } from '../constraints/StringConstraints';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
+import type { ValidatorOptions } from '../lib/util-types';
 import { BaseValidator } from './imports';
 
 export class StringValidator<T extends string> extends BaseValidator<T> {
-	public lengthLessThan(length: number): this {
-		return this.addConstraint(stringLengthLessThan(length) as IConstraint<T>);
+	public lengthLessThan(length: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringLengthLessThan(length, options) as IConstraint<T>);
 	}
 
-	public lengthLessThanOrEqual(length: number): this {
-		return this.addConstraint(stringLengthLessThanOrEqual(length) as IConstraint<T>);
+	public lengthLessThanOrEqual(length: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringLengthLessThanOrEqual(length, options) as IConstraint<T>);
 	}
 
-	public lengthGreaterThan(length: number): this {
-		return this.addConstraint(stringLengthGreaterThan(length) as IConstraint<T>);
+	public lengthGreaterThan(length: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringLengthGreaterThan(length, options) as IConstraint<T>);
 	}
 
-	public lengthGreaterThanOrEqual(length: number): this {
-		return this.addConstraint(stringLengthGreaterThanOrEqual(length) as IConstraint<T>);
+	public lengthGreaterThanOrEqual(length: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringLengthGreaterThanOrEqual(length, options) as IConstraint<T>);
 	}
 
-	public lengthEqual(length: number): this {
-		return this.addConstraint(stringLengthEqual(length) as IConstraint<T>);
+	public lengthEqual(length: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringLengthEqual(length, options) as IConstraint<T>);
 	}
 
-	public lengthNotEqual(length: number): this {
-		return this.addConstraint(stringLengthNotEqual(length) as IConstraint<T>);
+	public lengthNotEqual(length: number, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringLengthNotEqual(length, options) as IConstraint<T>);
 	}
 
-	public get email(): this {
-		return this.addConstraint(stringEmail() as IConstraint<T>);
+	public email(options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringEmail(options) as IConstraint<T>);
 	}
 
-	public url(options?: UrlOptions): this {
-		return this.addConstraint(stringUrl(options) as IConstraint<T>);
+	public url(validatorOptions?: ValidatorOptions): this;
+	public url(options?: UrlOptions, validatorOptions?: ValidatorOptions): this;
+	public url(options?: UrlOptions | ValidatorOptions, validatorOptions: ValidatorOptions = this.validatorOptions): this {
+		const urlOptions = (options as ValidatorOptions)?.message === undefined;
+
+		if (urlOptions) {
+			return this.addConstraint(stringUrl(options as UrlOptions, validatorOptions) as IConstraint<T>);
+		}
+
+		return this.addConstraint(stringUrl(undefined, validatorOptions) as IConstraint<T>);
 	}
 
-	public uuid(options?: StringUuidOptions): this {
-		return this.addConstraint(stringUuid(options) as IConstraint<T>);
+	public uuid(validatorOptions?: ValidatorOptions): this;
+	public uuid(options?: StringUuidOptions, validatorOptions?: ValidatorOptions): this;
+	public uuid(options?: StringUuidOptions | ValidatorOptions, validatorOptions: ValidatorOptions = this.validatorOptions): this {
+		const stringUuidOptions = (options as ValidatorOptions)?.message === undefined;
+
+		if (stringUuidOptions) {
+			return this.addConstraint(stringUuid(options as StringUuidOptions, validatorOptions) as IConstraint<T>);
+		}
+
+		return this.addConstraint(stringUuid(undefined, validatorOptions) as IConstraint<T>);
 	}
 
-	public regex(regex: RegExp): this {
-		return this.addConstraint(stringRegex(regex) as IConstraint<T>);
+	public regex(regex: RegExp, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringRegex(regex, options) as IConstraint<T>);
 	}
 
-	public get date() {
-		return this.addConstraint(stringDate() as IConstraint<T>);
+	public date(options: ValidatorOptions = this.validatorOptions) {
+		return this.addConstraint(stringDate(options) as IConstraint<T>);
 	}
 
-	public get ipv4(): this {
-		return this.ip(4);
+	public ipv4(options: ValidatorOptions = this.validatorOptions): this {
+		return this.ip(4, options);
 	}
 
-	public get ipv6(): this {
-		return this.ip(6);
+	public ipv6(options: ValidatorOptions = this.validatorOptions): this {
+		return this.ip(6, options);
 	}
 
-	public ip(version?: 4 | 6): this {
-		return this.addConstraint(stringIp(version) as IConstraint<T>);
+	public ip(version?: 4 | 6, options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringIp(version, options) as IConstraint<T>);
 	}
 
-	public phone(): this {
-		return this.addConstraint(stringPhone() as IConstraint<T>);
+	public phone(options: ValidatorOptions = this.validatorOptions): this {
+		return this.addConstraint(stringPhone(options) as IConstraint<T>);
 	}
 
 	protected handle(value: unknown): Result<T, ValidationError> {
 		return typeof value === 'string' //
 			? Result.ok(value as T)
-			: Result.err(new ValidationError('s.string', 'Expected a string primitive', value));
+			: Result.err(new ValidationError('s.string()', this.validatorOptions.message ?? 'Expected a string primitive', value));
 	}
 }

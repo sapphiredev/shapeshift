@@ -31,7 +31,7 @@ describe('browser-bundle-test', () => {
 	});
 
 	test('GIVEN an unique array THEN return the given value', () => {
-		expect(window.SapphireShapeshift.s.string.parse('Hello')).toBe('Hello');
+		expect(window.SapphireShapeshift.s.string().parse('Hello')).toBe('Hello');
 	});
 });
 

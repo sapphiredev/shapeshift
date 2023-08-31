@@ -7,22 +7,15 @@ export type Constructor<T> = (new (...args: readonly any[]) => T) | (abstract ne
 export type Type<V> = V extends BaseValidator<infer T> ? T : never;
 
 /**
- * @deprecated Use `object` instead.
+ * Additional options to pass to the validator.
+ * Right now this only supports a custom error message, but we provide an option for future expansion.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type NonNullObject = {} & object;
-
-/**
- * @deprecated This type is no longer used and will be removed in the next major version.
- */
-export type PickDefined<T> = { [K in keyof T as undefined extends T[K] ? never : K]: T[K] };
-
-/**
- * @deprecated This type is no longer used and will be removed in the next major version.
- */
-export type PickUndefinedMakeOptional<T> = {
-	[K in keyof T as undefined extends T[K] ? K : never]+?: Exclude<T[K], undefined>;
-};
+export interface ValidatorOptions {
+	/**
+	 * The custom message to throw when this validation fails.
+	 */
+	message?: string;
+}
 
 type FilterDefinedKeys<TObj extends object> = Exclude<
 	{

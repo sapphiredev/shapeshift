@@ -22,7 +22,7 @@
 		"docs": "typedoc-json-parser",
 		"test": "vitest run",
 		"build": "tsup",
-		"clean": "node scripts/clean.mjs",
+		"clean": "rimraf dist",
 		"typecheck": "tsc -p tsconfig.eslint.json",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
@@ -58,6 +58,7 @@
 		"lint-staged": "^14.0.1",
 		"pinst": "^3.0.0",
 		"prettier": "^3.0.2",
+		"rimraf": "^5.0.0",
 		"ts-node": "^10.9.1",
 		"tsup": "^7.2.0",
 		"typedoc": "^0.25.0",
@@ -71,13 +72,11 @@
 		"url": "git+https://github.com/sapphiredev/shapeshift.git"
 	},
 	"files": [
-		"dist/**/*.js*",
-		"dist/**/*.mjs*",
-		"dist/**/*.d*"
+		"dist"
 	],
 	"engines": {
-		"node": ">=v14.0.0",
-		"npm": ">=7.0.0"
+		"node": ">=v14",
+		"npm": ">=7"
 	},
 	"keywords": [
 		"@sapphire/shapeshift",

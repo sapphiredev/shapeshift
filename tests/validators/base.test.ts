@@ -4,7 +4,7 @@ import { expectClonedValidator, expectError, expectModifiedClonedValidator } fro
 describe('BaseValidator', () => {
 	describe('description', () => {
 		test('GIVEN a validator THEN returns the description', () => {
-			const validator = s.string.describe('The name of the user');
+			const validator = s.string().describe('The name of the user');
 
 			expect(validator.description).toBe('The name of the user');
 		});
@@ -12,7 +12,7 @@ describe('BaseValidator', () => {
 
 	describe('is', () => {
 		test("GIVEN any value THEN it's narrowed to schema type", () => {
-			const predicate = s.string;
+			const predicate = s.string();
 
 			const value = 'Hello there' as string | null;
 			const is = predicate.is(value);
@@ -27,7 +27,7 @@ describe('BaseValidator', () => {
 	});
 
 	describe('optional', () => {
-		const optionalPredicate = s.string.optional;
+		const optionalPredicate = s.string().optional();
 
 		test.each([undefined, 'hello'])('GIVEN %j THEN returns given value', (input) => {
 			expect<string | undefined>(optionalPredicate.parse(input)).toEqual(input);
@@ -38,14 +38,14 @@ describe('BaseValidator', () => {
 				() => optionalPredicate.parse(input),
 				new CombinedError([
 					new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, undefined),
-					new ValidationError('s.string', 'Expected a string primitive', input)
+					new ValidationError('s.string()', 'Expected a string primitive', input)
 				])
 			);
 		});
 	});
 
 	describe('nullable', () => {
-		const nullablePredicate = s.string.nullable;
+		const nullablePredicate = s.string().nullable();
 
 		test.each([null, 'Hello There'])('GIVEN %j THEN returns given value', (input) => {
 			expect<string | null>(nullablePredicate.parse(input)).toBe(input);
@@ -56,14 +56,14 @@ describe('BaseValidator', () => {
 				() => nullablePredicate.parse(input),
 				new CombinedError([
 					new ExpectedValidationError('s.literal(V)', 'Expected values to be equals', input, null),
-					new ValidationError('s.string', 'Expected a string primitive', input)
+					new ValidationError('s.string()', 'Expected a string primitive', input)
 				])
 			);
 		});
 	});
 
 	describe('nullish', () => {
-		const nullishPredicate = s.string.nullish;
+		const nullishPredicate = s.string().nullish();
 
 		test.each(['Hello There', undefined, null])('GIVEN %j THEN returns the given value', (input) => {
 			expect<string | undefined | null>(nullishPredicate.parse(input)).toBe(input);
@@ -73,23 +73,23 @@ describe('BaseValidator', () => {
 			expectError(
 				() => nullishPredicate.parse(input),
 				new CombinedError([
-					new ValidationError('s.nullish', 'Expected undefined or null', input),
-					new ValidationError('s.string', 'Expected a string primitive', input)
+					new ValidationError('s.nullish()', 'Expected undefined or null', input),
+					new ValidationError('s.string()', 'Expected a string primitive', input)
 				])
 			);
 		});
 	});
 
 	describe('array', () => {
-		const numberArrayPredicate = s.number.array;
+		const numberArrayPredicate = s.number().array();
 		const input = [1, 2, 3];
 
 		test('GIVEN an array of number THEN returns the given value', () => {
 			expect<number[]>(numberArrayPredicate.parse(input)).toStrictEqual(input);
 		});
 
-		test('GIVEN s.number.array THEN returns s.array(s.number)', () => {
-			const arrayNumberPredicate = s.array(s.number);
+		test('GIVEN s.number().array() THEN returns s.array(s.number())', () => {
+			const arrayNumberPredicate = s.array(s.number());
 
 			expect<number[]>(numberArrayPredicate.parse([1])).toStrictEqual([1]);
 			expect<number[]>(arrayNumberPredicate.parse([1, 2, 3])).toStrictEqual([1, 2, 3]);
@@ -98,22 +98,22 @@ describe('BaseValidator', () => {
 	});
 
 	describe('set', () => {
-		const numberSetPredicate = s.number.set;
+		const numberSetPredicate = s.number().set();
 		const input = new Set([1, 2, 3]);
 
 		test('GIVEN a set of numbers THEN returns the given value', () => {
 			expect<Set<number>>(numberSetPredicate.parse(input)).toStrictEqual(input);
 		});
 
-		test('GIVEN s.number.set THEN returns s.set(s.number)', () => {
-			const setNumberPredicate = s.set(s.number);
+		test('GIVEN s.number().set() THEN returns s.set(s.number())', () => {
+			const setNumberPredicate = s.set(s.number());
 
 			expectClonedValidator(numberSetPredicate, setNumberPredicate);
 		});
 	});
 
 	describe('or', () => {
-		const stringOrPredicate = s.string.or(s.number);
+		const stringOrPredicate = s.string().or(s.number());
 
 		test.each(['Hello There', 6])('GIVEN a string or number (%j) THEN returns a string or number', (input) => {
 			expect<string | number>(stringOrPredicate.parse(input)).toBe(input);
@@ -123,21 +123,21 @@ describe('BaseValidator', () => {
 			expectError(
 				() => stringOrPredicate.parse(input),
 				new CombinedError([
-					new ValidationError('s.string', 'Expected a string primitive', input),
-					new ValidationError('s.number', 'Expected a number primitive', input)
+					new ValidationError('s.string()', 'Expected a string primitive', input),
+					new ValidationError('s.number()', 'Expected a number primitive', input)
 				])
 			);
 		});
 
-		test('GIVEN s.string.or(s.number) THEN returns s.union(s.number)', () => {
-			const unionPredicate = s.union(s.string, s.number);
+		test('GIVEN s.string().or(s.number()) THEN returns s.union(s.number())', () => {
+			const unionPredicate = s.union([s.string(), s.number()]);
 
 			expectClonedValidator(stringOrPredicate, unionPredicate);
 		});
 	});
 
 	describe('transform', () => {
-		const transformPredicate = s.string.transform((value) => value.toUpperCase());
+		const transformPredicate = s.string().transform((value) => value.toUpperCase());
 
 		test('GIVEN a string THEN returns uppercase string', () => {
 			expect<string>(transformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
@@ -145,7 +145,10 @@ describe('BaseValidator', () => {
 	});
 
 	describe('transform with union', () => {
-		const unionTransformPredicate = s.string.transform((value) => value.toUpperCase()).or(s.number);
+		const unionTransformPredicate = s
+			.string()
+			.transform((value) => value.toUpperCase())
+			.or(s.number());
 
 		test('GIVEN string THEN returns uppercase string', () => {
 			expect<string | number>(unionTransformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
@@ -158,15 +161,15 @@ describe('BaseValidator', () => {
 			expectError(
 				() => unionTransformPredicate.parse(input),
 				new CombinedError([
-					new ValidationError('s.string', 'Expected a string primitive', input),
-					new ValidationError('s.number', 'Expected a number primitive', input)
+					new ValidationError('s.string()', 'Expected a string primitive', input),
+					new ValidationError('s.number()', 'Expected a number primitive', input)
 				])
 			);
 		});
 	});
 
 	describe('Reshape', () => {
-		const predicate = s.string.reshape((value) => {
+		const predicate = s.string().reshape((value) => {
 			return value.length > 5 ? Result.ok(value.length) : Result.err(new Error('Too short'));
 		});
 
@@ -181,7 +184,7 @@ describe('BaseValidator', () => {
 
 	describe('default', () => {
 		describe('required', () => {
-			const defaultPredicate = s.string.default('foo');
+			const defaultPredicate = s.string().default('foo');
 
 			test('GIVEN a string THEN returns the given string', () => {
 				expect<string>(defaultPredicate.parse('bar')).toBe('bar');
@@ -193,7 +196,7 @@ describe('BaseValidator', () => {
 		});
 
 		describe('optional', () => {
-			const defaultPredicate = s.string.optional.default('foo');
+			const defaultPredicate = s.string().optional().default('foo');
 
 			test('GIVEN a string THEN returns the given string', () => {
 				expect<string>(defaultPredicate.parse('bar')).toBe('bar');
@@ -205,23 +208,23 @@ describe('BaseValidator', () => {
 		});
 
 		describe('default', () => {
-			const defaultPredicate = s.string.default('foo').default('bar');
+			const defaultPredicate = s.string().default('foo').default('bar');
 
 			test('GIVEN a double default THEN returns a clone with updated default', () => {
-				expectClonedValidator(s.string.default('bar'), defaultPredicate);
+				expectClonedValidator(s.string().default('bar'), defaultPredicate);
 			});
 		});
 	});
 
 	describe('clone', () => {
 		test('GIVEN clone THEN returns similar instance', () => {
-			const predicate = s.string;
+			const predicate = s.string();
 
 			expectClonedValidator(predicate, predicate['clone']());
 		});
 
 		test('GIVEN clone of default THEN returns similar instance', () => {
-			const predicate = s.number.default(5);
+			const predicate = s.number().default(5);
 
 			expectClonedValidator(predicate, predicate['clone']());
 		});
@@ -229,7 +232,7 @@ describe('BaseValidator', () => {
 
 	describe('Methods and Getters returns a clone', () => {
 		test('GIVEN string.length constraint THEN returns modified clone of the validator', () => {
-			const stringPredicate = s.string;
+			const stringPredicate = s.string();
 
 			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthEqual(1));
 			expectModifiedClonedValidator(stringPredicate, stringPredicate.lengthGreaterThanOrEqual(1));
@@ -240,7 +243,7 @@ describe('BaseValidator', () => {
 		});
 
 		test('GIVEN number.comparator constraint THEN returns modified clone of the validator', () => {
-			const numberPredicate = s.number;
+			const numberPredicate = s.number();
 
 			expectModifiedClonedValidator(numberPredicate, numberPredicate.equal(1));
 			expectModifiedClonedValidator(numberPredicate, numberPredicate.greaterThanOrEqual(1));
@@ -251,7 +254,7 @@ describe('BaseValidator', () => {
 		});
 
 		test('GIVEN bigint.comparator constraint THEN returns modified clone of the validator', () => {
-			const bigintPredicate = s.bigint;
+			const bigintPredicate = s.bigint();
 
 			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.equal(1n));
 			expectModifiedClonedValidator(bigintPredicate, bigintPredicate.greaterThanOrEqual(1n));

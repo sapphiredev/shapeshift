@@ -1,21 +1,26 @@
 import { ExpectedConstraintError } from '../lib/errors/ExpectedConstraintError';
 import { Result } from '../lib/Result';
+import type { ValidatorOptions } from '../lib/util-types';
 import type { IConstraint } from './base/IConstraint';
 
-export type BooleanConstraintName = `s.boolean.${boolean}`;
+export type BooleanConstraintName = `s.boolean().${boolean}()`;
 
-export const booleanTrue: IConstraint<boolean, true> = {
-	run(input: boolean) {
-		return input //
-			? Result.ok(input)
-			: Result.err(new ExpectedConstraintError('s.boolean.true', 'Invalid boolean value', input, 'true'));
-	}
-};
+export function booleanTrue(options?: ValidatorOptions): IConstraint<boolean, true> {
+	return {
+		run(input: boolean) {
+			return input //
+				? Result.ok(input)
+				: Result.err(new ExpectedConstraintError('s.boolean().true()', options?.message ?? 'Invalid boolean value', input, 'true'));
+		}
+	};
+}
 
-export const booleanFalse: IConstraint<boolean, false> = {
-	run(input: boolean) {
-		return input //
-			? Result.err(new ExpectedConstraintError('s.boolean.false', 'Invalid boolean value', input, 'false'))
-			: Result.ok(input);
-	}
-};
+export function booleanFalse(options?: ValidatorOptions): IConstraint<boolean, false> {
+	return {
+		run(input: boolean) {
+			return input //
+				? Result.err(new ExpectedConstraintError('s.boolean().false()', options?.message ?? 'Invalid boolean value', input, 'false'))
+				: Result.ok(input);
+		}
+	};
+}

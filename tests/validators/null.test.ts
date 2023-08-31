@@ -2,7 +2,7 @@ import { ExpectedValidationError, s } from '../../src';
 import { expectError } from '../common/macros/comparators';
 
 describe('NullValidator', () => {
-	const predicate = s.null;
+	const predicate = s.null();
 
 	test('GIVEN null THEN returns null', () => {
 		expect(predicate.parse(null)).toBe(null);
