@@ -29,7 +29,6 @@ jobs:
   docs:
     name: Generate Documentation
     runs-on: ubuntu-latest
-    if: false
     steps:
       - name: Checkout Project
         uses: actions/checkout@v3
