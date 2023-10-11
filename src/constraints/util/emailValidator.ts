@@ -3,8 +3,7 @@
  * @copyright 2020 Colin McDonnell
  * @see https://github.com/colinhacks/zod/blob/master/LICENSE
  */
-const accountRegex =
-/^(?!\.)(?!.*\.\.)([A-Z0-9_+-\.]*)[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i;
+const accountRegex = /^(?!\.)(?!.*\.\.)([A-Z0-9_+-\.]*)[A-Z0-9_+-]$/i;
 
 /**
  * Validates an email address string based on various checks:
