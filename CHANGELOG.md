@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.9.3](https://github.com/sapphiredev/shapeshift/compare/v3.9.3...v3.9.3) - (2023-10-13)
+
+## 🏠 Refactor
+
+- Change email regex (#306) ([c5d49cf](https://github.com/sapphiredev/shapeshift/commit/c5d49cf32931aff24ab74ba87ee8d6d35f7231af))
+
 # [3.9.2](https://github.com/sapphiredev/shapeshift/compare/v3.9.1...v3.9.2) - (2023-06-04)
 
 ## 🐛 Bug Fixes
