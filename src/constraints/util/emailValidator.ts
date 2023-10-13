@@ -1,11 +1,9 @@
 /**
- * [RFC-5322](https://datatracker.ietf.org/doc/html/rfc5322)
- * compliant {@link RegExp} to validate an email address
- *
- * @see https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression/201378#201378
+ * @license MIT
+ * @copyright 2020 Colin McDonnell
+ * @see https://github.com/colinhacks/zod/blob/master/LICENSE
  */
-const accountRegex =
-	/^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")$/;
+const accountRegex = /^(?!\.)(?!.*\.\.)([A-Z0-9_+-\.]*)[A-Z0-9_+-]$/i;
 
 /**
  * Validates an email address string based on various checks:
