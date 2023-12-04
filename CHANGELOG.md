@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.9.4](https://github.com/sapphiredev/shapeshift/compare/v3.9.4...v3.9.4) - (2023-12-04)
+
+## 🐛 Bug Fixes
+
+- Properly split CJS and ESM ([9bb1ff9](https://github.com/sapphiredev/shapeshift/commit/9bb1ff95f2852e765a27c7a839ff5145ee6e3a01))
+
+## 🧪 Testing
+
+- Update path to global file ([d03b19f](https://github.com/sapphiredev/shapeshift/commit/d03b19f20507690869fe6b8f59a2400d95bd02be))
+
 # [3.9.3](https://github.com/sapphiredev/shapeshift/compare/v3.9.3...v3.9.3) - (2023-10-13)
 
 ## 🏠 Refactor
