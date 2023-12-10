@@ -79,7 +79,7 @@ export function typedArrayByteLengthRangeInclusive<T extends TypedArray>(start: 
 				? Result.ok(input)
 				: Result.err(
 						new ExpectedConstraintError('s.typedArray(T).byteLengthRangeInclusive', 'Invalid Typed Array byte length', input, expected)
-				  );
+					);
 		}
 	};
 }
@@ -92,7 +92,7 @@ export function typedArrayByteLengthRangeExclusive<T extends TypedArray>(startAf
 				? Result.ok(input)
 				: Result.err(
 						new ExpectedConstraintError('s.typedArray(T).byteLengthRangeExclusive', 'Invalid Typed Array byte length', input, expected)
-				  );
+					);
 		}
 	};
 }

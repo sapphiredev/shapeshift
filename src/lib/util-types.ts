@@ -143,8 +143,8 @@ export type Tuple<T, N extends number> = N extends number
 	? number extends N
 		? Array<T>
 		: N extends 0
-		  ? []
-		  : N extends 1
-		    ? [T]
-		    : GrowExp<[T], N, [[]]>
+			? []
+			: N extends 1
+				? [T]
+				: GrowExp<[T], N, [[]]>
 	: never;

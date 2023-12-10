@@ -63,7 +63,7 @@ export const numberInt: IConstraint<number> = {
 			? Result.ok(input)
 			: Result.err(
 					new ExpectedConstraintError('s.number.int', 'Given value is not an integer', input, 'Number.isInteger(expected) to be true')
-			  );
+				);
 	}
 };
 
@@ -78,7 +78,7 @@ export const numberSafeInt: IConstraint<number> = {
 						input,
 						'Number.isSafeInteger(expected) to be true'
 					)
-			  );
+				);
 	}
 };
 

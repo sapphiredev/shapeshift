@@ -154,7 +154,7 @@ export function stringDate(): IConstraint<string> {
 							input,
 							'expected to be a valid date string (in the ISO 8601 or ECMA-262 format)'
 						)
-				  )
+					)
 				: Result.ok(input);
 		}
 	};
