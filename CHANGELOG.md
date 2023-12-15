@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.9.5](https://github.com/sapphiredev/shapeshift/compare/v3.9.5...v3.9.5) - (2023-12-15)
+
+## 🐛 Bug Fixes
+
+- Properly publish all dist files ([8e925fa](https://github.com/sapphiredev/shapeshift/commit/8e925faff5a67ccca84c41473bf77c9e0a01ebc0))
+
 # [3.9.4](https://github.com/sapphiredev/shapeshift/compare/v3.9.4...v3.9.4) - (2023-12-04)
 
 ## 🐛 Bug Fixes
