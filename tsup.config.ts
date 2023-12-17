@@ -7,11 +7,13 @@ const baseOptions: Options = {
 	entry: ['src/index.ts'],
 	minify: false,
 	skipNodeModulesBundle: true,
+	noExternal: ['util', 'node:util'],
 	sourcemap: true,
 	target: 'es2020',
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
-	treeshake: true
+	treeshake: true,
+	esbuildPlugins: [nodeModulesPolyfillPlugin()]
 };
 
 export default [
@@ -29,7 +31,6 @@ export default [
 	defineConfig({
 		...baseOptions,
 		globalName: 'SapphireShapeshift',
-		esbuildPlugins: [nodeModulesPolyfillPlugin()],
 		dts: false,
 		outDir: 'dist/iife',
 		format: 'iife'
