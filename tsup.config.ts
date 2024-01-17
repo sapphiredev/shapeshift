@@ -1,12 +1,13 @@
 import { nodeModulesPolyfillPlugin } from 'esbuild-plugins-node-modules-polyfill';
 import { defineConfig, type Options } from 'tsup';
+import { dependencies } from './package.json';
 
 const baseOptions: Options = {
 	clean: true,
 	dts: true,
 	entry: ['src/index.ts'],
 	minify: false,
-	external: ['fast-deep-equal', 'lodash'],
+	external: Object.keys(dependencies),
 	sourcemap: true,
 	target: 'es2020',
 	tsconfig: 'src/tsconfig.json',
