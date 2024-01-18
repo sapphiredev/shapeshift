@@ -9,12 +9,13 @@ jobs:
   label_sync:
     name: Automatic Label Synchronization
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'sapphiredev'
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
         with:
-          repository: 'sapphiredev/readme'
+          sparse-checkout: .github/labels.yml
+          sparse-checkout-cone-mode: false
+          repository: 'sapphiredev/.github'
       - name: Run Label Sync
         uses: crazy-max/ghaction-github-labeler@v5
         with:
