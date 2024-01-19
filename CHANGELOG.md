@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.9.6](https://github.com/sapphiredev/shapeshift/compare/v3.9.6...v3.9.6) - (2024-01-19)
+
+## 🐛 Bug Fixes
+
+- Fixed commonjs typings export mapping (#341) ([a5518aa](https://github.com/sapphiredev/shapeshift/commit/a5518aa88350925ad03f612e49f695a296a0d3b3))
+
 # [3.9.5](https://github.com/sapphiredev/shapeshift/compare/v3.9.5...v3.9.5) - (2023-12-15)
 
 ## 🐛 Bug Fixes
