@@ -40,7 +40,7 @@
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^19.2.0",
+		"@commitlint/cli": "^19.2.1",
 		"@commitlint/config-conventional": "^19.1.0",
 		"@favware/cliff-jumper": "^3.0.1",
 		"@favware/npm-deprecate": "^1.0.7",
@@ -50,8 +50,8 @@
 		"@types/jsdom": "^21.1.6",
 		"@types/lodash": "^4.17.0",
 		"@types/node": "^20.11.5",
-		"@typescript-eslint/eslint-plugin": "^7.2.0",
-		"@typescript-eslint/parser": "^7.2.0",
+		"@typescript-eslint/eslint-plugin": "^7.3.1",
+		"@typescript-eslint/parser": "^7.3.1",
 		"@vitest/coverage-v8": "^1.4.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"esbuild-plugins-node-modules-polyfill": "^1.6.3",
@@ -65,7 +65,7 @@
 		"tsup": "^8.0.2",
 		"typedoc": "^0.25.12",
 		"typedoc-json-parser": "^9.0.1",
-		"typescript": "^5.4.2",
+		"typescript": "^5.4.3",
 		"vitest": "^1.4.0"
 	},
 	"repository": {
