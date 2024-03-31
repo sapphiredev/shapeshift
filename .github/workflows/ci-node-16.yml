@@ -10,6 +10,9 @@ jobs:
   BuildingAndTesting:
     name: Building and Testing with node v16
     runs-on: ubuntu-latest
+    env:
+      YARN_IGNORE_ENGINES: true
+      YARN_IGNORE_NODE: 1
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
@@ -23,7 +26,7 @@ jobs:
         with:
           node-version: v16
       - name: Install Dependencies
-        run: yarn install --ignore-engines
+        run: yarn install
       - name: Typecheck And Build Code
         run: yarn typecheck && yarn build
       - name: Run tests
