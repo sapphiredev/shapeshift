@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: v16
       - name: Install Dependencies
-        run: yarn --frozen-lockfile=false
+        run: yarn install
       - name: Typecheck And Build Code
         run: yarn typecheck && yarn build
       - name: Run tests
