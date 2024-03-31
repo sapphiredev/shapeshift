@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.9.7](https://github.com/sapphiredev/shapeshift/compare/v3.9.6...v3.9.7) - (2024-03-31)
+
+## 🐛 Bug Fixes
+
+- Allow engines.node >= 16 ([a4d8c8d](https://github.com/sapphiredev/shapeshift/commit/a4d8c8d70e414192b61d565f89e51b19a117c8c1))
+
 # [3.9.6](https://github.com/sapphiredev/shapeshift/compare/v3.9.6...v3.9.6) - (2024-01-19)
 
 ## 🐛 Bug Fixes
