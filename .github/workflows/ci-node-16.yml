@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: v16
       - name: Install Dependencies
-        run: yarn install
+        run: yarn install --ignore-engines
       - name: Typecheck And Build Code
         run: yarn typecheck && yarn build
       - name: Run tests
