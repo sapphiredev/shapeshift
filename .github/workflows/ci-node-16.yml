@@ -1,0 +1,28 @@
+name: Continuous Integration - Node 16
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  BuildingAndTesting:
+    name: Building and Testing with node v16
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v4
+      - name: Prepare project for Node 16
+        run: |
+          rm -rf .yarn yarn.lock .yarnrc.yml
+      - name: Use Node.js v16
+        uses: actions/setup-node@v4
+        with:
+          node-version: v16
+      - name: Install Dependencies
+        run: yarn --frozen-lockfile=false
+      - name: Typecheck And Build Code
+        run: yarn typecheck && yarn build
+      - name: Run tests
+        run: yarn test
