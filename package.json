@@ -76,7 +76,7 @@
 		"dist/"
 	],
 	"engines": {
-		"node": ">=v18"
+		"node": ">=v16"
 	},
 	"keywords": [
 		"@sapphire/shapeshift",
