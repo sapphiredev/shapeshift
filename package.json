@@ -40,9 +40,9 @@
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^19.2.2",
+		"@commitlint/cli": "^19.3.0",
 		"@commitlint/config-conventional": "^19.2.2",
-		"@favware/cliff-jumper": "^3.0.2",
+		"@favware/cliff-jumper": "^3.0.3",
 		"@favware/npm-deprecate": "^1.0.7",
 		"@sapphire/eslint-config": "^5.0.4",
 		"@sapphire/prettier-config": "^2.0.0",
@@ -50,9 +50,9 @@
 		"@types/jsdom": "^21.1.6",
 		"@types/lodash": "^4.17.0",
 		"@types/node": "^20.11.5",
-		"@typescript-eslint/eslint-plugin": "^7.7.0",
-		"@typescript-eslint/parser": "^7.7.0",
-		"@vitest/coverage-v8": "^1.5.0",
+		"@typescript-eslint/eslint-plugin": "^7.7.1",
+		"@typescript-eslint/parser": "^7.7.1",
+		"@vitest/coverage-v8": "^1.5.2",
 		"cz-conventional-changelog": "^3.3.0",
 		"esbuild-plugins-node-modules-polyfill": "^1.6.3",
 		"eslint": "^8.57.0",
@@ -66,7 +66,7 @@
 		"typedoc": "^0.25.13",
 		"typedoc-json-parser": "^9.0.1",
 		"typescript": "^5.4.5",
-		"vitest": "^1.5.0"
+		"vitest": "^1.5.2"
 	},
 	"repository": {
 		"type": "git",
