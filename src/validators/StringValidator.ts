@@ -53,10 +53,10 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 	public url(validatorOptions?: ValidatorOptions): this;
 	public url(options?: UrlOptions, validatorOptions?: ValidatorOptions): this;
 	public url(options?: UrlOptions | ValidatorOptions, validatorOptions: ValidatorOptions = this.validatorOptions): this {
-		const urlOptions = (options as ValidatorOptions)?.message === undefined;
+		const urlOptions = this.isUrlOptions(options);
 
 		if (urlOptions) {
-			return this.addConstraint(stringUrl(options as UrlOptions, validatorOptions) as IConstraint<T>);
+			return this.addConstraint(stringUrl(options, validatorOptions) as IConstraint<T>);
 		}
 
 		return this.addConstraint(stringUrl(undefined, validatorOptions) as IConstraint<T>);
@@ -65,10 +65,10 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 	public uuid(validatorOptions?: ValidatorOptions): this;
 	public uuid(options?: StringUuidOptions, validatorOptions?: ValidatorOptions): this;
 	public uuid(options?: StringUuidOptions | ValidatorOptions, validatorOptions: ValidatorOptions = this.validatorOptions): this {
-		const stringUuidOptions = (options as ValidatorOptions)?.message === undefined;
+		const stringUuidOptions = this.isStringUuidOptions(options);
 
 		if (stringUuidOptions) {
-			return this.addConstraint(stringUuid(options as StringUuidOptions, validatorOptions) as IConstraint<T>);
+			return this.addConstraint(stringUuid(options, validatorOptions) as IConstraint<T>);
 		}
 
 		return this.addConstraint(stringUuid(undefined, validatorOptions) as IConstraint<T>);
@@ -102,5 +102,13 @@ export class StringValidator<T extends string> extends BaseValidator<T> {
 		return typeof value === 'string' //
 			? Result.ok(value as T)
 			: Result.err(new ValidationError('s.string()', this.validatorOptions.message ?? 'Expected a string primitive', value));
+	}
+
+	private isUrlOptions(options?: UrlOptions | ValidatorOptions): options is UrlOptions {
+		return (options as ValidatorOptions)?.message === undefined;
+	}
+
+	private isStringUuidOptions(options?: StringUuidOptions | ValidatorOptions): options is StringUuidOptions {
+		return (options as ValidatorOptions)?.message === undefined;
 	}
 }
