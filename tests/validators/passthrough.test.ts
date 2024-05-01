@@ -1,7 +1,7 @@
 import { s } from '../../src';
 
-describe('AnyValidator', () => {
-	const predicate = s.any();
+describe.each(['custom message', undefined])('AnyValidator (%s)', (message) => {
+	const predicate = s.any({ message });
 
 	test.each([1, 'hello', null])('GIVEN anything (%j) THEN returns the given value', (input) => {
 		expect<any>(predicate.parse(input)).toBe(input);

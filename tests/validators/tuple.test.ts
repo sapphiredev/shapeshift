@@ -1,7 +1,7 @@
 import { CombinedPropertyError, s, ValidationError } from '../../src';
 import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
-describe('TupleValidator', () => {
+describe.each(['custom message', undefined])('TupleValidator', () => {
 	const predicate = s.tuple([s.string(), s.number()]);
 
 	test('GIVEN a matching tuple THEN returns a tuple', () => {
