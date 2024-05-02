@@ -731,16 +731,21 @@ describe.each(['custom message', undefined])('ObjectValidator (%s)', (message) =
 		});
 
 		test('Given a predicate with no parent THEN throw ExpectedConstraintError', () => {
-			const whenPredicate = s.number().when('booleanLike', {
-				is: (value) => value === true,
-				then: (schema) => schema.greaterThanOrEqual(5),
-				otherwise: (schema) => schema.lessThanOrEqual(5)
-				// TODO: check if message should be added here
-			});
+			const whenPredicate = s.number().when(
+				'booleanLike',
+				{
+					is: (value) => value === true,
+					then: (schema) => schema.greaterThanOrEqual(5),
+					otherwise: (schema) => schema.lessThanOrEqual(5)
+				},
+				{
+					message
+				}
+			);
 
 			expectError(
 				() => whenPredicate.parse(5),
-				new ExpectedConstraintError('s.object(T.when)', 'Validator has no parent', undefined, 'Validator to have a parent')
+				new ExpectedConstraintError('s.object(T.when)', message ?? 'Validator has no parent', undefined, 'Validator to have a parent')
 			);
 		});
 
