@@ -106,7 +106,7 @@ export class UnionValidator<T> extends BaseValidator<T> {
 			return this.clone();
 		}
 
-		return new UnionValidator<T | null | undefined>([new NullishValidator(), ...this.validators], options);
+		return new UnionValidator<T | null | undefined>([new NullishValidator(options), ...this.validators], options);
 	}
 
 	public override or<O>(...predicates: readonly BaseValidator<O>[]): UnionValidator<T | O> {
