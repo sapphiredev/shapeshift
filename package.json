@@ -73,7 +73,8 @@
 		"url": "git+https://github.com/sapphiredev/shapeshift.git"
 	},
 	"files": [
-		"dist/"
+		"dist/",
+		"UPGRADING-v3-v4.md"
 	],
 	"engines": {
 		"node": ">=v16"
