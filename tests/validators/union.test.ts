@@ -63,6 +63,11 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 	describe('optional', () => {
 		const optionalPredicate = predicate.optional();
 
+		test('GIVEN no validators inside the union THEN returns a LiteralValidator(undefined)', () => {
+			const emptyPredicate = s.union([], { message }).optional();
+			expect(emptyPredicate.parse(undefined)).toBe(undefined);
+		});
+
 		test.each([undefined, 'hello', 5])('GIVEN %j THEN returns %j', (value) => {
 			expect<string | number | undefined>(optionalPredicate.parse(value)).toBe(value);
 		});
@@ -113,7 +118,17 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 	});
 
 	describe('required', () => {
-		const requiredPredicate = predicate.optional({ message }).required({ message });
+		const requiredPredicate = predicate.required({ message });
+
+		test('GIVEN no validators inside the union THEN clones the validator as a RequiredValidator', () => {
+			const emptyPredicate = s.union([], { message }).required({ message });
+			expectError(
+				() => emptyPredicate.parse(undefined),
+				new CombinedError([], {
+					message: oneOrMoreErrorsErrorMessage
+				})
+			);
+		});
 
 		test.each(['hello', 5])('GIVEN %j THEN returns %j', (value) => {
 			expect<string | number>(requiredPredicate.parse(value)).toBe(value);
@@ -148,6 +163,11 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 
 	describe('nullable', () => {
 		const nullablePredicate = predicate.nullable({ message });
+
+		test('GIVEN no validators inside the union THEN returns a LiteralValidator(null)', () => {
+			const emptyPredicate = s.union([], { message }).nullable();
+			expect(emptyPredicate.parse(null)).toBe(null);
+		});
 
 		test.each([null, 'hello', 5])('GIVEN %j THEN returns %j', (value) => {
 			expect<string | number | null>(nullablePredicate.parse(value)).toBe(value);
@@ -209,6 +229,11 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 
 	describe('nullish', () => {
 		const nullishPredicate = predicate.nullish({ message });
+
+		test('GIVEN no validators inside the union THEN returns a NullishValidator()', () => {
+			const emptyPredicate = s.union([], { message }).nullish();
+			expect(emptyPredicate.parse(undefined)).toBe(undefined);
+		});
 
 		test.each([null, undefined, 'hello', 5])('GIVEN %j THEN returns %j', (value) => {
 			expect<string | number | undefined | null>(nullishPredicate.parse(value)).toBe(value);
