@@ -194,9 +194,12 @@ describe.each(['custom message', undefined])('BaseValidator (%s)', (message) => 
 	});
 
 	describe('Reshape', () => {
-		const predicate = s.string({ message }).reshape((value) => {
-			return value.length > 5 ? Result.ok(value.length) : Result.err(new Error('Too short'));
-		});
+		const predicate = s.string({ message }).reshape(
+			(value) => {
+				return value.length > 5 ? Result.ok(value.length) : Result.err(new Error('Too short'));
+			},
+			{ message }
+		);
 
 		test('GIVEN a string with length > 5 THEN returns the given value', () => {
 			expect<number>(predicate.parse('Sapphire')).toBe(8);
@@ -209,7 +212,7 @@ describe.each(['custom message', undefined])('BaseValidator (%s)', (message) => 
 
 	describe('default', () => {
 		describe('required', () => {
-			const defaultPredicate = s.string({ message }).default('foo');
+			const defaultPredicate = s.string({ message }).default('foo', { message });
 
 			test('GIVEN a string THEN returns the given string', () => {
 				expect<string>(defaultPredicate.parse('bar')).toBe('bar');
@@ -221,7 +224,7 @@ describe.each(['custom message', undefined])('BaseValidator (%s)', (message) => 
 		});
 
 		describe('optional', () => {
-			const defaultPredicate = s.string({ message }).optional({ message }).default('foo');
+			const defaultPredicate = s.string({ message }).optional({ message }).default('foo', { message });
 
 			test('GIVEN a string THEN returns the given string', () => {
 				expect<string>(defaultPredicate.parse('bar')).toBe('bar');
@@ -233,10 +236,10 @@ describe.each(['custom message', undefined])('BaseValidator (%s)', (message) => 
 		});
 
 		describe('default', () => {
-			const defaultPredicate = s.string({ message }).default('foo').default('bar');
+			const defaultPredicate = s.string({ message }).default('foo', { message }).default('bar', { message });
 
 			test('GIVEN a double default THEN returns a clone with updated default', () => {
-				expectClonedValidator(s.string().default('bar'), defaultPredicate);
+				expectClonedValidator(s.string({ message }).default('bar', { message }), defaultPredicate);
 			});
 		});
 	});

@@ -64,16 +64,25 @@ export abstract class BaseValidator<T> {
 		) as unknown as BaseValidator<O>;
 	}
 
-	public reshape(cb: (input: T) => Result<T>): this;
-	public reshape<R extends Result<unknown>, O = InferResultType<R>>(cb: (input: T) => R): BaseValidator<O>;
-	public reshape<R extends Result<unknown>, O = InferResultType<R>>(cb: (input: T) => R): BaseValidator<O> {
-		return this.addConstraint({
-			run: cb as unknown as (input: T) => Result<T, BaseConstraintError<T>>
-		}) as unknown as BaseValidator<O>;
+	public reshape(cb: (input: T) => Result<T>, options?: ValidatorOptions): this;
+	public reshape<R extends Result<unknown>, O = InferResultType<R>>(cb: (input: T) => R, options?: ValidatorOptions): BaseValidator<O>;
+	public reshape<R extends Result<unknown>, O = InferResultType<R>>(
+		cb: (input: T) => R,
+		options: ValidatorOptions = this.validatorOptions
+	): BaseValidator<O> {
+		return this.addConstraint(
+			{
+				run: cb as unknown as (input: T) => Result<T, BaseConstraintError<T>>
+			},
+			options
+		) as unknown as BaseValidator<O>;
 	}
 
-	public default(value: Exclude<T, undefined> | (() => Exclude<T, undefined>)): DefaultValidator<Exclude<T, undefined>> {
-		return new DefaultValidator(this.clone() as unknown as BaseValidator<Exclude<T, undefined>>, value, this.validatorOptions);
+	public default(
+		value: Exclude<T, undefined> | (() => Exclude<T, undefined>),
+		options: ValidatorOptions = this.validatorOptions
+	): DefaultValidator<Exclude<T, undefined>> {
+		return new DefaultValidator(this.clone() as unknown as BaseValidator<Exclude<T, undefined>>, value, options);
 	}
 
 	public when<Key extends WhenKey, This extends BaseValidator<any> = this>(

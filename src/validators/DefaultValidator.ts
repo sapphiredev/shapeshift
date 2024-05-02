@@ -20,8 +20,12 @@ export class DefaultValidator<T> extends BaseValidator<T> {
 		this.defaultValue = value;
 	}
 
-	public override default(value: Exclude<T, undefined> | (() => Exclude<T, undefined>)): DefaultValidator<Exclude<T, undefined>> {
+	public override default(
+		value: Exclude<T, undefined> | (() => Exclude<T, undefined>),
+		options = this.validatorOptions
+	): DefaultValidator<Exclude<T, undefined>> {
 		const clone = this.clone() as unknown as DefaultValidator<Exclude<T, undefined>>;
+		clone.validatorOptions = options;
 		clone.defaultValue = value;
 		return clone;
 	}
