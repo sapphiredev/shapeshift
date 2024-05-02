@@ -35,4 +35,11 @@ describe.each(['custom message', undefined])('RecordValidator (%s)', (message) =
 	test('GIVEN clone THEN returns similar instance', () => {
 		expectClonedValidator(predicate, predicate['clone']());
 	});
+
+	test('GIVEN an array THEN throws ValidationError', () => {
+		expectError(
+			() => predicate.parse([1, 2, 3]),
+			new ValidationError('s.record(T)', message ?? 'Expected the value to not be an array', [1, 2, 3])
+		);
+	});
 });
