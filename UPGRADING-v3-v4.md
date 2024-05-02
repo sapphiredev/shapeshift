@@ -85,6 +85,8 @@ changes][lotc] below.
 - `s.boolean.false` is now `s.boolean().false()` to allow for custom options as second argument.
 - `s.boolean.true` is now `s.boolean().true()` to allow for custom options as second argument.
 - `s.boolean` is now `s.boolean()` to allow for custom options as argument.
+- `s.default(...)` now gets a second parameter to allow for custom options as argument.
+- `s.default(...).default(...)` now gets a second parameter to allow for custom options as argument.
 - `s.date.equal` is now `s.date().equal()` to allow for custom options as argument.
 - `s.date.greaterThan` is now `s.date().greaterThan()` to allow for custom options as argument.
 - `s.date.greaterThanOrEqual` is now `s.date().greaterThanOrEqual()` to allow for custom options as argument.
@@ -131,6 +133,7 @@ changes][lotc] below.
 - `s.object.required` is now `s.object().required()` to allow for custom options as argument.
 - `s.object.strict` is now `s.object().strict()` to allow for custom options as argument.
 - `s.optional` is now `s.optional()` to allow for custom options as argument.
+- `s.required(...)` now gets a second parameter to allow for custom options as argument.
 - `s.set` is now `s.set()` to allow for custom options as argument.
 - `s.string.date` is now `s.string().date()` to allow for custom options as argument.
 - `s.string.email` is now `s.string().email()` to allow for custom options as argument.
