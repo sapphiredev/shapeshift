@@ -48,11 +48,11 @@
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
 		"@types/jsdom": "^21.1.6",
-		"@types/lodash": "^4.17.0",
+		"@types/lodash": "^4.17.1",
 		"@types/node": "^20.11.5",
-		"@typescript-eslint/eslint-plugin": "^7.7.1",
-		"@typescript-eslint/parser": "^7.7.1",
-		"@vitest/coverage-v8": "^1.5.2",
+		"@typescript-eslint/eslint-plugin": "^7.8.0",
+		"@typescript-eslint/parser": "^7.8.0",
+		"@vitest/coverage-v8": "^1.6.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"esbuild-plugins-node-modules-polyfill": "^1.6.3",
 		"eslint": "^8.57.0",
@@ -66,7 +66,7 @@
 		"typedoc": "^0.25.13",
 		"typedoc-json-parser": "^10.0.0",
 		"typescript": "^5.4.5",
-		"vitest": "^1.5.2"
+		"vitest": "^1.6.0"
 	},
 	"repository": {
 		"type": "git",
@@ -120,5 +120,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.8"
 	},
-	"packageManager": "yarn@4.1.1"
+	"packageManager": "yarn@4.2.1"
 }
