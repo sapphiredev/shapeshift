@@ -3,23 +3,24 @@ import type { BaseError } from '../lib/errors/BaseError';
 import { CombinedError } from '../lib/errors/CombinedError';
 import { ValidationError } from '../lib/errors/ValidationError';
 import { Result } from '../lib/Result';
+import type { ValidatorOptions } from '../lib/util-types';
 import { BaseValidator } from './imports';
 
 export class SetValidator<T> extends BaseValidator<Set<T>> {
 	private readonly validator: BaseValidator<T>;
 
-	public constructor(validator: BaseValidator<T>, constraints: readonly IConstraint<Set<T>>[] = []) {
-		super(constraints);
+	public constructor(validator: BaseValidator<T>, validatorOptions?: ValidatorOptions, constraints: readonly IConstraint<Set<T>>[] = []) {
+		super(validatorOptions, constraints);
 		this.validator = validator;
 	}
 
 	protected override clone(): this {
-		return Reflect.construct(this.constructor, [this.validator, this.constraints]);
+		return Reflect.construct(this.constructor, [this.validator, this.validatorOptions, this.constraints]);
 	}
 
 	protected handle(values: unknown): Result<Set<T>, ValidationError | CombinedError> {
 		if (!(values instanceof Set)) {
-			return Result.err(new ValidationError('s.set(T)', 'Expected a set', values));
+			return Result.err(new ValidationError('s.set(T)', this.validatorOptions.message ?? 'Expected a set', values));
 		}
 
 		if (!this.shouldRunConstraints) {
@@ -37,6 +38,6 @@ export class SetValidator<T> extends BaseValidator<Set<T>> {
 
 		return errors.length === 0 //
 			? Result.ok(transformed)
-			: Result.err(new CombinedError(errors));
+			: Result.err(new CombinedError(errors, this.validatorOptions));
 	}
 }

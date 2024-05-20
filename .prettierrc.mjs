@@ -5,7 +5,7 @@ export default {
 	overrides: [
 		...sapphirePrettierConfig.overrides,
 		{
-			files: ['README.md'],
+			files: ['README.md', 'UPGRADING-v3-v4.md'],
 			options: {
 				tabWidth: 2,
 				useTabs: false,

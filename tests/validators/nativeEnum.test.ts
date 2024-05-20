@@ -1,12 +1,13 @@
 import { s, UnknownEnumValueError, ValidationError } from '../../src';
 import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
-describe('NativeEnumValidator', () => {
+describe.each(['custom message', undefined])('NativeEnumValidator (%s)', (message) => {
 	describe('invalid inputs', () => {
-		const predicate = s.nativeEnum({ hello: 'world' });
+		const predicate = s.nativeEnum({ hello: 'world' }, { message });
 
 		test.each([true, null, undefined, {}])('GIVEN %j THEN throws ValidationError', (value) => {
-			expectError(() => predicate.parse(value), new ValidationError('s.nativeEnum(T)', 'Expected the value to be a string or number', value));
+			const errorMessage = message ?? 'Expected the value to be a string or number';
+			expectError(() => predicate.parse(value), new ValidationError('s.nativeEnum(T)', errorMessage, value));
 		});
 	});
 
@@ -15,7 +16,7 @@ describe('NativeEnumValidator', () => {
 			Hi = 'hi'
 		}
 
-		const stringPredicate = s.nativeEnum(StringEnum);
+		const stringPredicate = s.nativeEnum(StringEnum, { message });
 
 		test.each([
 			['Hi', StringEnum.Hi],
@@ -25,7 +26,8 @@ describe('NativeEnumValidator', () => {
 		});
 
 		it('GIVEN a number input for a string enum THEN throws ValidationError', () => {
-			expectError(() => stringPredicate.parse(1), new ValidationError('s.nativeEnum(T)', 'Expected the value to be a string', 1));
+			const errorMessage = message ?? 'Expected the value to be a string';
+			expectError(() => stringPredicate.parse(1), new ValidationError('s.nativeEnum(T)', errorMessage, 1));
 		});
 	});
 
@@ -35,7 +37,7 @@ describe('NativeEnumValidator', () => {
 			Kyra,
 			Favna
 		}
-		const numberPredicate = s.nativeEnum(NumberEnum);
+		const numberPredicate = s.nativeEnum(NumberEnum, { message });
 
 		test.each([
 			['Vladdy', NumberEnum.Vladdy],
@@ -51,7 +53,7 @@ describe('NativeEnumValidator', () => {
 			Vladdy = 420
 		}
 
-		const mixedPredicate = s.nativeEnum(MixedEnum);
+		const mixedPredicate = s.nativeEnum(MixedEnum, { message });
 
 		test.each([
 			['Sapphire', MixedEnum.Sapphire],
@@ -64,10 +66,11 @@ describe('NativeEnumValidator', () => {
 	});
 
 	describe('valid input but invalid enum value', () => {
-		const predicate = s.nativeEnum({ owo: 42 });
+		const predicate = s.nativeEnum({ owo: 42 }, { message });
 
 		test.each(['uwu', 69])('GIVEN valid type for input but not part of enum (%j) THEN throws ValidationError', (value) => {
-			expectError(() => predicate.parse(value), new UnknownEnumValueError(value, ['owo'], new Map([['owo', 42]])));
+			const errorMessage = message ?? 'Expected the value to be one of the following enum values:';
+			expectError(() => predicate.parse(value), new UnknownEnumValueError(value, ['owo'], new Map([['owo', 42]]), { message: errorMessage }));
 		});
 	});
 

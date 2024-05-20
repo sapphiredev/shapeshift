@@ -36,9 +36,10 @@ describe('UnknownPropertyError', () => {
 	});
 
 	describe('toJSON', () => {
-		test('toJSON should return an object with name, property and value', () => {
+		test('toJSON should return an object with name, message, property and value', () => {
 			expect(error.toJSON()).toStrictEqual({
 				name: 'Error',
+				message: 'Received unexpected property',
 				property: 'foo',
 				value: 42
 			});

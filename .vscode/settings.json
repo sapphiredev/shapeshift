@@ -13,7 +13,7 @@
 		"**/dist/": true,
 		"**/.git/": true
 	},
-	"cSpell.words": ["bortzmeyer", "fhqwhgads", "manisharaan", "midichlorians", "Pallas", "Plagueis"],
+	"cSpell.words": ["bortzmeyer", "fhqwhgads", "Jsonified", "manisharaan", "midichlorians", "Pallas", "Plagueis"],
 	"sonarlint.connectedMode.project": {
 		"connectionId": "https-sonarqube-sapphirejs-dev",
 		"projectKey": "sapphiredev_shapeshift_12fd031b-e1ff-436c-8ccb-4fb016c525c9"

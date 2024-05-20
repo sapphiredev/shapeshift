@@ -16,59 +16,58 @@ Blazing fast input validation and transformation ⚡
 
 ## Table of Contents
 
-- [@sapphire/shapeshift](#sapphireshapeshift)
-  - [Table of Contents](#table-of-contents)
-  - [Description](#description)
-  - [Features](#features)
-  - [Usage](#usage)
-    - [Basic usage](#basic-usage)
-    - [Defining validations](#defining-validations)
-      - [Primitives](#primitives)
-      - [Literals](#literals)
-      - [Strings](#strings)
-      - [Numbers](#numbers)
-      - [BigInts](#bigints)
-      - [Booleans](#booleans)
-      - [Arrays](#arrays)
-      - [Tuples](#tuples)
-      - [Unions](#unions)
-      - [Enums](#enums)
-      - [Maps](#maps)
-      - [Sets](#sets)
-      - [Instances](#instances)
-      - [Records](#records)
-      - [Functions // TODO](#functions--todo)
-      - [TypedArray](#typedarray)
-    - [Defining schemas (objects)](#defining-schemas-objects)
-      - [Utility types for TypeScript](#utility-types-for-typescript)
-        - [Extracting an interface from a schema](#extracting-an-interface-from-a-schema)
-        - [Defining the structure of a schema through an interface](#defining-the-structure-of-a-schema-through-an-interface)
-      - [`.extend`:](#extend)
-      - [`.pick` / `.omit`:](#pick--omit)
-      - [`.partial`](#partial)
-      - [`.required`](#required)
-    - [Handling unrecognized keys](#handling-unrecognized-keys)
-      - [`.strict`](#strict)
-      - [`.ignore`](#ignore)
-      - [`.passthrough`](#passthrough)
-    - [BaseValidator: methods and properties](#basevalidator-methods-and-properties)
-      - [`.run`](#rundata-unknown-resultt-error-given-a-validation-you-can-call-this-method-to-check-whether-or-not-the)
-      - [`.parse`](#parsedata-unknown-t-given-a-validations-you-can-call-this-method-to-check-whether-or-not-the-input-is-valid)
-      - [`.transform`](#transformrvalue-t--r-nopvalidatorr-adds-a-constraint-that-modifies-the-input)
-      - [`.reshape`](#reshapervalue-t--resultr-error--iconstraint-nopvalidatorr-adds-a-constraint-able-to-both-validate)
-      - [`.default`](#defaultvalue-t----t-transform-undefined-into-the-given-value-or-the-callbacks-returned-value)
-      - [`.optional`](#optional-a-convenience-method-that-returns-a-union-of-the-type-with-sundefined)
-      - [`.nullable`](#nullable-a-convenience-method-that-returns-a-union-of-the-type-with-snullable)
-      - [`.nullish`](#nullish-a-convenience-method-that-returns-a-union-of-the-type-with-snullish)
-      - [`.array`](#array-a-convenience-method-that-returns-an-arrayvalidator-with-the-type)
-      - [`.or`](#or-a-convenience-method-that-returns-an-unionvalidator-with-the-type-this-method-is-also-overridden-in)
-      - [`.when`](#when-adjust-the-schema-based-on-a-sibling-or-sinbling-children-fields)
-        - [Available options for providing `is`](#available-options-for-providing-is)
-        - [Resolving of the `key` (first) parameter](#resolving-of-the-key-first-parameter)
-        - [Examples](#examples)
-    - [Enabling and disabling validation](#enabling-and-disabling-validation)
-  - [Buy us some doughnuts](#buy-us-some-doughnuts)
-  - [Contributors](#contributors)
+- [Table of Contents](#table-of-contents)
+- [Description](#description)
+- [Features](#features)
+- [Usage](#usage)
+  - [Basic usage](#basic-usage)
+  - [Defining validations](#defining-validations)
+    - [Primitives](#primitives)
+    - [Literals](#literals)
+    - [Strings](#strings)
+    - [Numbers](#numbers)
+    - [BigInts](#bigints)
+    - [Booleans](#booleans)
+    - [Arrays](#arrays)
+    - [Tuples](#tuples)
+    - [Unions](#unions)
+    - [Enums](#enums)
+    - [Maps](#maps)
+    - [Sets](#sets)
+    - [Instances](#instances)
+    - [Records](#records)
+    <!-- - [Functions // TODO](#functions--todo) -->
+    - [TypedArray](#typedarray)
+  - [Defining schemas (objects)](#defining-schemas-objects)
+    - [Utility types for TypeScript](#utility-types-for-typescript)
+      - [Extracting an interface from a schema](#extracting-an-interface-from-a-schema)
+      - [Defining the structure of a schema through an interface](#defining-the-structure-of-a-schema-through-an-interface)
+    - [`.extend`:](#extend)
+    - [`.pick` / `.omit`:](#pick--omit)
+    - [`.partial`](#partial)
+    - [`.required`](#required)
+  - [Handling unrecognized keys](#handling-unrecognized-keys)
+    - [`.strict`](#strict)
+    - [`.ignore`](#ignore)
+    - [`.passthrough`](#passthrough)
+  - [BaseValidator: methods and properties](#basevalidator-methods-and-properties)
+    - [`.run(data: unknown): Result`: given a validation, you can call this method to check whether or not the](#rundata-unknown-result-given-a-validation-you-can-call-this-method-to-check-whether-or-not-the)
+    - [`.parse(data: unknown): T`: given a validations, you can call this method to check whether or not the input is valid.](#parsedata-unknown-t-given-a-validations-you-can-call-this-method-to-check-whether-or-not-the-input-is-valid)
+    - [`.transform((value: T) => R): NopValidator`: adds a constraint that modifies the input:](#transformvalue-t--r-nopvalidator-adds-a-constraint-that-modifies-the-input)
+    - [`.reshape((value: T) => Result | IConstraint): NopValidator`: adds a constraint able to both validate](#reshapevalue-t--result--iconstraint-nopvalidator-adds-a-constraint-able-to-both-validate)
+    - [`.default(value: T | (() => T))`: transform `undefined` into the given value or the callback's returned value:](#defaultvalue-t----t-transform-undefined-into-the-given-value-or-the-callbacks-returned-value)
+    - [`.optional`: a convenience method that returns a union of the type with `s.undefined()`.](#optional-a-convenience-method-that-returns-a-union-of-the-type-with-sundefined)
+    - [`.nullable`: a convenience method that returns a union of the type with `s.nullable()`.](#nullable-a-convenience-method-that-returns-a-union-of-the-type-with-snullable)
+    - [`.nullish`: a convenience method that returns a union of the type with `s.nullish()`.](#nullish-a-convenience-method-that-returns-a-union-of-the-type-with-snullish)
+    - [`.array`: a convenience method that returns an ArrayValidator with the type.](#array-a-convenience-method-that-returns-an-arrayvalidator-with-the-type)
+    - [`.or`: a convenience method that returns an UnionValidator with the type. This method is also overridden in](#or-a-convenience-method-that-returns-an-unionvalidator-with-the-type-this-method-is-also-overridden-in)
+    - [`.when`: Adjust the schema based on a sibling or sinbling children fields.](#when-adjust-the-schema-based-on-a-sibling-or-sinbling-children-fields)
+      - [Available options for providing `is`](#available-options-for-providing-is)
+      - [Resolving of the `key` (first) parameter](#resolving-of-the-key-first-parameter)
+      - [Examples](#examples)
+  - [Enabling and disabling validation](#enabling-and-disabling-validation)
+- [Buy us some doughnuts](#buy-us-some-doughnuts)
+- [Contributors](#contributors)
 
 ## Description
 
@@ -84,7 +83,7 @@ A very fast and lightweight input validation and transformation library for Java
 
 - TypeScript friendly
 - Offers CJS, ESM and UMD builds
-- API similar to [`zod`]
+- API similar to [`zod`] and [`yup`]
 - Faster than ⚡
 
 ## Usage
@@ -102,7 +101,7 @@ Creating a simple string validation
 ```typescript
 import { s } from '@sapphire/shapeshift';
 
-const myStringValidation = s.string;
+const myStringValidation = s.string();
 
 // Parse
 myStringValidation.parse('sapphire'); // => returns 'sapphire'
@@ -115,7 +114,7 @@ Creating an object schema
 import { s } from '@sapphire/shapeshift';
 
 const user = s.object({
-  username: s.string
+  username: s.string()
 });
 
 user.parse({ username: 'Sapphire' });
@@ -133,23 +132,23 @@ user.parse({ username: 'Sapphire' });
 import { s } from '@sapphire/shapeshift';
 
 // Primitives
-s.string;
-s.number;
-s.bigint;
-s.boolean;
-s.date;
+s.string();
+s.number();
+s.bigint();
+s.boolean();
+s.date();
 
 // Empty Types
-s.undefined;
-s.null;
-s.nullish; // Accepts undefined | null
+s.undefined();
+s.null();
+s.nullish(); // Accepts undefined | null
 
 // Catch-all Types
-s.any;
-s.unknown;
+s.any();
+s.unknown();
 
 // Never Type
-s.never;
+s.never();
 ```
 
 #### Literals
@@ -161,7 +160,7 @@ s.literal('sapphire');
 s.literal(12);
 s.literal(420n);
 s.literal(true);
-s.literal(new Date(1639278160000)); // s.date.equal(1639278160000);
+s.literal(new Date(1639278160000)); // s.date().equal(1639278160000);
 ```
 
 #### Strings
@@ -171,20 +170,20 @@ s.literal(new Date(1639278160000)); // s.date.equal(1639278160000);
 Shapeshift includes a handful of string-specific validations:
 
 ```typescript
-s.string.lengthLessThan(5);
-s.string.lengthLessThanOrEqual(5);
-s.string.lengthGreaterThan(5);
-s.string.lengthGreaterThanOrEqual(5);
-s.string.lengthEqual(5);
-s.string.lengthNotEqual(5);
-s.string.email;
-s.string.url();
-s.string.uuid();
-s.string.regex(regex);
-s.string.ip();
-s.string.ipv4;
-s.string.ipv6;
-s.string.phone();
+s.string().lengthLessThan(5);
+s.string().lengthLessThanOrEqual(5);
+s.string().lengthGreaterThan(5);
+s.string().lengthGreaterThanOrEqual(5);
+s.string().lengthEqual(5);
+s.string().lengthNotEqual(5);
+s.string().email();
+s.string().url();
+s.string().uuid();
+s.string().regex(regex);
+s.string().ip();
+s.string().ipv4();
+s.string().ipv6();
+s.string().phone();
 ```
 
 #### Numbers
@@ -194,37 +193,37 @@ s.string.phone();
 Shapeshift includes a handful of number-specific validations:
 
 ```typescript
-s.number.greaterThan(5); // > 5
-s.number.greaterThanOrEqual(5); // >= 5
-s.number.lessThan(5); // < 5
-s.number.lessThanOrEqual(5); // <= 5
-s.number.equal(5); // === 5
-s.number.notEqual(5); // !== 5
+s.number().greaterThan(5); // > 5
+s.number().greaterThanOrEqual(5); // >= 5
+s.number().lessThan(5); // < 5
+s.number().lessThanOrEqual(5); // <= 5
+s.number().equal(5); // === 5
+s.number().notEqual(5); // !== 5
 
-s.number.equal(NaN); // special case: Number.isNaN
-s.number.notEqual(NaN); // special case: !Number.isNaN
+s.number().equal(NaN); // special case: Number.isNaN
+s.number().notEqual(NaN); // special case: !Number.isNaN
 
-s.number.int; // value must be an integer
-s.number.safeInt; // value must be a safe integer
-s.number.finite; // value must be finite
+s.number().int(); // value must be an integer
+s.number().safeInt(); // value must be a safe integer
+s.number().finite(); // value must be finite
 
-s.number.positive; // .greaterThanOrEqual(0)
-s.number.negative; // .lessThan(0)
+s.number().positive(); // .greaterThanOrEqual(0)
+s.number().negative(); // .lessThan(0)
 
-s.number.divisibleBy(5); // Divisible by 5
+s.number().divisibleBy(5); // Divisible by 5
 ```
 
 And transformations:
 
 ```typescript
-s.number.abs; // Transforms the number to an absolute number
-s.number.sign; // Gets the number's sign
+s.number().abs(); // Transforms the number to an absolute number
+s.number().sign(); // Gets the number's sign
 
-s.number.trunc; // Transforms the number to the result of `Math.trunc`
-s.number.floor; // Transforms the number to the result of `Math.floor`
-s.number.fround; // Transforms the number to the result of `Math.fround`
-s.number.round; // Transforms the number to the result of `Math.round`
-s.number.ceil; // Transforms the number to the result of `Math.ceil`
+s.number().trunc(); // Transforms the number to the result of `Math.trunc`
+s.number().floor(); // Transforms the number to the result of `Math.floor`
+s.number().fround(); // Transforms the number to the result of `Math.fround`
+s.number().round(); // Transforms the number to the result of `Math.round`
+s.number().ceil(); // Transforms the number to the result of `Math.ceil`
 ```
 
 #### BigInts
@@ -234,26 +233,26 @@ s.number.ceil; // Transforms the number to the result of `Math.ceil`
 Shapeshift includes a handful of number-specific validations:
 
 ```typescript
-s.bigint.greaterThan(5n); // > 5n
-s.bigint.greaterThanOrEqual(5n); // >= 5n
-s.bigint.lessThan(5n); // < 5n
-s.bigint.lessThanOrEqual(5n); // <= 5n
-s.bigint.equal(5n); // === 5n
-s.bigint.notEqual(5n); // !== 5n
+s.bigint().greaterThan(5n); // > 5n
+s.bigint().greaterThanOrEqual(5n); // >= 5n
+s.bigint().lessThan(5n); // < 5n
+s.bigint().lessThanOrEqual(5n); // <= 5n
+s.bigint().equal(5n); // === 5n
+s.bigint().notEqual(5n); // !== 5n
 
-s.bigint.positive; // .greaterThanOrEqual(0n)
-s.bigint.negative; // .lessThan(0n)
+s.bigint().positive(); // .greaterThanOrEqual(0n)
+s.bigint().negative(); // .lessThan(0n)
 
-s.bigint.divisibleBy(5n); // Divisible by 5n
+s.bigint().divisibleBy(5n); // Divisible by 5n
 ```
 
 And transformations:
 
 ```typescript
-s.bigint.abs; // Transforms the bigint to an absolute bigint
+s.bigint().abs(); // Transforms the bigint to an absolute bigint
 
-s.bigint.intN(5); // Clamps to a bigint to a signed bigint with 5 digits, see BigInt.asIntN
-s.bigint.uintN(5); // Clamps to a bigint to an unsigned bigint with 5 digits, see BigInt.asUintN
+s.bigint().intN(5); // Clamps to a bigint to a signed bigint with 5 digits, see BigInt.asIntN
+s.bigint().uintN(5); // Clamps to a bigint to an unsigned bigint with 5 digits, see BigInt.asUintN
 ```
 
 #### Booleans
@@ -263,14 +262,14 @@ s.bigint.uintN(5); // Clamps to a bigint to an unsigned bigint with 5 digits, se
 Shapeshift includes a few boolean-specific validations:
 
 ```typescript
-s.boolean.true; // value must be true
-s.boolean.false; // value must be false
+s.boolean().true(); // value must be true
+s.boolean().false(); // value must be false
 
-s.boolean.equal(true); // s.boolean.true
-s.boolean.equal(false); // s.boolean.false
+s.boolean().equal(true); // s.boolean().true()
+s.boolean().equal(false); // s.boolean().false()
 
-s.boolean.notEqual(true); // s.boolean.false
-s.boolean.notEqual(false); // s.boolean.true
+s.boolean().notEqual(true); // s.boolean().false()
+s.boolean().notEqual(false); // s.boolean().true()
 ```
 
 #### Arrays
@@ -278,27 +277,27 @@ s.boolean.notEqual(false); // s.boolean.true
 [Back to top][toc]
 
 ```typescript
-const stringArray = s.array(s.string);
-const stringArray = s.string.array;
+const stringArray = s.array(s.string());
+const stringArray = s.string().array();
 ```
 
 Shapeshift includes a handful of array-specific validations:
 
 ```typescript
-s.string.array.lengthLessThan(5); // Must have less than 5 elements
-s.string.array.lengthLessThanOrEqual(5); // Must have 5 or less elements
-s.string.array.lengthGreaterThan(5); // Must have more than 5 elements
-s.string.array.lengthGreaterThanOrEqual(5); // Must have 5 or more elements
-s.string.array.lengthEqual(5); // Must have exactly 5 elements
-s.string.array.lengthNotEqual(5); // Must not have exactly 5 elements
-s.string.array.lengthRange(0, 4); // Must have at least 0 elements and less than 4 elements (in math, that is [0, 4))
-s.string.array.lengthRangeInclusive(0, 4); // Must have at least 0 elements and at most 4 elements (in math, that is [0, 4])
-s.string.array.lengthRangeExclusive(0, 4); // Must have more than 0 element and less than 4 elements (in math, that is (0, 4))
-s.string.array.unique; // All elements must be unique. Deep equality is used to check for uniqueness.
+s.string().array().lengthLessThan(5); // Must have less than 5 elements
+s.string().array().lengthLessThanOrEqual(5); // Must have 5 or less elements
+s.string().array().lengthGreaterThan(5); // Must have more than 5 elements
+s.string().array().lengthGreaterThanOrEqual(5); // Must have 5 or more elements
+s.string().array().lengthEqual(5); // Must have exactly 5 elements
+s.string().array().lengthNotEqual(5); // Must not have exactly 5 elements
+s.string().array().lengthRange(0, 4); // Must have at least 0 elements and less than 4 elements (in math, that is [0, 4))
+s.string().array().lengthRangeInclusive(0, 4); // Must have at least 0 elements and at most 4 elements (in math, that is [0, 4])
+s.string().array().lengthRangeExclusive(0, 4); // Must have more than 0 element and less than 4 elements (in math, that is (0, 4))
+s.string().array().unique(); // All elements must be unique. Deep equality is used to check for uniqueness.
 ```
 
 > **Note**: All `.length` methods define tuple types with the given amount of elements. For example,
-> `s.string.array.lengthGreaterThanOrEqual(2)`'s inferred type is `[string, string, ...string[]]`
+> `s.string().array().lengthGreaterThanOrEqual(2)`'s inferred type is `[string, string, ...string[]]`
 
 #### Tuples
 
@@ -308,9 +307,9 @@ Unlike arrays, tuples have a fixed number of elements and each element can have 
 
 ```typescript
 const dish = s.tuple([
-  s.string, // Dish's name
-  s.number.int, // Table's number
-  s.date // Date the dish was ready for delivery
+  s.string(), // Dish's name
+  s.number().int(), // Table's number
+  s.date() // Date the dish was ready for delivery
 ]);
 
 dish.parse(['Iberian ham', 10, new Date()]);
@@ -323,7 +322,7 @@ dish.parse(['Iberian ham', 10, new Date()]);
 Shapeshift includes a built-in method for composing OR types:
 
 ```typescript
-const stringOrNumber = s.union(s.string, s.number);
+const stringOrNumber = s.union([s.string(), s.number()]);
 
 stringOrNumber.parse('Sapphire'); // => 'Sapphire'
 stringOrNumber.parse(42); // => 42
@@ -334,11 +333,11 @@ stringOrNumber.parse({}); // => throws CombinedError
 
 [Back to top][toc]
 
-Enums are a convenience method that aliases `s.union(s.literal(a), s.literal(b), ...)`:
+Enums are a convenience method that aliases `s.union([s.literal(a), s.literal(b), ...])`:
 
 ```typescript
-s.enum('Red', 'Green', 'Blue');
-// s.union(s.literal('Red'), s.literal('Green'), s.literal('Blue'));
+s.enum(['Red', 'Green', 'Blue']);
+// s.union([s.literal('Red'), s.literal('Green'), s.literal('Blue')]);
 ```
 
 #### Maps
@@ -346,7 +345,7 @@ s.enum('Red', 'Green', 'Blue');
 [Back to top][toc]
 
 ```typescript
-const map = s.map(s.string, s.number);
+const map = s.map(s.string(), s.number());
 // Map<string, number>
 ```
 
@@ -355,7 +354,7 @@ const map = s.map(s.string, s.number);
 [Back to top][toc]
 
 ```typescript
-const set = s.set(s.number);
+const set = s.set(s.number());
 // Set<number>
 ```
 
@@ -384,7 +383,7 @@ Record validations are similar to objects, but validate `Record<string, T>` type
 the keys, and cannot support validation for specific ones:
 
 ```typescript
-const tags = s.record(s.string);
+const tags = s.record(s.string());
 
 tags.parse({ foo: 'bar', hello: 'world' }); // => { foo: 'bar', hello: 'world' }
 tags.parse({ foo: 42 }); // => throws CombinedError
@@ -393,7 +392,7 @@ tags.parse('Hello'); // => throws ValidateError
 
 ---
 
-_**Function validation is not yet implemented and will be made available starting v2.1.0**_
+<!-- _**Function validation is not yet implemented and will be made available starting v2.1.0**_
 
 #### Functions // TODO
 
@@ -402,20 +401,20 @@ _**Function validation is not yet implemented and will be made available startin
 You can define function validations. This checks for whether or not an input is a function:
 
 ```typescript
-s.function; // () => unknown
+s.function(); // () => unknown
 ```
 
 You can define arguments by passing an array as the first argument, as well as the return type as the second:
 
 ```typescript
-s.function([s.string]); // (arg0: string) => unknown
-s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => string
+s.function([s.string()]); // (arg0: string) => unknown
+s.function([s.string(), s.number()], s.string()); // (arg0: string, arg1: number) => string
 ```
 
 > **Note**: Shapeshift will transform the given function into one with validation on arguments and output. You can
 > access the `.raw` property of the function to get the unchecked function.
 
----
+--- -->
 
 #### TypedArray
 
@@ -423,17 +422,17 @@ s.function([s.string, s.number], s.string); // (arg0: string, arg1: number) => s
 
 ```ts
 const typedArray = s.typedArray();
-const int16Array = s.int16Array;
-const uint16Array = s.uint16Array;
-const uint8ClampedArray = s.uint8ClampedArray;
-const int16Array = s.int16Array;
-const uint16Array = s.uint16Array;
-const int32Array = s.int32Array;
-const uint32Array = s.uint32Array;
-const float32Array = s.float32Array;
-const float64Array = s.float64Array;
-const bigInt64Array = s.bigInt64Array;
-const bigUint64Array = s.bigUint64Array;
+const int16Array = s.int16Array();
+const uint16Array = s.uint16Array();
+const uint8ClampedArray = s.uint8ClampedArray();
+const int16Array = s.int16Array();
+const uint16Array = s.uint16Array();
+const int32Array = s.int32Array();
+const uint32Array = s.uint32Array();
+const float32Array = s.float32Array();
+const float64Array = s.float64Array();
+const bigInt64Array = s.bigInt64Array();
+const bigUint64Array = s.bigUint64Array();
 ```
 
 Shapeshift includes a handful of validations specific to typed arrays.
@@ -463,8 +462,8 @@ Note that all of these methods have analogous methods for working with the typed
 ```typescript
 // Properties are required by default:
 const animal = s.object({
-  name: s.string,
-  age: s.number
+  name: s.string(),
+  age: s.number()
 });
 ```
 
@@ -485,11 +484,11 @@ You can use the `InferType` type to extract the interface from a schema, for exa
 import { InferType, s } from '@sapphire/shapeshift';
 
 const schema = s.object({
-  foo: s.string,
-  bar: s.number,
-  baz: s.boolean,
-  qux: s.bigint,
-  quux: s.date
+  foo: s.string(),
+  bar: s.number(),
+  baz: s.boolean(),
+  qux: s.bigint(),
+  quux: s.date()
 });
 
 type Inferredtype = InferType<typeof schema>;
@@ -541,19 +540,19 @@ type RecipeSchemaType = SchemaOf<IRecipe>;
 // Expected Type: ObjectValidator<IRecipe>
 
 const instructionSchema: InstructionSchemaType = s.object({
-  instructionId: s.string.optional,
-  message: s.string
+  instructionId: s.string().optional(),
+  message: s.string()
 });
 
 const ingredientSchema: IngredientSchemaType = s.object({
-  ingredientId: s.string.optional,
-  name: s.string
+  ingredientId: s.string().optional(),
+  name: s.string()
 });
 
 const recipeSchema: RecipeSchemaType = s.object({
-  recipeId: s.string.optional,
-  title: s.string,
-  description: s.string,
+  recipeId: s.string().optional(),
+  title: s.string(),
+  description: s.string(),
   instructions: s.array(instructionSchema),
   ingredients: s.array(ingredientSchema)
 });
@@ -568,17 +567,17 @@ validator with the merged properties:
 
 ```typescript
 const animal = s.object({
-  name: s.string.optional,
-  age: s.number
+  name: s.string().optional(),
+  age: s.number()
 });
 
 const pet = animal.extend({
-  owner: s.string.nullish
+  owner: s.string().nullish()
 });
 
 const pet = animal.extend(
   s.object({
-    owner: s.string.nullish
+    owner: s.string().nullish()
   })
 );
 ```
@@ -595,16 +594,16 @@ that return a modifier version:
 
 ```typescript
 const pkg = s.object({
-  name: s.string,
-  description: s.string,
-  dependencies: s.string.array
+  name: s.string(),
+  description: s.string(),
+  dependencies: s.string().array()
 });
 
 const justTheName = pkg.pick(['name']);
-// s.object({ name: s.string });
+// s.object({ name: s.string() });
 
 const noDependencies = pkg.omit(['dependencies']);
-// s.object({ name: s.string, description: s.string });
+// s.object({ name: s.string(), description: s.string() });
 ```
 
 #### `.partial`
@@ -616,8 +615,8 @@ all properties optional:
 
 ```typescript
 const user = s.object({
-  username: s.string,
-  password: s.string
+  username: s.string(),
+  password: s.string()
 }).partial;
 ```
 
@@ -625,8 +624,8 @@ Which is the same as doing:
 
 ```typescript
 const user = s.object({
-  username: s.string.optional,
-  password: s.string.optional
+  username: s.string().optional(),
+  password: s.string().optional()
 });
 ```
 
@@ -641,8 +640,8 @@ all properties required:
 
 ```typescript
 const user = s.object({
-  username: s.string.optional,
-  password: s.string.optional
+  username: s.string().optional(),
+  password: s.string().optional()
 }).required;
 ```
 
@@ -650,8 +649,8 @@ Which is the same as doing:
 
 ```typescript
 const user = s.object({
-  username: s.string,
-  password: s.string
+  username: s.string(),
+  password: s.string()
 });
 ```
 
@@ -665,7 +664,7 @@ By default, Shapeshift will not include keys that are not defined by the schema 
 
 ```typescript
 const person = s.object({
-  framework: s.string
+  framework: s.string()
 });
 
 person.parse({
@@ -683,7 +682,7 @@ You can disallow unknown keys with `.strict`. If the input includes any unknown 
 
 ```typescript
 const person = s.object({
-  framework: s.string
+  framework: s.string()
 }).strict;
 
 person.parse({
@@ -729,7 +728,7 @@ All validations in Shapeshift contain certain methods.
 ```typescript
 import { s } from '@sapphire/shapeshift';
 
-const getLength = s.string.transform((value) => value.length);
+const getLength = s.string().transform((value) => value.length);
 getLength.parse('Hello There'); // => 11
 ```
 
@@ -742,7 +741,7 @@ getLength.parse('Hello There'); // => 11
 ```typescript
 import { s, Result } from '@sapphire/shapeshift';
 
-const getLength = s.string.reshape((value) => Result.ok(value.length));
+const getLength = s.string().reshape((value) => Result.ok(value.length));
 getLength.parse('Hello There'); // => 11
 ```
 
@@ -752,13 +751,13 @@ getLength.parse('Hello There'); // => 11
 - #### `.default(value: T | (() => T))`: transform `undefined` into the given value or the callback's returned value:
 
 ```typescript
-const name = s.string.default('Sapphire');
+const name = s.string().default('Sapphire');
 name.parse('Hello'); // => 'Hello'
 name.parse(undefined); // => 'Sapphire'
 ```
 
 ```typescript
-const number = s.number.default(Math.random);
+const number = s.number().default(Math.random);
 number.parse(12); // => 12
 number.parse(undefined); // => 0.989911985608602
 number.parse(undefined); // => 0.3224350185068794
@@ -766,39 +765,39 @@ number.parse(undefined); // => 0.3224350185068794
 
 > :warning: The default values are not validated.
 
-- #### `.optional`: a convenience method that returns a union of the type with `s.undefined`.
+- #### `.optional`: a convenience method that returns a union of the type with `s.undefined()`.
 
 ```typescript
-s.string.optional; // s.union(s.string, s.undefined)
+s.string().optional(); // s.union(s.string(), s.undefined())
 ```
 
-- #### `.nullable`: a convenience method that returns a union of the type with `s.nullable`.
+- #### `.nullable`: a convenience method that returns a union of the type with `s.nullable()`.
 
 ```typescript
-s.string.nullable; // s.union(s.string, s.nullable)
+s.string().nullable(); // s.union(s.string(), s.nullable())
 ```
 
-- #### `.nullish`: a convenience method that returns a union of the type with `s.nullish`.
+- #### `.nullish`: a convenience method that returns a union of the type with `s.nullish()`.
 
 ```typescript
-s.string.nullish; // s.union(s.string, s.nullish)
+s.string().nullish(); // s.union(s.string(), s.nullish())
 ```
 
 - #### `.array`: a convenience method that returns an ArrayValidator with the type.
 
 ```typescript
-s.string.array; // s.array(s.string)
+s.string().array(); // s.array(s.string())
 ```
 
 - #### `.or`: a convenience method that returns an UnionValidator with the type. This method is also overridden in
   UnionValidator to just append one more entry.
 
 ```typescript
-s.string.or(s.number);
-// => s.union(s.string, s.number)
+s.string().or(s.number());
+// => s.union(s.string(), s.number())
 
-s.object({ name: s.string }).or(s.string, s.number);
-// => s.union(s.object({ name: s.string }), s.string, s.number)
+s.object({ name: s.string() }).or(s.string(), s.number());
+// => s.union(s.object({ name: s.string() }), s.string(), s.number())
 ```
 
 - #### `.when`: Adjust the schema based on a sibling or sinbling children fields.
@@ -836,8 +835,8 @@ Let's start with a basic example:
 
 ```typescript
 const whenPredicate = s.object({
-  booleanLike: s.boolean,
-  numberLike: s.number.when('booleanLike', {
+  booleanLike: s.boolean(),
+  numberLike: s.number().when('booleanLike', {
     then: (schema) => schema.greaterThanOrEqual(5),
     otherwise: (schema) => schema.lessThanOrEqual(5)
   })
@@ -847,7 +846,7 @@ whenPredicate.parse({ booleanLike: true, numberLike: 6 });
 // => { booleanLike: true, numberLike: 6 }
 
 whenPredicate.parse({ booleanLike: true, numberLike: 4 });
-// => ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')
+// => ExpectedConstraintError('s.number().greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')
 
 whenPredicate.parse({ booleanLike: false, numberLike: 4 });
 // => { booleanLike: false, numberLike: 4 }
@@ -857,9 +856,9 @@ The provided key can also be an array of sibling children:
 
 ```typescript
 const whenPredicate = s.object({
-  booleanLike: s.boolean,
-  stringLike: s.string,
-  numberLike: s.number.when(['booleanLike', 'stringLike'], {
+  booleanLike: s.boolean(),
+  stringLike: s.string(),
+  numberLike: s.number().when(['booleanLike', 'stringLike'], {
 	is: ([booleanLikeValue, stringLikeValue]) => booleanLikeValue === true && stringLikeValue === 'foobar',
     then: (schema) => schema.greaterThanOrEqual(5),
     otherwise: (schema) => schema.lessThanOrEqual(5)
@@ -870,10 +869,10 @@ whenPredicate.parse({ booleanLike: true, stringLike: 'foobar', numberLike: 6 });
 // => { booleanLike: true, numberLike: 6 }
 
 whenPredicate.parse({ booleanLike: true, stringLike: 'barfoo', numberLike: 4 });
-// => ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')
+// => ExpectedConstraintError('s.number().greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')
 
 whenPredicate.parse({ booleanLike: false, stringLike: 'foobar' numberLike: 4 });
-// => ExpectedConstraintError('s.number.greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')
+// => ExpectedConstraintError('s.number().greaterThanOrEqual', 'Invalid number value', 4, 'expected >= 5')
 ```
 
 ### Enabling and disabling validation
@@ -896,7 +895,7 @@ setGlobalValidationEnabled(false);
 ```typescript
 import { s } from '@sapphire/shapeshift';
 
-const predicate = s.string.lengthGreaterThan(5).setValidationEnabled(false);
+const predicate = s.string().lengthGreaterThan(5).setValidationEnabled(false);
 ```
 
 ## Buy us some doughnuts
@@ -930,5 +929,6 @@ Thank you to all the people who already contributed to Sapphire!
 
 [contributing]: https://github.com/sapphiredev/.github/blob/main/.github/CONTRIBUTING.md
 [`zod`]: https://github.com/colinhacks/zod
+[`yup`]: https://github.com/jquense/yup
 [documentation]: https://www.sapphirejs.dev/docs/Documentation/api-shapeshift/
 [toc]: #table-of-contents
