@@ -862,7 +862,7 @@ __metadata:
     "@sapphire/ts-config": "npm:^5.0.1"
     "@types/jsdom": "npm:^21.1.7"
     "@types/lodash": "npm:^4.17.5"
-    "@types/node": "npm:20.13.0"
+    "@types/node": "npm:^20.14.8"
     "@typescript-eslint/eslint-plugin": "npm:^7.13.1"
     "@typescript-eslint/parser": "npm:^7.13.1"
     "@vitest/coverage-v8": "npm:^1.6.0"
