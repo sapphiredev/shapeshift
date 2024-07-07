@@ -61,7 +61,7 @@
 		"jsdom": "^24.1.0",
 		"lint-staged": "^15.2.7",
 		"prettier": "^3.3.2",
-		"rimraf": "^5.0.7",
+		"rimraf": "^5.0.8",
 		"tsup": "^8.1.0",
 		"typedoc": "^0.25.13",
 		"typedoc-json-parser": "^10.0.0",
