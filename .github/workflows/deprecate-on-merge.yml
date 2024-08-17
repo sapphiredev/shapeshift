@@ -8,20 +8,8 @@ on:
 jobs:
   deprecate-on-merge:
     name: NPM Deprecate PR versions On Merge
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v4
-      - name: Use Node.js v20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: yarn
-          registry-url: https://registry.yarnpkg.org/
-      - name: Install Dependencies
-        run: yarn --immutable
-      - name: Deprecate versions
-        run: yarn npm-deprecate --name "*pr-${PR_NUMBER}*" -d -v
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-          PR_NUMBER: ${{ github.event.number }}
+    uses: sapphiredev/.github/.github/workflows/reusable-yarn-job.yml@main
+    with:
+      script-name: npm-deprecate --name "*pr-${{ github.event.number }}*" -d -v
+    secrets:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}

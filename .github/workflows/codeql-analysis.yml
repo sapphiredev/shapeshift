@@ -1,4 +1,4 @@
-name: Code Scanning
+name: Code scanning
 
 on:
   push:
@@ -11,17 +11,6 @@ on:
     - cron: '30 1 * * 0'
 
 jobs:
-  CodeQL:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: typescript
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+  codeql:
+    name: Analysis
+    uses: sapphiredev/.github/.github/workflows/reusable-codeql.yml@main

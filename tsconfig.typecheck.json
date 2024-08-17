@@ -1,0 +1,7 @@
+{
+	"extends": "./tsconfig.eslint.json",
+	"compilerOptions": {
+		"skipLibCheck": true
+	},
+	"exclude": ["tests/browser/browser.test.ts"]
+}

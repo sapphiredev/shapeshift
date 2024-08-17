@@ -2,6 +2,7 @@
 	"extends": "../tsconfig.base.json",
 	"include": ["."],
 	"compilerOptions": {
-		"types": ["vitest/globals"]
+		"types": ["vitest/globals", "@vitest/browser/providers/playwright"],
+		"lib": ["ESNext", "DOM"]
 	}
 }
