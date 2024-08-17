@@ -21,12 +21,10 @@ jobs:
           rm -rf .yarn yarn.lock .yarnrc.yml
           jq 'del(.packageManager)' package.json > package.json.tmp
           mv package.json.tmp package.json
-      - name: Use Node.js v16
-        uses: actions/setup-node@v4
+      - name: Install dependencies
+        uses: sapphiredev/.github/actions/install-yarn-dependencies@main
         with:
-          node-version: v16
-      - name: Install Dependencies
-        run: yarn install
+          node-version: 16
       - name: Typecheck And Build Code
         run: yarn typecheck && yarn build
       - name: Run tests

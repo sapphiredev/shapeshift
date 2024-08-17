@@ -9,7 +9,6 @@
 Blazing fast input validation and transformation ⚡
 
 [![GitHub](https://img.shields.io/github/license/sapphiredev/shapeshift)](https://github.com/sapphiredev/shapeshift/blob/main/LICENSE.md)
-[![codecov](https://codecov.io/gh/sapphiredev/shapeshift/branch/main/graph/badge.svg?token=RF4mMKx6lL)](https://codecov.io/gh/sapphiredev/shapeshift)
 [![npm](https://img.shields.io/npm/v/@sapphire/shapeshift?color=crimson&logo=npm&style=flat-square)](https://www.npmjs.com/package/@sapphire/shapeshift)
 
 </div>

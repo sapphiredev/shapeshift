@@ -3,8 +3,8 @@
 	"compilerOptions": {
 		"noEmit": true,
 		"incremental": false,
-		"types": ["vitest/globals"],
+		"types": ["vitest/globals", "@vitest/browser/providers/playwright"],
 		"lib": ["dom", "esnext"]
 	},
-	"include": ["src", "tests", "scripts", "vitest.config.ts", "tsup.config.ts"]
+	"include": ["src", "tests", "scripts", "vitest.config.ts", "vitest.workspace.ts", "tsup.config.ts"]
 }
