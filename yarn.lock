@@ -1445,7 +1445,7 @@ __metadata:
     "@vitest/browser": "npm:^2.0.5"
     "@vitest/coverage-istanbul": "npm:^2.0.5"
     cz-conventional-changelog: "npm:^3.3.0"
-    esbuild-plugins-node-modules-polyfill: "npm:^1.6.4"
+    esbuild-plugins-node-modules-polyfill: "npm:^1.6.5"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.2.1"
@@ -3495,16 +3495,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild-plugins-node-modules-polyfill@npm:^1.6.4":
-  version: 1.6.4
-  resolution: "esbuild-plugins-node-modules-polyfill@npm:1.6.4"
+"esbuild-plugins-node-modules-polyfill@npm:^1.6.5":
+  version: 1.6.5
+  resolution: "esbuild-plugins-node-modules-polyfill@npm:1.6.5"
   dependencies:
     "@jspm/core": "npm:^2.0.1"
     local-pkg: "npm:^0.5.0"
     resolve.exports: "npm:^2.0.2"
   peerDependencies:
-    esbuild: ^0.14.0 || ^0.15.0 || ^0.16.0 || ^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0
-  checksum: 10/cb2c91a603093fabcaef66ba37b70056c617436d32055efb7409382d39c775c1306792622da407b067a2e422c4c59f3a24bc2f9dd2cf64bbc6c03d150c7c5edc
+    esbuild: ">=0.14.0 <=0.23.0"
+  checksum: 10/d3a76da9c15f5526aca3f1121c7b91fd9eafdc4874633196d835895e6d961ff48f69eab9655e4905cd95ffa8d76c191999dfc8d295dc4f34c5f69465a3a7c815
   languageName: node
   linkType: hard
 
