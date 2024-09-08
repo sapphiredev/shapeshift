@@ -61,8 +61,8 @@
 		"eslint": "^8.57.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-prettier": "^5.2.1",
-		"lint-staged": "^15.2.9",
-		"playwright": "^1.46.1",
+		"lint-staged": "^15.2.10",
+		"playwright": "^1.47.0",
 		"prettier": "^3.3.3",
 		"rimraf": "^6.0.1",
 		"tsup": "^8.2.4",
@@ -71,7 +71,7 @@
 		"typescript": "~5.4.5",
 		"vite-plugin-node-polyfills": "^0.22.0",
 		"vitest": "^2.0.5",
-		"vue": "^3.4.38"
+		"vue": "^3.5.3"
 	},
 	"repository": {
 		"type": "git",
