@@ -8,7 +8,7 @@
 				"enabled": false
 			},
 			{
-				"matchPackagePatterns": ["@vitejs/plugin-vue", "@vitest/browser", "@vitest/coverage-istanbul", "vitest", "vue"],
+				"matchPackagePatterns": ["@vitejs/plugin-vue", "@vitest/browser", "@vitest/coverage-istanbul"],
 				"description": "These packages should be locked until https://github.com/vitest-dev/vitest/issues/5477 is resolved",
 				"enabled": false
 			}
