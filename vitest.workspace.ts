@@ -12,21 +12,18 @@ export default defineWorkspace([
 		}
 	},
 	{
+		extends: 'vitest.config.ts',
 		plugins: [vue(), nodePolyfills()],
 		test: {
-			includeTaskLocation: true,
 			setupFiles: ['tests/browser/vitest-setup.ts'],
 			include: ['tests/browser/**/*.test.ts'],
 			name: 'browser',
-			globals: true,
 			browser: {
 				enabled: true,
 				name: 'chromium',
-				provider: 'playwright'
+				provider: 'playwright',
+				headless: true
 			}
-		},
-		esbuild: {
-			target: 'es2020'
 		}
 	}
 ]);
