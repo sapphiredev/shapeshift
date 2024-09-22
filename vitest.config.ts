@@ -5,7 +5,7 @@ export default defineConfig({
 		includeTaskLocation: true,
 		globals: true,
 		coverage: {
-			provider: 'v8',
+			provider: 'istanbul',
 			enabled: true,
 			reporter: ['text', 'lcov'],
 			include: ['src/**/*.ts'],
