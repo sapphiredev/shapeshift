@@ -27,6 +27,7 @@
 		"format": "prettier --write \"{src,tests}/**/*.ts\"",
 		"docs": "typedoc-json-parser",
 		"test": "yarn playwright install && vitest run",
+		"test:ci": "yarn playwright install --with-deps && vitest run",
 		"build": "tsup && yarn build:rename-cjs-index",
 		"build:rename-cjs-index": "node scripts/rename-cjs-index.mjs",
 		"clean": "rimraf dist",
