@@ -50,7 +50,7 @@
 		"@sapphire/ts-config": "^5.0.1",
 		"@testing-library/jest-dom": "^6.5.0",
 		"@testing-library/vue": "^8.1.0",
-		"@types/lodash": "^4.17.7",
+		"@types/lodash": "^4.17.9",
 		"@types/node": "^20.16.5",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
@@ -72,7 +72,7 @@
 		"typescript": "~5.4.5",
 		"vite-plugin-node-polyfills": "^0.22.0",
 		"vitest": "2.0.5",
-		"vue": "^3.5.8"
+		"vue": "^3.5.10"
 	},
 	"repository": {
 		"type": "git",
