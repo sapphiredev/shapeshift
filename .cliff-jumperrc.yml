@@ -8,4 +8,5 @@ identifierBase: false
 pushTag: true
 githubRelease: true
 githubReleaseLatest: true
-githubRepo: sapphiredev/shapeshift
+gitRepo: sapphiredev/shapeshift
+gitHostVariant: github
