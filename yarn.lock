@@ -1026,7 +1026,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jspm/core@npm:^2.0.1":
+"@jspm/core@npm:2.0.1":
   version: 2.0.1
   resolution: "@jspm/core@npm:2.0.1"
   checksum: 10/663abbcedfd20eab4574095b37ade1aeff820dde45a8d67026a5f1215ba675d303042008a79fc296c0b56bb3ce15647367cea136a152ede450ac626e82be6b8f
@@ -1480,7 +1480,7 @@ __metadata:
     "@vitest/browser": "npm:2.0.5"
     "@vitest/coverage-istanbul": "npm:2.0.5"
     cz-conventional-changelog: "npm:^3.3.0"
-    esbuild-plugins-node-modules-polyfill: "npm:^1.6.7"
+    esbuild-plugins-node-modules-polyfill: "npm:^1.6.8"
     eslint: "npm:^8.57.1"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.2.1"
@@ -3591,16 +3591,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild-plugins-node-modules-polyfill@npm:^1.6.7":
-  version: 1.6.7
-  resolution: "esbuild-plugins-node-modules-polyfill@npm:1.6.7"
+"esbuild-plugins-node-modules-polyfill@npm:^1.6.8":
+  version: 1.6.8
+  resolution: "esbuild-plugins-node-modules-polyfill@npm:1.6.8"
   dependencies:
-    "@jspm/core": "npm:^2.0.1"
+    "@jspm/core": "npm:2.0.1"
     local-pkg: "npm:^0.5.0"
     resolve.exports: "npm:^2.0.2"
   peerDependencies:
-    esbuild: ">=0.14.0 <=0.23.x"
-  checksum: 10/202300e3801aeb72dad6f1e117fb2e9557347868a25007e84c2e5af28ee0e2fdbfbdd2439fce459ffcdbf21ca5506aa945fab0d179b96461b90be744f2aebd47
+    esbuild: ">=0.14.0 <=0.24.x"
+  checksum: 10/9d2d304e23801628709e9184e492b5ea5e09146e1df48ef03b3d050755a71c33f823665f2a146c43880838f901a9c0580afd47598a530fb4ac783b3134474c47
   languageName: node
   linkType: hard
 
