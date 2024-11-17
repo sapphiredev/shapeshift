@@ -54,7 +54,7 @@
 		"@types/node": "^20.16.5",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
-		"@vitejs/plugin-vue": "^5.1.4",
+		"@vitejs/plugin-vue": "^5.2.0",
 		"@vitest/browser": "2.0.5",
 		"@vitest/coverage-istanbul": "2.0.5",
 		"cz-conventional-changelog": "^3.3.0",
@@ -72,7 +72,7 @@
 		"typescript": "~5.4.5",
 		"vite-plugin-node-polyfills": "^0.22.0",
 		"vitest": "2.0.5",
-		"vue": "^3.5.12"
+		"vue": "^3.5.13"
 	},
 	"repository": {
 		"type": "git",
