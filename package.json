@@ -54,7 +54,7 @@
 		"@types/node": "^20.16.5",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
-		"@vitejs/plugin-vue": "^5.2.0",
+		"@vitejs/plugin-vue": "^5.2.1",
 		"@vitest/browser": "2.0.5",
 		"@vitest/coverage-istanbul": "2.0.5",
 		"cz-conventional-changelog": "^3.3.0",
@@ -64,7 +64,7 @@
 		"eslint-plugin-prettier": "^5.2.1",
 		"lint-staged": "^15.2.10",
 		"playwright": "^1.49.0",
-		"prettier": "^3.3.3",
+		"prettier": "^3.4.1",
 		"rimraf": "^6.0.1",
 		"tsup": "^8.3.5",
 		"typedoc": "^0.25.13",
@@ -128,5 +128,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.8"
 	},
-	"packageManager": "yarn@4.5.2"
+	"packageManager": "yarn@4.5.3"
 }
