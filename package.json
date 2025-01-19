@@ -70,7 +70,7 @@
 		"typedoc": "^0.25.13",
 		"typedoc-json-parser": "^10.1.5",
 		"typescript": "~5.4.5",
-		"vite-plugin-node-polyfills": "^0.22.0",
+		"vite-plugin-node-polyfills": "^0.23.0",
 		"vitest": "2.0.5",
 		"vue": "^3.5.13"
 	},
