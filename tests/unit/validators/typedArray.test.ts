@@ -403,7 +403,7 @@ describe.each(['custom message', undefined])('TypedArray (%s)', (message) => {
 					's.typedArray(T).byteLengthRange()',
 					message ?? 'Invalid Typed Array byte length',
 					input,
-					'expected.byteLength >= 10 AND <= 20'
+					'expected.byteLength >= 10 && expected.byteLength < 20'
 				)
 			);
 		});
@@ -421,7 +421,7 @@ describe.each(['custom message', undefined])('TypedArray (%s)', (message) => {
 					's.typedArray(T).lengthRange()',
 					message ?? 'Invalid Typed Array length',
 					input,
-					'expected.length >= 10 AND <= 20'
+					'expected.length >= 10 && expected.length < 20'
 				)
 			);
 		});
@@ -441,7 +441,7 @@ describe.each(['custom message', undefined])('TypedArray (%s)', (message) => {
 					's.typedArray(T).byteLengthRangeInclusive()',
 					message ?? 'Invalid Typed Array byte length',
 					input,
-					'expected.byteLength >= 10 AND <= 20'
+					'expected.byteLength >= 10 && expected.byteLength <= 20'
 				)
 			);
 		});
@@ -459,7 +459,7 @@ describe.each(['custom message', undefined])('TypedArray (%s)', (message) => {
 					's.typedArray(T).lengthRangeInclusive()',
 					message ?? 'Invalid Typed Array length',
 					input,
-					'expected.length >= 10 AND <= 20'
+					'expected.length >= 10 && expected.length <= 20'
 				)
 			);
 		});
@@ -479,7 +479,7 @@ describe.each(['custom message', undefined])('TypedArray (%s)', (message) => {
 					's.typedArray(T).byteLengthRangeExclusive()',
 					message ?? 'Invalid Typed Array byte length',
 					input,
-					'expected.byteLength > 10 AND < 20'
+					'expected.byteLength > 10 && expected.byteLength < 20'
 				)
 			);
 		});
@@ -497,7 +497,7 @@ describe.each(['custom message', undefined])('TypedArray (%s)', (message) => {
 					's.typedArray(T).lengthRangeExclusive()',
 					message ?? 'Invalid Typed Array length',
 					input,
-					'expected.length > 10 AND < 20'
+					'expected.length > 10 && expected.length < 20'
 				)
 			);
 		});
