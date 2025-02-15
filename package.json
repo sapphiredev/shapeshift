@@ -78,7 +78,7 @@
 		"UPGRADING-v3-v4.md"
 	],
 	"engines": {
-		"node": ">=v16"
+		"node": ">=20.x"
 	},
 	"keywords": [
 		"@sapphire/shapeshift",
