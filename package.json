@@ -40,8 +40,8 @@
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^19.7.1",
-		"@commitlint/config-conventional": "^19.7.1",
+		"@commitlint/cli": "^19.8.0",
+		"@commitlint/config-conventional": "^19.8.0",
 		"@favware/cliff-jumper": "^6.0.0",
 		"@favware/npm-deprecate": "^2.0.0",
 		"@sapphire/eslint-config": "^5.0.5",
@@ -57,10 +57,10 @@
 		"cz-conventional-changelog": "^3.3.0",
 		"esbuild-plugins-node-modules-polyfill": "^1.7.0",
 		"eslint": "^8.57.1",
-		"eslint-config-prettier": "^10.0.2",
+		"eslint-config-prettier": "^10.1.1",
 		"eslint-plugin-prettier": "^5.2.3",
 		"lint-staged": "^15.4.3",
-		"prettier": "^3.5.2",
+		"prettier": "^3.5.3",
 		"rimraf": "^6.0.1",
 		"tsup": "^8.4.0",
 		"typedoc": "^0.25.13",
