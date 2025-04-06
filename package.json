@@ -58,7 +58,7 @@
 		"esbuild-plugins-node-modules-polyfill": "^1.7.0",
 		"eslint": "^8.57.1",
 		"eslint-config-prettier": "^10.1.1",
-		"eslint-plugin-prettier": "^5.2.5",
+		"eslint-plugin-prettier": "^5.2.6",
 		"lint-staged": "^15.5.0",
 		"prettier": "^3.5.3",
 		"rimraf": "^6.0.1",
