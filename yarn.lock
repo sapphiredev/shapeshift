@@ -1251,7 +1251,7 @@ __metadata:
     lodash: "npm:^4.17.21"
     prettier: "npm:^3.5.3"
     rimraf: "npm:^6.0.1"
-    tsup: "npm:^8.4.0"
+    tsup: "npm:^8.5.0"
     typedoc: "npm:^0.25.13"
     typedoc-json-parser: "npm:^10.2.0"
     typescript: "npm:~5.4.5"
@@ -3772,6 +3772,17 @@ __metadata:
     micromatch: "npm:^4.0.2"
     resolve-dir: "npm:^1.0.1"
   checksum: 10/94131e1107ad63790ed00c4c39ca131a93ea602607bd97afeffd92b69a9a63cf2c6f57d6db88cb753fe748ac7fde79e1e76768ff784247026b7c5ebf23ede3a0
+  languageName: node
+  linkType: hard
+
+"fix-dts-default-cjs-exports@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "fix-dts-default-cjs-exports@npm:1.0.1"
+  dependencies:
+    magic-string: "npm:^0.30.17"
+    mlly: "npm:^1.7.4"
+    rollup: "npm:^4.34.8"
+  checksum: 10/3324418bb63c93b6b22a808e242d220caba804860c24218b2912abc4525525334fcdcb62d22be6472a8d84ee2ad4165bc79554140c3369eb11d23220cdd986ce
   languageName: node
   linkType: hard
 
@@ -7563,9 +7574,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^8.4.0":
-  version: 8.4.0
-  resolution: "tsup@npm:8.4.0"
+"tsup@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "tsup@npm:8.5.0"
   dependencies:
     bundle-require: "npm:^5.1.0"
     cac: "npm:^6.7.14"
@@ -7573,6 +7584,7 @@ __metadata:
     consola: "npm:^3.4.0"
     debug: "npm:^4.4.0"
     esbuild: "npm:^0.25.0"
+    fix-dts-default-cjs-exports: "npm:^1.0.0"
     joycon: "npm:^3.1.1"
     picocolors: "npm:^1.1.1"
     postcss-load-config: "npm:^6.0.1"
@@ -7600,7 +7612,7 @@ __metadata:
   bin:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
-  checksum: 10/40a7000d50f4c1858495ac12b2547a8eb3d5730d7db2f0ff12bd43640859d4808f8ed63712e73d60fb2595e5867114c80b4eb05f107620f192767efcdbef529b
+  checksum: 10/426f5de085fb7f3321a1d7910af4a56279341e571f9fb0b28be1a44ff0efa7fdd4e886eadd86b00a500696b3a76fc4e8b19567389ac64c345b559f860c3c6f9f
   languageName: node
   linkType: hard
 
