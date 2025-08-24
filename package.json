@@ -47,7 +47,7 @@
 		"@sapphire/eslint-config": "^5.0.6",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
-		"@testing-library/jest-dom": "^6.7.0",
+		"@testing-library/jest-dom": "^6.8.0",
 		"@testing-library/vue": "^8.1.0",
 		"@types/lodash": "^4.17.20",
 		"@types/node": "^22.15.14",
@@ -123,5 +123,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.8"
 	},
-	"packageManager": "yarn@4.9.2"
+	"packageManager": "yarn@4.9.3"
 }
