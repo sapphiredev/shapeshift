@@ -6,5 +6,5 @@
 		"types": ["vitest/globals"],
 		"lib": ["dom", "esnext"]
 	},
-	"include": ["src", "tests", "scripts", "vitest.config.ts", "vitest.workspace.ts", "tsup.config.ts"]
+	"include": ["src", "tests", "scripts", "vitest.config.ts", "vitest.workspace.ts", "tsdown.config.ts"]
 }
