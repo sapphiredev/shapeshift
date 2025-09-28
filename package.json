@@ -34,7 +34,7 @@
 		"check-update": "cliff-jumper --dry-run",
 		"prepack": "yarn build"
 	},
-	"packageManager": "yarn@4.10.0",
+	"packageManager": "yarn@4.10.3",
 	"resolutions": {
 		"@types/node": "20.19.17",
 		"ansi-regex": "^5.0.1",
@@ -64,7 +64,7 @@
 		"eslint": "^8.57.1",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.4",
-		"lint-staged": "^16.1.6",
+		"lint-staged": "^16.2.1",
 		"prettier": "^3.6.2",
 		"tsup": "^8.5.0",
 		"typedoc": "^0.25.13",
