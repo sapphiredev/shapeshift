@@ -34,7 +34,7 @@
 		"check-update": "cliff-jumper --dry-run",
 		"prepack": "yarn build"
 	},
-	"packageManager": "yarn@4.10.3",
+	"packageManager": "yarn@4.11.0",
 	"resolutions": {
 		"@types/node": "20.19.17",
 		"ansi-regex": "^5.0.1",
