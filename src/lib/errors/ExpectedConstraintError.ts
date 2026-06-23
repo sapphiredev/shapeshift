@@ -1,4 +1,4 @@
-import { inspect, type InspectOptionsStylized } from 'util';
+import { inspect, type InspectContext } from 'util';
 import { BaseConstraintError, type ConstraintErrorNames } from './BaseConstraintError';
 import { customInspectSymbolStackLess } from './BaseError';
 import type { ExpectedConstraintErrorJsonified } from './error-types';
@@ -21,7 +21,7 @@ export class ExpectedConstraintError<T = unknown> extends BaseConstraintError<T>
 		};
 	}
 
-	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectContext): string {
 		const constraint = options.stylize(this.constraint, 'string');
 		if (depth < 0) {
 			return options.stylize(`[ExpectedConstraintError: ${constraint}]`, 'special');

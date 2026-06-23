@@ -1,4 +1,4 @@
-import type { InspectOptionsStylized } from 'util';
+import type { InspectContext } from 'util';
 import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
@@ -11,7 +11,7 @@ export class CombinedPropertyError extends BaseError {
 		this.errors = errors;
 	}
 
-	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectContext): string {
 		if (depth < 0) {
 			return options.stylize('[CombinedPropertyError]', 'special');
 		}
@@ -33,7 +33,7 @@ export class CombinedPropertyError extends BaseError {
 		return `${header}\n  ${message}\n\n${errors}`;
 	}
 
-	private static formatProperty(key: PropertyKey, options: InspectOptionsStylized): string {
+	private static formatProperty(key: PropertyKey, options: InspectContext): string {
 		if (typeof key === 'string') return options.stylize(`.${key}`, 'symbol');
 		if (typeof key === 'number') return `[${options.stylize(key.toString(), 'number')}]`;
 		return `[${options.stylize('Symbol', 'symbol')}(${key.description})]`;
