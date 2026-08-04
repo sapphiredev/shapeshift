@@ -1,6 +1,6 @@
 {
 	"name": "@sapphire/shapeshift",
-	"version": "4.0.0",
+	"version": "5.0.0",
 	"description": "Blazing fast input validation and transformation ⚡",
 	"author": "@sapphire",
 	"license": "MIT",

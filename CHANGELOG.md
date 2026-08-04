@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.0](https://github.com/sapphiredev/shapeshift/compare/v4.0.0...v5.0.0) - (2026-08-04)
+
+## 🏠 Refactor
+
+- **types:** Drop support for Node <26 ([a3dd1a9](https://github.com/sapphiredev/shapeshift/commit/a3dd1a9971526b945121042c9475f43cd6c27655)) ([#466](https://github.com/sapphiredev/shapeshift/pull/466) by @favna)
+  - 💥 **BREAKING CHANGE:** This is a type-only breaking change caused by the node util InspectContext change.
+  - 💥 **BREAKING CHANGE:** Projects using @types/node below 26 will now get type errors on this major.
+- Change minimum NodeJS version to v20 or above ([c1f3b08](https://github.com/sapphiredev/shapeshift/commit/c1f3b0876315b0ec77a8a072c4106fe7c76a15b1)) ([#418](https://github.com/sapphiredev/shapeshift/pull/418) by @favna)
+  - 💥 **BREAKING CHANGE:** Official support for NodeJS v16 and v18 has been dropped. While Shapeshift *may* still work with these old versions, we strongly recommend updating and no further support will be given for these versions.
+
+## 📝 Documentation
+
+- **readme:** Fix a trio of links in the table of contents ([d6f7754](https://github.com/sapphiredev/shapeshift/commit/d6f7754512927c12388f39971737def69a6ee2ca))
+
+## 🧪 Testing
+
+- Remove browser testing ([1330f77](https://github.com/sapphiredev/shapeshift/commit/1330f774e3ce1fbc1d35e4c61c046d36a2f4f324))
+
 # [4.0.0](https://github.com/sapphiredev/shapeshift/compare/v3.9.7...v4.0.0) - (2024-05-20)
 
 ## 🚀 Features
