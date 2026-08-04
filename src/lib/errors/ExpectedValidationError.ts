@@ -1,7 +1,7 @@
-import { inspect, type InspectOptionsStylized } from 'util';
+import { inspect, type InspectContext } from 'util';
 import { customInspectSymbolStackLess } from './BaseError';
-import type { ExpectedValidationErrorJsonified } from './error-types';
 import { ValidationError } from './ValidationError';
+import type { ExpectedValidationErrorJsonified } from './error-types';
 
 export class ExpectedValidationError<T> extends ValidationError {
 	public readonly expected: T;
@@ -21,7 +21,7 @@ export class ExpectedValidationError<T> extends ValidationError {
 		};
 	}
 
-	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectContext): string {
 		const validator = options.stylize(this.validator, 'string');
 		if (depth < 0) {
 			return options.stylize(`[ExpectedValidationError: ${validator}]`, 'special');

@@ -1,4 +1,4 @@
-import type { InspectOptionsStylized } from 'util';
+import type { InspectContext } from 'util';
 import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
@@ -11,7 +11,7 @@ export class CombinedError extends BaseError {
 		this.errors = errors;
 	}
 
-	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectContext): string {
 		if (depth < 0) {
 			return options.stylize('[CombinedError]', 'special');
 		}

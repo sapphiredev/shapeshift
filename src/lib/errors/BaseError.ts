@@ -1,4 +1,4 @@
-import type { InspectOptionsStylized } from 'util';
+import type { InspectContext } from 'util';
 import type { BaseErrorJsonified } from './error-types';
 
 export const customInspectSymbol = Symbol.for('nodejs.util.inspect.custom');
@@ -12,9 +12,9 @@ export abstract class BaseError extends Error {
 		};
 	}
 
-	protected [customInspectSymbol](depth: number, options: InspectOptionsStylized) {
+	protected [customInspectSymbol](depth: number, options: InspectContext) {
 		return `${this[customInspectSymbolStackLess](depth, options)}\n${this.stack!.slice(this.stack!.indexOf('\n'))}`;
 	}
 
-	protected abstract [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string;
+	protected abstract [customInspectSymbolStackLess](depth: number, options: InspectContext): string;
 }

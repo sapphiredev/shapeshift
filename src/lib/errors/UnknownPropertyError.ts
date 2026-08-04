@@ -1,4 +1,4 @@
-import { inspect, type InspectOptionsStylized } from 'util';
+import { inspect, type InspectContext } from 'util';
 import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 import type { UnknownEnumKeyErrorJsonified } from './error-types';
@@ -23,7 +23,7 @@ export class UnknownPropertyError extends BaseError {
 		};
 	}
 
-	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectContext): string {
 		const property = options.stylize(this.property.toString(), 'string');
 		if (depth < 0) {
 			return options.stylize(`[UnknownPropertyError: ${property}]`, 'special');

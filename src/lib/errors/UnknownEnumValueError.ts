@@ -1,4 +1,4 @@
-import type { InspectOptionsStylized } from 'util';
+import type { InspectContext } from 'util';
 import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 import type { UnknownEnumValueErrorJsonified } from './error-types';
@@ -31,7 +31,7 @@ export class UnknownEnumValueError extends BaseError {
 		};
 	}
 
-	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectContext): string {
 		const value = options.stylize(this.value.toString(), 'string');
 		if (depth < 0) {
 			return options.stylize(`[UnknownEnumValueError: ${value}]`, 'special');

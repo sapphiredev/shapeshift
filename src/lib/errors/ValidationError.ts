@@ -1,4 +1,4 @@
-import { inspect, type InspectOptionsStylized } from 'util';
+import { inspect, type InspectContext } from 'util';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 import type { ValidationErrorJsonified } from './error-types';
 
@@ -22,7 +22,7 @@ export class ValidationError extends BaseError {
 		};
 	}
 
-	protected [customInspectSymbolStackLess](depth: number, options: InspectOptionsStylized): string {
+	protected [customInspectSymbolStackLess](depth: number, options: InspectContext): string {
 		const validator = options.stylize(this.validator, 'string');
 		if (depth < 0) {
 			return options.stylize(`[ValidationError: ${validator}]`, 'special');
