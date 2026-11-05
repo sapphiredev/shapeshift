@@ -61,7 +61,7 @@
 		"eslint-plugin-prettier": "^5.5.4",
 		"lint-staged": "^16.4.0",
 		"prettier": "^3.7.4",
-		"tsup": "^8.5.1",
+		"tsup": "^9.0.0",
 		"typedoc": "^0.28.19",
 		"typedoc-json-parser": "^10.2.0",
 		"typescript": "~5.4.5",
