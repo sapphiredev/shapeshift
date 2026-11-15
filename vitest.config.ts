@@ -11,8 +11,5 @@ export default defineConfig({
 			include: ['src/**/*.ts'],
 			exclude: ['src/constraints/base/IConstraint.ts', 'src/constraints/type-exports.ts']
 		}
-	},
-	esbuild: {
-		target: 'es2020'
 	}
 });

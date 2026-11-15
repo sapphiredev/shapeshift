@@ -7,6 +7,6 @@ export default defineConfig({
 	format: 'esm',
 	outDir: 'dist',
 	sourcemap: true,
-	target: 'es2020',
+	target: 'es2024',
 	tsconfig: 'src/tsconfig.json'
 });
