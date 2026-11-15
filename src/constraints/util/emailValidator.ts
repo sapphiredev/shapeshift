@@ -1,28 +1,32 @@
 /**
- * @license MIT
- * @copyright 2020 Colin McDonnell
+ * license MIT
+ *
+ * copyright 2020 Colin McDonnell
+ *
  * @see https://github.com/colinhacks/zod/blob/master/LICENSE
  */
+// eslint-disable-next-line prefer-named-capture-group
 const accountRegex = /^(?!\.)(?!.*\.\.)([\w+-.]*)[\w+-]$/i;
 
 /**
  * Validates an email address string based on various checks:
  * - It must be a non nullish and non empty string
- * - It must include at least an `@` symbol`
+ * - It must include at least an `@` symbol
  * - The account name may not exceed 64 characters
  * - The domain name may not exceed 255 characters
  * - The domain must include at least one `.` symbol
  * - Each part of the domain, split by `.` must not exceed 63 characters
  * - The email address must be [RFC-5322](https://datatracker.ietf.org/doc/html/rfc5322) compliant
  *
- * @param email The email to validate
- * @returns `true` if the email is valid, `false` otherwise
- * @remark Based on the following sources:
+ *  Based on the following sources:
  * - `email-validator` by [manisharaan](https://github.com/manishsaraan) ([code](https://github.com/manishsaraan/email-validator/blob/master/index.js))
  * - [Comparing E-mail Address Validating Regular Expressions](http://fightingforalostcause.net/misc/2006/compare-email-regex.php)
  * - [Validating Email Addresses by Derrick Pallas](http://thedailywtf.com/Articles/Validating_Email_Addresses.aspx)
  * - [StackOverflow answer by bortzmeyer](http://stackoverflow.com/questions/201323/what-is-the-best-regular-expression-for-validating-email-addresses/201378#201378)
  * - [The wikipedia page on Email addresses](https://en.wikipedia.org/wiki/Email_address)
+ *
+ * @param email - The email to validate
+ * @returns `true` if the email is valid, `false` otherwise
  */
 export function validateEmail(email: string): boolean {
 	// 1. Non-nullish and non-empty string check.
