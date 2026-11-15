@@ -11,13 +11,6 @@ jobs:
     name: Linting
     uses: sapphiredev/.github/.github/workflows/reusable-lint.yml@main
 
-  docs:
-    name: Docgen
-    if: github.event_name == 'pull_request'
-    uses: sapphiredev/.github/.github/workflows/reusable-yarn-job.yml@main
-    with:
-      script-name: docs
-
   build:
     name: Building
     uses: sapphiredev/.github/.github/workflows/reusable-build.yml@main

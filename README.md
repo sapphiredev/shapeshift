@@ -74,14 +74,15 @@ Blazing fast input validation and transformation ⚡
 
 A very fast and lightweight input validation and transformation library for JavaScript.
 
-> **Note**: Shapeshift requires Node.js v14.0.0 or higher to work.
+> **Note**: Shapeshift requires Node.js v26.0.0 or higher and is distributed as ESM only. Separate CommonJS and browser
+> global builds are no longer provided.
 
 ## Features
 
 [Back to top][toc]
 
 - TypeScript friendly
-- Offers CJS, ESM and UMD builds
+- Offers an ESM build
 - API similar to [`zod`] and [`yup`]
 - Faster than ⚡
 
