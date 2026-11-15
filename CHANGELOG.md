@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.0.0](https://github.com/sapphiredev/shapeshift/compare/v5.0.0...v6.0.0) - (2026-11-15)
+
+## 🏠 Refactor
+
+- **errors:** Update import paths and types ([058d979](https://github.com/sapphiredev/shapeshift/commit/058d979f410339dd396f5ccdd9001364430f14f0))
+
+## 🐛 Bug Fixes
+
+- Correct validator return types and resolve lint errors ([48fe811](https://github.com/sapphiredev/shapeshift/commit/48fe811f0a48724ed6311fbb859ba77b536fdc1a))
+
+## 🚀 Features
+
+- Publish an ESM-only package ([b97e51b](https://github.com/sapphiredev/shapeshift/commit/b97e51b589e9fe63c9c88de17e7d6a4844524aa2))
+  - 💥 **BREAKING CHANGE:** remove CommonJS and browser global entry points; consumers must use ESM.
+
+## 🪞 Styling
+
+- **docs:** Improve documentation formatting and clarity ([98bd46c](https://github.com/sapphiredev/shapeshift/commit/98bd46c7708de07b8bd99d8b24459ceeec121a4b))
+
 # [5.0.0](https://github.com/sapphiredev/shapeshift/compare/v4.0.0...v5.0.0) - (2026-08-04)
 
 ## 🏠 Refactor
