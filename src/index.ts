@@ -14,4 +14,4 @@ export * from './lib/errors/MultiplePossibilitiesConstraintError';
 export * from './lib/errors/UnknownEnumValueError';
 export * from './lib/errors/UnknownPropertyError';
 export * from './lib/errors/ValidationError';
-export * from './type-exports';
+export type * from './type-exports';

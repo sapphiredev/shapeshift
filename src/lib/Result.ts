@@ -1,6 +1,8 @@
 export class Result<T, E extends Error = Error> {
 	public readonly success: boolean;
+
 	public readonly value?: T;
+
 	public readonly error?: E;
 
 	private constructor(success: boolean, value?: T, error?: E) {
@@ -16,7 +18,7 @@ export class Result<T, E extends Error = Error> {
 		return this.success;
 	}
 
-	public isErr(): this is { success: false; error: E } {
+	public isErr(): this is { error: E; success: false } {
 		return !this.success;
 	}
 

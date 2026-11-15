@@ -8,6 +8,7 @@ import { BaseValidator } from './imports';
 
 export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 	private readonly keyValidator: BaseValidator<K>;
+
 	private readonly valueValidator: BaseValidator<V>;
 
 	public constructor(
@@ -25,7 +26,7 @@ export class MapValidator<K, V> extends BaseValidator<Map<K, V>> {
 		return Reflect.construct(this.constructor, [this.keyValidator, this.valueValidator, this.validatorOptions, this.constraints]);
 	}
 
-	protected handle(value: unknown): Result<Map<K, V>, ValidationError | CombinedPropertyError> {
+	protected handle(value: unknown): Result<Map<K, V>, CombinedPropertyError | ValidationError> {
 		if (!(value instanceof Map)) {
 			return Result.err(new ValidationError('s.map(K, V)', this.validatorOptions.message ?? 'Expected a map', value));
 		}

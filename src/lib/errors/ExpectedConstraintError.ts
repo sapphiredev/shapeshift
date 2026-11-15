@@ -1,4 +1,4 @@
-import { inspect, type InspectContext } from 'util';
+import { inspect, type InspectContext } from 'node:util';
 import { BaseConstraintError, type ConstraintErrorNames } from './BaseConstraintError';
 import { customInspectSymbolStackLess } from './BaseError';
 import type { ExpectedConstraintErrorJsonified } from './error-types';
@@ -30,7 +30,7 @@ export class ExpectedConstraintError<T = unknown> extends BaseConstraintError<T>
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1 };
 
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
-		const given = inspect(this.given, newOptions).replace(/\n/g, padding);
+		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
 
 		const header = `${options.stylize('ExpectedConstraintError', 'special')} > ${constraint}`;
 		const message = options.stylize(this.message, 'regexp');

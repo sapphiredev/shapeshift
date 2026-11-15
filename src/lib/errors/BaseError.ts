@@ -1,4 +1,4 @@
-import type { InspectContext } from 'util';
+import type { InspectContext } from 'node:util';
 import type { BaseErrorJsonified } from './error-types';
 
 export const customInspectSymbol = Symbol.for('nodejs.util.inspect.custom');

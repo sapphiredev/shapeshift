@@ -6,15 +6,7 @@ import { equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notE
 import type { TypedArray } from './util/typedArray';
 
 export type TypedArrayConstraintName = `s.typedArray(T).${'byteLength' | 'length'}${
-	| 'LessThan'
-	| 'LessThanOrEqual'
-	| 'GreaterThan'
-	| 'GreaterThanOrEqual'
-	| 'Equal'
-	| 'NotEqual'
-	| 'Range'
-	| 'RangeInclusive'
-	| 'RangeExclusive'}()`;
+	'Equal' | 'GreaterThan' | 'GreaterThanOrEqual' | 'LessThan' | 'LessThanOrEqual' | 'NotEqual' | 'Range' | 'RangeExclusive' | 'RangeInclusive'}()`;
 
 function typedArrayByteLengthComparator<T extends TypedArray>(
 	comparator: Comparator,

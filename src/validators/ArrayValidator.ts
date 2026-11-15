@@ -94,7 +94,7 @@ export class ArrayValidator<T extends unknown[], I = T[number]> extends BaseVali
 		return Reflect.construct(this.constructor, [this.validator, this.validatorOptions, this.constraints]);
 	}
 
-	protected handle(values: unknown): Result<T, ValidationError | CombinedPropertyError> {
+	protected handle(values: unknown): Result<T, CombinedPropertyError | ValidationError> {
 		if (!Array.isArray(values)) {
 			return Result.err(new ValidationError('s.array(T)', this.validatorOptions.message ?? 'Expected an array', values));
 		}

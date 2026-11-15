@@ -2,7 +2,7 @@ import { ExpectedConstraintError, s, ValidationError } from '../../../src';
 import { expectError } from '../common/macros/comparators';
 
 const smallInteger = 42n;
-const largeInteger = 242043489611808769n;
+const largeInteger = 242_043_489_611_808_769n;
 
 describe.each(['custom message', undefined])('BigIntValidator (%s)', (message) => {
 	const predicate = s.bigint({ message });

@@ -5,14 +5,7 @@ import type { IConstraint } from './base/IConstraint';
 import { equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual, type Comparator } from './util/operators';
 
 export type DateConstraintName = `s.date().${
-	| 'lessThan'
-	| 'lessThanOrEqual'
-	| 'greaterThan'
-	| 'greaterThanOrEqual'
-	| 'equal'
-	| 'notEqual'
-	| 'valid'
-	| 'invalid'}()`;
+	'equal' | 'greaterThan' | 'greaterThanOrEqual' | 'invalid' | 'lessThan' | 'lessThanOrEqual' | 'notEqual' | 'valid'}()`;
 
 function dateComparator(
 	comparator: Comparator,

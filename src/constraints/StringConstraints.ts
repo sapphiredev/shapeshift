@@ -9,29 +9,29 @@ import { validatePhoneNumber } from './util/phoneValidator';
 import { createUrlValidators } from './util/urlValidators';
 
 export type StringConstraintName = `s.string().${
-	| `length${'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual' | 'Equal' | 'NotEqual'}`
+	| 'date'
+	| 'email'
+	| 'phone'
 	| 'regex'
 	| 'url'
 	| 'uuid'
-	| 'email'
-	| `ip${'v4' | 'v6' | ''}`
-	| 'date'
-	| 'phone'}()`;
+	| `ip${'' | 'v4' | 'v6'}`
+	| `length${'Equal' | 'GreaterThan' | 'GreaterThanOrEqual' | 'LessThan' | 'LessThanOrEqual' | 'NotEqual'}`}()`;
 
 export type StringProtocol = `${string}:`;
 
 export type StringDomain = `${string}.${string}`;
 
 export interface UrlOptions {
-	allowedProtocols?: StringProtocol[];
 	allowedDomains?: StringDomain[];
+	allowedProtocols?: StringProtocol[];
 }
 
 export type UUIDVersion = 1 | 3 | 4 | 5;
 
 export interface StringUuidOptions {
-	version?: UUIDVersion | `${UUIDVersion}-${UUIDVersion}` | null;
 	nullable?: boolean;
+	version?: UUIDVersion | `${UUIDVersion}-${UUIDVersion}` | null;
 }
 
 function stringLengthComparator(

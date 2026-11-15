@@ -1,10 +1,11 @@
-import { inspect, type InspectContext } from 'util';
+import { inspect, type InspectContext } from 'node:util';
 import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 import type { UnknownEnumKeyErrorJsonified } from './error-types';
 
 export class UnknownPropertyError extends BaseError {
 	public readonly property: PropertyKey;
+
 	public readonly value: unknown;
 
 	public constructor(property: PropertyKey, value: unknown, options?: ValidatorOptions) {
@@ -32,7 +33,7 @@ export class UnknownPropertyError extends BaseError {
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1, compact: true };
 
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
-		const given = inspect(this.value, newOptions).replace(/\n/g, padding);
+		const given = inspect(this.value, newOptions).replaceAll('\n', padding);
 
 		const header = `${options.stylize('UnknownPropertyError', 'special')} > ${property}`;
 		const message = options.stylize(this.message, 'regexp');

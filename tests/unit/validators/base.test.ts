@@ -76,7 +76,7 @@ describe.each(['custom message', undefined])('BaseValidator (%s)', (message) => 
 		const nullishPredicate = s.string({ message }).nullish({ message });
 
 		test.each(['Hello There', undefined, null])('GIVEN %j THEN returns the given value', (input) => {
-			expect<string | undefined | null>(nullishPredicate.parse(input)).toBe(input);
+			expect<string | null | undefined>(nullishPredicate.parse(input)).toBe(input);
 		});
 
 		test.each([0, false, true])('GIVEN %j THEN throws CombinedError', (input) => {
@@ -131,7 +131,7 @@ describe.each(['custom message', undefined])('BaseValidator (%s)', (message) => 
 		const stringOrPredicate = s.string({ message }).or(s.number({ message }));
 
 		test.each(['Hello There', 6])('GIVEN a string or number (%j) THEN returns a string or number', (input) => {
-			expect<string | number>(stringOrPredicate.parse(input)).toBe(input);
+			expect<number | string>(stringOrPredicate.parse(input)).toBe(input);
 		});
 
 		test.each([false, true, null])('GIVEN %j THEN throws CombinedError', (input) => {
@@ -171,10 +171,10 @@ describe.each(['custom message', undefined])('BaseValidator (%s)', (message) => 
 			.or(s.number({ message }));
 
 		test('GIVEN string THEN returns uppercase string', () => {
-			expect<string | number>(unionTransformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
+			expect<number | string>(unionTransformPredicate.parse('Hello There')).toStrictEqual('HELLO THERE');
 		});
 		test('GIVEN number THEN returns number', () => {
-			expect<string | number>(unionTransformPredicate.parse(6)).toStrictEqual(6);
+			expect<number | string>(unionTransformPredicate.parse(6)).toStrictEqual(6);
 		});
 
 		test.each([false, true, null, undefined])('GIVEN %j THEN throws CombinedError', (input) => {

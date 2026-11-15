@@ -10,11 +10,11 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 	const oneOrMoreErrorsErrorMessage = message ?? 'Received one or more errors';
 
 	test('GIVEN a string THEN returns string', () => {
-		expect<string | number>(predicate.parse('hello')).toBe('hello');
+		expect<number | string>(predicate.parse('hello')).toBe('hello');
 	});
 
 	test('GIVEN a number THEN returns number', () => {
-		expect<string | number>(predicate.parse(5)).toBe(5);
+		expect<number | string>(predicate.parse(5)).toBe(5);
 	});
 
 	test('GIVEN a boolean THEN throw a ConstraintError', () => {
@@ -36,7 +36,7 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 		const orPredicate = predicate.or(s.string({ message }).array({ message }));
 
 		test.each([5, 'foo', ['bar']])('GIVEN %j THEN returns the input', (value) => {
-			expect<string | number | string[]>(orPredicate.parse(value)).toStrictEqual(value);
+			expect<string[] | number | string>(orPredicate.parse(value)).toStrictEqual(value);
 		});
 
 		test.each([null, undefined, true])('GIVEN %j THEN throws CombinedError', (value) => {
@@ -69,7 +69,7 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 		});
 
 		test.each([undefined, 'hello', 5])('GIVEN %j THEN returns %j', (value) => {
-			expect<string | number | undefined>(optionalPredicate.parse(value)).toBe(value);
+			expect<number | string | undefined>(optionalPredicate.parse(value)).toBe(value);
 		});
 
 		test.each([null, true, {}])('GIVEN %j THEN throws CombinedError', (value) => {
@@ -131,7 +131,7 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 		});
 
 		test.each(['hello', 5])('GIVEN %j THEN returns %j', (value) => {
-			expect<string | number>(requiredPredicate.parse(value)).toBe(value);
+			expect<number | string>(requiredPredicate.parse(value)).toBe(value);
 		});
 
 		test.each([null, true, {}, undefined])('GIVEN %j THEN throws CombinedError', (value) => {
@@ -170,7 +170,7 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 		});
 
 		test.each([null, 'hello', 5])('GIVEN %j THEN returns %j', (value) => {
-			expect<string | number | null>(nullablePredicate.parse(value)).toBe(value);
+			expect<number | string | null>(nullablePredicate.parse(value)).toBe(value);
 		});
 
 		test.each([undefined, true, {}])('GIVEN %j THEN throws CombinedError', (value) => {
@@ -236,7 +236,7 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 		});
 
 		test.each([null, undefined, 'hello', 5])('GIVEN %j THEN returns %j', (value) => {
-			expect<string | number | undefined | null>(nullishPredicate.parse(value)).toBe(value);
+			expect<number | string | null | undefined>(nullishPredicate.parse(value)).toBe(value);
 		});
 
 		test.each([true, {}])('GIVEN %j THEN throws CombinedError', (value) => {

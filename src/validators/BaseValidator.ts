@@ -14,9 +14,13 @@ import { getValue } from './util/getValue';
 
 export abstract class BaseValidator<T> {
 	public description?: string;
+
 	protected validatorOptions: ValidatorOptions;
+
 	protected parent?: object;
+
 	protected constraints: readonly IConstraint<T>[] = [];
+
 	protected isValidationEnabled: boolean | (() => boolean) | null = null;
 
 	public constructor(validatorOptions: ValidatorOptions = {}, constraints: readonly IConstraint<T>[] = []) {
@@ -49,8 +53,8 @@ export abstract class BaseValidator<T> {
 		return new SetValidator<T>(this.clone(), options);
 	}
 
-	public or<O>(...predicates: readonly BaseValidator<O>[]): UnionValidator<T | O> {
-		return new UnionValidator<T | O>([this.clone(), ...predicates], this.validatorOptions);
+	public or<O>(...predicates: readonly BaseValidator<O>[]): UnionValidator<O | T> {
+		return new UnionValidator<O | T>([this.clone(), ...predicates], this.validatorOptions);
 	}
 
 	public transform(cb: (value: T) => T, options?: ValidatorOptions): this;
@@ -127,6 +131,7 @@ export abstract class BaseValidator<T> {
 
 	/**
 	 * Sets if the validator should also run constraints or just do basic checks.
+	 *
 	 * @param isValidationEnabled Whether this validator should be enabled or disabled. You can pass boolean or a function returning boolean which will be called just before parsing.
 	 * Set to `null` to go off of the global configuration.
 	 */
@@ -160,4 +165,4 @@ export abstract class BaseValidator<T> {
 	}
 }
 
-export type ValidatorError = ValidationError | CombinedError | CombinedPropertyError | UnknownEnumValueError;
+export type ValidatorError = CombinedError | CombinedPropertyError | UnknownEnumValueError | ValidationError;

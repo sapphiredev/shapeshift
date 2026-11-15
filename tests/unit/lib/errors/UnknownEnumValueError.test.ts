@@ -5,7 +5,7 @@ describe('UnknownEnumValueError', () => {
 	const error = new UnknownEnumValueError(
 		'foo',
 		['bar', 'baz'],
-		new Map<string | number, string | number>([
+		new Map<number | string, number | string>([
 			['bar', 1],
 			['baz', 'boo']
 		])
@@ -16,7 +16,7 @@ describe('UnknownEnumValueError', () => {
 		expect(error.value).toBe('foo');
 		expect(error.enumKeys).toEqual(['bar', 'baz']);
 		expect(error.enumMappings).toStrictEqual(
-			new Map<string | number, string | number>([
+			new Map<number | string, number | string>([
 				['bar', 1],
 				['baz', 'boo']
 			])

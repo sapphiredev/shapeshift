@@ -1,17 +1,19 @@
-import type { InspectContext } from 'util';
+import type { InspectContext } from 'node:util';
 import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 import type { UnknownEnumValueErrorJsonified } from './error-types';
 
 export class UnknownEnumValueError extends BaseError {
-	public readonly value: string | number;
+	public readonly value: number | string;
+
 	public readonly enumKeys: string[];
-	public readonly enumMappings: Map<string | number, string | number>;
+
+	public readonly enumMappings: Map<number | string, number | string>;
 
 	public constructor(
-		value: string | number,
+		value: number | string,
 		keys: string[],
-		enumMappings: Map<string | number, string | number>,
+		enumMappings: Map<number | string, number | string>,
 		validatorOptions?: ValidatorOptions
 	) {
 		super(validatorOptions?.message ?? 'Expected the value to be one of the following enum values:');

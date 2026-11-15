@@ -1,8 +1,8 @@
 import type { TypedArray, TypedArrayName } from '../constraints/util/typedArray';
-import type { Unwrap, UnwrapTuple, ValidatorOptions } from '../lib/util-types';
+import type { Unwrap, UnwrapTuple, ValidatorOptions, Constructor, MappedObjectValidator } from './util-types';
+import type { BaseValidator } from '../validators/imports';
 import {
 	ArrayValidator,
-	BaseValidator,
 	BigIntValidator,
 	BooleanValidator,
 	DateValidator,
@@ -24,7 +24,6 @@ import {
 import { LazyValidator } from '../validators/LazyValidator';
 import { NativeEnumValidator, type NativeEnumLike } from '../validators/NativeEnumValidator';
 import { TypedArrayValidator } from '../validators/TypedArrayValidator';
-import type { Constructor, MappedObjectValidator } from './util-types';
 
 export class Shapes {
 	public string(options?: ValidatorOptions) {

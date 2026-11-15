@@ -6,9 +6,12 @@ import { BaseValidator } from './imports';
 
 export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator<T[keyof T]> {
 	public readonly enumShape: T;
+
 	public readonly hasNumericElements: boolean = false;
+
 	private readonly enumKeys: string[];
-	private readonly enumMapping = new Map<string | number, T[keyof T]>();
+
+	private readonly enumMapping = new Map<number | string, T[keyof T]>();
 
 	public constructor(enumShape: T, validatorOptions: ValidatorOptions = {}) {
 		super(validatorOptions);
@@ -31,7 +34,7 @@ export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator
 		}
 	}
 
-	protected override handle(value: unknown): Result<T[keyof T], ValidationError | UnknownEnumValueError> {
+	protected override handle(value: unknown): Result<T[keyof T], UnknownEnumValueError | ValidationError> {
 		const typeOfValue = typeof value;
 
 		if (typeOfValue === 'number') {
@@ -47,7 +50,7 @@ export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator
 			);
 		}
 
-		const casted = value as string | number;
+		const casted = value as number | string;
 
 		const possibleEnumValue = this.enumMapping.get(casted);
 
@@ -62,6 +65,6 @@ export class NativeEnumValidator<T extends NativeEnumLike> extends BaseValidator
 }
 
 export interface NativeEnumLike {
-	[key: string]: string | number;
+	[key: string]: number | string;
 	[key: number]: string;
 }

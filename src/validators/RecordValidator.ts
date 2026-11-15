@@ -22,7 +22,7 @@ export class RecordValidator<T> extends BaseValidator<Record<string, T>> {
 		return Reflect.construct(this.constructor, [this.validator, this.validatorOptions, this.constraints]);
 	}
 
-	protected handle(value: unknown): Result<Record<string, T>, ValidationError | CombinedPropertyError> {
+	protected handle(value: unknown): Result<Record<string, T>, CombinedPropertyError | ValidationError> {
 		if (typeof value !== 'object') {
 			return Result.err(new ValidationError('s.record(T)', this.validatorOptions.message ?? 'Expected an object', value));
 		}

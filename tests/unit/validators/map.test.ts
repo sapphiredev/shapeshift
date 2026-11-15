@@ -18,7 +18,7 @@ describe.each(['custom message', undefined])('MapValidator (%s)', (message) => {
 	});
 
 	test('GIVEN a non-matching map THEN throws CombinedError', () => {
-		const map = new Map<string | number, string | number>([
+		const map = new Map<number | string, number | string>([
 			['fizz', 1],
 			[2, 3],
 			['foo', 'bar'],

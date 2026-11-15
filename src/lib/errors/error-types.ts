@@ -1,8 +1,8 @@
 import type { ConstraintErrorNames } from './BaseConstraintError';
 
 export interface BaseErrorJsonified {
-	name: string;
 	message: string;
+	name: string;
 }
 
 export interface BaseConstraintErrorJsonified<T = unknown> extends BaseErrorJsonified {
@@ -15,8 +15,8 @@ export interface ExpectedConstraintErrorJsonified<T = unknown> extends BaseConst
 }
 
 export interface ValidationErrorJsonified extends BaseErrorJsonified {
-	validator: string;
 	given: unknown;
+	validator: string;
 }
 
 export interface ExpectedValidationErrorJsonified<T = unknown> extends ValidationErrorJsonified {
@@ -32,9 +32,9 @@ export interface MultiplePossibilitiesConstraintErrorJsonified<T = unknown> exte
 }
 
 export interface UnknownEnumValueErrorJsonified extends BaseErrorJsonified {
-	value: string | number;
 	enumKeys: string[];
-	enumMappings: readonly (readonly [string | number, string | number])[];
+	enumMappings: readonly (readonly [number | string, number | string])[];
+	value: number | string;
 }
 
 export interface UnknownEnumKeyErrorJsonified extends BaseErrorJsonified {

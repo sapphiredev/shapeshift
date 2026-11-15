@@ -1,15 +1,15 @@
 export type TypedArray =
-	| Int8Array
-	| Uint8Array
-	| Uint8ClampedArray
-	| Int16Array
-	| Uint16Array
-	| Int32Array
-	| Uint32Array
+	| BigInt64Array
+	| BigUint64Array
 	| Float32Array
 	| Float64Array
-	| BigInt64Array
-	| BigUint64Array;
+	| Int8Array
+	| Int16Array
+	| Int32Array
+	| Uint8Array
+	| Uint8ClampedArray
+	| Uint16Array
+	| Uint32Array;
 
 export const TypedArrays = {
 	Int8Array: (x: unknown): x is Int8Array => x instanceof Int8Array,

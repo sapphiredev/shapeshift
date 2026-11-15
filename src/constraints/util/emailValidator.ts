@@ -3,7 +3,7 @@
  * @copyright 2020 Colin McDonnell
  * @see https://github.com/colinhacks/zod/blob/master/LICENSE
  */
-const accountRegex = /^(?!\.)(?!.*\.\.)([A-Z0-9_+-\.]*)[A-Z0-9_+-]$/i;
+const accountRegex = /^(?!\.)(?!.*\.\.)([\w+-.]*)[\w+-]$/i;
 
 /**
  * Validates an email address string based on various checks:
@@ -14,9 +14,9 @@ const accountRegex = /^(?!\.)(?!.*\.\.)([A-Z0-9_+-\.]*)[A-Z0-9_+-]$/i;
  * - The domain must include at least one `.` symbol
  * - Each part of the domain, split by `.` must not exceed 63 characters
  * - The email address must be [RFC-5322](https://datatracker.ietf.org/doc/html/rfc5322) compliant
+ *
  * @param email The email to validate
  * @returns `true` if the email is valid, `false` otherwise
- *
  * @remark Based on the following sources:
  * - `email-validator` by [manisharaan](https://github.com/manishsaraan) ([code](https://github.com/manishsaraan/email-validator/blob/master/index.js))
  * - [Comparing E-mail Address Validating Regular Expressions](http://fightingforalostcause.net/misc/2006/compare-email-regex.php)

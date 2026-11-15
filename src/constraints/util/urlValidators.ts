@@ -7,8 +7,8 @@ export type StringProtocol = `${string}:`;
 export type StringDomain = `${string}.${string}`;
 
 export interface UrlOptions {
-	allowedProtocols?: StringProtocol[];
 	allowedDomains?: StringDomain[];
+	allowedProtocols?: StringProtocol[];
 }
 
 export function createUrlValidators(options?: UrlOptions, validatorOptions?: ValidatorOptions) {

@@ -1,4 +1,4 @@
-import type { InspectContext } from 'util';
+import type { InspectContext } from 'node:util';
 import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 
@@ -25,7 +25,7 @@ export class CombinedPropertyError extends BaseError {
 		const errors = this.errors
 			.map(([key, error]) => {
 				const property = CombinedPropertyError.formatProperty(key, options);
-				const body = error[customInspectSymbolStackLess](depth - 1, newOptions).replace(/\n/g, padding);
+				const body = error[customInspectSymbolStackLess](depth - 1, newOptions).replaceAll('\n', padding);
 
 				return `  input${property}${padding}${body}`;
 			})

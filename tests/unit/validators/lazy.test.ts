@@ -8,7 +8,7 @@ describe.each(['custom message', undefined])('LazyValidator (%s)', (message) => 
 	});
 
 	test.each([true, 'hello'])('GIVEN %j THEN returns the given value', (input) => {
-		expect<true | string>(predicate.parse(input)).toBe(input);
+		expect<string | true>(predicate.parse(input)).toBe(input);
 	});
 
 	test('GIVEN an invalid value THEN throw ValidationError', () => {
@@ -27,7 +27,7 @@ describe.each(['custom message', undefined])('NestedLazyValidator (%s)', (messag
 	});
 
 	test.each([true, 'hello', 123])('GIVEN %j THEN returns the given value', (input) => {
-		expect<true | string | number>(predicate.parse(input)).toBe(input);
+		expect<number | string | true>(predicate.parse(input)).toBe(input);
 	});
 
 	test('GIVEN an invalid value THEN throw ValidationError', () => {

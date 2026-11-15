@@ -1,9 +1,10 @@
-import { inspect, type InspectContext } from 'util';
+import { inspect, type InspectContext } from 'node:util';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 import type { ValidationErrorJsonified } from './error-types';
 
 export class ValidationError extends BaseError {
 	public readonly validator: string;
+
 	public readonly given: unknown;
 
 	public constructor(validator: string, message: string, given: unknown) {
@@ -31,7 +32,7 @@ export class ValidationError extends BaseError {
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1, compact: true };
 
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
-		const given = inspect(this.given, newOptions).replace(/\n/g, padding);
+		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
 
 		const header = `${options.stylize('ValidationError', 'special')} > ${validator}`;
 		const message = options.stylize(this.message, 'regexp');

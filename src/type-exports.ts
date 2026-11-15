@@ -92,8 +92,8 @@ export type { ValidationError } from './lib/errors/ValidationError';
 //
 export type { Shapes } from './lib/Shapes';
 //
-export * from './lib/util-types';
-export * from './lib/errors/error-types';
+export type * from './lib/util-types';
+export type * from './lib/errors/error-types';
 //
 export type { ArrayValidator } from './validators/ArrayValidator';
 export type { BaseValidator, ValidatorError } from './validators/BaseValidator';

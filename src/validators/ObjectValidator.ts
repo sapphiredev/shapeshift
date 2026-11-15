@@ -14,12 +14,17 @@ import { UnionValidator } from './UnionValidator';
 
 export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> extends BaseValidator<I> {
 	public readonly shape: MappedObjectValidator<T>;
+
 	public readonly strategy: ObjectValidatorStrategy;
+
 	private readonly keys: readonly (keyof I)[] = [];
+
 	private readonly handleStrategy: (value: object) => Result<I, CombinedPropertyError>;
 
 	private readonly requiredKeys = new Map<keyof I, BaseValidator<unknown>>();
+
 	private readonly possiblyUndefinedKeys = new Map<keyof I, BaseValidator<unknown>>();
+
 	private readonly possiblyUndefinedKeysWithDefaults = new Map<keyof I, DefaultValidator<unknown>>();
 
 	public constructor(
@@ -40,6 +45,7 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 				this.handleStrategy = (value) => this.handleStrictStrategy(value);
 				break;
 			}
+
 			case ObjectValidatorStrategy.Passthrough:
 				this.handleStrategy = (value) => this.handlePassthroughStrategy(value);
 				break;
@@ -50,7 +56,6 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 
 		for (const [key, validator] of shapeEntries) {
 			if (validator instanceof UnionValidator) {
-				// eslint-disable-next-line @typescript-eslint/dot-notation
 				const [possiblyLiteralOrNullishPredicate] = validator['validators'];
 
 				if (possiblyLiteralOrNullishPredicate instanceof NullishValidator) {
@@ -111,9 +116,9 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 	}
 
 	public extend<ET extends object>(
-		schema: ObjectValidator<ET> | MappedObjectValidator<ET>,
+		schema: MappedObjectValidator<ET> | ObjectValidator<ET>,
 		options: ValidatorOptions = this.validatorOptions
-	): ObjectValidator<T & ET> {
+	): ObjectValidator<ET & T> {
 		const shape = { ...this.shape, ...(schema instanceof ObjectValidator ? schema.shape : schema) };
 		return Reflect.construct(this.constructor, [shape, this.strategy, options, this.constraints]);
 	}
@@ -138,7 +143,7 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 		return Reflect.construct(this.constructor, [shape, this.strategy, options, this.constraints]);
 	}
 
-	protected override handle(value: unknown): Result<I, ValidationError | CombinedPropertyError> {
+	protected override handle(value: unknown): Result<I, CombinedPropertyError | ValidationError> {
 		const typeOfValue = typeof value;
 		if (typeOfValue !== 'object') {
 			return Result.err(

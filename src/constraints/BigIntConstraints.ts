@@ -5,13 +5,7 @@ import type { IConstraint } from './base/IConstraint';
 import { equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual, type Comparator } from './util/operators';
 
 export type BigIntConstraintName = `s.bigint().${
-	| 'lessThan'
-	| 'lessThanOrEqual'
-	| 'greaterThan'
-	| 'greaterThanOrEqual'
-	| 'equal'
-	| 'notEqual'
-	| 'divisibleBy'}()`;
+	'divisibleBy' | 'equal' | 'greaterThan' | 'greaterThanOrEqual' | 'lessThan' | 'lessThanOrEqual' | 'notEqual'}()`;
 
 function bigintComparator(
 	comparator: Comparator,

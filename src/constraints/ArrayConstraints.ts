@@ -8,15 +8,15 @@ import { equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notE
 export type ArrayConstraintName = `s.array(T).${
 	| 'unique'
 	| `length${
-			| 'LessThan'
-			| 'LessThanOrEqual'
+			| 'Equal'
 			| 'GreaterThan'
 			| 'GreaterThanOrEqual'
-			| 'Equal'
+			| 'LessThan'
+			| 'LessThanOrEqual'
 			| 'NotEqual'
 			| 'Range'
-			| 'RangeInclusive'
-			| 'RangeExclusive'}`}()`;
+			| 'RangeExclusive'
+			| 'RangeInclusive'}`}()`;
 
 function arrayLengthComparator<T>(
 	comparator: Comparator,

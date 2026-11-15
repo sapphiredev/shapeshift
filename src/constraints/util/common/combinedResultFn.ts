@@ -8,6 +8,7 @@ export function combinedErrorFn<P extends [...any], E extends Error>(...fns: Err
 			const [fn0, fn1] = fns;
 			return (...params) => fn0(...params) || fn1(...params);
 		}
+
 		default: {
 			return (...params) => {
 				for (const fn of fns) {

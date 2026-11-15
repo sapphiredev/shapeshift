@@ -34,7 +34,7 @@ describe.each(['custom message', undefined])('ArrayValidator (%s)', (message) =>
 			const lengthLessThanPredicate = s.string().array({ message }).lengthLessThan(2);
 
 			test.each([[['Hello']]])('GIVEN %j THEN returns given value', (value) => {
-				expect<[string] | []>(lengthLessThanPredicate.parse(value)).toEqual(value);
+				expect<[] | [string]>(lengthLessThanPredicate.parse(value)).toEqual(value);
 			});
 
 			test.each([[['Hello', 'there']], [['foo', 'bar', 'baaz']]])('GIVEN %j THEN throws ConstraintError', (value) => {
@@ -50,7 +50,7 @@ describe.each(['custom message', undefined])('ArrayValidator (%s)', (message) =>
 			const lengthLePredicate = s.string().array({ message }).lengthLessThanOrEqual(2);
 
 			test.each([[['Hello']], [['Hello', 'there']]])('GIVEN %j THEN returns given value', (value) => {
-				expect<[string, string] | [string] | []>(lengthLePredicate.parse(value)).toEqual(value);
+				expect<[] | [string, string] | [string]>(lengthLePredicate.parse(value)).toEqual(value);
 			});
 
 			test.each([[['foo', 'bar', 'baaz']]])('GIVEN %j THEN throws ConstraintError', (value) => {
@@ -146,7 +146,7 @@ describe.each(['custom message', undefined])('ArrayValidator (%s)', (message) =>
 			const lengthRangeInclusivePredicate = s.string().array({ message }).lengthRangeInclusive(0, 2);
 
 			test.each([[[] as string[]], [['foo']], [['hewwo', 'there']]])('GIVEN %j THEN returns given value', (value) => {
-				expect<[] | [string] | [string, string]>(lengthRangeInclusivePredicate.parse(value)).toEqual(value);
+				expect<[] | [string, string] | [string]>(lengthRangeInclusivePredicate.parse(value)).toEqual(value);
 			});
 
 			test.each([[['hewwo', 'there', 'buddy']]])('GIVEN %j THEN throws ConstraintError', (value) => {

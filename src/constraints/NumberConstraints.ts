@@ -6,18 +6,16 @@ import type { IConstraint } from './base/IConstraint';
 import { equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, notEqual, type Comparator } from './util/operators';
 
 export type NumberConstraintName = `s.number().${
-	| 'lessThan'
-	| 'lessThanOrEqual'
+	| 'divisibleBy'
+	| 'equal'
+	| 'finite'
 	| 'greaterThan'
 	| 'greaterThanOrEqual'
-	| 'equal'
-	| 'equal'
-	| 'notEqual'
-	| 'notEqual'
 	| 'int'
-	| 'safeInt'
-	| 'finite'
-	| 'divisibleBy'}(${string})`;
+	| 'lessThan'
+	| 'lessThanOrEqual'
+	| 'notEqual'
+	| 'safeInt'}(${string})`;
 
 function numberComparator(
 	comparator: Comparator,

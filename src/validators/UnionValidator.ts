@@ -7,14 +7,14 @@ import type { ValidatorOptions } from '../lib/util-types';
 import { BaseValidator, LiteralValidator, NullishValidator } from './imports';
 
 export class UnionValidator<T> extends BaseValidator<T> {
-	private validators: readonly BaseValidator<T>[];
+	private readonly validators: readonly BaseValidator<T>[];
 
 	public constructor(validators: readonly BaseValidator<T>[], validatorOptions?: ValidatorOptions, constraints: readonly IConstraint<T>[] = []) {
 		super(validatorOptions, constraints);
 		this.validators = validators;
 	}
 
-	public override optional(options: ValidatorOptions = this.validatorOptions): UnionValidator<T | undefined> {
+	public override optional(options: ValidatorOptions = this.validatorOptions): this {
 		if (this.validators.length === 0)
 			return new UnionValidator<T | undefined>([new LiteralValidator(undefined, options)], this.validatorOptions, this.constraints);
 
@@ -60,7 +60,7 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		return this.clone() as unknown as RequiredValidator;
 	}
 
-	public override nullable(options: ValidatorOptions = this.validatorOptions): UnionValidator<T | null> {
+	public override nullable(options: ValidatorOptions = this.validatorOptions): this {
 		if (this.validators.length === 0) {
 			return new UnionValidator<T | null>([new LiteralValidator(null, options)], this.validatorOptions, this.constraints);
 		}
@@ -86,7 +86,7 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		return new UnionValidator([new LiteralValidator(null, options), ...this.validators], this.validatorOptions);
 	}
 
-	public override nullish(options: ValidatorOptions = this.validatorOptions): UnionValidator<T | null | undefined> {
+	public override nullish(options: ValidatorOptions = this.validatorOptions): this {
 		if (this.validators.length === 0) {
 			return new UnionValidator<T | null | undefined>([new NullishValidator(options)], options, this.constraints);
 		}
@@ -109,15 +109,15 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		return new UnionValidator<T | null | undefined>([new NullishValidator(options), ...this.validators], options);
 	}
 
-	public override or<O>(...predicates: readonly BaseValidator<O>[]): UnionValidator<T | O> {
-		return new UnionValidator<T | O>([...this.validators, ...predicates], this.validatorOptions);
+	public override or<O>(...predicates: readonly BaseValidator<O>[]): UnionValidator<O | T> {
+		return new UnionValidator<O | T>([...this.validators, ...predicates], this.validatorOptions);
 	}
 
 	protected override clone(): this {
 		return Reflect.construct(this.constructor, [this.validators, this.validatorOptions, this.constraints]);
 	}
 
-	protected handle(value: unknown): Result<T, ValidationError | CombinedError> {
+	protected handle(value: unknown): Result<T, CombinedError | ValidationError> {
 		const errors: BaseError[] = [];
 
 		for (const validator of this.validators) {

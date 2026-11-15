@@ -18,7 +18,7 @@ export class SetValidator<T> extends BaseValidator<Set<T>> {
 		return Reflect.construct(this.constructor, [this.validator, this.validatorOptions, this.constraints]);
 	}
 
-	protected handle(values: unknown): Result<Set<T>, ValidationError | CombinedError> {
+	protected handle(values: unknown): Result<Set<T>, CombinedError | ValidationError> {
 		if (!(values instanceof Set)) {
 			return Result.err(new ValidationError('s.set(T)', this.validatorOptions.message ?? 'Expected a set', values));
 		}

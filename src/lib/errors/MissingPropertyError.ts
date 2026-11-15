@@ -1,4 +1,4 @@
-import type { InspectContext } from 'util';
+import type { InspectContext } from 'node:util';
 import type { ValidatorOptions } from '../util-types';
 import { BaseError, customInspectSymbolStackLess } from './BaseError';
 import type { MissingPropertyErrorJsonified } from './error-types';

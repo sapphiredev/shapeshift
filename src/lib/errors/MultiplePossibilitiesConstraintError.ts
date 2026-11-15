@@ -1,4 +1,4 @@
-import { inspect, type InspectContext } from 'util';
+import { inspect, type InspectContext } from 'node:util';
 import { BaseConstraintError, type ConstraintErrorNames } from './BaseConstraintError';
 import { customInspectSymbolStackLess } from './BaseError';
 import type { MultiplePossibilitiesConstraintErrorJsonified } from './error-types';
@@ -31,7 +31,7 @@ export class MultiplePossibilitiesConstraintError<T = unknown> extends BaseConst
 
 		const verticalLine = options.stylize('|', 'undefined');
 		const padding = `\n  ${verticalLine} `;
-		const given = inspect(this.given, newOptions).replace(/\n/g, padding);
+		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
 
 		const header = `${options.stylize('MultiplePossibilitiesConstraintError', 'special')} > ${constraint}`;
 		const message = options.stylize(this.message, 'regexp');

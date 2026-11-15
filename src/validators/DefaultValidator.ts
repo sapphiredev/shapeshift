@@ -7,6 +7,7 @@ import { getValue } from './util/getValue';
 
 export class DefaultValidator<T> extends BaseValidator<T> {
 	private readonly validator: BaseValidator<T>;
+
 	private defaultValue: T | (() => T);
 
 	public constructor(

@@ -10,9 +10,9 @@ export type ObjectConstraintName = `s.object(T.when)`;
 export type WhenKey = PropertyKey | PropertyKey[];
 
 export interface WhenOptions<T extends BaseValidator<any>, Key extends WhenKey> {
-	is?: boolean | ((value: Key extends Array<any> ? any[] : any) => boolean);
-	then: (predicate: T) => T;
-	otherwise?: (predicate: T) => T;
+	is?: boolean | ((value: Key extends any[] ? any[] : any) => boolean);
+	otherwise?(predicate: T): T;
+	then(predicate: T): T;
 }
 
 export function whenConstraint<T extends BaseValidator<any>, I, Key extends WhenKey>(

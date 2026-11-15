@@ -1,4 +1,4 @@
-import { inspect, type InspectContext } from 'util';
+import { inspect, type InspectContext } from 'node:util';
 import { customInspectSymbolStackLess } from './BaseError';
 import { ValidationError } from './ValidationError';
 import type { ExpectedValidationErrorJsonified } from './error-types';
@@ -30,8 +30,8 @@ export class ExpectedValidationError<T> extends ValidationError {
 		const newOptions = { ...options, depth: options.depth === null ? null : options.depth! - 1 };
 
 		const padding = `\n  ${options.stylize('|', 'undefined')} `;
-		const expected = inspect(this.expected, newOptions).replace(/\n/g, padding);
-		const given = inspect(this.given, newOptions).replace(/\n/g, padding);
+		const expected = inspect(this.expected, newOptions).replaceAll('\n', padding);
+		const given = inspect(this.given, newOptions).replaceAll('\n', padding);
 
 		const header = `${options.stylize('ExpectedValidationError', 'special')} > ${validator}`;
 		const message = options.stylize(this.message, 'regexp');

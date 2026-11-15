@@ -2,7 +2,7 @@ import type { BaseValidator } from '../validators/BaseValidator';
 import type { ObjectValidator } from '../validators/ObjectValidator';
 import type { Result } from './Result';
 
-export type Constructor<T> = (new (...args: readonly any[]) => T) | (abstract new (...args: readonly any[]) => T);
+export type Constructor<T> = (abstract new (...args: readonly any[]) => T) | (new (...args: readonly any[]) => T);
 
 export type Type<V> = V extends BaseValidator<infer T> ? T : never;
 
@@ -33,6 +33,7 @@ export type MappedObjectValidator<T> = { [key in keyof T]: BaseValidator<T[key]>
 /**
  * An alias of {@link ObjectValidator} with a name more common among object validation libraries.
  * This is the type of a schema after using `s.object({ ... })`
+ *
  * @example
  * ```typescript
  * import { s, SchemaOf } from '@sapphire/shapeshift';
@@ -88,6 +89,7 @@ export type SchemaOf<T extends object> = ObjectValidator<T>;
 /**
  * Infers the type of a schema object given `typeof schema`.
  * The schema has to extend {@link ObjectValidator}.
+ *
  * @example
  * ```typescript
  * import { InferType, s } from '@sapphire/shapeshift';
@@ -119,22 +121,22 @@ export type UnwrapTuple<T extends [...any[]]> = T extends [infer Head, ...infer 
 export type Unwrap<T> = T extends BaseValidator<infer V> ? V : never;
 
 export type UnshiftTuple<T extends [...any[]]> = T extends [T[0], ...infer Tail] ? Tail : never;
-export type ExpandSmallerTuples<T extends [...any[]]> = T extends [T[0], ...infer Tail] ? T | ExpandSmallerTuples<Tail> : [];
+export type ExpandSmallerTuples<T extends [...any[]]> = T extends [T[0], ...infer Tail] ? ExpandSmallerTuples<Tail> | T : [];
 
 // https://github.com/microsoft/TypeScript/issues/26223#issuecomment-755067958
-export type Shift<A extends Array<any>> = ((...args: A) => void) extends (...args: [A[0], ...infer R]) => void ? R : never;
+export type Shift<A extends any[]> = ((...args: A) => void) extends (...args: [A[0], ...infer R]) => void ? R : never;
 
-export type GrowExpRev<A extends Array<any>, N extends number, P extends Array<Array<any>>> = A['length'] extends N
+export type GrowExpRev<A extends any[], N extends number, P extends any[][]> = A['length'] extends N
 	? A
 	: GrowExpRev<[...A, ...P[0]][N] extends undefined ? [...A, ...P[0]] : A, N, Shift<P>>;
 
-export type GrowExp<A extends Array<any>, N extends number, P extends Array<Array<any>>> = [...A, ...A][N] extends undefined
+export type GrowExp<A extends any[], N extends number, P extends any[][]> = [...A, ...A][N] extends undefined
 	? GrowExp<[...A, ...A], N, [A, ...P]>
 	: GrowExpRev<A, N, P>;
 
 export type Tuple<T, N extends number> = N extends number
 	? number extends N
-		? Array<T>
+		? T[]
 		: N extends 0
 			? []
 			: N extends 1

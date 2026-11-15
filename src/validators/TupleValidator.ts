@@ -22,7 +22,7 @@ export class TupleValidator<T extends any[]> extends BaseValidator<[...T]> {
 		return Reflect.construct(this.constructor, [this.validators, this.validatorOptions, this.constraints]);
 	}
 
-	protected handle(values: unknown): Result<[...T], ValidationError | CombinedPropertyError> {
+	protected handle(values: unknown): Result<[...T], CombinedPropertyError | ValidationError> {
 		if (!Array.isArray(values)) {
 			return Result.err(new ValidationError('s.tuple(T)', this.validatorOptions.message ?? 'Expected an array', values));
 		}
