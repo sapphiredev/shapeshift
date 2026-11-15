@@ -4,6 +4,7 @@
 	"description": "Blazing fast input validation and transformation ⚡",
 	"author": "@sapphire",
 	"license": "MIT",
+	"type": "module",
 	"main": "dist/index.mjs",
 	"module": "dist/index.mjs",
 	"types": "dist/index.d.mts",
