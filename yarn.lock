@@ -9333,20 +9333,20 @@ __metadata:
 
 "resolve@patch:resolve@npm%3A^1.17.0#optional!builtin<compat/resolve>":
   version: 1.22.10
-  resolution: "resolve@patch:resolve@npm%3A1.22.10#optional!builtin<compat/resolve>::version=1.22.10&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.10#optional!builtin<compat/resolve>::version=1.22.10&hash=9bd1a5"
   dependencies:
     is-core-module: "npm:^2.16.0"
     path-parse: "npm:^1.0.7"
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 10/d4d878bfe3702d215ea23e75e0e9caf99468e3db76f5ca100d27ebdc527366fee3877e54bce7d47cc72ca8952fc2782a070d238bfa79a550eeb0082384c3b81a
+  checksum: 10/c202d86f0b7090886c41427c7161c781169fafe20c9389c5feb0bc021a83e29db8f691c02fcd7d9730db2e7de6ef608a45d0e509733e7e54060d64f0e38521a5
   languageName: node
   linkType: hard
 
 "resolve@patch:resolve@npm%3A^2.0.0-next.5#optional!builtin<compat/resolve>":
   version: 2.0.0-next.7
-  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.7#optional!builtin<compat/resolve>::version=2.0.0-next.7&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A2.0.0-next.7#optional!builtin<compat/resolve>::version=2.0.0-next.7&hash=9bd1a5"
   dependencies:
     es-errors: "npm:^1.3.0"
     is-core-module: "npm:^2.16.2"
@@ -9356,13 +9356,13 @@ __metadata:
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 10/2c6dd4194c8aa900db299020fcad253239c670ea82a65c8387f1d2885e8dcf6742b64c439e3c811e046a5252eba94f2092b7867e34b7f895e733be48d575192b
+  checksum: 10/b0bb50f5b12e0fb87baf9692d67a4bbcbfb58cb584d9c68973b12f7b351d9c61e64828a9e08073378b61b26fc3199b0a42d88056fcbe76963320e977642cf1b2
   languageName: node
   linkType: hard
 
 "resolve@patch:resolve@npm%3A~1.22.2#optional!builtin<compat/resolve>":
   version: 1.22.14
-  resolution: "resolve@patch:resolve@npm%3A1.22.14#optional!builtin<compat/resolve>::version=1.22.14&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.14#optional!builtin<compat/resolve>::version=1.22.14&hash=9bd1a5"
   dependencies:
     es-errors: "npm:^1.3.0"
     is-core-module: "npm:^2.18.0"
@@ -9370,7 +9370,7 @@ __metadata:
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 10/6b820a38b72e2e29a76e29ea6c8f6a77e5fecd5957135809aa1ee587fbf3b7f36efc570bd69fb6c84362484127eda41eed3bfbd52069edd45a113cc7ddb6f669
+  checksum: 10/d1780a956ea21864dd6c81698953e393357f1309b6964d83fa9650e3c893ef05aebd8b2c252ce5babdf55cd311a204f4a3a23cd314f404448d498a18dd66c0ca
   languageName: node
   linkType: hard
 
