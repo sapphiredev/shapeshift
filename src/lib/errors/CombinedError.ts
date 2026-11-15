@@ -23,8 +23,8 @@ export class CombinedError extends BaseError {
 		const header = `${options.stylize('CombinedError', 'special')} (${options.stylize(this.errors.length.toString(), 'number')})`;
 		const message = options.stylize(this.message, 'regexp');
 		const errors = this.errors
-			.map((error, i) => {
-				const index = options.stylize((i + 1).toString(), 'number');
+			.map((error, errorIndex) => {
+				const index = options.stylize((errorIndex + 1).toString(), 'number');
 				const body = error[customInspectSymbolStackLess](depth - 1, newOptions).replaceAll('\n', padding);
 
 				return `  ${index} ${body}`;

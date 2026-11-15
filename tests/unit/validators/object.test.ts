@@ -166,15 +166,22 @@ describe.each(['custom message', undefined])('ObjectValidator (%s)', (message) =
 			{
 				a: s.string({ message }),
 				b: s.string({ message }),
-				c: s.string({ message }).optional({ message }),
-				d: s.string({ message }).optional({ message }),
-				e: s.string({ message }).optional({ message })
+				optionalOne: s.string({ message }).optional({ message }),
+				optionalTwo: s.string({ message }).optional({ message }),
+				optionalThree: s.string({ message }).optional({ message })
 			},
 			{ message }
 		);
 
-		expect(predicate.parse({ a: 'a', b: 'b', c: 'c', d: 'd' })).toStrictEqual({ a: 'a', b: 'b', c: 'c', d: 'd' });
-		expect(predicate.parse({ a: 'a', b: 'b', c: 'c', d: 'd', e: 'e', f: 'f', g: 'g' })).toStrictEqual({ a: 'a', b: 'b', c: 'c', d: 'd', e: 'e' });
+		expect(predicate.parse({ a: 'a', b: 'b', optionalOne: 'c', optionalTwo: 'd' })).toStrictEqual({
+			a: 'a',
+			b: 'b',
+			optionalOne: 'c',
+			optionalTwo: 'd'
+		});
+		expect(
+			predicate.parse({ a: 'a', b: 'b', optionalOne: 'c', optionalTwo: 'd', optionalThree: 'e', unknownOne: 'f', unknownTwo: 'g' })
+		).toStrictEqual({ a: 'a', b: 'b', optionalOne: 'c', optionalTwo: 'd', optionalThree: 'e' });
 	});
 
 	describe('Strict', () => {

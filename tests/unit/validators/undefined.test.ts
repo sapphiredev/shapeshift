@@ -5,6 +5,7 @@ describe.each(['custom message', undefined])('UndefinedValidator (%s)', (message
 	const predicate = s.undefined({ message });
 
 	test('GIVEN undefined THEN returns undefined', () => {
+		// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression -- Undefined is the validated value, not a void side effect.
 		expect(predicate.parse(undefined)).toBe(undefined);
 	});
 

@@ -1,4 +1,5 @@
-import { CombinedError, ExpectedValidationError, s, ValidationError } from '../../../src';
+import { expectTypeOf } from 'vitest';
+import { CombinedError, ExpectedValidationError, s, ValidationError, type UnionValidator } from '../../../src';
 import { expectClonedValidator, expectError } from '../common/macros/comparators';
 
 describe.each(['custom message', undefined])('UnionValidator (%s)', (message) => {
@@ -8,6 +9,12 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 	const predicate = s.union([stringPredicate, numberPredicate], { message });
 
 	const oneOrMoreErrorsErrorMessage = message ?? 'Received one or more errors';
+
+	test('GIVEN optional, nullable, or nullish unions THEN their types include the added values', () => {
+		expectTypeOf(predicate.optional()).toEqualTypeOf<UnionValidator<number | string | undefined>>();
+		expectTypeOf(predicate.nullable()).toEqualTypeOf<UnionValidator<number | string | null>>();
+		expectTypeOf(predicate.nullish()).toEqualTypeOf<UnionValidator<number | string | null | undefined>>();
+	});
 
 	test('GIVEN a string THEN returns string', () => {
 		expect<number | string>(predicate.parse('hello')).toBe('hello');
@@ -65,6 +72,7 @@ describe.each(['custom message', undefined])('UnionValidator (%s)', (message) =>
 
 		test('GIVEN no validators inside the union THEN returns a LiteralValidator(undefined)', () => {
 			const emptyPredicate = s.union([], { message }).optional();
+			// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression -- Undefined is the validated value, not a void side effect.
 			expect(emptyPredicate.parse(undefined)).toBe(undefined);
 		});
 

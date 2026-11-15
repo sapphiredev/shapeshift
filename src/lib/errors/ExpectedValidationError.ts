@@ -21,7 +21,7 @@ export class ExpectedValidationError<T> extends ValidationError {
 		};
 	}
 
-	protected [customInspectSymbolStackLess](depth: number, options: InspectContext): string {
+	protected override [customInspectSymbolStackLess](depth: number, options: InspectContext): string {
 		const validator = options.stylize(this.validator, 'string');
 		if (depth < 0) {
 			return options.stylize(`[ExpectedValidationError: ${validator}]`, 'special');

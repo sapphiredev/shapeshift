@@ -14,7 +14,7 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		this.validators = validators;
 	}
 
-	public override optional(options: ValidatorOptions = this.validatorOptions): this {
+	public override optional(options: ValidatorOptions = this.validatorOptions): UnionValidator<T | undefined> {
 		if (this.validators.length === 0)
 			return new UnionValidator<T | undefined>([new LiteralValidator(undefined, options)], this.validatorOptions, this.constraints);
 
@@ -60,7 +60,7 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		return this.clone() as unknown as RequiredValidator;
 	}
 
-	public override nullable(options: ValidatorOptions = this.validatorOptions): this {
+	public override nullable(options: ValidatorOptions = this.validatorOptions): UnionValidator<T | null> {
 		if (this.validators.length === 0) {
 			return new UnionValidator<T | null>([new LiteralValidator(null, options)], this.validatorOptions, this.constraints);
 		}
@@ -86,7 +86,7 @@ export class UnionValidator<T> extends BaseValidator<T> {
 		return new UnionValidator([new LiteralValidator(null, options), ...this.validators], this.validatorOptions);
 	}
 
-	public override nullish(options: ValidatorOptions = this.validatorOptions): this {
+	public override nullish(options: ValidatorOptions = this.validatorOptions): UnionValidator<T | null | undefined> {
 		if (this.validators.length === 0) {
 			return new UnionValidator<T | null | undefined>([new NullishValidator(options)], options, this.constraints);
 		}

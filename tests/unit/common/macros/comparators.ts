@@ -26,9 +26,9 @@ export function expectModifiedClonedValidator<T>(expected: BaseValidator<T>, act
 	expect(expected).not.toStrictEqual(actual);
 }
 
-export function expectError<T = any>(cb: () => T, expected: Error) {
+export function expectError<T = any>(action: () => T, expected: Error) {
 	try {
-		cb();
+		action();
 	} catch (error) {
 		expect(error).toBeDefined();
 		expectIdenticalError(error as BaseError, expected);
@@ -57,16 +57,16 @@ function expectIdenticalError(actual: Error, expected: Error) {
 
 function expectIdenticalCombinedError(actual: CombinedError, expected: CombinedError) {
 	expect(actual.errors).toHaveLength(expected.errors.length);
-	for (let i = 0; i < actual.errors.length; ++i) {
-		expectIdenticalError(actual.errors[i], expected.errors[i]);
+	for (let index = 0; index < actual.errors.length; ++index) {
+		expectIdenticalError(actual.errors[index], expected.errors[index]);
 	}
 }
 
 function expectIdenticalCombinedPropertyError(actual: CombinedPropertyError, expected: CombinedPropertyError) {
 	expect(actual.errors).toHaveLength(expected.errors.length);
-	for (let i = 0; i < actual.errors.length; ++i) {
-		expect(actual.errors[i][0]).toBe(expected.errors[i][0]);
-		expectIdenticalError(actual.errors[i][1], expected.errors[i][1]);
+	for (let index = 0; index < actual.errors.length; ++index) {
+		expect(actual.errors[index][0]).toBe(expected.errors[index][0]);
+		expectIdenticalError(actual.errors[index][1], expected.errors[index][1]);
 	}
 }
 

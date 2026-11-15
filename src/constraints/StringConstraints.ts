@@ -148,14 +148,14 @@ export function stringRegex(regex: RegExp, options?: ValidatorOptions) {
 }
 
 export function stringUuid({ version = 4, nullable = false }: StringUuidOptions = {}, options?: ValidatorOptions) {
-	version ??= '1-5';
+	const uuidVersion = version ?? '1-5';
 	const regex = new RegExp(
-		`^(?:[0-9A-F]{8}-[0-9A-F]{4}-[${version}][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}${
+		`^(?:[0-9A-F]{8}-[0-9A-F]{4}-[${uuidVersion}][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}${
 			nullable ? '|00000000-0000-0000-0000-000000000000' : ''
 		})$`,
 		'i'
 	);
-	const expected = `expected to match UUID${typeof version === 'number' ? `v${version}` : ` in range of ${version}`}`;
+	const expected = `expected to match UUID${typeof uuidVersion === 'number' ? `v${uuidVersion}` : ` in range of ${uuidVersion}`}`;
 	return stringRegexValidator('s.string().uuid()', expected, regex, options);
 }
 

@@ -11,8 +11,8 @@ export type WhenKey = PropertyKey | PropertyKey[];
 
 export interface WhenOptions<T extends BaseValidator<any>, Key extends WhenKey> {
 	is?: boolean | ((value: Key extends any[] ? any[] : any) => boolean);
-	otherwise?(predicate: T): T;
-	then(predicate: T): T;
+	otherwise?(this: void, predicate: T): T;
+	then(this: void, predicate: T): T;
 }
 
 export function whenConstraint<T extends BaseValidator<any>, I, Key extends WhenKey>(
@@ -36,7 +36,7 @@ export function whenConstraint<T extends BaseValidator<any>, I, Key extends When
 
 			const isKeyArray = Array.isArray(key);
 
-			const value = isKeyArray ? key.map((k) => get(parent, k)) : get(parent, key);
+			const value = isKeyArray ? key.map((propertyKey) => get(parent, propertyKey)) : get(parent, key);
 
 			const predicate = resolveBooleanIs<T, Key>(options, value, isKeyArray) ? options.then : options.otherwise;
 

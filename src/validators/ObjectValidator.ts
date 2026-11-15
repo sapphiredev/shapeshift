@@ -12,6 +12,12 @@ import { LiteralValidator } from './LiteralValidator';
 import { NullishValidator } from './NullishValidator';
 import { UnionValidator } from './UnionValidator';
 
+export enum ObjectValidatorStrategy {
+	Ignore,
+	Strict,
+	Passthrough
+}
+
 export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> extends BaseValidator<I> {
 	public readonly shape: MappedObjectValidator<T>;
 
@@ -297,10 +303,4 @@ export class ObjectValidator<T extends object, I = UndefinedToOptional<T>> exten
 		const result = this.handleIgnoreStrategy(value);
 		return result.isErr() ? result : Result.ok({ ...value, ...result.value } as I);
 	}
-}
-
-export enum ObjectValidatorStrategy {
-	Ignore,
-	Strict,
-	Passthrough
 }

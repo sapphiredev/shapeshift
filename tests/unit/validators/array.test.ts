@@ -221,14 +221,14 @@ describe.each(['custom message', undefined])('ArrayValidator (%s)', (message) =>
 			[[[{ name: 'Hello' }], [{ name: 'Hello' }]], s.object({ name: s.string() }).array({ message }).array({ message }).unique()]
 		];
 
-		test.each(validInputPredicate)('GIVEN %j THEN return the given value', (value, p) => {
-			expect(p.parse(value)).toEqual(value);
+		test.each(validInputPredicate)('GIVEN %j THEN return the given value', (value, inputPredicate) => {
+			expect(inputPredicate.parse(value)).toEqual(value);
 		});
 
-		test.each(invalidInputPredicate)('GIVEN %j THEN throws ExpectedConstraintError', (value, p) => {
+		test.each(invalidInputPredicate)('GIVEN %j THEN throws ExpectedConstraintError', (value, inputPredicate) => {
 			const errorMessage = message ?? 'Array values are not unique';
 			expectError(
-				() => p.parse(value),
+				() => inputPredicate.parse(value),
 				new ExpectedConstraintError('s.array(T).unique()', errorMessage, value, 'Expected all values to be unique')
 			);
 		});

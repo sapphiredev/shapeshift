@@ -6,7 +6,7 @@ export function combinedErrorFn<P extends [...any], E extends Error>(...fns: Err
 			return fns[0];
 		case 2: {
 			const [fn0, fn1] = fns;
-			return (...params) => fn0(...params) || fn1(...params);
+			return (...params) => fn0(...params) ?? fn1(...params);
 		}
 
 		default: {
