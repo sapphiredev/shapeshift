@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.0.1](https://github.com/sapphiredev/shapeshift/compare/v6.0.0...v6.0.1) - (2026-11-20)
+
+## 📝 Documentation
+
+- Add deprecation notice ([9ea2d34](https://github.com/sapphiredev/shapeshift/commit/9ea2d34b5e52aa7d912177cd39890a4ae1de5802)) ([#471](https://github.com/sapphiredev/shapeshift/pull/471) by @favna)
+
 # [6.0.0](https://github.com/sapphiredev/shapeshift/compare/v5.0.0...v6.0.0) - (2026-11-15)
 
 ## 🏠 Refactor
