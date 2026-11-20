@@ -13,8 +13,21 @@ Blazing fast input validation and transformation ⚡
 
 </div>
 
+> [!WARNING]
+>
+> ## Deprecation notice
+>
+> Shapeshift was created when other validation libraries had significant limitations in performance and error reporting.
+> Those advantages have diminished as libraries such as Zod have become faster and improved their error messages, while
+> also gaining broader environment support, a larger community, and custom error printers.
+>
+> The [Standard Schema](https://standardschema.dev/) specification also provides a common interface across validation
+> libraries, including Zod and Yup. Shapeshift does not implement this standard, so we recommend using a validation
+> library that does.
+
 ## Table of Contents
 
+- [Deprecation notice](#deprecation-notice)
 - [Table of Contents](#table-of-contents)
 - [Description](#description)
 - [Features](#features)
@@ -558,7 +571,7 @@ const recipeSchema: RecipeSchemaType = s.object({
 });
 ```
 
-#### `.extend`:
+#### `.extend`
 
 [Back to top][toc]
 
@@ -585,7 +598,7 @@ const pet = animal.extend(
 > If both schemas share keys, an error will be thrown. Please use `.omit` on the first object if you desire this
 > behaviour.
 
-#### `.pick` / `.omit`:
+#### `.pick` / `.omit`
 
 [Back to top][toc]
 
@@ -718,12 +731,12 @@ All validations in Shapeshift contain certain methods.
   input is valid. If it is, a `Result` with `success: true` and a deep-cloned value will be returned with the given
   constraints and transformations. Otherwise, a `Result` with `success: false` and an error is returned.
 
-- #### `.parse(data: unknown): T`: given a validations, you can call this method to check whether or not the input is valid.
+- #### `.parse(data: unknown): T`: given a validations, you can call this method to check whether or not the input is valid
 
   If it is, a deep-cloned value will be returned with the given constraints and transformations. Otherwise, an error is
   thrown.
 
-- #### `.transform<R>((value: T) => R): NopValidator<R>`: adds a constraint that modifies the input:
+- #### `.transform<R>((value: T) => R): NopValidator<R>`: adds a constraint that modifies the input
 
 ```typescript
 import { s } from '@sapphire/shapeshift';
@@ -736,6 +749,7 @@ getLength.parse('Hello There'); // => 11
 > instead.
 
 - #### `.reshape<R>((value: T) => Result<R, Error> | IConstraint): NopValidator<R>`: adds a constraint able to both validate
+
   and modify the input:
 
 ```typescript
@@ -748,7 +762,7 @@ getLength.parse('Hello There'); // => 11
 > :warning: `.reshape`'s functions **must not throw**. If a validation error is desired to be thrown, use
 > `Result.err(error)` instead.
 
-- #### `.default(value: T | (() => T))`: transform `undefined` into the given value or the callback's returned value:
+- #### `.default(value: T | (() => T))`: transform `undefined` into the given value or the callback's returned value
 
 ```typescript
 const name = s.string().default('Sapphire');
@@ -765,31 +779,32 @@ number.parse(undefined); // => 0.3224350185068794
 
 > :warning: The default values are not validated.
 
-- #### `.optional`: a convenience method that returns a union of the type with `s.undefined()`.
+- #### `.optional`: a convenience method that returns a union of the type with `s.undefined()`
 
 ```typescript
 s.string().optional(); // s.union(s.string(), s.undefined())
 ```
 
-- #### `.nullable`: a convenience method that returns a union of the type with `s.nullable()`.
+- #### `.nullable`: a convenience method that returns a union of the type with `s.nullable()`
 
 ```typescript
 s.string().nullable(); // s.union(s.string(), s.nullable())
 ```
 
-- #### `.nullish`: a convenience method that returns a union of the type with `s.nullish()`.
+- #### `.nullish`: a convenience method that returns a union of the type with `s.nullish()`
 
 ```typescript
 s.string().nullish(); // s.union(s.string(), s.nullish())
 ```
 
-- #### `.array`: a convenience method that returns an ArrayValidator with the type.
+- #### `.array`: a convenience method that returns an ArrayValidator with the type
 
 ```typescript
 s.string().array(); // s.array(s.string())
 ```
 
 - #### `.or`: a convenience method that returns an UnionValidator with the type. This method is also overridden in
+
   UnionValidator to just append one more entry.
 
 ```typescript
@@ -800,7 +815,7 @@ s.object({ name: s.string() }).or(s.string(), s.number());
 // => s.union(s.object({ name: s.string() }), s.string(), s.number())
 ```
 
-- #### `.when`: Adjust the schema based on a sibling or sinbling children fields.
+- #### `.when`: Adjust the schema based on a sibling or sinbling children fields
 
 For using when you provide an object literal where the key `is` is undefined, a value, or a matcher function; `then`
 provides the schema when `is` resolves truthy, and `otherwise` provides the schema when `is` resolves falsey.
@@ -859,7 +874,7 @@ const whenPredicate = s.object({
   booleanLike: s.boolean(),
   stringLike: s.string(),
   numberLike: s.number().when(['booleanLike', 'stringLike'], {
-	is: ([booleanLikeValue, stringLikeValue]) => booleanLikeValue === true && stringLikeValue === 'foobar',
+ is: ([booleanLikeValue, stringLikeValue]) => booleanLikeValue === true && stringLikeValue === 'foobar',
     then: (schema) => schema.greaterThanOrEqual(5),
     otherwise: (schema) => schema.lessThanOrEqual(5)
   })
