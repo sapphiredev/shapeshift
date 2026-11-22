@@ -37,7 +37,7 @@
 		"@sapphire/eslint-config": "^6.0.0",
 		"@sapphire/prettier-config": "^3.0.0",
 		"@sapphire/ts-config": "^6.0.0",
-		"@testing-library/jest-dom": "^7.0.1",
+		"@testing-library/jest-dom": "^8.0.0",
 		"@testing-library/vue": "^8.1.0",
 		"@types/lodash": "^4.17.27",
 		"@types/node": "26.6.6",
